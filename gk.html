@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DSSSB MTS GK CBT</title>
+<style>
+body{font-family:arial;background:#f2f2f2;margin:0}
+header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
+#box{display:flex}
+#left{width:75%;padding:20px;background:#fff}
+#right{width:25%;background:#e9ecef;padding:10px;height:100vh;overflow:auto}
+.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
+.attempted{background:#4caf50;color:white}
+.current{border:2px solid red}
+button{padding:10px 15px;margin:10px}
+</style>
+</head>
+<body>
+
+<header>DSSSB MTS – GK CBT (20 Questions) <span id="timer" style="float:right">30:00</span></header>
+
+<div id="box">
+<div id="left">
+<h3 id="q"></h3>
+<div id="opt"></div>
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="submit()">Submit</button>
+</div>
+
+<div id="right" id="palette"></div>
+</div>
+
+<script>
+let qdata = [
+["Sundari trees are found in?","Mangrove forests","Coniferous","Deciduous","None",0],
+["Reservation is under which Article?","14","15(4)","16","21",1],
+["Tilak pact is also called?","Poona Pact","Lucknow Pact","Delhi Pact","None",1],
+["Khelo India 2025 venue?","Dal Lake","Chennai","Delhi","Jaipur",0],
+["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1],
+["Social justice in constitution?","Art 36","Art 38","Art 40","Art 41",1],
+["Harappa known as in Mesopotamia?","Meluhha","Mohenjo","Sindh","None",0],
+["Veeresalingam worked for?","Widow remarriage","Tax reform","Army","None",0],
+["RTI replaced which act?","Info Act 2002","Press Act","Police Act","None",0],
+["Gurjara Pratihara capital?","Malwa","Delhi","Ajmer","None",0],
+["After 1857 Awadh declared?","Martial","Non-martial","Neutral","None",1],
+["Kalamkari from?","AP","UP","Kerala","None",0],
+["First word of Preamble?","Sovereign","We","India","None",0],
+["Equal pay article?","39(d)","40","42","44",0],
+["Kailashnatha Temple?","Ellora","Ajanta","Ujjain","None",0],
+["Courts controlled by?","High Court","Supreme Court","Govt","None",0],
+["Not Deccan Plateau?","Aravalli","Nilgiri","Satpura","None",0],
+["Tamil classical status by?","MHA","Culture Min","PM","None",0],
+["Kesari & Maratha by?","Tilak","Gandhi","Nehru","None",0],
+["Highest revenue court?","Board of Revenue","High Court","District","None",0]
+];
+
+let i=0,ans=[],t=1800;
+let pal="";
+for(let j=0;j<20;j++) pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+document.getElementById("right").innerHTML=pal;
+
+function load(){
+ let q=qdata[i];
+ document.getElementById("q").innerText=(i+1)+". "+q[0];
+ let o="";
+ for(let k=1;k<=4;k++){
+  o+=`<label><input type="radio" name="opt" onclick="sel(${k-1})">${q[k]}</label><br>`;
+ }
+ document.getElementById("opt").innerHTML=o;
+ document.getElementById("b"+i).classList.add("current");
+}
+function sel(x){ ans[i]=x; document.getElementById("b"+i).classList.add("attempted"); }
+function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;load();}}
+function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;load();}}
+function go(n){document.getElementById("b"+i).classList.remove("current");i=n;load();}
+
+function submit(){
+ let s=0;
+ for(let x=0;x<20;x++) if(ans[x]==qdata[x][5]) s++;
+ alert("Test Submitted\nScore: "+s+"/20");
+}
+
+setInterval(()=>{
+ t--;
+ let m=Math.floor(t/60),s=t%60;
+ document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+ if(t==0) submit();
+},1000);
+
+load();
+</script>
+</body>
+</html>
