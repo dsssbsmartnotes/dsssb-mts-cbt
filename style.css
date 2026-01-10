@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0b3c5d;
+  color: #fff;
+  padding: 12px 20px;
+}
+
+.question {
+  background: #fff;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+#options button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.nav button {
+  padding: 10px 15px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
