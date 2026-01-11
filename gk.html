@@ -21,25 +21,18 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
-.current{border:2px solid red}.hidden{display:none;}
+.current{border:2px solid red}
+.hidden{display:none;}
 .review{background:orange !important;color:black;}
 button{padding:10px 15px;margin:10px}
 
-@media (max-width: 768px) {
-  #right{
-    width:100%;
-    left:0;
-    right:0;
-    top:55px;
-    display:none;
-  }
-  #left{
-    width:100%;
-  }
+@media (max-width:768px){
+  #right{width:100%;left:0;right:0;display:none;}
+  #left{width:100%;}
 }
-
 </style>
 </head>
+
 <body>
 
 <header>
@@ -54,20 +47,21 @@ DSSSB MTS – GK CBT (20 Questions)
 <div id="opt"></div>
 <button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
- <button onclick="mark()">Mark for Review</button>
+<button onclick="mark()">Mark for Review</button>
 <button onclick="submit()">Submit</button>
 </div>
 
-<div id="right" class="palette"></div>
+<div id="right"></div>
 </div>
+
 <div id="scoreCard" style="display:none; padding:20px; background:#fff;">
-  <h2>RESULT SUMMARY</h2>
-  <p>Total Questions: <span id="tq"></span></p>
-  <p>Attempted: <span id="att"></span></p>
-  <p>Not Attempted: <span id="na"></span></p>
-  <p>Correct: <span id="cor"></span></p>
-  <p>Wrong: <span id="wr"></span></p>
-  <h3>Score: <span id="scr"></span></h3>
+<h2>RESULT SUMMARY</h2>
+<p>Total Questions: <span id="tq"></span></p>
+<p>Attempted: <span id="att"></span></p>
+<p>Not Attempted: <span id="na"></span></p>
+<p>Correct: <span id="cor"></span></p>
+<p>Wrong: <span id="wr"></span></p>
+<h3>Score: <span id="scr"></span></h3>
 </div>
 
 <script>
@@ -94,98 +88,80 @@ let qdata = [
 ["Highest revenue court?","Board of Revenue","High Court","District","None",0]
 ];
 
-let i=0,ans=[],t=1800;
-let review = [];
+let i=0, ans=[], t=1800;
 
+// Timer
 setInterval(()=>{
-  t--;
-  let m = Math.floor(t/60), s = t%60;
-  document.getElementById("timer").innerText = m + ":" + (s<10?"0":"") + s;
-  if(t==0) submit();
-},1000);  
+ t--;
+ let m=Math.floor(t/60), s=t%60;
+ document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+ if(t==0) submit();
+},1000);
+
+// Palette
 let pal="";
-for(let j=0;j<20;j++) pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+for(let j=0;j<20;j++){
+ pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+}
 document.getElementById("right").innerHTML=pal;
 
 function load(){
-  let q = qdata[i];
-  document.getElementById("q").innerText = (i+1)+". "+q[0];
+ let q=qdata[i];
+ document.getElementById("q").innerText=(i+1)+". "+q[0];
 
-  let o="";
-for(let k=1;k<=4;k++){
-  let checked = (parseInt(ans[i]) === (k-1)) ? "checked" : "";
-  o += "<label><input type='radio' name='opt' "+checked+" onclick='sel("+(k-1)+")'>"+q[k]+"</label><br>";
-}
-document.getElementById("opt").innerHTML = o;
-
-  document.getElementById("b"+i).classList.add("current");
+ let o="";
+ for(let k=1;k<=4;k++){
+   let checked=(ans[i]==k-1)?"checked":"";
+   o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+ }
+ document.getElementById("opt").innerHTML=o;
+ document.getElementById("b"+i).classList.add("current");
 }
 load();
+
 function sel(x){
-  ans[i]=x;
-  let btn = document.getElementById("b"+i);
-  btn.classList.remove("review");
-  btn.classList.add("attempted");
+ ans[i]=x;
+ let btn=document.getElementById("b"+i);
+ btn.classList.remove("review");
+ btn.classList.add("attempted");
 }
 
-function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;load();}}
-function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;load();}}
-function go(n){document.getElementById("b"+i).classList.remove("current");i=n;load();}
-
-function submit(){
- let total = qdata.length;
-let correct = 0;
-let attempted = 0;
-
-for(let i=0;i<total;i++){
-  if(ans[i] !== undefined){
-    attempted++;
-    if(ans[i] == qdata[i][5]) correct++;
-  }
-}let wrong = attempted - correct;
-let notAttempted = total - attempted;
-
-document.getElementById("box").style.display="none";
-document.getElementById("right").style.display="none";
-document.getElementById("scoreCard").style.display="block";
-
-document.getElementById("tq").innerText = total;
-document.getElementById("att").innerText = attempted;
-document.getElementById("na").innerText = notAttempted;
-document.getElementById("cor").innerText = correct;
-document.getElementById("wr").innerText = wrong;
-document.getElementById("scr").innerText = correct + " / " + total;
-
-
-let wrong = attempted - correct;
-let notAttempted = total - attempted;
-
-document.getElementById("box").style.display="none";
-document.getElementById("right").style.display="none";
-document.getElementById("scoreCard").style.display="block";
-
-document.getElementById("tq").innerText = total;
-document.getElementById("att").innerText = attempted;
-document.getElementById("na").innerText = notAttempted;
-document.getElementById("cor").innerText = correct;
-document.getElementById("wr").innerText = wrong;
-document.getElementById("scr").innerText = correct + " / " + total;
-
-}
-
-
+function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current"); i++; load();}}
+function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current"); i--; load();}}
+function go(n){document.getElementById("b"+i).classList.remove("current"); i=n; load();}
 
 function mark(){
-  let btn = document.getElementById("b"+i);
-  btn.classList.remove("attempted");
-  btn.classList.add("review");
+ let btn=document.getElementById("b"+i);
+ btn.classList.remove("attempted");
+ btn.classList.add("review");
 }
 
+function submit(){
+ let total=qdata.length, correct=0, attempted=0;
+ for(let i=0;i<total;i++){
+   if(ans[i]!==undefined){
+     attempted++;
+     if(ans[i]==qdata[i][5]) correct++;
+   }
+ }
+ let wrong=attempted-correct;
+ let notAttempted=total-attempted;
+
+ document.getElementById("box").style.display="none";
+ document.getElementById("right").style.display="none";
+ document.getElementById("scoreCard").style.display="block";
+
+ document.getElementById("tq").innerText=total;
+ document.getElementById("att").innerText=attempted;
+ document.getElementById("na").innerText=notAttempted;
+ document.getElementById("cor").innerText=correct;
+ document.getElementById("wr").innerText=wrong;
+ document.getElementById("scr").innerText=correct+" / "+total;
+}
 
 function togglePalette(){
  document.getElementById("right").classList.toggle("hidden");
 }
-
 </script>
 </body>
 </html>
