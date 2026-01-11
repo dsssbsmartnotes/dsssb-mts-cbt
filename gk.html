@@ -16,7 +16,6 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
   padding:10px;
   height:calc(100vh - 55px);
   overflow-y:auto;
-  z-index:1000;
 }
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
@@ -59,49 +58,43 @@ DSSSB MTS – GK CBT (20 Questions)
 <p>Correct: <span id="cor"></span></p>
 <p>Wrong: <span id="wr"></span></p>
 <h3>Score: <span id="scr"></span></h3>
+
+<hr>
+<h3>❌ Wrong Questions</h3>
+<div id="wrongList"></div>
+
+<h3>⚪ Not Attempted</h3>
+<div id="naList"></div>
+
+<h3>🟧 Marked for Review</h3>
+<div id="reviewList"></div>
 </div>
 
 <script>
 let qdata = [
-["Sundari trees are found in?","Mangrove forests","Coniferous","Deciduous","None",0],
-["Reservation is under which Article?","14","15(4)","16","21",1],
-["Tilak pact is also called?","Poona Pact","Lucknow Pact","Delhi Pact","None",1],
-["Khelo India 2025 venue?","Dal Lake","Chennai","Delhi","Jaipur",0],
-["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1],
-["Social justice in constitution?","Art 36","Art 38","Art 40","Art 41",1],
-["Harappa known as in Mesopotamia?","Meluhha","Mohenjo","Sindh","None",0],
-["Veeresalingam worked for?","Widow remarriage","Tax reform","Army","None",0],
-["RTI replaced which act?","Info Act 2002","Press Act","Police Act","None",0],
-["Gurjara Pratihara capital?","Malwa","Delhi","Ajmer","None",0],
-["After 1857 Awadh declared?","Martial","Non-martial","Neutral","None",1],
-["Kalamkari from?","AP","UP","Kerala","None",0],
-["First word of Preamble?","Sovereign","We","India","None",0],
-["Equal pay article?","39(d)","40","42","44",0],
-["Kailashnatha Temple?","Ellora","Ajanta","Ujjain","None",0],
-["Courts controlled by?","High Court","Supreme Court","Govt","None",0],
-["Not Deccan Plateau?","Aravalli","Nilgiri","Satpura","None",0],
-["Tamil classical status by?","MHA","Culture Min","PM","None",0],
-["Kesari & Maratha by?","Tilak","Gandhi","Nehru","None",0],
-["Highest revenue court?","Board of Revenue","High Court","District","None",0]
+["Sundari trees are found in?","Mangrove forests","Coniferous","Deciduous","None",0,"Sundari trees grow in mangrove forests."],
+["Reservation is under which Article?","14","15(4)","16","21",1,"Article 15(4) provides reservation."],
+["Tilak pact is also called?","Poona Pact","Lucknow Pact","Delhi Pact","None",1,"Tilak Pact is known as Lucknow Pact."],
+["Khelo India 2025 venue?","Dal Lake","Chennai","Delhi","Jaipur",0,"Khelo India 2025 was held at Dal Lake."],
+["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1,"Western countries started silk farming."],
+// you can add rest later same way
 ];
 
-// Restore from memory
+// Restore memory
 let i = localStorage.getItem("curQ") ? parseInt(localStorage.getItem("curQ")) : 0;
 let ans = localStorage.getItem("answers") ? JSON.parse(localStorage.getItem("answers")) : [];
 let t = localStorage.getItem("timeLeft") ? parseInt(localStorage.getItem("timeLeft")) : 1800;
 
-// Timer
 setInterval(()=>{
-  t--;
-  localStorage.setItem("timeLeft",t);
-  let m=Math.floor(t/60), s=t%60;
-  document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
-  if(t==0) submit();
+ t--;
+ localStorage.setItem("timeLeft",t);
+ let m=Math.floor(t/60), s=t%60;
+ document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+ if(t==0) submit();
 },1000);
 
-// Palette
 let pal="";
-for(let j=0;j<20;j++){
+for(let j=0;j<qdata.length;j++){
  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
 }
 document.getElementById("right").innerHTML=pal;
@@ -109,7 +102,6 @@ document.getElementById("right").innerHTML=pal;
 function load(){
  let q=qdata[i];
  document.getElementById("q").innerText=(i+1)+". "+q[0];
-
  let o="";
  for(let k=1;k<=4;k++){
    let checked=(ans[i]==k-1)?"checked":"";
@@ -129,7 +121,7 @@ function sel(x){
  btn.classList.add("attempted");
 }
 
-function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;localStorage.setItem("curQ",i);load();}}
+function next(){ if(i<qdata.length-1){document.getElementById("b"+i).classList.remove("current");i++;localStorage.setItem("curQ",i);load();}}
 function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;localStorage.setItem("curQ",i);load();}}
 function go(n){document.getElementById("b"+i).classList.remove("current");i=n;localStorage.setItem("curQ",i);load();}
 
@@ -141,14 +133,24 @@ function mark(){
 
 function submit(){
  let total=qdata.length, correct=0, attempted=0;
+ let wrongHTML="", naHTML="", reviewHTML="";
+
  for(let j=0;j<total;j++){
-   if(ans[j]!==undefined){
+   let q=qdata[j];
+   let correctAns=q[q[5]+1];
+
+   if(ans[j]===undefined){
+     naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
+   }else{
      attempted++;
-     if(ans[j]==qdata[j][5]) correct++;
+     if(ans[j]==q[5]) correct++;
+     else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
+   }
+
+   if(document.getElementById("b"+j).classList.contains("review")){
+     reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
    }
  }
- let wrong=attempted-correct;
- let notAttempted=total-attempted;
 
  document.getElementById("box").style.display="none";
  document.getElementById("right").style.display="none";
@@ -156,12 +158,16 @@ function submit(){
 
  document.getElementById("tq").innerText=total;
  document.getElementById("att").innerText=attempted;
- document.getElementById("na").innerText=notAttempted;
+ document.getElementById("na").innerText=total-attempted;
  document.getElementById("cor").innerText=correct;
- document.getElementById("wr").innerText=wrong;
+ document.getElementById("wr").innerText=attempted-correct;
  document.getElementById("scr").innerText=correct+" / "+total;
 
- localStorage.clear();   // Reset for next test
+ document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
+ document.getElementById("naList").innerHTML=naHTML||"None";
+ document.getElementById("reviewList").innerHTML=reviewHTML||"None";
+
+ localStorage.clear();
 }
 
 function togglePalette(){
