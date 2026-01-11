@@ -102,8 +102,7 @@ setInterval(()=>{
   let m = Math.floor(t/60), s = t%60;
   document.getElementById("timer").innerText = m + ":" + (s<10?"0":"") + s;
   if(t==0) submit();
-},1000);
-load();  
+},1000);  
 let pal="";
 for(let j=0;j<20;j++) pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
 document.getElementById("right").innerHTML=pal;
@@ -121,7 +120,7 @@ document.getElementById("opt").innerHTML = o;
 
   document.getElementById("b"+i).classList.add("current");
 }
-
+load();
 function sel(x){
   ans[i]=x;
   let btn = document.getElementById("b"+i);
