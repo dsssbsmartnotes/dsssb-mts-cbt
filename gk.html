@@ -68,6 +68,8 @@ DSSSB MTS – GK CBT (20 Questions)
 
 <h3>🟧 Marked for Review</h3>
 <div id="reviewList"></div>
+
+<button onclick="location.reload()" style="background:#28a745;color:white;border:none;padding:10px 20px;">Start New Test</button>
 </div>
 
 <script>
@@ -76,23 +78,27 @@ let qdata = [
 ["Reservation is under which Article?","14","15(4)","16","21",1,"Article 15(4) provides reservation."],
 ["Tilak pact is also called?","Poona Pact","Lucknow Pact","Delhi Pact","None",1,"Tilak Pact is known as Lucknow Pact."],
 ["Khelo India 2025 venue?","Dal Lake","Chennai","Delhi","Jaipur",0,"Khelo India 2025 was held at Dal Lake."],
-["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1,"Western countries started silk farming."],
-// you can add rest later same way
+["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1,"Western countries started silk farming."]
 ];
 
-// Restore memory
-let i = localStorage.getItem("curQ") ? parseInt(localStorage.getItem("curQ")) : 0;
-let ans = localStorage.getItem("answers") ? JSON.parse(localStorage.getItem("answers")) : [];
-let t = localStorage.getItem("timeLeft") ? parseInt(localStorage.getItem("timeLeft")) : 1800;
+// Submit flag
+let submitted = localStorage.getItem("submitted") === "true";
 
-setInterval(()=>{
- t--;
- localStorage.setItem("timeLeft",t);
- let m=Math.floor(t/60), s=t%60;
- document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
- if(t==0) submit();
+// Restore only if not submitted
+let i = (!submitted && localStorage.getItem("curQ")) ? parseInt(localStorage.getItem("curQ")) : 0;
+let ans = (!submitted && localStorage.getItem("answers")) ? JSON.parse(localStorage.getItem("answers")) : [];
+let t = (!submitted && localStorage.getItem("timeLeft")) ? parseInt(localStorage.getItem("timeLeft")) : 1800;
+
+// Timer
+let timer = setInterval(()=>{
+  t--;
+  localStorage.setItem("timeLeft",t);
+  let m=Math.floor(t/60), s=t%60;
+  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+  if(t==0) submit();
 },1000);
 
+// Palette
 let pal="";
 for(let j=0;j<qdata.length;j++){
  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
@@ -132,6 +138,9 @@ function mark(){
 }
 
 function submit(){
+ localStorage.setItem("submitted","true");
+ clearInterval(timer);
+
  let total=qdata.length, correct=0, attempted=0;
  let wrongHTML="", naHTML="", reviewHTML="";
 
@@ -167,7 +176,14 @@ function submit(){
  document.getElementById("naList").innerHTML=naHTML||"None";
  document.getElementById("reviewList").innerHTML=reviewHTML||"None";
 
- localStorage.clear();
+ localStorage.removeItem("curQ");
+ localStorage.removeItem("answers");
+ localStorage.removeItem("timeLeft");
+}
+
+// Clear submitted flag after reload
+if(localStorage.getItem("submitted")==="true"){
+ localStorage.removeItem("submitted");
 }
 
 function togglePalette(){
