@@ -116,9 +116,31 @@ function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("curren
 function go(n){document.getElementById("b"+i).classList.remove("current");i=n;load();}
 
 function submit(){
- let s=0;
- for(let x=0;x<20;x++) if(ans[x]==qdata[x][5]) s++;
- alert("Test Submitted\nScore: "+s+"/20");
+ let total = qdata.length;
+let correct = 0;
+let attempted = 0;
+
+for(let i=0;i<total;i++){
+  if(ans[i] !== undefined){
+    attempted++;
+    if(ans[i] == qdata[i][5]) correct++;
+  }
+}
+
+let wrong = attempted - correct;
+let notAttempted = total - attempted;
+
+let result =
+  "RESULT SUMMARY\n\n" +
+  "Total Questions: " + total + "\n" +
+  "Attempted: " + attempted + "\n" +
+  "Not Attempted: " + notAttempted + "\n" +
+  "Correct: " + correct + "\n" +
+  "Wrong: " + wrong + "\n" +
+  "Score: " + correct + "/" + total;
+
+alert(result);
+
 }
 
 setInterval(()=>{
