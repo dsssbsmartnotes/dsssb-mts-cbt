@@ -10,13 +10,18 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #right{width:25%;background:#e9ecef;padding:10px;height:100vh;overflow:auto}
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
-.current{border:2px solid red}
+.current{border:2px solid red}.hidden{display:none;}
+.review{background:orange !important;color:black;}
 button{padding:10px 15px;margin:10px}
 </style>
 </head>
 <body>
 
-<header>DSSSB MTS – GK CBT (20 Questions) <span id="timer" style="float:right">30:00</span></header>
+<header>
+DSSSB MTS – GK CBT (20 Questions)
+<button onclick="togglePalette()" style="float:right;margin-left:10px;background:#ffc107;border:none;padding:6px 10px">☰ Questions</button>
+<span id="timer" style="float:right">30:00</span>
+</header>
 
 <div id="box">
 <div id="left">
@@ -24,6 +29,7 @@ button{padding:10px 15px;margin:10px}
 <div id="opt"></div>
 <button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
+ <button onclick="mark()">Mark for Review</button>
 <button onclick="submit()">Submit</button>
 </div>
 
@@ -87,7 +93,17 @@ setInterval(()=>{
  if(t==0) submit();
 },1000);
 
-load();
+load();let review = [];
+
+function mark(){
+ review[i] = true;
+ document.getElementById("b"+i).classList.add("review");
+}
+
+function togglePalette(){
+ document.getElementById("right").classList.toggle("hidden");
+}
+
 </script>
 </body>
 </html>
