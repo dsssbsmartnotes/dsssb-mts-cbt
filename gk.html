@@ -7,12 +7,37 @@ body{font-family:arial;background:#f2f2f2;margin:0}
 header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
-#right{width:25%;background:#e9ecef;padding:10px;height:100vh;overflow:auto}
+#right{
+  position:fixed;
+  top:55px;
+  right:0;
+  width:220px;
+  background:#e9ecef;
+  padding:10px;
+  height:calc(100vh - 55px);
+  overflow-y:auto;
+  z-index:1000;
+}
+
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
 .current{border:2px solid red}.hidden{display:none;}
 .review{background:orange !important;color:black;}
 button{padding:10px 15px;margin:10px}
+
+@media (max-width: 768px) {
+  #right{
+    width:100%;
+    left:0;
+    right:0;
+    top:55px;
+    display:none;
+  }
+  #left{
+    width:100%;
+  }
+}
+
 </style>
 </head>
 <body>
