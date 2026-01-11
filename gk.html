@@ -58,7 +58,16 @@ DSSSB MTS – GK CBT (20 Questions)
 <button onclick="submit()">Submit</button>
 </div>
 
-<div id="right" id="palette"></div>
+<div id="right" class="palette"></div>
+</div>
+<div id="scoreCard" style="display:none; padding:20px; background:#fff;">
+  <h2>RESULT SUMMARY</h2>
+  <p>Total Questions: <span id="tq"></span></p>
+  <p>Attempted: <span id="att"></span></p>
+  <p>Not Attempted: <span id="na"></span></p>
+  <p>Correct: <span id="cor"></span></p>
+  <p>Wrong: <span id="wr"></span></p>
+  <h3>Score: <span id="scr"></span></h3>
 </div>
 
 <script>
@@ -86,6 +95,15 @@ let qdata = [
 ];
 
 let i=0,ans=[],t=1800;
+let review = [];
+
+setInterval(()=>{
+  t--;
+  let m = Math.floor(t/60), s = t%60;
+  document.getElementById("timer").innerText = m + ":" + (s<10?"0":"") + s;
+  if(t==0) submit();
+},1000);
+load();  
 let pal="";
 for(let j=0;j<20;j++) pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
 document.getElementById("right").innerHTML=pal;
@@ -156,15 +174,6 @@ document.getElementById("scr").innerText = correct + " / " + total;
 
 }
 
-setInterval(()=>{
- t--;
- let m=Math.floor(t/60),s=t%60;
- document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
- if(t==0) submit();
-},1000);
-
-let review = [];
-load();
 
 
 function mark(){
