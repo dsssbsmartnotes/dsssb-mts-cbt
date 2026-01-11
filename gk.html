@@ -23,6 +23,11 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 .review{background:orange;color:black}
 .hidden{display:none}
 button{padding:10px 15px;margin:10px}
+#loginBox{
+  background:white;
+  padding:20px;
+  text-align:center;
+}
 @media (max-width:768px){
   #right{width:100%;left:0;right:0;display:none;}
   #left{width:100%;}
@@ -32,13 +37,20 @@ button{padding:10px 15px;margin:10px}
 
 <body>
 
-<header>
+<div id="loginBox">
+<h2>DSSSB MTS – Candidate Login</h2>
+<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
+<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<button onclick="startTest()" style="padding:10px 20px;background:#0b2c4d;color:white;border:none;">Start Test</button>
+</div>
+
+<header style="display:none" id="topbar">
 DSSSB MTS – GK CBT (20 Questions)
 <button onclick="togglePalette()" style="float:right;margin-left:10px;background:#ffc107;border:none;padding:6px 10px">☰ Questions</button>
 <span id="timer" style="float:right">30:00</span>
 </header>
 
-<div id="box">
+<div id="box" style="display:none;">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
@@ -52,12 +64,19 @@ DSSSB MTS – GK CBT (20 Questions)
 
 <div id="scoreCard" style="display:none; padding:20px; background:#fff;">
 <h2>RESULT SUMMARY</h2>
+<p>Name: <b id="sname"></b></p>
+<p>Roll No: <b id="sroll"></b></p>
+
 <p>Total Questions: <span id="tq"></span></p>
 <p>Attempted: <span id="att"></span></p>
 <p>Not Attempted: <span id="na"></span></p>
 <p>Correct: <span id="cor"></span></p>
 <p>Wrong: <span id="wr"></span></p>
 <h3>Score: <span id="scr"></span></h3>
+
+<hr>
+<h3>🏆 Rank List</h3>
+<table border="1" width="100%" id="rankTable"></table>
 
 <hr>
 <h3>❌ Wrong Questions</h3>
@@ -81,89 +100,95 @@ let qdata = [
 ["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1,"Western countries started silk farming."]
 ];
 
-// Submit flag
-let submitted = localStorage.getItem("submitted") === "true";
+let i=0, ans=[], t=1800;
+let timer;
 
-// Restore only if not submitted
-let i = (!submitted && localStorage.getItem("curQ")) ? parseInt(localStorage.getItem("curQ")) : 0;
-let ans = (!submitted && localStorage.getItem("answers")) ? JSON.parse(localStorage.getItem("answers")) : [];
-let t = (!submitted && localStorage.getItem("timeLeft")) ? parseInt(localStorage.getItem("timeLeft")) : 1800;
+function startTest(){
+ let n=document.getElementById("cname").value;
+ let r=document.getElementById("croll").value;
+ if(n==""||r==""){alert("Enter Name & Roll");return;}
+ localStorage.setItem("cname",n);
+ localStorage.setItem("croll",r);
 
-// Timer
-let timer = setInterval(()=>{
+ document.getElementById("loginBox").style.display="none";
+ document.getElementById("topbar").style.display="block";
+ document.getElementById("box").style.display="flex";
+
+ startTimer();
+ buildPalette();
+ load();
+}
+
+function startTimer(){
+ timer=setInterval(()=>{
   t--;
-  localStorage.setItem("timeLeft",t);
   let m=Math.floor(t/60), s=t%60;
   document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
   if(t==0) submit();
-},1000);
-
-// Palette
-let pal="";
-for(let j=0;j<qdata.length;j++){
- pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ },1000);
 }
-document.getElementById("right").innerHTML=pal;
+
+function buildPalette(){
+ let pal="";
+ for(let j=0;j<qdata.length;j++){
+  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ }
+ document.getElementById("right").innerHTML=pal;
+}
 
 function load(){
  let q=qdata[i];
  document.getElementById("q").innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
-   let checked=(ans[i]==k-1)?"checked":"";
-   o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+  let checked=(ans[i]==k-1)?"checked":"";
+  o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
  document.getElementById("opt").innerHTML=o;
- document.getElementById("b"+i).classList.add("current");
 }
-load();
 
 function sel(x){
  ans[i]=x;
- localStorage.setItem("answers",JSON.stringify(ans));
- localStorage.setItem("curQ",i);
  let btn=document.getElementById("b"+i);
- btn.classList.remove("review");
  btn.classList.add("attempted");
+ btn.classList.remove("review");
 }
 
-function next(){ if(i<qdata.length-1){document.getElementById("b"+i).classList.remove("current");i++;localStorage.setItem("curQ",i);load();}}
-function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;localStorage.setItem("curQ",i);load();}}
-function go(n){document.getElementById("b"+i).classList.remove("current");i=n;localStorage.setItem("curQ",i);load();}
+function next(){ if(i<qdata.length-1){i++;load();}}
+function prev(){ if(i>0){i--;load();}}
+function go(n){i=n;load();}
 
 function mark(){
  let btn=document.getElementById("b"+i);
- btn.classList.remove("attempted");
  btn.classList.add("review");
 }
 
 function submit(){
- localStorage.setItem("submitted","true");
  clearInterval(timer);
-
  let total=qdata.length, correct=0, attempted=0;
  let wrongHTML="", naHTML="", reviewHTML="";
 
  for(let j=0;j<total;j++){
-   let q=qdata[j];
-   let correctAns=q[q[5]+1];
-
-   if(ans[j]===undefined){
-     naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
-   }else{
-     attempted++;
-     if(ans[j]==q[5]) correct++;
-     else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
-   }
-
-   if(document.getElementById("b"+j).classList.contains("review")){
-     reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
-   }
+  let q=qdata[j];
+  let correctAns=q[q[5]+1];
+  if(ans[j]===undefined){
+    naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
+  }else{
+    attempted++;
+    if(ans[j]==q[5]) correct++;
+    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
+  }
+  if(document.getElementById("b"+j).classList.contains("review")){
+    reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
+  }
  }
 
  document.getElementById("box").style.display="none";
- document.getElementById("right").style.display="none";
+ document.getElementById("topbar").style.display="none";
  document.getElementById("scoreCard").style.display="block";
+
+ document.getElementById("sname").innerText=localStorage.getItem("cname");
+ document.getElementById("sroll").innerText=localStorage.getItem("croll");
 
  document.getElementById("tq").innerText=total;
  document.getElementById("att").innerText=attempted;
@@ -172,18 +197,21 @@ function submit(){
  document.getElementById("wr").innerText=attempted-correct;
  document.getElementById("scr").innerText=correct+" / "+total;
 
+ // Rank List
+ let rankData=JSON.parse(localStorage.getItem("rankData")||"[]");
+ rankData.push({name:localStorage.getItem("cname"), roll:localStorage.getItem("croll"), score:correct});
+ rankData.sort((a,b)=>b.score-a.score);
+ localStorage.setItem("rankData",JSON.stringify(rankData));
+
+ let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
+ rankData.forEach((x,i)=>{
+  rt+=`<tr><td>${i+1}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
+ });
+ document.getElementById("rankTable").innerHTML=rt;
+
  document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
  document.getElementById("naList").innerHTML=naHTML||"None";
  document.getElementById("reviewList").innerHTML=reviewHTML||"None";
-
- localStorage.removeItem("curQ");
- localStorage.removeItem("answers");
- localStorage.removeItem("timeLeft");
-}
-
-// Clear submitted flag after reload
-if(localStorage.getItem("submitted")==="true"){
- localStorage.removeItem("submitted");
 }
 
 function togglePalette(){
