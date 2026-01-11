@@ -18,14 +18,12 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
   overflow-y:auto;
   z-index:1000;
 }
-
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
 .current{border:2px solid red}
-.hidden{display:none;}
-.review{background:orange !important;color:black;}
+.review{background:orange;color:black}
+.hidden{display:none}
 button{padding:10px 15px;margin:10px}
-
 @media (max-width:768px){
   #right{width:100%;left:0;right:0;display:none;}
   #left{width:100%;}
@@ -50,7 +48,6 @@ DSSSB MTS – GK CBT (20 Questions)
 <button onclick="mark()">Mark for Review</button>
 <button onclick="submit()">Submit</button>
 </div>
-
 <div id="right"></div>
 </div>
 
@@ -88,14 +85,18 @@ let qdata = [
 ["Highest revenue court?","Board of Revenue","High Court","District","None",0]
 ];
 
-let i=0, ans=[], t=1800;
+// Restore from memory
+let i = localStorage.getItem("curQ") ? parseInt(localStorage.getItem("curQ")) : 0;
+let ans = localStorage.getItem("answers") ? JSON.parse(localStorage.getItem("answers")) : [];
+let t = localStorage.getItem("timeLeft") ? parseInt(localStorage.getItem("timeLeft")) : 1800;
 
 // Timer
 setInterval(()=>{
- t--;
- let m=Math.floor(t/60), s=t%60;
- document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
- if(t==0) submit();
+  t--;
+  localStorage.setItem("timeLeft",t);
+  let m=Math.floor(t/60), s=t%60;
+  document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+  if(t==0) submit();
 },1000);
 
 // Palette
@@ -121,14 +122,16 @@ load();
 
 function sel(x){
  ans[i]=x;
+ localStorage.setItem("answers",JSON.stringify(ans));
+ localStorage.setItem("curQ",i);
  let btn=document.getElementById("b"+i);
  btn.classList.remove("review");
  btn.classList.add("attempted");
 }
 
-function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current"); i++; load();}}
-function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current"); i--; load();}}
-function go(n){document.getElementById("b"+i).classList.remove("current"); i=n; load();}
+function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;localStorage.setItem("curQ",i);load();}}
+function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;localStorage.setItem("curQ",i);load();}}
+function go(n){document.getElementById("b"+i).classList.remove("current");i=n;localStorage.setItem("curQ",i);load();}
 
 function mark(){
  let btn=document.getElementById("b"+i);
@@ -138,10 +141,10 @@ function mark(){
 
 function submit(){
  let total=qdata.length, correct=0, attempted=0;
- for(let i=0;i<total;i++){
-   if(ans[i]!==undefined){
+ for(let j=0;j<total;j++){
+   if(ans[j]!==undefined){
      attempted++;
-     if(ans[i]==qdata[i][5]) correct++;
+     if(ans[j]==qdata[j][5]) correct++;
    }
  }
  let wrong=attempted-correct;
@@ -157,6 +160,8 @@ function submit(){
  document.getElementById("cor").innerText=correct;
  document.getElementById("wr").innerText=wrong;
  document.getElementById("scr").innerText=correct+" / "+total;
+
+ localStorage.clear();   // Reset for next test
 }
 
 function togglePalette(){
