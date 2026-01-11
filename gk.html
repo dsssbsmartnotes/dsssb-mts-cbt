@@ -104,7 +104,13 @@ document.getElementById("opt").innerHTML = o;
   document.getElementById("b"+i).classList.add("current");
 }
 
-function sel(x){ ans[i]=x; document.getElementById("b"+i).classList.add("attempted"); }
+function sel(x){
+  ans[i]=x;
+  let btn = document.getElementById("b"+i);
+  btn.classList.remove("review");
+  btn.classList.add("attempted");
+}
+
 function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;load();}}
 function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;load();}}
 function go(n){document.getElementById("b"+i).classList.remove("current");i=n;load();}
@@ -125,9 +131,11 @@ setInterval(()=>{
 load();let review = [];
 
 function mark(){
- review[i] = true;
- document.getElementById("b"+i).classList.add("review");
+  let btn = document.getElementById("b"+i);
+  btn.classList.remove("attempted");
+  btn.classList.add("review");
 }
+
 
 function togglePalette(){
  document.getElementById("right").classList.toggle("hidden");
