@@ -66,15 +66,19 @@ for(let j=0;j<20;j++) pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">$
 document.getElementById("right").innerHTML=pal;
 
 function load(){
- let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
- let o="";
- for(let k=1;k<=4;k++){
-  o+=`<label><input type="radio" name="opt" onclick="sel(${k-1})">${q[k]}</label><br>`;
- }
- document.getElementById("opt").innerHTML=o;
- document.getElementById("b"+i).classList.add("current");
+  let q = qdata[i];
+  document.getElementById("q").innerText = (i+1)+". "+q[0];
+
+  let o="";
+  for(let k=1;k<=4;k++){
+    let checked = (ans[i] === (k-1)) ? "checked" : "";
+    o += "<label><input type='radio' name='opt' "+checked+" onclick='sel("+(k-1)+")'>"+q[k]+"</label><br>";
+  }
+
+  document.getElementById("opt").innerHTML = o;
+  document.getElementById("b"+i).classList.add("current");
 }
+
 function sel(x){ ans[i]=x; document.getElementById("b"+i).classList.add("attempted"); }
 function next(){ if(i<19){document.getElementById("b"+i).classList.remove("current");i++;load();}}
 function prev(){ if(i>0){document.getElementById("b"+i).classList.remove("current");i--;load();}}
