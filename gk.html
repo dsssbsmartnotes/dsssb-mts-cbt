@@ -125,21 +125,34 @@ for(let i=0;i<total;i++){
     attempted++;
     if(ans[i] == qdata[i][5]) correct++;
   }
-}
+}let wrong = attempted - correct;
+let notAttempted = total - attempted;
+
+document.getElementById("box").style.display="none";
+document.getElementById("right").style.display="none";
+document.getElementById("scoreCard").style.display="block";
+
+document.getElementById("tq").innerText = total;
+document.getElementById("att").innerText = attempted;
+document.getElementById("na").innerText = notAttempted;
+document.getElementById("cor").innerText = correct;
+document.getElementById("wr").innerText = wrong;
+document.getElementById("scr").innerText = correct + " / " + total;
+
 
 let wrong = attempted - correct;
 let notAttempted = total - attempted;
 
-let result =
-  "RESULT SUMMARY\n\n" +
-  "Total Questions: " + total + "\n" +
-  "Attempted: " + attempted + "\n" +
-  "Not Attempted: " + notAttempted + "\n" +
-  "Correct: " + correct + "\n" +
-  "Wrong: " + wrong + "\n" +
-  "Score: " + correct + "/" + total;
+document.getElementById("box").style.display="none";
+document.getElementById("right").style.display="none";
+document.getElementById("scoreCard").style.display="block";
 
-alert(result);
+document.getElementById("tq").innerText = total;
+document.getElementById("att").innerText = attempted;
+document.getElementById("na").innerText = notAttempted;
+document.getElementById("cor").innerText = correct;
+document.getElementById("wr").innerText = wrong;
+document.getElementById("scr").innerText = correct + " / " + total;
 
 }
 
