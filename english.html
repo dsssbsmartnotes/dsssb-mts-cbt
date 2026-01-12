@@ -41,6 +41,8 @@ button{padding:10px 15px;margin:10px}
 <h2>DSSSB MTS – Candidate Login</h2>
 <input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
 <input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<input id="telegram" placeholder="Enter Telegram Username (without @)" style="padding:10px;width:90%;"><br><br>
+  
 <button onclick="startTest()" style="padding:10px 20px;background:#0b2c4d;color:white;border:none;">Start Test</button>
 </div>
 
@@ -186,20 +188,28 @@ let i=0, ans=[], t=1800;
 let timer;
 
 function startTest(){
- let n=document.getElementById("cname").value;
- let r=document.getElementById("croll").value;
- if(n==""||r==""){alert("Enter Name & Roll");return;}
- localStorage.setItem("cname",n);
- localStorage.setItem("croll",r);
+  let n = document.getElementById("cname").value;
+  let r = document.getElementById("croll").value;
+  let tg = document.getElementById("telegram").value;
 
- document.getElementById("loginBox").style.display="none";
- document.getElementById("topbar").style.display="block";
- document.getElementById("box").style.display="flex";
+  if(n=="" || r=="" || tg==""){
+    alert("Enter Name, Roll & Telegram Username");
+    return;
+  }
 
- startTimer();
- buildPalette();
- load();
+  localStorage.setItem("cname", n);
+  localStorage.setItem("croll", r);
+  localStorage.setItem("telegram", tg);
+
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("topbar").style.display="block";
+  document.getElementById("box").style.display="flex";
+
+  startTimer();
+  buildPalette();
+  load();
 }
+
 
 function startTimer(){
  timer=setInterval(()=>{
@@ -247,6 +257,7 @@ function mark(){
 
 function submit(){
  clearInterval(timer);
+
  let total=qdata.length, correct=0, attempted=0;
  let wrongHTML="", naHTML="", reviewHTML="";
 
@@ -278,8 +289,9 @@ function submit(){
  document.getElementById("cor").innerText=correct;
  document.getElementById("wr").innerText=attempted-correct;
  document.getElementById("scr").innerText=correct+" / "+total;
-// 🔥 Send result to server (Google Sheet)
-fetch("https://script.google.com/macros/s/AKfycbx6Gg9L0ncbBnb809aYGB8OaLKSfWDtaWr5jb0mf2Hqyn0THntihDCnYg1Urmj_96b-fA/exec", {
+
+ // 🔥 Send result to Google Sheet + get AIR
+ fetch("https://script.google.com/macros/s/AKfycbx6Gg9L0ncbBnb809aYGB8OaLKSfWDtaWr5jb0mf2Hqyn0THntihDCnYg1Urmj_96b-fA/exec", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -287,44 +299,36 @@ fetch("https://script.google.com/macros/s/AKfycbx6Gg9L0ncbBnb809aYGB8OaLKSfWDtaW
   body: JSON.stringify({
     name: localStorage.getItem("cname"),
     roll: localStorage.getItem("croll"),
+    user: localStorage.getItem("telegram"),
     score: correct,
     total: total,
     test: "DSSSB MTS ENGLISH"
   })
-});
+ })
+ .then(res => res.json())
+ .then(data => {
 
- // Rank List
- let rankData = JSON.parse(localStorage.getItem("rankData")) || [];
+  document.getElementById("rankTable").innerHTML =
+   `<tr>
+      <th>AIR</th>
+      <th>Name</th>
+      <th>Roll</th>
+      <th>Score</th>
+    </tr>
+    <tr>
+      <td>${data.air}</td>
+      <td>${data.name}</td>
+      <td>${data.roll}</td>
+      <td>${data.score}</td>
+    </tr>`;
 
-let currentCandidate = {
-  name: localStorage.getItem("cname"),
-  roll: localStorage.getItem("croll"),
-  score: correct,
-  time: new Date().getTime()
-};
-
-// Same roll number repeat ho to old entry replace ho
-rankData = rankData.filter(x => x.roll !== currentCandidate.roll);
-rankData.push(currentCandidate);
-
-// Sort: Higher score first, same score → earlier submit wins
-rankData.sort((a,b)=>{
-  if(b.score !== a.score) return b.score - a.score;
-  return a.time - b.time;
-});
-
-localStorage.setItem("rankData", JSON.stringify(rankData));
-
- let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
- rankData.forEach((x,i)=>{
-  rt+=`<tr><td>${i+1}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
  });
- document.getElementById("rankTable").innerHTML=rt;
 
  document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
  document.getElementById("naList").innerHTML=naHTML||"None";
  document.getElementById("reviewList").innerHTML=reviewHTML||"None";
 }
+
 
 function togglePalette(){
  document.getElementById("right").classList.toggle("hidden");
