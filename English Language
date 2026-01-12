@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DSSSB MTS English CBT</title>
+<style>
+body{font-family:arial;background:#f2f2f2;margin:0}
+header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
+#box{display:flex}
+#left{width:75%;padding:20px;background:#fff}
+#right{position:fixed;top:55px;right:0;width:220px;background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;}
+.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
+.attempted{background:#4caf50;color:white}
+.current{border:2px solid red}
+.review{background:orange;color:black}
+.hidden{display:none}
+button{padding:10px 15px;margin:10px}
+#loginBox{background:white;padding:20px;text-align:center;}
+@media(max-width:768px){#right{display:none;width:100%;bottom:0;top:auto;}#left{width:100%;}}
+</style>
+</head>
+
+<body>
+
+<div id="loginBox">
+<h2>DSSSB MTS – Candidate Login</h2>
+<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
+<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<input id="telegram" placeholder="Enter Telegram Username" style="padding:10px;width:90%;"><br><br>
+<button onclick="startTest()" style="background:#0b2c4d;color:white;border:none;padding:10px 20px;">Start Test</button>
+</div>
+
+<header id="topbar" style="display:none">
+DSSSB MTS – English CBT
+<span id="timer" style="float:right">30:00</span>
+</header>
+
+<div id="box" style="display:none">
+<div id="left">
+<h3 id="q"></h3>
+<div id="opt"></div>
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="mark()">Mark for Review</button>
+<button onclick="submit()">Submit</button>
+</div>
+<div id="right"></div>
+</div>
+
+<div id="scoreCard" style="display:none;padding:20px;background:white">
+<h2>RESULT</h2>
+<p>Name: <b id="sname"></b></p>
+<p>Roll: <b id="sroll"></b></p>
+<h3>Score: <span id="scr"></span></h3>
+<table border="1" width="100%" id="rankTable"></table>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore, setDoc, doc, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyBVaSgP30JwVmVCIj6XiUyRh64hfgGmHIw",
+ authDomain: "dsssb-cbt.firebaseapp.com",
+ projectId: "dsssb-cbt"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.db=db;
+window.setDoc=setDoc;
+window.doc=doc;
+window.collection=collection;
+window.query=query;
+window.orderBy=orderBy;
+window.getDocs=getDocs;
+</script>
+
+<script>
+let qdata=[
+["Antonym of Naive","Primitive","Terrible","Sophisticated","Radiant",2],
+["A long speech by one person is called","Dialogue","Epilogue","Aside","Monologue",3],
+["Opposite of Lend","Bounce","Claim","Borrow","Accept",2]
+];
+
+let i=0,ans=[],t=1800,timer;
+
+function startTest(){
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
+ build();
+ load();
+ timer=setInterval(()=>{
+  t--; document.getElementById("timer").innerText=Math.floor(t/60)+":"+("0"+t%60).slice(-2);
+ },1000);
+}
+
+function build(){
+ let h="";
+ for(let j=0;j<qdata.length;j++)h+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ document.getElementById("right").innerHTML=h;
+}
+
+function load(){
+ let q=qdata[i];
+ document.getElementById("q").innerText=(i+1)+". "+q[0];
+ let o="";
+ for(let k=1;k<=4;k++)o+=`<label><input type="radio" name="opt" onclick="ans[${i}]=${k-1}"> ${q[k]}</label><br>`;
+ document.getElementById("opt").innerHTML=o;
+}
+
+function go(n){i=n;load();}
+function next(){if(i<qdata.length-1){i++;load();}}
+function prev(){if(i>0){i--;load();}}
+function mark(){document.getElementById("b"+i).classList.add("review");}
+
+async function submit(){
+ let score=0;
+ for(let j=0;j<qdata.length;j++)if(ans[j]==qdata[j][5])score++;
+ scr.innerText=score+"/"+qdata.length;
+ box.style.display="none";
+ scoreCard.style.display="block";
+ await setDoc(doc(db,"results",Date.now().toString()),{name:cname.value,roll:croll.value,score});
+ const q=query(collection(db,"results"),orderBy("score","desc"));
+ const s=await getDocs(q);
+ let h="<tr><th>AIR</th><th>Name</th><th>Score</th></tr>",r=1;
+ s.forEach(d=>{let x=d.data();h+=`<tr><td>${r++}</td><td>${x.name}</td><td>${x.score}</td></tr>`});
+ rankTable.innerHTML=h;
+}
+</script>
+
+</body>
+</html>
