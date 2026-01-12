@@ -280,10 +280,26 @@ function submit(){
  document.getElementById("scr").innerText=correct+" / "+total;
 
  // Rank List
- let rankData=JSON.parse(localStorage.getItem("rankData")||"[]");
- rankData.push({name:localStorage.getItem("cname"), roll:localStorage.getItem("croll"), score:correct});
- rankData.sort((a,b)=>b.score-a.score);
- localStorage.setItem("rankData",JSON.stringify(rankData));
+ let rankData = JSON.parse(localStorage.getItem("rankData")) || [];
+
+let currentCandidate = {
+  name: localStorage.getItem("cname"),
+  roll: localStorage.getItem("croll"),
+  score: correct,
+  time: new Date().getTime()
+};
+
+// Same roll number repeat ho to old entry replace ho
+rankData = rankData.filter(x => x.roll !== currentCandidate.roll);
+rankData.push(currentCandidate);
+
+// Sort: Higher score first, same score → earlier submit wins
+rankData.sort((a,b)=>{
+  if(b.score !== a.score) return b.score - a.score;
+  return a.time - b.time;
+});
+
+localStorage.setItem("rankData", JSON.stringify(rankData));
 
  let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
  rankData.forEach((x,i)=>{
