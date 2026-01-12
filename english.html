@@ -278,6 +278,20 @@ function submit(){
  document.getElementById("cor").innerText=correct;
  document.getElementById("wr").innerText=attempted-correct;
  document.getElementById("scr").innerText=correct+" / "+total;
+// 🔥 Send result to server (Google Sheet)
+fetch("https://script.google.com/macros/s/AKfycbx6Gg9L0ncbBnb809aYGB8OaLKSfWDtaWr5jb0mf2Hqyn0THntihDCnYg1Urmj_96b-fA/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: localStorage.getItem("cname"),
+    roll: localStorage.getItem("croll"),
+    score: correct,
+    total: total,
+    test: "DSSSB MTS ENGLISH"
+  })
+});
 
  // Rank List
  let rankData = JSON.parse(localStorage.getItem("rankData")) || [];
