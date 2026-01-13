@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DSSSB MTS GK CBT</title>
+<style>
+body{font-family:arial;background:#f2f2f2;margin:0}
+header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
+#box{display:flex}
+#left{width:75%;padding:20px;background:#fff}
+#right{
+ position:fixed;top:55px;right:0;width:220px;
+ background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
+}
+.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc}
+.attempted{background:#4caf50;color:white}
+.review{background:orange}
+button{padding:10px;margin:5px}
+#loginBox,#resultCard{background:white;padding:20px;text-align:center;margin:20px}
+.stat{font-size:18px;margin:5px}
+</style>
+</head>
+
+<body>
+
+<div id="loginBox">
+<h2>DSSSB Assistant Superintendent – Login</h2>
+<input id="cname" placeholder="Name" style="padding:10px;width:90%"><br><br>
+<input id="croll" placeholder="Roll No" style="padding:10px;width:90%"><br><br>
+<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px">Start Test</button>
+</div>
+
+<header id="topbar" style="display:none">
+DSSSB GK CBT
+<span id="timer">30:00</span>
+<button onclick="togglePause()" style="float:right;background:red;color:white;border:none">⏸</button>
+</header>
+
+<div id="box" style="display:none">
+<div id="left">
+<h3 id="q"></h3>
+<div id="opt"></div>
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+<button onclick="mark()">Mark</button>
+<button onclick="submit()">Submit</button>
+</div>
+<div id="right"></div>
+</div>
+
+<div id="resultCard" style="display:none">
+<h2>RESULT</h2>
+<div class="stat">Name: <b id="rname"></b></div>
+<div class="stat">Roll: <b id="rroll"></b></div>
+<div class="stat">Total: <b id="rtotal"></b></div>
+<div class="stat">Attempted: <b id="rattempt"></b></div>
+<div class="stat">Not Attempted: <b id="rnot"></b></div>
+<div class="stat">Correct: <b id="rcorrect"></b></div>
+<div class="stat">Wrong: <b id="rwrong"></b></div>
+<div class="stat">Review: <b id="rreview"></b></div>
+<h2>Score: <span id="rscore"></span></h2>
+<button onclick="resetAll()" style="background:#28a745;color:white">New Test</button>
+</div>
+
+<script>
+let qdata=[
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
+["Reservation article?","14","15(4)","16","21",1]
+];
+
+// ======= STATE =======
+let i = parseInt(localStorage.getItem("qIndex")) || 0;
+let ans = JSON.parse(localStorage.getItem("answers")) || [];
+let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
+let started = localStorage.getItem("started") === "yes";
+let paused = localStorage.getItem("paused") === "true";
+let timer = null;
+
+// ======= AUTO RESUME =======
+if(started){
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
+ buildPalette();
+ load();
+ startTimer();
+}
+
+// ======= START TEST =======
+function startTest(){
+ if(!cname.value || !croll.value){
+   alert("Enter Name & Roll");
+   return;
+ }
+ localStorage.setItem("started","yes");
+ localStorage.setItem("cname",cname.value);
+ localStorage.setItem("croll",croll.value);
+ localStorage.setItem("paused","false");
+
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
+ buildPalette();
+ load();
+ startTimer();
+}
+
+// ======= TIMER =======
+function startTimer(){
+ clearInterval(timer);
+ timer = setInterval(()=>{
+  if(paused) return;
+  t--;
+  if(t<0) t=0;
+  localStorage.setItem("timeLeft",t);
+  let m=Math.floor(t/60), s=t%60;
+  document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+  if(t===0) submit();
+ },1000);
+}
+
+function togglePause(){
+ paused = !paused;
+ localStorage.setItem("paused",paused);
+}
+
+// ======= QUESTIONS =======
+function buildPalette(){
+ let p="";
+ for(let j=0;j<qdata.length;j++){
+  p += `<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ }
+ document.getElementById("right").innerHTML = p;
+}
+
+function load(){
+ let q = qdata[i];
+ document.getElementById("q").innerText = (i+1)+". "+q[0];
+ let o="";
+ for(let k=1;k<=4;k++){
+  let c = (ans[i]===k-1) ? "checked" : "";
+  o += `<label><input type="radio" name="opt" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+ }
+ document.getElementById("opt").innerHTML = o;
+}
+
+function sel(x){
+ ans[i]=x;
+ localStorage.setItem("answers",JSON.stringify(ans));
+ localStorage.setItem("qIndex",i);
+ document.getElementById("b"+i).classList.add("attempted");
+}
+
+function next(){ if(i<qdata.length-1){ i++; localStorage.setItem("qIndex",i); load(); } }
+function prev(){ if(i>0){ i--; localStorage.setItem("qIndex",i); load(); } }
+function go(n){ i=n; localStorage.setItem("qIndex",i); load(); }
+function mark(){ document.getElementById("b"+i).classList.add("review"); }
+
+// ======= SUBMIT =======
+function submit(){
+ clearInterval(timer);
+
+ let total=qdata.length, correct=0, wrong=0, attempt=0, review=0;
+ for(let j=0;j<total;j++){
+  if(ans[j]!==undefined){
+   attempt++;
+   if(ans[j]==qdata[j][5]) correct++;
+   else wrong++;
+  }
+  if(document.getElementById("b"+j).classList.contains("review")) review++;
+ }
+
+ box.style.display="none";
+ topbar.style.display="none";
+ resultCard.style.display="block";
+
+ rname.innerText = localStorage.getItem("cname");
+ rroll.innerText = localStorage.getItem("croll");
+ rtotal.innerText = total;
+ rattempt.innerText = attempt;
+ rnot.innerText = total-attempt;
+ rcorrect.innerText = correct;
+ rwrong.innerText = wrong;
+ rreview.innerText = review;
+ rscore.innerText = correct+" / "+total;
+}
+
+// ======= RESET =======
+function resetAll(){
+ localStorage.clear();
+ location.reload();
+}
+</script>
+
+</body>
+</html>
