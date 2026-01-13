@@ -19,10 +19,8 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 }
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
-.current{border:2px solid red}
 .review{background:orange;color:black}
-.hidden{display:none}
-button{padding:10px 15px;margin:10px}
+button{padding:10px;margin:5px}
 #loginBox{background:white;padding:20px;text-align:center;}
 </style>
 </head>
@@ -30,19 +28,19 @@ button{padding:10px 15px;margin:10px}
 <body>
 
 <div id="loginBox">
-<h2>DSSSB Assistant Superintendent – Candidate Login</h2>
-<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
-<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
-<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px;border:none;">Start Test</button>
+<h2>DSSSB Assistant Superintendent – Login</h2>
+<input id="cname" placeholder="Name" style="padding:10px;width:90%"><br><br>
+<input id="croll" placeholder="Roll No" style="padding:10px;width:90%"><br><br>
+<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px">Start Test</button>
 </div>
 
-<header id="topbar" style="display:none;">
-DSSSB MTS – GK CBT
+<header id="topbar" style="display:none">
+DSSSB GK CBT
 <span id="timer" style="float:right">30:00</span>
-<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none;">⏸ Pause</button>
+<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none">⏸</button>
 </header>
 
-<div id="box" style="display:none;">
+<div id="box" style="display:none">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
@@ -56,8 +54,8 @@ DSSSB MTS – GK CBT
 
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove trees"],
-["Reservation article?","14","15(4)","16","21",1,"Article 15(4)"]
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
+["Reservation article?","14","15(4)","16","21",1]
 ];
 
 let i=parseInt(localStorage.getItem("qIndex"))||0;
@@ -67,14 +65,26 @@ let paused=localStorage.getItem("paused")=="true";
 let timer;
 
 function startTest(){
- if(!localStorage.getItem("started")){
-  localStorage.setItem("started","yes");
-  localStorage.setItem("timeLeft",t);
-  localStorage.setItem("paused","false");
- }
- document.getElementById("loginBox").style.display="none";
- document.getElementById("topbar").style.display="block";
- document.getElementById("box").style.display="flex";
+ let n=cname.value,r=croll.value;
+ if(!n||!r) return alert("Enter Name & Roll");
+
+ localStorage.setItem("started","yes");
+ localStorage.setItem("cname",n);
+ localStorage.setItem("croll",r);
+ localStorage.setItem("paused","false");
+
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
+ buildPalette();
+ load();
+ startTimer();
+}
+
+if(localStorage.getItem("started")=="yes"){
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
  buildPalette();
  load();
  startTimer();
@@ -86,42 +96,32 @@ function startTimer(){
   t--;
   localStorage.setItem("timeLeft",t);
   let m=Math.floor(t/60),s=t%60;
-  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+  timer.innerText=m+":"+(s<10?"0":"")+s;
   if(t<=0) submit();
  },1000);
 }
 
 function togglePause(){
- if(paused){
-  paused=false;
-  localStorage.setItem("paused","false");
-  startTimer();
-  alert("Resumed");
- }else{
-  paused=true;
-  localStorage.setItem("paused","true");
-  clearInterval(timer);
-  alert("Paused");
- }
+ if(paused){paused=false;localStorage.setItem("paused","false");startTimer();}
+ else{paused=true;localStorage.setItem("paused","true");clearInterval(timer);}
 }
 
 function buildPalette(){
  let p="";
- for(let j=0;j<qdata.length;j++){
-  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- }
- document.getElementById("right").innerHTML=p;
+ for(let j=0;j<qdata.length;j++) p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ right.innerHTML=p;
 }
 
 function load(){
  let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
+ qEl=document.getElementById("q");
+ qEl.innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
   let c=(ans[i]==k-1)?"checked":"";
   o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- document.getElementById("opt").innerHTML=o;
+ opt.innerHTML=o;
 }
 
 function sel(x){
@@ -134,15 +134,38 @@ function sel(x){
 function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
 function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
 function go(n){i=n;localStorage.setItem("qIndex",i);load();}
-
 function mark(){document.getElementById("b"+i).classList.add("review");}
 
 function submit(){
  clearInterval(timer);
+
+ let total=qdata.length, correct=0, wrong=0, attempted=0, notA=0, review=0;
+
+ for(let j=0;j<total;j++){
+  if(ans[j]==undefined) notA++;
+  else{
+    attempted++;
+    if(ans[j]==qdata[j][5]) correct++;
+    else wrong++;
+  }
+  if(document.getElementById("b"+j).classList.contains("review")) review++;
+ }
+
+ alert(
+ "RESULT\n"+
+ "Total: "+total+"\n"+
+ "Attempted: "+attempted+"\n"+
+ "Not Attempted: "+notA+"\n"+
+ "Correct: "+correct+"\n"+
+ "Wrong: "+wrong+"\n"+
+ "Marked for Review: "+review+"\n"+
+ "Score: "+correct+" / "+total
+ );
+
  localStorage.clear();
- alert("Test Submitted");
  location.reload();
 }
 </script>
+
 </body>
 </html>
