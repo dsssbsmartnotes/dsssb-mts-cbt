@@ -8,14 +8,16 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
 #right{
-  position:fixed;top:55px;right:0;width:220px;
-  background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
+ position:fixed;top:55px;right:0;width:220px;
+ background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
 }
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc}
 .attempted{background:#4caf50;color:white}
-.review{background:orange;color:black}
+.review{background:orange}
 button{padding:10px;margin:5px}
-#loginBox{background:#fff;padding:20px;text-align:center;}
+#loginBox,#resultCard{background:white;padding:20px;text-align:center;margin:20px}
+.stat{font-size:18px;margin:5px}
+.list{background:#f9f9f9;padding:10px;margin:10px;text-align:left}
 </style>
 </head>
 
@@ -38,7 +40,7 @@ DSSSB GK CBT
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
-<button onclick="prev()">Prev</button>
+<button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
 <button onclick="mark()">Mark</button>
 <button onclick="submit()">Submit</button>
@@ -46,82 +48,76 @@ DSSSB GK CBT
 <div id="right"></div>
 </div>
 
-<div id="scoreCard" style="display:none;background:white;padding:20px">
-<h2>Result</h2>
-<p>Name: <b id="sname"></b></p>
-<p>Roll: <b id="sroll"></b></p>
-<p>Score: <b id="scr"></b></p>
-<h3>🏆 All India Rank</h3>
-<table border="1" width="100%" id="rankTable"></table>
+<div id="resultCard" style="display:none">
+<h2>RESULT</h2>
+<div class="stat">Name: <b id="rname"></b></div>
+<div class="stat">Roll: <b id="rroll"></b></div>
+<div class="stat">Total: <b id="rtotal"></b></div>
+<div class="stat">Attempted: <b id="rattempt"></b></div>
+<div class="stat">Not Attempted: <b id="rnot"></b></div>
+<div class="stat">Correct: <b id="rcorrect"></b></div>
+<div class="stat">Wrong: <b id="rwrong"></b></div>
+<div class="stat">Marked for Review: <b id="rreview"></b></div>
+<h2>Score: <span id="rscore"></span></h2>
+
+<h3>❌ Wrong Answers with Explanation</h3>
+<div id="wrongList" class="list"></div>
+
+<h3>⚪ Not Attempted</h3>
+<div id="naList" class="list"></div>
+
+<h3>🟧 Marked for Review</h3>
+<div id="reviewList" class="list"></div>
+
+<button onclick="resetAll()" style="background:#28a745;color:white">New Test</button>
 </div>
 
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
-["Reservation article?","14","15(4)","16","21",1]
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Sundari trees grow in mangrove forests."],
+["Reservation article?","14","15(4)","16","21",1,"Article 15(4) allows reservation."]
 ];
 
-let i = parseInt(localStorage.getItem("qIndex")) || 0;
-let ans = JSON.parse(localStorage.getItem("answers")) || [];
-let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
-let paused = localStorage.getItem("paused")==="true";
-let interval=null;
-
-// Auto resume
-if(localStorage.getItem("cname")){
- loginBox.style.display="none";
- topbar.style.display="block";
- box.style.display="flex";
- buildPalette();
- load();
- startTimer();
- updateTimer();
-}
+let i=parseInt(localStorage.getItem("qIndex"))||0;
+let ans=JSON.parse(localStorage.getItem("answers"))||[];
+let t=parseInt(localStorage.getItem("timeLeft"))||1800;
+let paused=localStorage.getItem("paused")==="true";
+let timer=null;
 
 function startTest(){
- if(!cname.value || !croll.value) return alert("Enter name & roll");
+ if(!cname.value||!croll.value) return alert("Enter Name & Roll");
  localStorage.setItem("cname",cname.value);
  localStorage.setItem("croll",croll.value);
  localStorage.setItem("paused","false");
- paused=false;
  loginBox.style.display="none";
  topbar.style.display="block";
  box.style.display="flex";
- buildPalette();
- load();
- startTimer();
- updateTimer();
+ buildPalette(); load(); startTimer();
 }
 
 function startTimer(){
- clearInterval(interval);
- interval=setInterval(()=>{
+ clearInterval(timer);
+ timer=setInterval(()=>{
   if(paused) return;
   t--;
-  if(t<0) t=0;
   localStorage.setItem("timeLeft",t);
-  updateTimer();
-  if(t===0) submit();
+  let m=Math.floor(t/60),s=t%60;
+  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+  if(t<=0) submit();
  },1000);
 }
-function updateTimer(){
- let m=Math.floor(t/60),s=t%60;
- document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
-}
-function togglePause(){
- paused=!paused;
- localStorage.setItem("paused",paused);
-}
 
-// Questions
+function togglePause(){ paused=!paused; localStorage.setItem("paused",paused); }
+
 function buildPalette(){
  let p="";
  for(let j=0;j<qdata.length;j++) p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
  right.innerHTML=p;
 }
+
 function load(){
  let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
+ qEl.innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
   let c=(ans[i]==k-1)?"checked":"";
@@ -129,68 +125,58 @@ function load(){
  }
  opt.innerHTML=o;
 }
+
 function sel(x){
  ans[i]=x;
  localStorage.setItem("answers",JSON.stringify(ans));
  localStorage.setItem("qIndex",i);
  document.getElementById("b"+i).classList.add("attempted");
 }
-function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
-function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
-function go(n){i=n;localStorage.setItem("qIndex",i);load();}
+
+function next(){if(i<qdata.length-1){i++;load();}}
+function prev(){if(i>0){i--;load();}}
+function go(n){i=n;load();}
 function mark(){document.getElementById("b"+i).classList.add("review");}
 
-// Submit
-async function submit(){
- clearInterval(interval);
- let correct=0;
- for(let j=0;j<qdata.length;j++) if(ans[j]==qdata[j][5]) correct++;
+function submit(){
+ clearInterval(timer);
 
- sname.innerText=localStorage.getItem("cname");
- sroll.innerText=localStorage.getItem("croll");
- scr.innerText=correct+" / "+qdata.length;
+ let total=qdata.length,correct=0,attempt=0,wrongHTML="",naHTML="",reviewHTML="";
+
+ for(let j=0;j<total;j++){
+  let q=qdata[j];
+  let correctAns=q[q[5]+1];
+
+  if(ans[j]===undefined){
+    naHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Correct:</b> ${correctAns}</p>`;
+  }else{
+    attempt++;
+    if(ans[j]==q[5]) correct++;
+    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
+  }
+  if(document.getElementById("b"+j).classList.contains("review")) reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
+ }
 
  box.style.display="none";
  topbar.style.display="none";
- scoreCard.style.display="block";
+ resultCard.style.display="block";
 
- await addDoc(collection(db,"mts_gk_test1"),{
-  name:sname.innerText,
-  roll:sroll.innerText,
-  score:correct,
-  timeLeft:t,
-  ts:Date.now()
- });
+ rname.innerText=localStorage.getItem("cname");
+ rroll.innerText=localStorage.getItem("croll");
+ rtotal.innerText=total;
+ rattempt.innerText=attempt;
+ rnot.innerText=total-attempt;
+ rcorrect.innerText=correct;
+ rwrong.innerText=attempt-correct;
+ rreview.innerText=document.querySelectorAll(".review").length;
+ rscore.innerText=correct+" / "+total;
 
- const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"),orderBy("timeLeft","desc"));
- const snap=await getDocs(q);
- let r=1,html="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
- snap.forEach(d=>{
-  let x=d.data();
-  html+=`<tr><td>${r++}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
- });
- rankTable.innerHTML=html;
- localStorage.clear();
+ wrongList.innerHTML=wrongHTML||"None 🎉";
+ naList.innerHTML=naHTML||"None";
+ reviewList.innerHTML=reviewHTML||"None";
 }
-</script>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, addDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const app=initializeApp({
- apiKey:"AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
- authDomain:"dsssb-all-india-rank.firebaseapp.com",
- projectId:"dsssb-all-india-rank"
-});
-const db=getFirestore(app);
-
-window.db=db;
-window.addDoc=addDoc;
-window.getDocs=getDocs;
-window.collection=collection;
-window.query=query;
-window.orderBy=orderBy;
+function resetAll(){localStorage.clear();location.reload();}
 </script>
 
 </body>
