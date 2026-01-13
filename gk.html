@@ -19,32 +19,34 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 }
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
+.current{border:2px solid red}
 .review{background:orange;color:black}
-button{padding:10px;margin:5px}
-#loginBox{background:#fff;padding:20px;text-align:center;}
+.hidden{display:none}
+button{padding:10px 15px;margin:10px}
+#loginBox{background:white;padding:20px;text-align:center;}
 </style>
 </head>
 
 <body>
 
 <div id="loginBox">
-<h2>DSSSB Assistant Superintendent – Login</h2>
-<input id="cname" placeholder="Name" style="padding:10px;width:90%"><br><br>
-<input id="croll" placeholder="Roll No" style="padding:10px;width:90%"><br><br>
-<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px">Start Test</button>
+<h2>DSSSB Assistant Superintendent – Candidate Login</h2>
+<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
+<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px;border:none;">Start Test</button>
 </div>
 
-<header id="topbar" style="display:none">
-DSSSB GK CBT
+<header id="topbar" style="display:none;">
+DSSSB MTS – GK CBT
 <span id="timer" style="float:right">30:00</span>
-<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none">⏸</button>
+<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none;">⏸ Pause</button>
 </header>
 
-<div id="box" style="display:none">
+<div id="box" style="display:none;">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
-<button onclick="prev()">Prev</button>
+<button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
 <button onclick="mark()">Mark</button>
 <button onclick="submit()">Submit</button>
@@ -52,19 +54,9 @@ DSSSB GK CBT
 <div id="right"></div>
 </div>
 
-<div id="scoreCard" style="display:none;background:white;padding:20px">
-<h2>Result</h2>
-<p>Name: <b id="sname"></b></p>
-<p>Roll: <b id="sroll"></b></p>
-<p>Score: <b id="scr"></b></p>
-
-<h3>🏆 All India Rank</h3>
-<table border="1" width="100%" id="rankTable"></table>
-</div>
-
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove forests"],
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove trees"],
 ["Reservation article?","14","15(4)","16","21",1,"Article 15(4)"]
 ];
 
@@ -75,16 +67,14 @@ let paused=localStorage.getItem("paused")=="true";
 let timer;
 
 function startTest(){
- let n=cname.value,r=croll.value;
- if(!n||!r) return alert("Enter name & roll");
-
- localStorage.setItem("cname",n);
- localStorage.setItem("croll",r);
- localStorage.setItem("paused","false");
-
- loginBox.style.display="none";
- topbar.style.display="block";
- box.style.display="flex";
+ if(!localStorage.getItem("started")){
+  localStorage.setItem("started","yes");
+  localStorage.setItem("timeLeft",t);
+  localStorage.setItem("paused","false");
+ }
+ document.getElementById("loginBox").style.display="none";
+ document.getElementById("topbar").style.display="block";
+ document.getElementById("box").style.display="flex";
  buildPalette();
  load();
  startTimer();
@@ -96,20 +86,31 @@ function startTimer(){
   t--;
   localStorage.setItem("timeLeft",t);
   let m=Math.floor(t/60),s=t%60;
-  timer.innerText=m+":"+(s<10?"0":"")+s;
+  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
   if(t<=0) submit();
  },1000);
 }
 
 function togglePause(){
- if(paused){paused=false;localStorage.setItem("paused","false");startTimer();}
- else{paused=true;localStorage.setItem("paused","true");clearInterval(timer);}
+ if(paused){
+  paused=false;
+  localStorage.setItem("paused","false");
+  startTimer();
+  alert("Resumed");
+ }else{
+  paused=true;
+  localStorage.setItem("paused","true");
+  clearInterval(timer);
+  alert("Paused");
+ }
 }
 
 function buildPalette(){
  let p="";
- for(let j=0;j<qdata.length;j++) p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- right.innerHTML=p;
+ for(let j=0;j<qdata.length;j++){
+  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ }
+ document.getElementById("right").innerHTML=p;
 }
 
 function load(){
@@ -120,7 +121,7 @@ function load(){
   let c=(ans[i]==k-1)?"checked":"";
   o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- opt.innerHTML=o;
+ document.getElementById("opt").innerHTML=o;
 }
 
 function sel(x){
@@ -133,59 +134,15 @@ function sel(x){
 function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
 function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
 function go(n){i=n;localStorage.setItem("qIndex",i);load();}
+
 function mark(){document.getElementById("b"+i).classList.add("review");}
 
-async function submit(){
+function submit(){
  clearInterval(timer);
-
- let correct=0;
- for(let j=0;j<qdata.length;j++) if(ans[j]==qdata[j][5]) correct++;
-
- sname.innerText=localStorage.getItem("cname");
- sroll.innerText=localStorage.getItem("croll");
- scr.innerText=correct+" / "+qdata.length;
-
- box.style.display="none";
- topbar.style.display="none";
- scoreCard.style.display="block";
-
- // 🔥 SAVE TO FIREBASE
- await setDoc(doc(db,"mts_gk_test1",sroll.innerText),{
-   name:sname.innerText,
-   score:correct,
-   timeLeft:t,
-   total:qdata.length
- });
-
- // 🔥 LOAD RANK
- const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"),orderBy("timeLeft","desc"));
- const snap=await getDocs(q);
- let r=1,html="<tr><th>Rank</th><th>Name</th><th>Score</th></tr>";
- snap.forEach(d=>{
-  html+=`<tr><td>${r++}</td><td>${d.data().name}</td><td>${d.data().score}</td></tr>`;
- });
- rankTable.innerHTML=html;
-
  localStorage.clear();
+ alert("Test Submitted");
+ location.reload();
 }
 </script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-const firebaseConfig = {
- apiKey: "AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
- authDomain: "dsssb-all-india-rank.firebaseapp.com",
- projectId: "dsssb-all-india-rank"
-};
-
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-
-window.db=db; window.doc=doc; window.setDoc=setDoc;
-window.getDocs=getDocs; window.collection=collection; window.query=query; window.orderBy=orderBy;
-</script>
-
 </body>
 </html>
