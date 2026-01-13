@@ -51,7 +51,6 @@ DSSSB GK CBT
 <p>Name: <b id="sname"></b></p>
 <p>Roll: <b id="sroll"></b></p>
 <p>Score: <b id="scr"></b></p>
-
 <h3>🏆 All India Rank</h3>
 <table border="1" width="100%" id="rankTable"></table>
 </div>
@@ -62,13 +61,13 @@ let qdata=[
 ["Reservation article?","14","15(4)","16","21",1]
 ];
 
-let i=parseInt(localStorage.getItem("qIndex"))||0;
-let ans=JSON.parse(localStorage.getItem("answers"))||[];
-let t=parseInt(localStorage.getItem("timeLeft"))||1800;
-let paused=localStorage.getItem("paused")==="true";
+let i = parseInt(localStorage.getItem("qIndex")) || 0;
+let ans = JSON.parse(localStorage.getItem("answers")) || [];
+let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
+let paused = localStorage.getItem("paused")==="true";
 let interval=null;
 
-// AUTO RESUME
+// Auto resume
 if(localStorage.getItem("cname")){
  loginBox.style.display="none";
  topbar.style.display="block";
@@ -76,27 +75,24 @@ if(localStorage.getItem("cname")){
  buildPalette();
  load();
  startTimer();
- updateTimerUI();
+ updateTimer();
 }
 
 function startTest(){
- if(!cname.value||!croll.value) return alert("Enter name & roll");
-
+ if(!cname.value || !croll.value) return alert("Enter name & roll");
  localStorage.setItem("cname",cname.value);
  localStorage.setItem("croll",croll.value);
  localStorage.setItem("paused","false");
  paused=false;
-
  loginBox.style.display="none";
  topbar.style.display="block";
  box.style.display="flex";
  buildPalette();
  load();
  startTimer();
- updateTimerUI();
+ updateTimer();
 }
 
-// TIMER
 function startTimer(){
  clearInterval(interval);
  interval=setInterval(()=>{
@@ -104,30 +100,25 @@ function startTimer(){
   t--;
   if(t<0) t=0;
   localStorage.setItem("timeLeft",t);
-  updateTimerUI();
+  updateTimer();
   if(t===0) submit();
  },1000);
 }
-
-function updateTimerUI(){
+function updateTimer(){
  let m=Math.floor(t/60),s=t%60;
  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
 }
-
 function togglePause(){
  paused=!paused;
  localStorage.setItem("paused",paused);
 }
 
-// QUESTIONS
+// Questions
 function buildPalette(){
  let p="";
- for(let j=0;j<qdata.length;j++){
-  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- }
+ for(let j=0;j<qdata.length;j++) p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
  right.innerHTML=p;
 }
-
 function load(){
  let q=qdata[i];
  document.getElementById("q").innerText=(i+1)+". "+q[0];
@@ -138,23 +129,20 @@ function load(){
  }
  opt.innerHTML=o;
 }
-
 function sel(x){
  ans[i]=x;
  localStorage.setItem("answers",JSON.stringify(ans));
  localStorage.setItem("qIndex",i);
  document.getElementById("b"+i).classList.add("attempted");
 }
-
 function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
 function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
 function go(n){i=n;localStorage.setItem("qIndex",i);load();}
 function mark(){document.getElementById("b"+i).classList.add("review");}
 
-// SUBMIT
+// Submit
 async function submit(){
  clearInterval(interval);
-
  let correct=0;
  for(let j=0;j<qdata.length;j++) if(ans[j]==qdata[j][5]) correct++;
 
@@ -167,12 +155,11 @@ async function submit(){
  scoreCard.style.display="block";
 
  await addDoc(collection(db,"mts_gk_test1"),{
-   name:sname.innerText,
-   roll:sroll.innerText,
-   score:correct,
-   timeLeft:t,
-   total:qdata.length,
-   ts:Date.now()
+  name:sname.innerText,
+  roll:sroll.innerText,
+  score:correct,
+  timeLeft:t,
+  ts:Date.now()
  });
 
  const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"),orderBy("timeLeft","desc"));
@@ -183,7 +170,6 @@ async function submit(){
   html+=`<tr><td>${r++}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
  });
  rankTable.innerHTML=html;
-
  localStorage.clear();
 }
 </script>
