@@ -31,8 +31,8 @@ button{padding:10px;margin:5px}
 
 <header id="topbar" style="display:none">
 DSSSB GK CBT
-<span id="timer" style="float:right">30:00</span>
-<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none">⏸</button>
+<span id="timer">30:00</span>
+<button onclick="togglePause()" style="float:right;background:red;color:white;border:none">⏸</button>
 </header>
 
 <div id="box" style="display:none">
@@ -48,17 +48,17 @@ DSSSB GK CBT
 </div>
 
 <div id="resultCard" style="display:none">
-<h2>RESULT SUMMARY</h2>
+<h2>RESULT</h2>
 <div class="stat">Name: <b id="rname"></b></div>
-<div class="stat">Roll No: <b id="rroll"></b></div>
+<div class="stat">Roll: <b id="rroll"></b></div>
 <div class="stat">Total: <b id="rtotal"></b></div>
 <div class="stat">Attempted: <b id="rattempt"></b></div>
 <div class="stat">Not Attempted: <b id="rnot"></b></div>
 <div class="stat">Correct: <b id="rcorrect"></b></div>
 <div class="stat">Wrong: <b id="rwrong"></b></div>
-<div class="stat">Marked for Review: <b id="rreview"></b></div>
+<div class="stat">Review: <b id="rreview"></b></div>
 <h2>Score: <span id="rscore"></span></h2>
-<button onclick="location.reload()" style="background:#28a745;color:white">New Test</button>
+<button onclick="resetAll()" style="background:#28a745;color:white">New Test</button>
 </div>
 
 <script>
@@ -67,10 +67,16 @@ let qdata=[
 ["Reservation article?","14","15(4)","16","21",1]
 ];
 
-let i=0, ans=[], t=1800, paused=false, timer;
+// ======= STATE =======
+let i = parseInt(localStorage.getItem("qIndex")) || 0;
+let ans = JSON.parse(localStorage.getItem("answers")) || [];
+let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
+let started = localStorage.getItem("started") === "yes";
+let paused = localStorage.getItem("paused") === "true";
+let timer = null;
 
-function startTest(){
- if(!cname.value||!croll.value) return alert("Enter Name & Roll");
+// ======= AUTO RESUME =======
+if(started){
  loginBox.style.display="none";
  topbar.style.display="block";
  box.style.display="flex";
@@ -79,56 +85,86 @@ function startTest(){
  startTimer();
 }
 
+// ======= START TEST =======
+function startTest(){
+ if(!cname.value || !croll.value){
+   alert("Enter Name & Roll");
+   return;
+ }
+ localStorage.setItem("started","yes");
+ localStorage.setItem("cname",cname.value);
+ localStorage.setItem("croll",croll.value);
+ localStorage.setItem("paused","false");
+
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
+ buildPalette();
+ load();
+ startTimer();
+}
+
+// ======= TIMER =======
 function startTimer(){
- timer=setInterval(()=>{
+ clearInterval(timer);
+ timer = setInterval(()=>{
   if(paused) return;
   t--;
-  let m=Math.floor(t/60),s=t%60;
-  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
-  if(t<=0) submit();
+  if(t<0) t=0;
+  localStorage.setItem("timeLeft",t);
+  let m=Math.floor(t/60), s=t%60;
+  document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+  if(t===0) submit();
  },1000);
 }
 
-function togglePause(){paused=!paused;}
+function togglePause(){
+ paused = !paused;
+ localStorage.setItem("paused",paused);
+}
 
+// ======= QUESTIONS =======
 function buildPalette(){
  let p="";
  for(let j=0;j<qdata.length;j++){
-  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+  p += `<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
  }
- document.getElementById("right").innerHTML=p;
+ document.getElementById("right").innerHTML = p;
 }
 
 function load(){
- let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
+ let q = qdata[i];
+ document.getElementById("q").innerText = (i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
-  o+=`<label><input type="radio" name="opt" onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+  let c = (ans[i]===k-1) ? "checked" : "";
+  o += `<label><input type="radio" name="opt" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- document.getElementById("opt").innerHTML=o;
+ document.getElementById("opt").innerHTML = o;
 }
 
 function sel(x){
  ans[i]=x;
+ localStorage.setItem("answers",JSON.stringify(ans));
+ localStorage.setItem("qIndex",i);
  document.getElementById("b"+i).classList.add("attempted");
 }
 
-function next(){if(i<qdata.length-1){i++;load();}}
-function prev(){if(i>0){i--;load();}}
-function go(n){i=n;load();}
-function mark(){document.getElementById("b"+i).classList.add("review");}
+function next(){ if(i<qdata.length-1){ i++; localStorage.setItem("qIndex",i); load(); } }
+function prev(){ if(i>0){ i--; localStorage.setItem("qIndex",i); load(); } }
+function go(n){ i=n; localStorage.setItem("qIndex",i); load(); }
+function mark(){ document.getElementById("b"+i).classList.add("review"); }
 
+// ======= SUBMIT =======
 function submit(){
  clearInterval(timer);
 
  let total=qdata.length, correct=0, wrong=0, attempt=0, review=0;
-
  for(let j=0;j<total;j++){
-  if(ans[j]!=undefined){
-    attempt++;
-    if(ans[j]==qdata[j][5]) correct++;
-    else wrong++;
+  if(ans[j]!==undefined){
+   attempt++;
+   if(ans[j]==qdata[j][5]) correct++;
+   else wrong++;
   }
   if(document.getElementById("b"+j).classList.contains("review")) review++;
  }
@@ -137,15 +173,21 @@ function submit(){
  topbar.style.display="none";
  resultCard.style.display="block";
 
- rname.innerText=cname.value;
- rroll.innerText=croll.value;
- rtotal.innerText=total;
- rattempt.innerText=attempt;
- rnot.innerText=total-attempt;
- rcorrect.innerText=correct;
- rwrong.innerText=wrong;
- rreview.innerText=review;
- rscore.innerText=correct+" / "+total;
+ rname.innerText = localStorage.getItem("cname");
+ rroll.innerText = localStorage.getItem("croll");
+ rtotal.innerText = total;
+ rattempt.innerText = attempt;
+ rnot.innerText = total-attempt;
+ rcorrect.innerText = correct;
+ rwrong.innerText = wrong;
+ rreview.innerText = review;
+ rscore.innerText = correct+" / "+total;
+}
+
+// ======= RESET =======
+function resetAll(){
+ localStorage.clear();
+ location.reload();
 }
 </script>
 
