@@ -8,15 +8,14 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
 #right{
- position:fixed;top:55px;right:0;width:220px;
- background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
+  position:fixed;top:55px;right:0;width:220px;
+  background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
 }
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc}
 .attempted{background:#4caf50;color:white}
-.review{background:orange}
+.review{background:orange;color:black}
 button{padding:10px;margin:5px}
-#loginBox,#resultCard{background:white;padding:20px;text-align:center;margin:20px}
-.stat{font-size:18px;margin:5px}
+#loginBox{background:#fff;padding:20px;text-align:center;}
 </style>
 </head>
 
@@ -39,7 +38,7 @@ DSSSB GK CBT
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
-<button onclick="prev()">Previous</button>
+<button onclick="prev()">Prev</button>
 <button onclick="next()">Next</button>
 <button onclick="mark()">Mark</button>
 <button onclick="submit()">Submit</button>
@@ -47,36 +46,32 @@ DSSSB GK CBT
 <div id="right"></div>
 </div>
 
-<div id="resultCard" style="display:none">
-<h2>RESULT</h2>
-<div class="stat">Name: <b id="rname"></b></div>
-<div class="stat">Roll: <b id="rroll"></b></div>
-<div class="stat">Total: <b id="rtotal"></b></div>
-<div class="stat">Attempted: <b id="rattempt"></b></div>
-<div class="stat">Not Attempted: <b id="rnot"></b></div>
-<div class="stat">Correct: <b id="rcorrect"></b></div>
-<div class="stat">Wrong: <b id="rwrong"></b></div>
-<div class="stat">Review: <b id="rreview"></b></div>
-<h2>Score: <span id="rscore"></span></h2>
-<button onclick="resetAll()" style="background:#28a745;color:white">New Test</button>
+<div id="scoreCard" style="display:none;background:white;padding:20px">
+<h2>Result</h2>
+<p>Name: <b id="sname"></b></p>
+<p>Roll: <b id="sroll"></b></p>
+<p>Score: <b id="scr"></b></p>
+
+<h3>🏆 All India Rank</h3>
+<table border="1" width="100%" id="rankTable"></table>
 </div>
 
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
-["Reservation article?","14","15(4)","16","21",1]
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove forests"],
+["Reservation article?","14","15(4)","16","21",1,"Article 15(4)"]
 ];
 
-// ======= STATE =======
 let i = parseInt(localStorage.getItem("qIndex")) || 0;
 let ans = JSON.parse(localStorage.getItem("answers")) || [];
 let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
-let started = localStorage.getItem("started") === "yes";
 let paused = localStorage.getItem("paused") === "true";
-let timer = null;
+let interval = null;
 
-// ======= AUTO RESUME =======
-if(started){
+updateTimerUI();
+
+// 🔁 AUTO RESUME
+if(localStorage.getItem("cname")){
  loginBox.style.display="none";
  topbar.style.display="block";
  box.style.display="flex";
@@ -85,16 +80,12 @@ if(started){
  startTimer();
 }
 
-// ======= START TEST =======
 function startTest(){
- if(!cname.value || !croll.value){
-   alert("Enter Name & Roll");
-   return;
- }
- localStorage.setItem("started","yes");
+ if(!cname.value || !croll.value) return alert("Enter name & roll");
  localStorage.setItem("cname",cname.value);
  localStorage.setItem("croll",croll.value);
  localStorage.setItem("paused","false");
+ paused=false;
 
  loginBox.style.display="none";
  topbar.style.display="block";
@@ -104,43 +95,47 @@ function startTest(){
  startTimer();
 }
 
-// ======= TIMER =======
+// ===== TIMER =====
 function startTimer(){
- clearInterval(timer);
- timer = setInterval(()=>{
+ clearInterval(interval);
+ interval=setInterval(()=>{
   if(paused) return;
   t--;
   if(t<0) t=0;
   localStorage.setItem("timeLeft",t);
-  let m=Math.floor(t/60), s=t%60;
-  document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+  updateTimerUI();
   if(t===0) submit();
  },1000);
 }
 
+function updateTimerUI(){
+ let m=Math.floor(t/60), s=t%60;
+ document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+}
+
 function togglePause(){
- paused = !paused;
+ paused=!paused;
  localStorage.setItem("paused",paused);
 }
 
-// ======= QUESTIONS =======
+// ===== QUESTIONS =====
 function buildPalette(){
  let p="";
  for(let j=0;j<qdata.length;j++){
-  p += `<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
  }
- document.getElementById("right").innerHTML = p;
+ document.getElementById("right").innerHTML=p;
 }
 
 function load(){
- let q = qdata[i];
- document.getElementById("q").innerText = (i+1)+". "+q[0];
+ let q=qdata[i];
+ document.getElementById("q").innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
-  let c = (ans[i]===k-1) ? "checked" : "";
-  o += `<label><input type="radio" name="opt" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+  let c=(ans[i]==k-1)?"checked":"";
+  o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- document.getElementById("opt").innerHTML = o;
+ document.getElementById("opt").innerHTML=o;
 }
 
 function sel(x){
@@ -150,45 +145,58 @@ function sel(x){
  document.getElementById("b"+i).classList.add("attempted");
 }
 
-function next(){ if(i<qdata.length-1){ i++; localStorage.setItem("qIndex",i); load(); } }
-function prev(){ if(i>0){ i--; localStorage.setItem("qIndex",i); load(); } }
-function go(n){ i=n; localStorage.setItem("qIndex",i); load(); }
+function next(){ if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();} }
+function prev(){ if(i>0){i--;localStorage.setItem("qIndex",i);load();} }
+function go(n){ i=n;localStorage.setItem("qIndex",i);load(); }
 function mark(){ document.getElementById("b"+i).classList.add("review"); }
 
-// ======= SUBMIT =======
-function submit(){
- clearInterval(timer);
+// ===== SUBMIT =====
+async function submit(){
+ clearInterval(interval);
 
- let total=qdata.length, correct=0, wrong=0, attempt=0, review=0;
- for(let j=0;j<total;j++){
-  if(ans[j]!==undefined){
-   attempt++;
-   if(ans[j]==qdata[j][5]) correct++;
-   else wrong++;
-  }
-  if(document.getElementById("b"+j).classList.contains("review")) review++;
- }
+ let correct=0;
+ for(let j=0;j<qdata.length;j++) if(ans[j]==qdata[j][5]) correct++;
+
+ sname.innerText=localStorage.getItem("cname");
+ sroll.innerText=localStorage.getItem("croll");
+ scr.innerText=correct+" / "+qdata.length;
 
  box.style.display="none";
  topbar.style.display="none";
- resultCard.style.display="block";
+ scoreCard.style.display="block";
 
- rname.innerText = localStorage.getItem("cname");
- rroll.innerText = localStorage.getItem("croll");
- rtotal.innerText = total;
- rattempt.innerText = attempt;
- rnot.innerText = total-attempt;
- rcorrect.innerText = correct;
- rwrong.innerText = wrong;
- rreview.innerText = review;
- rscore.innerText = correct+" / "+total;
-}
+ await setDoc(doc(db,"mts_gk_test1",sroll.innerText),{
+   name:sname.innerText,
+   score:correct,
+   timeLeft:t,
+   total:qdata.length
+ });
 
-// ======= RESET =======
-function resetAll(){
+ const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"),orderBy("timeLeft","desc"));
+ const snap=await getDocs(q);
+ let r=1,html="<tr><th>Rank</th><th>Name</th><th>Score</th></tr>";
+ snap.forEach(d=>{
+  html+=`<tr><td>${r++}</td><td>${d.data().name}</td><td>${d.data().score}</td></tr>`;
+ });
+ rankTable.innerHTML=html;
+
  localStorage.clear();
- location.reload();
 }
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const app=initializeApp({
+ apiKey: "AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
+ authDomain: "dsssb-all-india-rank.firebaseapp.com",
+ projectId: "dsssb-all-india-rank"
+});
+const db=getFirestore(app);
+
+window.db=db; window.doc=doc; window.setDoc=setDoc;
+window.getDocs=getDocs; window.collection=collection; window.query=query; window.orderBy=orderBy;
 </script>
 
 </body>
