@@ -7,49 +7,230 @@ body{font-family:arial;background:#f2f2f2;margin:0}
 header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
-#right{position:fixed;top:55px;right:0;width:220px;background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;}
+#right{
+  position:fixed;
+  top:55px;
+  right:0;
+  width:220px;
+  background:#e9ecef;
+  padding:10px;
+  height:calc(100vh - 55px);
+  overflow-y:auto;
+}
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
+.current{border:2px solid red}
 .review{background:orange;color:black}
 .hidden{display:none}
 button{padding:10px 15px;margin:10px}
+#loginBox{
+  background:white;
+  padding:20px;
+  text-align:center;
+}
+@media (max-width:768px){
+  #right{width:100%;left:0;right:0;display:none;}
+  #left{width:100%;}
+}
 </style>
 </head>
+
 <body>
 
 <div id="loginBox">
 <h2>DSSSB MTS – Candidate Login</h2>
-<input id="cname" placeholder="Enter Name"><br><br>
-<input id="croll" placeholder="Enter Roll"><br><br>
-<button onclick="startTest()">Start Test</button>
+<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
+<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<button onclick="startTest()" style="padding:10px 20px;background:#0b2c4d;color:white;border:none;">Start Test</button>
 </div>
 
-<header id="topbar" style="display:none">
-DSSSB MTS GK CBT <span id="timer" style="float:right">30:00</span>
+<header style="display:none" id="topbar">
+DSSSB MTS – GK CBT (20 Questions)
+<button onclick="togglePalette()" style="float:right;margin-left:10px;background:#ffc107;border:none;padding:6px 10px">☰ Questions</button>
+<span id="timer" style="float:right">30:00</span>
 </header>
 
-<div id="box" style="display:none">
+<div id="box" style="display:none;">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
-<button onclick="prev()">Prev</button>
+<button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
+<button onclick="mark()">Mark for Review</button>
 <button onclick="submit()">Submit</button>
 </div>
 <div id="right"></div>
 </div>
 
-<div id="scoreCard" style="display:none">
-<h2>RESULT</h2>
+<div id="scoreCard" style="display:none; padding:20px; background:#fff;">
+<h2>RESULT SUMMARY</h2>
 <p>Name: <b id="sname"></b></p>
-<p>Roll: <b id="sroll"></b></p>
-<p>Score: <b id="scr"></b></p>
+<p>Roll No: <b id="sroll"></b></p>
 
-<h3>🏆 All India Rank</h3>
-<table border="1" id="rankTable"></table>
+<p>Total Questions: <span id="tq"></span></p>
+<p>Attempted: <span id="att"></span></p>
+<p>Not Attempted: <span id="na"></span></p>
+<p>Correct: <span id="cor"></span></p>
+<p>Wrong: <span id="wr"></span></p>
+<h3>Score: <span id="scr"></span></h3>
+
+<hr>
+<h3>🏆 Rank List</h3>
+<table border="1" width="100%" id="rankTable"></table>
+
+<hr>
+<h3>❌ Wrong Questions</h3>
+<div id="wrongList"></div>
+
+<h3>⚪ Not Attempted</h3>
+<div id="naList"></div>
+
+<h3>🟧 Marked for Review</h3>
+<div id="reviewList"></div>
+
+<button onclick="location.reload()" style="background:#28a745;color:white;border:none;padding:10px 20px;">Start New Test</button>
 </div>
 
-<!-- 🔥 FIREBASE ENGINE -->
+<script>
+let qdata = [
+["Sundari trees are found in?","Mangrove forests","Coniferous","Deciduous","None",0,"Sundari trees grow in mangrove forests."],
+["Reservation is under which Article?","14","15(4)","16","21",1,"Article 15(4) provides reservation."],
+["Tilak pact is also called?","Poona Pact","Lucknow Pact","Delhi Pact","None",1,"Tilak Pact is known as Lucknow Pact."],
+["Khelo India 2025 venue?","Dal Lake","Chennai","Delhi","Jaipur",0,"Khelo India 2025 was held at Dal Lake."],
+["Silk trade declined because?","Wars","Silk farming in west","Taxes","None",1,"Western countries started silk farming."]
+];
+
+let i=0, ans=[], t=1800;
+let timer;
+
+function startTest(){
+ let n=document.getElementById("cname").value;
+ let r=document.getElementById("croll").value;
+ if(n==""||r==""){alert("Enter Name & Roll");return;}
+ localStorage.setItem("cname",n);
+ localStorage.setItem("croll",r);
+
+ document.getElementById("loginBox").style.display="none";
+ document.getElementById("topbar").style.display="block";
+ document.getElementById("box").style.display="flex";
+
+ startTimer();
+ buildPalette();
+ load();
+}
+
+function startTimer(){
+ timer=setInterval(()=>{
+  t--;
+  let m=Math.floor(t/60), s=t%60;
+  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
+  if(t==0) submit();
+ },1000);
+}
+
+function buildPalette(){
+ let pal="";
+ for(let j=0;j<qdata.length;j++){
+  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ }
+ document.getElementById("right").innerHTML=pal;
+}
+
+function load(){
+ let q=qdata[i];
+ document.getElementById("q").innerText=(i+1)+". "+q[0];
+ let o="";
+ for(let k=1;k<=4;k++){
+  let checked=(ans[i]==k-1)?"checked":"";
+  o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+ }
+ document.getElementById("opt").innerHTML=o;
+}
+
+function sel(x){
+ ans[i]=x;
+ let btn=document.getElementById("b"+i);
+ btn.classList.add("attempted");
+ btn.classList.remove("review");
+}
+
+function next(){ if(i<qdata.length-1){i++;load();}}
+function prev(){ if(i>0){i--;load();}}
+function go(n){i=n;load();}
+
+function mark(){
+ let btn=document.getElementById("b"+i);
+ btn.classList.add("review");
+}
+
+function submit(){
+ clearInterval(timer);
+ let total=qdata.length, correct=0, attempted=0;
+ let wrongHTML="", naHTML="", reviewHTML="";
+
+ for(let j=0;j<total;j++){
+  let q=qdata[j];
+  let correctAns=q[q[5]+1];
+  if(ans[j]===undefined){
+    naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
+  }else{
+    attempted++;
+    if(ans[j]==q[5]) correct++;
+    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
+  }
+  if(document.getElementById("b"+j).classList.contains("review")){
+    reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
+  }
+ }
+
+ document.getElementById("box").style.display="none";
+ document.getElementById("topbar").style.display="none";
+ document.getElementById("scoreCard").style.display="block";
+
+ document.getElementById("sname").innerText=localStorage.getItem("cname");
+ document.getElementById("sroll").innerText=localStorage.getItem("croll");
+
+ document.getElementById("tq").innerText=total;
+ document.getElementById("att").innerText=attempted;
+ document.getElementById("na").innerText=total-attempted;
+ document.getElementById("cor").innerText=correct;
+ document.getElementById("wr").innerText=attempted-correct;
+ document.getElementById("scr").innerText=correct+" / "+total;
+
+// 🔥 LOAD ALL INDIA RANK FROM FIREBASE
+(async ()=>{
+  const q = query(
+    collection(db,"mts_gk_test1"),
+    orderBy("score","desc")
+  );
+
+  const snapshot = await getDocs(q);
+
+  let rt = "<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
+  let i = 1;
+
+  snapshot.forEach(docu=>{
+    let d = docu.data();
+    rt += `<tr>
+      <td>${i++}</td>
+      <td>${d.name}</td>
+      <td>${docu.id}</td>
+      <td>${d.score}</td>
+    </tr>`;
+  });
+
+  document.getElementById("rankTable").innerHTML = rt;
+})();
+
+ document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
+ document.getElementById("naList").innerHTML=naHTML||"None";
+ document.getElementById("reviewList").innerHTML=reviewHTML||"None";
+}
+
+function togglePalette(){
+ document.getElementById("right").classList.toggle("hidden");
+}
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDocs, collection, query, orderBy } 
@@ -67,68 +248,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-window.db=db; window.doc=doc; window.setDoc=setDoc;
-window.getDocs=getDocs; window.collection=collection;
-window.query=query; window.orderBy=orderBy;
+window.db = db;
+window.doc = doc;
+window.setDoc = setDoc;
+window.getDocs = getDocs;
+window.collection = collection;
+window.query = query;
+window.orderBy = orderBy;
 </script>
-
-<script>
-let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
-["Reservation is under which Article?","14","15(4)","16","21",1]
-];
-
-let i=0,ans=[],t=1800;
-
-function startTest(){
- localStorage.cname=cname.value;
- localStorage.croll=croll.value;
- loginBox.style.display="none";
- topbar.style.display="block";
- box.style.display="flex";
- load();
-}
-
-function load(){
- let q=qdata[i];
- qEl.innerText=q[0];
- let o="";
- for(let k=1;k<=4;k++){
-  o+=`<label><input type="radio" onclick="ans[${i}]=${k-1}"> ${q[k]}</label><br>`;
- }
- opt.innerHTML=o;
-}
-
-function next(){i++;load();}
-function prev(){i--;load();}
-
-async function submit(){
- let correct=0;
- for(let j=0;j<qdata.length;j++) if(ans[j]==qdata[j][5]) correct++;
-
- await setDoc(doc(db,"mts_gk_test1",localStorage.croll),{
-  name:localStorage.cname,
-  score:correct,
-  date:new Date()
- });
-
- let q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"));
- let snap=await getDocs(q);
-
- let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
- let r=1;
- snap.forEach(d=>{
-  let x=d.data();
-  rt+=`<tr><td>${r++}</td><td>${x.name}</td><td>${d.id}</td><td>${x.score}</td></tr>`;
- });
-
- rankTable.innerHTML=rt;
- box.style.display="none";
- scoreCard.style.display="block";
- sname.innerText=localStorage.cname;
- sroll.innerText=localStorage.croll;
- scr.innerText=correct;
-}
-</script>
+  
 </body>
+  
 </html>
