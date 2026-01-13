@@ -1,111 +1,193 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>DSSSB MTS GK CBT</title>
+<title>DSSSB CBT</title>
 <style>
 body{font-family:arial;background:#f2f2f2;margin:0}
 header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
 #right{
- position:fixed;top:55px;right:0;width:220px;
- background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
+  position:fixed;
+  top:55px;
+  right:0;
+  width:220px;
+  background:#e9ecef;
+  padding:10px;
+  height:calc(100vh - 55px);
+  overflow-y:auto;
 }
-.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc}
+.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
-.review{background:orange}
-button{padding:10px;margin:5px}
-#loginBox,#resultCard{background:white;padding:20px;text-align:center;margin:20px}
-.stat{font-size:18px;margin:5px}
-.list{background:#f9f9f9;padding:10px;margin:10px;text-align:left}
+.current{border:2px solid red}
+.review{background:orange;color:black}
+.hidden{display:none}
+button{padding:10px 15px;margin:10px}
+#loginBox{
+  background:white;
+  padding:20px;
+  text-align:center;
+}
+@media (max-width:768px){
+  #right{width:100%;left:0;right:0;display:none;}
+  #left{width:100%;}
+}
 </style>
 </head>
 
 <body>
 
 <div id="loginBox">
-<h2>DSSSB Assistant Superintendent – Login</h2>
-<input id="cname" placeholder="Name" style="padding:10px;width:90%"><br><br>
-<input id="croll" placeholder="Roll No" style="padding:10px;width:90%"><br><br>
-<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px">Start Test</button>
+<h2>DSSSB – Candidate Login</h2>
+<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
+<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
+<button onclick="startTest()" style="padding:10px 20px;background:#0b2c4d;color:white;border:none;">Start Test</button>
 </div>
 
-<header id="topbar" style="display:none">
-DSSSB GK CBT
-<span id="timer">30:00</span>
-<button onclick="togglePause()" style="float:right;background:red;color:white;border:none">⏸</button>
+<header style="display:none" id="topbar">
+DSSSB – ENGLISH CBT (20 Questions)
+<button onclick="togglePalette()" style="float:right;margin-left:10px;background:#ffc107;border:none;padding:6px 10px">☰ Questions</button>
+<span id="timer" style="float:right">30:00</span>
 </header>
 
-<div id="box" style="display:none">
+<div id="box" style="display:none;">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
 <button onclick="prev()">Previous</button>
 <button onclick="next()">Next</button>
-<button onclick="mark()">Mark</button>
+<button onclick="mark()">Mark for Review</button>
 <button onclick="submit()">Submit</button>
 </div>
 <div id="right"></div>
 </div>
 
-<div id="resultCard" style="display:none">
-<h2>RESULT</h2>
-<div class="stat">Name: <b id="rname"></b></div>
-<div class="stat">Roll: <b id="rroll"></b></div>
-<div class="stat">Total: <b id="rtotal"></b></div>
-<div class="stat">Attempted: <b id="rattempt"></b></div>
-<div class="stat">Not Attempted: <b id="rnot"></b></div>
-<div class="stat">Correct: <b id="rcorrect"></b></div>
-<div class="stat">Wrong: <b id="rwrong"></b></div>
-<div class="stat">Marked for Review: <b id="rreview"></b></div>
-<h2>Score: <span id="rscore"></span></h2>
+<div id="scoreCard" style="display:none; padding:20px; background:#fff;">
+<h2>RESULT SUMMARY</h2>
+<p>Name: <b id="sname"></b></p>
+<p>Roll No: <b id="sroll"></b></p>
 
-<h3>❌ Wrong Answers</h3>
-<div id="wrongList" class="list"></div>
+<p>Total Questions: <span id="tq"></span></p>
+<p>Attempted: <span id="att"></span></p>
+<p>Not Attempted: <span id="na"></span></p>
+<p>Correct: <span id="cor"></span></p>
+<p>Wrong: <span id="wr"></span></p>
+<h3>Score: <span id="scr"></span></h3>
+
+<hr>
+<h3>🏆 Rank List</h3>
+<table border="1" width="100%" id="rankTable"></table>
+
+<hr>
+<h3>❌ Wrong Questions</h3>
+<div id="wrongList"></div>
 
 <h3>⚪ Not Attempted</h3>
-<div id="naList" class="list"></div>
+<div id="naList"></div>
 
 <h3>🟧 Marked for Review</h3>
-<div id="reviewList" class="list"></div>
+<div id="reviewList"></div>
 
-<button onclick="resetAll()" style="background:#28a745;color:white">New Test</button>
+<button onclick="location.reload()" style="background:#28a745;color:white;border:none;padding:10px 20px;">Start New Test</button>
 </div>
 
 <script>
-let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Sundari trees grow in mangrove forests."],
-["Reservation article?","14","15(4)","16","21",1,"Article 15(4) provides reservation."]
+let qdata = [
+
+/* ---------------- PARAJUMBLE 1 ---------------- */
+["Parts of a sentence are given below. While the first part (S1) is in the correct place, the remaining parts (labelled P, Q, R, S and T) are jumbled up. Arrange the parts in the correct order to form a meaningful and coherent sentence.\n\nS1. Diabetes has long been\nP. a silent epidemic,\nQ. but its roots often\nR. affecting millions worldwide,\nS. than commonly recognised\nT. lie much earlier",
+"PRQTS","PTSQR","PSQTR","PQRST",3,
+"The correct order is PQRST: Diabetes has long been a silent epidemic, affecting millions worldwide, but its roots often lie much earlier than commonly recognised."],
+
+
+/* ---------------- PARAJUMBLE 2 ---------------- */
+["Parts of a sentence are given below in jumbled order. Arrange the parts in the correct order to form a meaningful sentence.\n\nA. connect people and things across the world\nB. digital technologies have evolved from stand-alone projects\nC. and help address personal and global challenges\nD. to networks of tools and programmes that",
+"BDAC","ABDC","DACB","CDAB",0,
+"The correct order is BDAC which makes a complete meaningful sentence."],
+
+
+/* ---------------- FULL PASSAGE (WORD TO WORD) ---------------- */
+["Read the passage carefully and answer the questions that follow.\n\nWhen Tom planned a holiday to England, he wrote to a friend in London, asking him to meet him at the airport. The friend replied that he would be there. However, when Tom arrived, his friend was nowhere to be seen. Surprised, Tom wandered around for a while and, feeling a slight headache, went into the restaurant for a cup of strong black coffee. Feeling better, he bought some magazines and sat in the lounge, though he began to get a little worried about his friend’s absence. Just as he started reading, his friend finally arrived with a young lady and apologised for being late. He explained that he had first arranged to meet the young lady at six o’clock outside the underground station near his home. Since she was unfamiliar with the underground, she accidentally boarded a train going in the wrong direction. The train was crowded, and she could not see the station names, so she traveled several stops before realising her mistake. By the time she corrected it and reached the correct station, she was about forty-five minutes late. This delay caused Tom’s friend to be late to the airport as well.\n\nQ.16 What did Tom do when he felt a slight headache at the airport?",
+"Stood and chatting on phone until his friend arrived",
+"Bought a magazine and sat in the lounge reading it",
+"Went to the restaurant for a cup of strong black coffee",
+"Sat in the lounge and waiting for his friend to meet",
+2,
+"He went to the restaurant for a cup of strong black coffee when he felt a headache."],
+
+
+["Q.17 What was Tom doing when his friend finally arrived?",
+"Drinking coffee",
+"Walking around",
+"Waiting at the entrance",
+"Reading a magazine",
+3,
+"Tom was reading a magazine when his friend arrived."],
+
+
+["Q.18 The structure of the passage can best be described as:",
+"a description of a place with detailed observations",
+"a scientific explanation followed by supporting evidence",
+"a comparison between two journeys with their outcomes",
+"a narrative of an incident, followed by the reason behind it",
+3,
+"The passage narrates an incident and then explains the reason behind it."],
+
+
+["Q.19 What is the central theme of the passage?",
+"The challenges of traveling in a foreign country",
+"The insignificance of punctuality and planning",
+"Misunderstandings and small mistakes cause delays",
+"The excitement of meeting friends after the journey",
+2,
+"The delay was caused by misunderstandings and small mistakes."],
+
+
+["Q.20 Select the option that best represents the tone of the passage.",
+"Informative and factual",
+"Humourous and light-hearted",
+"Sad and melancholic",
+"Suspenseful and anxious",
+1,
+"The passage has a light and humorous tone."]
+
 ];
 
-let i=0, ans=[], t=1800, paused=false, timer;
+
+let i=0, ans=[], t=1800;
+let timer;
 
 function startTest(){
- if(!cname.value||!croll.value) return alert("Enter Name & Roll");
- loginBox.style.display="none";
- topbar.style.display="block";
- box.style.display="flex";
+ let n=document.getElementById("cname").value;
+ let r=document.getElementById("croll").value;
+ if(n==""||r==""){alert("Enter Name & Roll");return;}
+ localStorage.setItem("cname",n);
+ localStorage.setItem("croll",r);
+
+ document.getElementById("loginBox").style.display="none";
+ document.getElementById("topbar").style.display="block";
+ document.getElementById("box").style.display="flex";
+
+ startTimer();
  buildPalette();
  load();
- startTimer();
 }
 
 function startTimer(){
  timer=setInterval(()=>{
-  if(paused) return;
   t--;
-  let m=Math.floor(t/60),s=t%60;
+  let m=Math.floor(t/60), s=t%60;
   document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
-  if(t<=0) submit();
+  if(t==0) submit();
  },1000);
 }
 
-function togglePause(){paused=!paused;}
-
 function buildPalette(){
- let p="";
- for(let j=0;j<qdata.length;j++) p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- right.innerHTML=p;
+ let pal="";
+ for(let j=0;j<qdata.length;j++){
+  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
+ }
+ document.getElementById("right").innerHTML=pal;
 }
 
 function load(){
@@ -113,62 +195,82 @@ function load(){
  document.getElementById("q").innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
-  o+=`<label><input type="radio" onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+  let checked=(ans[i]==k-1)?"checked":"";
+  o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- opt.innerHTML=o;
+ document.getElementById("opt").innerHTML=o;
 }
 
 function sel(x){
  ans[i]=x;
- document.getElementById("b"+i).classList.add("attempted");
+ let btn=document.getElementById("b"+i);
+ btn.classList.add("attempted");
+ btn.classList.remove("review");
 }
 
-function next(){if(i<qdata.length-1){i++;load();}}
-function prev(){if(i>0){i--;load();}}
+function next(){ if(i<qdata.length-1){i++;load();}}
+function prev(){ if(i>0){i--;load();}}
 function go(n){i=n;load();}
-function mark(){document.getElementById("b"+i).classList.add("review");}
+
+function mark(){
+ let btn=document.getElementById("b"+i);
+ btn.classList.add("review");
+}
 
 function submit(){
  clearInterval(timer);
-
- let total=qdata.length, correct=0, attempt=0;
+ let total=qdata.length, correct=0, attempted=0;
  let wrongHTML="", naHTML="", reviewHTML="";
 
  for(let j=0;j<total;j++){
   let q=qdata[j];
-  let ca=q[q[5]+1];
-
+  let correctAns=q[q[5]+1];
   if(ans[j]===undefined){
-    naHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Correct:</b> ${ca}</p>`;
+    naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
   }else{
-    attempt++;
+    attempted++;
     if(ans[j]==q[5]) correct++;
-    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${ca}<br><i>${q[6]}</i></p>`;
+    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
   }
-  if(document.getElementById("b"+j).classList.contains("review")) reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
+  if(document.getElementById("b"+j).classList.contains("review")){
+    reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
+  }
  }
 
- box.style.display="none";
- topbar.style.display="none";
- resultCard.style.display="block";
+ document.getElementById("box").style.display="none";
+ document.getElementById("topbar").style.display="none";
+ document.getElementById("scoreCard").style.display="block";
 
- rname.innerText=cname.value;
- rroll.innerText=croll.value;
- rtotal.innerText=total;
- rattempt.innerText=attempt;
- rnot.innerText=total-attempt;
- rcorrect.innerText=correct;
- rwrong.innerText=attempt-correct;
- rreview.innerText=document.querySelectorAll(".review").length;
- rscore.innerText=correct+" / "+total;
+ document.getElementById("sname").innerText=localStorage.getItem("cname");
+ document.getElementById("sroll").innerText=localStorage.getItem("croll");
 
- wrongList.innerHTML=wrongHTML||"None";
- naList.innerHTML=naHTML||"None";
- reviewList.innerHTML=reviewHTML||"None";
+ document.getElementById("tq").innerText=total;
+ document.getElementById("att").innerText=attempted;
+ document.getElementById("na").innerText=total-attempted;
+ document.getElementById("cor").innerText=correct;
+ document.getElementById("wr").innerText=attempted-correct;
+ document.getElementById("scr").innerText=correct+" / "+total;
+
+ // Rank List
+ let rankData=JSON.parse(localStorage.getItem("rankData")||"[]");
+ rankData.push({name:localStorage.getItem("cname"), roll:localStorage.getItem("croll"), score:correct});
+ rankData.sort((a,b)=>b.score-a.score);
+ localStorage.setItem("rankData",JSON.stringify(rankData));
+
+ let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
+ rankData.forEach((x,i)=>{
+  rt+=`<tr><td>${i+1}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
+ });
+ document.getElementById("rankTable").innerHTML=rt;
+
+ document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
+ document.getElementById("naList").innerHTML=naHTML||"None";
+ document.getElementById("reviewList").innerHTML=reviewHTML||"None";
 }
 
-function resetAll(){location.reload();}
+function togglePalette(){
+ document.getElementById("right").classList.toggle("hidden");
+}
 </script>
-
 </body>
 </html>
