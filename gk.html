@@ -8,20 +8,17 @@ header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
 #right{
-  position:fixed;
-  top:55px;
-  right:0;
-  width:220px;
-  background:#e9ecef;
-  padding:10px;
-  height:calc(100vh - 55px);
-  overflow-y:auto;
+  position:fixed;top:55px;right:0;width:220px;
+  background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;
 }
-.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
+.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc}
 .attempted{background:#4caf50;color:white}
-.review{background:orange;color:black}
+.review{background:orange}
 button{padding:10px;margin:5px}
-#loginBox{background:white;padding:20px;text-align:center;}
+#loginBox,#resultCard{
+ background:white;padding:20px;text-align:center;margin:20px;
+}
+.stat{font-size:18px;margin:5px}
 </style>
 </head>
 
@@ -52,36 +49,33 @@ DSSSB GK CBT
 <div id="right"></div>
 </div>
 
+<div id="resultCard" style="display:none">
+<h2>RESULT SUMMARY</h2>
+<div class="stat">Name: <b id="rname"></b></div>
+<div class="stat">Roll No: <b id="rroll"></b></div>
+<div class="stat">Total Questions: <b id="rtotal"></b></div>
+<div class="stat">Attempted: <b id="rattempt"></b></div>
+<div class="stat">Not Attempted: <b id="rnot"></b></div>
+<div class="stat">Correct: <b id="rcorrect"></b></div>
+<div class="stat">Wrong: <b id="rwrong"></b></div>
+<div class="stat">Marked for Review: <b id="rreview"></b></div>
+<h2>Score: <span id="rscore"></span></h2>
+<button onclick="location.reload()" style="background:#28a745;color:white">New Test</button>
+</div>
+
 <script>
 let qdata=[
 ["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
 ["Reservation article?","14","15(4)","16","21",1]
 ];
 
-let i=parseInt(localStorage.getItem("qIndex"))||0;
-let ans=JSON.parse(localStorage.getItem("answers"))||[];
-let t=parseInt(localStorage.getItem("timeLeft"))||1800;
-let paused=localStorage.getItem("paused")=="true";
-let timer;
+let i=0, ans=[], t=1800, paused=false, timer;
 
 function startTest(){
- let n=cname.value,r=croll.value;
- if(!n||!r) return alert("Enter Name & Roll");
+ if(!cname.value||!croll.value) return alert("Enter name & roll");
+ localStorage.clear();
+ paused=false;
 
- localStorage.setItem("started","yes");
- localStorage.setItem("cname",n);
- localStorage.setItem("croll",r);
- localStorage.setItem("paused","false");
-
- loginBox.style.display="none";
- topbar.style.display="block";
- box.style.display="flex";
- buildPalette();
- load();
- startTimer();
-}
-
-if(localStorage.getItem("started")=="yes"){
  loginBox.style.display="none";
  topbar.style.display="block";
  box.style.display="flex";
@@ -91,20 +85,16 @@ if(localStorage.getItem("started")=="yes"){
 }
 
 function startTimer(){
- if(paused) return;
  timer=setInterval(()=>{
+  if(paused) return;
   t--;
-  localStorage.setItem("timeLeft",t);
   let m=Math.floor(t/60),s=t%60;
   timer.innerText=m+":"+(s<10?"0":"")+s;
   if(t<=0) submit();
  },1000);
 }
 
-function togglePause(){
- if(paused){paused=false;localStorage.setItem("paused","false");startTimer();}
- else{paused=true;localStorage.setItem("paused","true");clearInterval(timer);}
-}
+function togglePause(){paused=!paused;}
 
 function buildPalette(){
  let p="";
@@ -114,56 +104,50 @@ function buildPalette(){
 
 function load(){
  let q=qdata[i];
- qEl=document.getElementById("q");
  qEl.innerText=(i+1)+". "+q[0];
  let o="";
  for(let k=1;k<=4;k++){
-  let c=(ans[i]==k-1)?"checked":"";
-  o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
+  o+=`<label><input type="radio" onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
  opt.innerHTML=o;
 }
 
 function sel(x){
  ans[i]=x;
- localStorage.setItem("answers",JSON.stringify(ans));
- localStorage.setItem("qIndex",i);
  document.getElementById("b"+i).classList.add("attempted");
 }
 
-function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
-function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
-function go(n){i=n;localStorage.setItem("qIndex",i);load();}
+function next(){if(i<qdata.length-1){i++;load();}}
+function prev(){if(i>0){i--;load();}}
+function go(n){i=n;load();}
 function mark(){document.getElementById("b"+i).classList.add("review");}
 
 function submit(){
  clearInterval(timer);
 
- let total=qdata.length, correct=0, wrong=0, attempted=0, notA=0, review=0;
-
+ let total=qdata.length, correct=0, wrong=0, attempt=0, review=0;
  for(let j=0;j<total;j++){
-  if(ans[j]==undefined) notA++;
-  else{
-    attempted++;
-    if(ans[j]==qdata[j][5]) correct++;
-    else wrong++;
+  if(ans[j]!=undefined){
+   attempt++;
+   if(ans[j]==qdata[j][5]) correct++;
+   else wrong++;
   }
   if(document.getElementById("b"+j).classList.contains("review")) review++;
  }
 
- alert(
- "RESULT\n"+
- "Total: "+total+"\n"+
- "Attempted: "+attempted+"\n"+
- "Not Attempted: "+notA+"\n"+
- "Correct: "+correct+"\n"+
- "Wrong: "+wrong+"\n"+
- "Marked for Review: "+review+"\n"+
- "Score: "+correct+" / "+total
- );
+ box.style.display="none";
+ topbar.style.display="none";
+ resultCard.style.display="block";
 
- localStorage.clear();
- location.reload();
+ rname.innerText=cname.value;
+ rroll.innerText=croll.value;
+ rtotal.innerText=total;
+ rattempt.innerText=attempt;
+ rnot.innerText=total-attempt;
+ rcorrect.innerText=correct;
+ rwrong.innerText=wrong;
+ rreview.innerText=review;
+ rscore.innerText=correct+" / "+total;
 }
 </script>
 
