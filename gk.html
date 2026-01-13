@@ -7,142 +7,125 @@ body{font-family:arial;background:#f2f2f2;margin:0}
 header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
 #box{display:flex}
 #left{width:75%;padding:20px;background:#fff}
-#right{
-  position:fixed;
-  top:55px;
-  right:0;
-  width:220px;
-  background:#e9ecef;
-  padding:10px;
-  height:calc(100vh - 55px);
-  overflow-y:auto;
-}
+#right{position:fixed;top:55px;right:0;width:220px;background:#e9ecef;padding:10px;height:calc(100vh - 55px);overflow-y:auto;}
 .qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
 .attempted{background:#4caf50;color:white}
-.current{border:2px solid red}
 .review{background:orange;color:black}
 .hidden{display:none}
 button{padding:10px 15px;margin:10px}
-#loginBox{background:white;padding:20px;text-align:center;}
 </style>
 </head>
 
 <body>
 
 <div id="loginBox">
-<h2>DSSSB Assistant Superintendent – Candidate Login</h2>
-<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
-<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
-<button onclick="startTest()" style="background:#0b2c4d;color:white;padding:10px 20px;border:none;">Start Test</button>
+<h2>DSSSB MTS – Candidate Login</h2>
+<input id="cname" placeholder="Enter Name"><br><br>
+<input id="croll" placeholder="Enter Roll"><br><br>
+<button onclick="startTest()">Start</button>
 </div>
 
 <header id="topbar" style="display:none;">
-DSSSB MTS – GK CBT
-<span id="timer" style="float:right">30:00</span>
-<button onclick="togglePause()" style="float:right;margin-right:10px;background:red;color:white;border:none;">⏸ Pause</button>
+DSSSB MTS GK
+<span id="timer" style="float:right"></span>
 </header>
 
 <div id="box" style="display:none;">
 <div id="left">
 <h3 id="q"></h3>
 <div id="opt"></div>
-<button onclick="prev()">Previous</button>
+<button onclick="prev()">Prev</button>
 <button onclick="next()">Next</button>
-<button onclick="mark()">Mark</button>
 <button onclick="submit()">Submit</button>
 </div>
 <div id="right"></div>
 </div>
 
+<div id="scoreCard" style="display:none">
+<h2>Result</h2>
+<p>Name: <b id="sname"></b></p>
+<p>Roll: <b id="sroll"></b></p>
+<p>Score: <b id="scr"></b></p>
+
+<h3>🏆 All India Rank</h3>
+<table border="1" id="rankTable"></table>
+</div>
+
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove trees"],
-["Reservation article?","14","15(4)","16","21",1,"Article 15(4)"]
+["Capital of India?","Delhi","Mumbai","Kolkata","Chennai",0],
+["PM of India?","Rahul","Modi","Amit","Yogi",1]
 ];
-
-let i=parseInt(localStorage.getItem("qIndex"))||0;
-let ans=JSON.parse(localStorage.getItem("answers"))||[];
-let t=parseInt(localStorage.getItem("timeLeft"))||1800;
-let paused=localStorage.getItem("paused")=="true";
-let timer;
+let i=0,ans=[],t=600,timer;
 
 function startTest(){
- if(!localStorage.getItem("started")){
-  localStorage.setItem("started","yes");
-  localStorage.setItem("timeLeft",t);
-  localStorage.setItem("paused","false");
- }
- document.getElementById("loginBox").style.display="none";
- document.getElementById("topbar").style.display="block";
- document.getElementById("box").style.display="flex";
- buildPalette();
+ localStorage.setItem("cname",cname.value);
+ localStorage.setItem("croll",croll.value);
+ loginBox.style.display="none";
+ topbar.style.display="block";
+ box.style.display="flex";
  load();
- startTimer();
-}
-
-function startTimer(){
- if(paused) return;
- timer=setInterval(()=>{
-  t--;
-  localStorage.setItem("timeLeft",t);
-  let m=Math.floor(t/60),s=t%60;
-  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
-  if(t<=0) submit();
- },1000);
-}
-
-function togglePause(){
- if(paused){
-  paused=false;
-  localStorage.setItem("paused","false");
-  startTimer();
-  alert("Resumed");
- }else{
-  paused=true;
-  localStorage.setItem("paused","true");
-  clearInterval(timer);
-  alert("Paused");
- }
-}
-
-function buildPalette(){
- let p="";
- for(let j=0;j<qdata.length;j++){
-  p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- }
- document.getElementById("right").innerHTML=p;
+ timer=setInterval(()=>{t--;timer.innerText=t;},1000);
 }
 
 function load(){
  let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
+ document.getElementById("q").innerText=q[0];
  let o="";
- for(let k=1;k<=4;k++){
-  let c=(ans[i]==k-1)?"checked":"";
-  o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
- }
- document.getElementById("opt").innerHTML=o;
+ for(let k=1;k<=4;k++)
+ o+=`<label><input type="radio" name="o" onclick="ans[${i}]=${k-1}">${q[k]}</label><br>`;
+ opt.innerHTML=o;
 }
-
-function sel(x){
- ans[i]=x;
- localStorage.setItem("answers",JSON.stringify(ans));
- localStorage.setItem("qIndex",i);
- document.getElementById("b"+i).classList.add("attempted");
-}
-
-function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
-function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
-function go(n){i=n;localStorage.setItem("qIndex",i);load();}
-
-function mark(){document.getElementById("b"+i).classList.add("review");}
+function next(){i++;load()}
+function prev(){i--;load()}
 
 function submit(){
  clearInterval(timer);
- localStorage.clear();
- alert("Test Submitted");
- location.reload();
+ let correct=0;
+ for(let j=0;j<qdata.length;j++)
+ if(ans[j]==qdata[j][5]) correct++;
+
+ sname.innerText=localStorage.getItem("cname");
+ sroll.innerText=localStorage.getItem("croll");
+ scr.innerText=correct+"/"+qdata.length;
+
+ setDoc(doc(db,"mts_gk_test1",localStorage.getItem("croll")),{
+  name:localStorage.getItem("cname"),
+  score:correct,
+  date:new Date()
+ });
+
+ loadRank();
+ scoreCard.style.display="block";
 }
 </script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getFirestore,doc,setDoc,getDocs,collection,query,orderBy }
+from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+const app=initializeApp({
+ apiKey:"AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
+ authDomain:"dsssb-all-india-rank.firebaseapp.com",
+ projectId:"dsssb-all-india-rank"
+});
+
+const db=getFirestore(app);
+window.db=db; window.doc=doc; window.setDoc=setDoc;
+
+window.loadRank=async ()=>{
+ const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"));
+ const snap=await getDocs(q);
+ let rt="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
+ let i=1;
+ snap.forEach(d=>{
+  let x=d.data();
+  rt+=`<tr><td>${i++}</td><td>${x.name}</td><td>${d.id}</td><td>${x.score}</td></tr>`;
+ });
+ rankTable.innerHTML=rt;
+}
+</script>
+
 </body>
 </html>
