@@ -58,19 +58,17 @@ DSSSB GK CBT
 
 <script>
 let qdata=[
-["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0,"Mangrove forests"],
-["Reservation article?","14","15(4)","16","21",1,"Article 15(4)"]
+["Sundari trees are found in?","Mangrove","Coniferous","Deciduous","None",0],
+["Reservation article?","14","15(4)","16","21",1]
 ];
 
-let i = parseInt(localStorage.getItem("qIndex")) || 0;
-let ans = JSON.parse(localStorage.getItem("answers")) || [];
-let t = parseInt(localStorage.getItem("timeLeft")) || 1800;
-let paused = localStorage.getItem("paused") === "true";
-let interval = null;
+let i=parseInt(localStorage.getItem("qIndex"))||0;
+let ans=JSON.parse(localStorage.getItem("answers"))||[];
+let t=parseInt(localStorage.getItem("timeLeft"))||1800;
+let paused=localStorage.getItem("paused")==="true";
+let interval=null;
 
-updateTimerUI();
-
-// 🔁 AUTO RESUME
+// AUTO RESUME
 if(localStorage.getItem("cname")){
  loginBox.style.display="none";
  topbar.style.display="block";
@@ -78,10 +76,12 @@ if(localStorage.getItem("cname")){
  buildPalette();
  load();
  startTimer();
+ updateTimerUI();
 }
 
 function startTest(){
- if(!cname.value || !croll.value) return alert("Enter name & roll");
+ if(!cname.value||!croll.value) return alert("Enter name & roll");
+
  localStorage.setItem("cname",cname.value);
  localStorage.setItem("croll",croll.value);
  localStorage.setItem("paused","false");
@@ -93,9 +93,10 @@ function startTest(){
  buildPalette();
  load();
  startTimer();
+ updateTimerUI();
 }
 
-// ===== TIMER =====
+// TIMER
 function startTimer(){
  clearInterval(interval);
  interval=setInterval(()=>{
@@ -109,8 +110,8 @@ function startTimer(){
 }
 
 function updateTimerUI(){
- let m=Math.floor(t/60), s=t%60;
- document.getElementById("timer").innerText = m+":"+(s<10?"0":"")+s;
+ let m=Math.floor(t/60),s=t%60;
+ document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
 }
 
 function togglePause(){
@@ -118,13 +119,13 @@ function togglePause(){
  localStorage.setItem("paused",paused);
 }
 
-// ===== QUESTIONS =====
+// QUESTIONS
 function buildPalette(){
  let p="";
  for(let j=0;j<qdata.length;j++){
   p+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
  }
- document.getElementById("right").innerHTML=p;
+ right.innerHTML=p;
 }
 
 function load(){
@@ -135,7 +136,7 @@ function load(){
   let c=(ans[i]==k-1)?"checked":"";
   o+=`<label><input type="radio" ${c} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
  }
- document.getElementById("opt").innerHTML=o;
+ opt.innerHTML=o;
 }
 
 function sel(x){
@@ -145,12 +146,12 @@ function sel(x){
  document.getElementById("b"+i).classList.add("attempted");
 }
 
-function next(){ if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();} }
-function prev(){ if(i>0){i--;localStorage.setItem("qIndex",i);load();} }
-function go(n){ i=n;localStorage.setItem("qIndex",i);load(); }
-function mark(){ document.getElementById("b"+i).classList.add("review"); }
+function next(){if(i<qdata.length-1){i++;localStorage.setItem("qIndex",i);load();}}
+function prev(){if(i>0){i--;localStorage.setItem("qIndex",i);load();}}
+function go(n){i=n;localStorage.setItem("qIndex",i);load();}
+function mark(){document.getElementById("b"+i).classList.add("review");}
 
-// ===== SUBMIT =====
+// SUBMIT
 async function submit(){
  clearInterval(interval);
 
@@ -165,18 +166,21 @@ async function submit(){
  topbar.style.display="none";
  scoreCard.style.display="block";
 
- await setDoc(doc(db,"mts_gk_test1",sroll.innerText),{
+ await addDoc(collection(db,"mts_gk_test1"),{
    name:sname.innerText,
+   roll:sroll.innerText,
    score:correct,
    timeLeft:t,
-   total:qdata.length
+   total:qdata.length,
+   ts:Date.now()
  });
 
  const q=query(collection(db,"mts_gk_test1"),orderBy("score","desc"),orderBy("timeLeft","desc"));
  const snap=await getDocs(q);
- let r=1,html="<tr><th>Rank</th><th>Name</th><th>Score</th></tr>";
+ let r=1,html="<tr><th>Rank</th><th>Name</th><th>Roll</th><th>Score</th></tr>";
  snap.forEach(d=>{
-  html+=`<tr><td>${r++}</td><td>${d.data().name}</td><td>${d.data().score}</td></tr>`;
+  let x=d.data();
+  html+=`<tr><td>${r++}</td><td>${x.name}</td><td>${x.roll}</td><td>${x.score}</td></tr>`;
  });
  rankTable.innerHTML=html;
 
@@ -186,17 +190,21 @@ async function submit(){
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getFirestore, addDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const app=initializeApp({
- apiKey: "AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
- authDomain: "dsssb-all-india-rank.firebaseapp.com",
- projectId: "dsssb-all-india-rank"
+ apiKey:"AIzaSyCnz5Jnxka9hOEPCtBVFfN8Zq4UrqS9Ots",
+ authDomain:"dsssb-all-india-rank.firebaseapp.com",
+ projectId:"dsssb-all-india-rank"
 });
 const db=getFirestore(app);
 
-window.db=db; window.doc=doc; window.setDoc=setDoc;
-window.getDocs=getDocs; window.collection=collection; window.query=query; window.orderBy=orderBy;
+window.db=db;
+window.addDoc=addDoc;
+window.getDocs=getDocs;
+window.collection=collection;
+window.query=query;
+window.orderBy=orderBy;
 </script>
 
 </body>
