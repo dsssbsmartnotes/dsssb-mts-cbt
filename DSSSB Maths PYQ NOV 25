@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DSSSB PYQ MATHS NOV 25 – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+body{font-family:Arial;background:#f5f7fa;margin:0;padding-bottom:90px}
+header{background:#fff;padding:10px;display:flex;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+#timer{margin-right:40px;font-weight:bold;color:#2196f3}
+.card{background:#fff;margin:10px;padding:12px;border-radius:10px}
+.opt{border:1px solid #ddd;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer}
+.opt.sel{border-color:#2196f3;background:#e3f2fd}
+.opt.correct{background:#c8f7c5;border-color:#1f9e5a}
+.opt.wrong{background:#ffcdd2;border-color:#c82d3f}
+button{background:#2196f3;color:white;border:none;padding:10px 14px;border-radius:6px}
+
+/* Watermark */
+.watermark{position:fixed;inset:0;pointer-events:none;z-index:1}
+.wm{position:absolute;font-size:28px;font-weight:700;color:rgba(0,0,0,.05);transform:rotate(-30deg)}
+
+/* Palette */
+#palettePanel{
+ position:fixed;top:0;right:-260px;width:260px;height:100%;
+ background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);
+ padding:10px;transition:.3s;z-index:1000
+}
+#palettePanel.show{right:0}
+.qbtn{width:40px;height:40px;margin:4px;border-radius:6px;border:1px solid #888;font-weight:bold}
+.qbtn.answered{background:#2196f3;color:white}
+.qbtn.review{background:orange;color:white}
+.qbtn.correct{background:#1f9e5a;color:white}
+.qbtn.wrong{background:#c82d3f;color:white}
+
+/* Telegram Popup */
+#tgPopup{
+ position:fixed;
+ top:50%;
+ left:45%;
+ transform:translate(-50%,-50%);
+ background:#fff;
+ padding:20px;
+ width:300px;
+ border-radius:12px;
+ box-shadow:0 20px 60px rgba(0,0,0,.4);
+ display:none;
+ z-index:9999;
+ text-align:center
+}
+#tgPopup a{
+ display:block;
+ background:#0088cc;
+ color:#fff;
+ padding:10px;
+ border-radius:8px;
+ text-decoration:none;
+ margin-top:10px;
+ font-weight:bold
+}
+</style>
+</head>
+
+<body onload="showTg()">
+
+<div id="tgPopup">
+ <b>Join DSSSB Smart Notes</b><br>
+ Get Daily Mock Tests & PDFs
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a>
+ <br><br>
+ <button onclick="closeTg()">Continue Test</button>
+</div>
+
+<div class="watermark">
+ <div class="wm" style="top:10%;left:5%">DSSSB SMART NOTES</div>
+ <div class="wm" style="top:40%;left:60%">DSSSB SMART NOTES</div>
+ <div class="wm" style="top:70%;left:20%">DSSSB SMART NOTES</div>
+</div>
+
+<header>
+ <b>DSSSB MATHS PYQ – DSSSB Smart Notes</b>
+ <div id="timer">00:00</div>
+</header>
+
+<div class="card">
+<input id="stuName" placeholder="Enter Your Name" required
+ style="width:100%;padding:10px;border-radius:6px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+<div><b>Q <span id="qno"></span>/<span id="total"></span></b></div>
+<div id="qtext"></div>
+<div id="opts"></div>
+<button onclick="markReview()">⭐ Mark Review</button>
+<div id="expBox" style="display:none;background:#eef;padding:10px;margin-top:8px;border-radius:6px"></div>
+<button id="expBtn" onclick="toggleExp()" style="display:none">📘 Show / Hide Solution</button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;gap:10px">
+<button onclick="prev()">Prev</button>
+<button onclick="next()">Next</button>
+<button onclick="togglePalette()">Palette</button>
+<button onclick="submit()">Submit</button>
+</div>
+
+<script>
+const TELEGRAM_BOT_TOKEN = "8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID = "@dsssbcbtresult";
+
+function sendResultToTelegram(name, score, correct, wrong, skip, time){
+ const msg =
+"📘 DSSSB Maths CBT Result\n\n" +
+"👤 Name: " + name + "\n" +
+"⏱ Time: " + time + "\n" +
+"✅ Correct: " + correct + "\n" +
+"❌ Wrong: " + wrong + "\n" +
+"➖ Skipped: " + skip + "\n" +
+"🎯 Score: " + score + "\n\n" +
+"🔥 DSSSB Smart Notes";
+
+ fetch("https://api.telegram.org/bot"+TELEGRAM_BOT_TOKEN+"/sendMessage",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+    chat_id:TELEGRAM_CHAT_ID,
+    text:msg
+  })
+ });
+}
+
+const NEGATIVE_MARK = 0.25;
+
+const QUESTIONS = [
+{
+  q: "X व्यक्तियों को किसी कार्य को 22 दिनों में पूरा करने का ठेका दिया गया। 7 व्यक्ति बीमारी के कारण काम पर नहीं आए, तथा शेष व्यक्तियों ने 44 दिनों में कार्य पूरा कर लिया। X का मान ज्ञात कीजिए।\nA group of X persons was assigned a work to be completed in 22 days. 7 persons did not come due to illness and the remaining completed the work in 44 days. Find X.",
+  o: ["14","13","17","9"],
+  a: 0
+},
+{
+  q: "एक कार 40 km की दूरी 20 km/hr की चाल से, फिर 60 km की दूरी 30 km/hr की चाल से और फिर 50 km की दूरी 25 km/hr की चाल से तय करती है। संपूर्ण यात्रा की औसत चाल ज्ञात कीजिए।\nA car travels 40 km at 20 km/h, 60 km at 30 km/h and 50 km at 25 km/h. Find the average speed of the whole journey.",
+  o: ["25 km/hr","23 km/hr","30 km/hr","27 km/hr"],
+  a: 0
+},
+{
+  q: "140 संतरे ₹280 की दर से खरीदे जाते हैं और ₹60 प्रति दर्जन की दर से बेचे जाते हैं। लाभ प्रतिशत ज्ञात कीजिए।\n140 oranges are bought for ₹280 and sold at ₹60 per dozen. Find the profit percentage.",
+  o: ["120%","130%","140%","150%"],
+  a: 3
+},
+{
+  q: "एक त्रिभुज की भुजाओं का अनुपात 3 : 2 : 4 है और इसका परिमाप 18 cm भुजा वाले एक वर्ग के परिमाप के बराबर है। त्रिभुज की सबसे बड़ी और सबसे छोटी भुजा के बीच का अंतर ज्ञात कीजिए।\nThe sides of a triangle are in the ratio 3:2:4 and its perimeter equals that of a square of side 18 cm. Find the difference between the largest and smallest sides.",
+  o: ["17 cm","19 cm","18 cm","16 cm"],
+  a: 3
+},
+{
+  q: "किसी व्यक्ति को एक वस्तु ₹475 में बेचने पर 5% की हानि होती है। यदि वह उसे ₹490 में बेचता है, तो उसका लाभ/हानि प्रतिशत ज्ञात कीजिए।\nA man incurs 5% loss when he sells an article for ₹475. If he sells it for ₹490, find the profit or loss percentage.",
+  o: ["Profit 1%","Profit 0.5%","Loss 1%","Loss 2%"],
+  a: 3
+},
+{
+  q: "एक घनाभ की तीन फलकों का क्षेत्रफल जो एक ही शीर्ष पर मिलते हैं क्रमशः 48, 72 और 96 cm² है। घनाभ का आयतन ज्ञात कीजिए।\nThe areas of three faces of a cuboid meeting at a vertex are 48, 72 and 96 cm². Find its volume.",
+  o: ["588 cm³","548 cm³","576 cm³","520 cm³"],
+  a: 2
+},
+{
+  q: "एक सम पंचभुज की प्रत्येक भुजा में 2 cm की वृद्धि की जाती है और बढ़ा हुआ परिमाप 60 cm हो जाता है। प्रारम्भिक भुजा ज्ञात कीजिए।\nEach side of a regular pentagon is increased by 2 cm and the new perimeter becomes 60 cm. Find the original side.",
+  o: ["14 cm","10 cm","12 cm","8 cm"],
+  a: 1
+},
+{
+  q: "2.1 cm त्रिज्या वाले एक कंचे का पृष्ठीय क्षेत्रफल ज्ञात कीजिए। (π का उपयोग करें)\nFind the surface area of a marble of radius 2.1 cm.",
+  o: ["27.72 cm²","88.25 cm²","38.50 cm²","55.44 cm²"],
+  a: 3
+},
+{
+  q: "A किसी कार्य को 9 दिनों में कर सकता है। 3 दिनों तक अकेले काम करने के बाद कितना कार्य शेष रहेगा?\nA can do a work in 9 days. After working alone for 3 days, what part of the work remains?",
+  o: ["2/3","1/3","5/9","4/9"],
+  a: 0
+},
+{
+  q: "धातु की तीन छड़ों का भार 12 kg, 18 kg और 30 kg है। चौथी छड़ का भार ज्ञात करें ताकि सभी समानुपात में हों।\nThe weights of three metal rods are 12 kg, 18 kg and 30 kg. Find the fourth so that they are in proportion.",
+  o: ["42 kg","45 kg","51 kg","48 kg"],
+  a: 1
+},
+{
+  q: "₹1330 को 312 बच्चों में इस प्रकार बाँटा गया कि प्रत्येक लड़की को ₹5 और प्रत्येक लड़के को ₹4 मिले। लड़कों की संख्या ज्ञात कीजिए।\n₹1330 is distributed among 312 children such that each girl gets ₹5 and each boy ₹4. Find the number of boys.",
+  o: ["290","270","250","230"],
+  a: 3
+},
+{
+  q: "24 km/hr की चाल से चल रही ट्रेन A, विपरीत दिशा में 18 km/hr की चाल से चल रही ट्रेन B को 33 सेकंड में पार करती है। B की लंबाई A की 1.5 गुना है। B ट्रेन 62 सेकंड में एक पुल पार करती है। पुल की लंबाई ज्ञात कीजिए।\nTrain A (24 km/h) crosses Train B (18 km/h) in opposite direction in 33 s. B is 1.5 times A. B crosses a bridge in 62 s. Find bridge length.",
+  o: ["79 m","149 m","238 m","241 m"],
+  a: 0
+},
+{
+  q: "तीन मित्र X, Y और Z ने 6:3:8 के अनुपात में निवेश किया। 6 महीने बाद X अपनी आधी राशि निकाल लेता है। यदि Z ने ₹68,000 निवेश किया तो कुल लाभ ₹62,000 में X और Y के लाभ का अंतर ज्ञात कीजिए।\nThree friends X, Y and Z invest in 6:3:8. After 6 months X withdraws half. Z invested ₹68,000. Find difference of profit of X and Y from total profit ₹62,000.",
+  o: ["₹7,965","₹7,760","₹6,000","₹7,020"],
+  a: 2
+},
+{
+  q: "एक दुकानदार एक जोड़ी जूते 28% छूट पर बेचता है और फिर भी 15% लाभ कमाता है। यदि क्रय मूल्य ₹1080 है तो अंकित मूल्य ज्ञात कीजिए।\nA shopkeeper gives 28% discount and still gains 15%. If cost price is ₹1080, find marked price.",
+  o: ["₹1800","₹2000","₹1700","₹1900"],
+  a: 3
+},
+{
+  q: "450, 600 और 750 का चतुर्थानुपाती ज्ञात कीजिए।\nFind the fourth proportional to 450, 600 and 750.",
+  o: ["1000","500","1500","2000"],
+  a: 0
+},
+{
+  q: "11 cm त्रिज्या और 33 cm ऊँचाई वाले ठोस बेलन का संपूर्ण पृष्ठीय क्षेत्रफल कितना है?\nFind the total surface area of a solid cylinder of radius 11 cm and height 33 cm.",
+  o: ["949π","1040π","907π","968π"],
+  a: 3
+},
+{
+  q: "₹5000 अंकित मूल्य वाली वस्तु पर 10% और 20% की दो क्रमिक छूट दी जाती है। विक्रय मूल्य ज्ञात कीजिए।\nAn article of marked price ₹5000 is given successive discounts of 10% and 20%. Find the selling price.",
+  o: ["₹3800","₹3700","₹3600","₹4000"],
+  a: 2
+},
+{
+  q: "7 cm त्रिज्या और 9 cm ऊँचाई वाले शंकु का आयतन ज्ञात कीजिए। (π लें)\nFind the volume of a cone of radius 7 cm and height 9 cm.",
+  o: ["308 cm³","440 cm³","924 cm³","462 cm³"],
+  a: 3
+},
+{
+  q: "एक घन की प्रत्येक भुजा 7 cm है। उसका आयतन ज्ञात कीजिए।\nEach edge of a cube is 7 cm. Find its volume.",
+  o: ["320 cm³","288 cm³","216 cm³","343 cm³"],
+  a: 3
+},
+{
+  q: "दो प्रतिलोम शंक्वाकार पात्रों की त्रिज्या 14 cm और ऊँचाई 21 cm है। पहले को आधी ऊँचाई तक और दूसरे को पूरा भरा जाता है। जल के आयतन का अनुपात ज्ञात कीजिए।\nTwo inverted cones have same radius 14 cm and height 21 cm. One is filled to half height and other full. Find the ratio of volumes.",
+  o: ["1 : 6","1 : 10","1 : 4","1 : 8"],
+  a: 3
+
+}
+];
+
+let i=0,submitted=false;
+let ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false);
+let totalTime=0;
+
+document.getElementById("total").innerText=QUESTIONS.length;
+
+setInterval(()=>{
+ if(submitted) return;
+ totalTime++;
+ let m=Math.floor(totalTime/60), s=totalTime%60;
+ document.getElementById("timer").innerText =
+  m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
+
+function showTg(){ document.getElementById("tgPopup").style.display="block"; }
+function closeTg(){ document.getElementById("tgPopup").style.display="none"; }
+
+function load(){
+ let q=QUESTIONS[i];
+ document.getElementById("qno").innerText=i+1;
+ document.getElementById("qtext").innerText=q.q;
+ document.getElementById("expBox").innerText=q.exp;
+ document.getElementById("expBox").style.display="none";
+
+ let html="";
+ q.o.forEach((op,idx)=>{
+  let cls="";
+  if(submitted){
+    if(idx===q.a) cls="correct";
+    else if(ans[i]===idx) cls="wrong";
+  } else if(ans[i]===idx) cls="sel";
+  html+=`<div class="opt ${cls}" onclick="sel(${idx})">${op}</div>`;
+ });
+ document.getElementById("opts").innerHTML=html;
+ drawPalette();
+}
+
+function sel(x){ if(!submitted){ans[i]=x;load();} }
+function next(){if(i<QUESTIONS.length-1){i++;load();}}
+function prev(){if(i>0){i--;load();}}
+function markReview(){review[i]=!review[i];drawPalette();}
+function togglePalette(){ document.getElementById("palettePanel").classList.toggle("show"); }
+function toggleExp(){
+ let b=document.getElementById("expBox");
+ b.style.display=b.style.display==="none"?"block":"none";
+}
+
+function drawPalette(){
+ let p="";
+ for(let k=0;k<QUESTIONS.length;k++){
+  let c=ans[k]!=null?"answered":"";
+  let r=review[k]?"review":"";
+  let rw="";
+  if(submitted){
+    if(ans[k]===QUESTIONS[k].a) rw="correct";
+    else rw="wrong";
+  }
+  p+=`<button class="qbtn ${c} ${r} ${rw}" onclick="i=${k};load()">${k+1}</button>`;
+ }
+ document.getElementById("palette").innerHTML=p;
+}
+
+function submit(){
+ let name = document.getElementById("stuName").value.trim();
+ if(name===""){
+  alert("Please enter your name before submitting");
+  document.getElementById("stuName").focus();
+  return;
+ }
+
+ submitted=true;
+ showTg();
+
+ let score=0,correct=0,wrong=0,skip=0;
+ QUESTIONS.forEach((q,idx)=>{
+  if(ans[idx]==null) skip++;
+  else if(ans[idx]===q.a){score++;correct++;}
+  else{score-=NEGATIVE_MARK;wrong++;}
+ });
+
+ let t=document.getElementById("timer").innerText;
+
+ document.getElementById("result").innerHTML=
+  `<h3>Result</h3>
+   Name: ${name}<br>
+   Correct: ${correct}<br>
+   Wrong: ${wrong}<br>
+   Skipped: ${skip}<br>
+   <b>Final Score: ${score.toFixed(2)}</b>`;
+ document.getElementById("result").style.display="block";
+ document.getElementById("expBtn").style.display="block";
+
+ sendResultToTelegram(name,score.toFixed(2),correct,wrong,skip,t);
+ load();
+}
+
+load();
+</script>
+
+</body>
+</html>
