@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DSSSB PYQ ENGLISH NOV 25 – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+body{font-family:Arial;background:#f5f7fa;margin:0;padding-bottom:90px}
+header{background:#fff;padding:10px;display:flex;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+#timer{margin-right:40px;font-weight:bold;color:#2196f3}
+.card{background:#fff;margin:10px;padding:12px;border-radius:10px}
+.opt{border:1px solid #ddd;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer}
+.opt.sel{border-color:#2196f3;background:#e3f2fd}
+.opt.correct{background:#c8f7c5;border-color:#1f9e5a}
+.opt.wrong{background:#ffcdd2;border-color:#c82d3f}
+button{background:#2196f3;color:white;border:none;padding:10px 14px;border-radius:6px}
+
+.watermark{position:fixed;inset:0;pointer-events:none;z-index:1}
+.wm{position:absolute;font-size:28px;font-weight:700;color:rgba(0,0,0,.05);transform:rotate(-30deg)}
+
+#palettePanel{
+ position:fixed;top:0;right:-260px;width:260px;height:100%;
+ background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);
+ padding:10px;transition:.3s;z-index:1000
+}
+#palettePanel.show{right:0}
+.qbtn{width:40px;height:40px;margin:4px;border-radius:6px;border:1px solid #888;font-weight:bold}
+.qbtn.answered{background:#2196f3;color:white}
+.qbtn.review{background:orange;color:white}
+.qbtn.correct{background:#1f9e5a;color:white}
+.qbtn.wrong{background:#c82d3f;color:white}
+
+#tgPopup{
+ position:fixed;top:50%;left:45%;transform:translate(-50%,-50%);
+ background:#fff;padding:20px;width:300px;border-radius:12px;
+ box-shadow:0 20px 60px rgba(0,0,0,.4);display:none;z-index:9999;text-align:center
+}
+#tgPopup a{
+ display:block;background:#0088cc;color:#fff;padding:10px;border-radius:8px;
+ text-decoration:none;margin-top:10px;font-weight:bold
+}
+</style>
+</head>
+
+<body onload="showTg()">
+
+<div id="tgPopup">
+ <b>Join DSSSB Smart Notes</b><br>
+ Get Daily Mock Tests & PDFs
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a>
+ <br><br>
+ <button onclick="closeTg()">Continue Test</button>
+</div>
+
+<header>
+ <b>DSSSB English PYQ – DSSSB Smart Notes</b>
+ <div id="timer">00:00</div>
+</header>
+
+<div class="card">
+<input id="stuName" placeholder="Enter Your Name" required
+ style="width:100%;padding:10px;border-radius:6px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+<div><b>Q <span id="qno"></span>/<span id="total"></span></b></div>
+<div id="qtext"></div>
+<div id="opts"></div>
+<button onclick="markReview()">⭐ Mark Review</button>
+<div id="expBox" style="display:none;background:#eef;padding:10px;margin-top:8px;border-radius:6px"></div>
+<button id="expBtn" onclick="toggleExp()" style="display:none">📘 Show / Hide Solution</button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;gap:10px">
+<button onclick="prev()">Prev</button>
+<button onclick="next()">Next</button>
+<button onclick="togglePalette()">Palette</button>
+<button onclick="submit()">Submit</button>
+</div>
+
+<!-- ================= FIREBASE ================= -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+var firebaseConfig = {
+ apiKey: "AIzaSyBVaSgp3aUWmVcIj6XiUyRh64hfgGmHIw",
+ authDomain: "dsssb-cbt.firebaseapp.com",
+ projectId: "dsssb-cbt",
+ storageBucket: "dsssb-cbt.appspot.com",
+ messagingSenderId: "14625387674",
+ appId: "1:14625387674:web:3bfeaaca2391b2524ddb23"
+};
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
+
+function saveResultToFirebase(name, score, correct, wrong, skip, time){
+ db.ref("results/DSSSB_ENGLISH_PYQ_NOV25").push({
+  name, score, correct, wrong, skip, time,
+  timestamp: Date.now()
+ });
+}
+</script>
+<!-- ============================================ -->
+
+<script>
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+const NEGATIVE_MARK=0.25;
+
+const QUESTIONS=[
+{q:"Each edge of a cube is 7 cm. Find its volume.",o:["320","288","216","343"],a:3},
+{q:"Two cones filled half & full. Ratio?",o:["1:6","1:10","1:4","1:8"],a:3}
+];
+
+let i=0,submitted=false,ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false),totalTime=0;
+
+document.getElementById("total").innerText=QUESTIONS.length;
+
+setInterval(()=>{
+ if(submitted)return;
+ totalTime++;
+ let m=Math.floor(totalTime/60),s=totalTime%60;
+ document.getElementById("timer").innerText=
+ m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
+
+function showTg(){tgPopup.style.display="block"}
+function closeTg(){tgPopup.style.display="none"}
+
+function load(){
+ let q=QUESTIONS[i];
+ qno.innerText=i+1;
+ qtext.innerText=q.q;
+ let h="";
+ q.o.forEach((op,idx)=>{
+  let c=ans[i]===idx?"sel":"";
+  h+=`<div class="opt ${c}" onclick="sel(${idx})">${op}</div>`;
+ });
+ opts.innerHTML=h;
+}
+function sel(x){if(!submitted){ans[i]=x;load()}}
+function next(){if(i<QUESTIONS.length-1){i++;load()}}
+function prev(){if(i>0){i--;load()}}
+function submit(){
+ let name=stuName.value.trim();
+ if(!name){alert("Enter name");return}
+ submitted=true;
+ let score=0,c=0,w=0,s=0;
+ QUESTIONS.forEach((q,k)=>{
+  if(ans[k]==null)s++;
+  else if(ans[k]===q.a){score++;c++}
+  else{score-=NEGATIVE_MARK;w++}
+ });
+ let t=timer.innerText;
+ result.innerHTML=`<b>Score: ${score.toFixed(2)}</b>`;
+ result.style.display="block";
+ saveResultToFirebase(name,score.toFixed(2),c,w,s,t);
+}
+load();
+</script>
+
+</body>
+</html>
