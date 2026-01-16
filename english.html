@@ -1,338 +1,473 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<title>DSSSB MTS English CBT</title>
+<meta charset="utf-8">
+<title>DSSSB PYQ ENGLISH NOV 25 – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <style>
-body{font-family:arial;background:#f2f2f2;margin:0}
-header{background:#0b2c4d;color:#fff;padding:15px;font-size:22px}
-#box{display:flex}
-#left{width:75%;padding:20px;background:#fff}
-#right{
-  position:fixed;
-  top:55px;
-  right:0;
-  width:220px;
-  background:#e9ecef;
-  padding:10px;
-  height:calc(100vh - 55px);
-  overflow-y:auto;
+body{font-family:Arial;background:#f5f7fa;margin:0;padding-bottom:90px}
+header{background:#fff;padding:10px;display:flex;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+#timer{margin-right:40px;font-weight:bold;color:#2196f3}
+.card{background:#fff;margin:10px;padding:12px;border-radius:10px}
+.opt{border:1px solid #ddd;padding:10px;margin:6px 0;border-radius:6px;cursor:pointer}
+.opt.sel{border-color:#2196f3;background:#e3f2fd}
+.opt.correct{background:#c8f7c5;border-color:#1f9e5a}
+.opt.wrong{background:#ffcdd2;border-color:#c82d3f}
+button{background:#2196f3;color:white;border:none;padding:10px 14px;border-radius:6px}
+
+/* Watermark */
+.watermark{position:fixed;inset:0;pointer-events:none;z-index:1}
+.wm{position:absolute;font-size:28px;font-weight:700;color:rgba(0,0,0,.05);transform:rotate(-30deg)}
+
+/* ===== PALETTE ===== */
+#palettePanel{
+ position:fixed;top:0;right:-260px;width:260px;height:100%;
+ background:#fff;box-shadow:-4px 0 20px rgba(0,0,0,.15);
+ padding:10px;transition:.3s;z-index:1000
 }
-.qbtn{width:40px;height:40px;margin:5px;border:none;background:#ccc;cursor:pointer}
-.attempted{background:#4caf50;color:white}
-.current{border:2px solid red}
-.review{background:orange;color:black}
-.hidden{display:none}
-button{padding:10px 15px;margin:10px}
-#loginBox{
-  background:white;
-  padding:20px;
-  text-align:center;
+#palettePanel.show{right:0}
+
+.qbtn{
+ width:40px;height:40px;margin:4px;border-radius:6px;
+ border:1px solid #888;font-weight:bold;
+ background:#2196f3;color:#fff
 }
-@media (max-width:768px){
-  #right{width:100%;left:0;right:0;display:none;}
-  #left{width:100%;}
+.qbtn.visited{background:#c62828}        /* Red */
+.qbtn.answered{background:#2e7d32}       /* Green */
+.qbtn.review{background:#f9a825}         /* Yellow */
+.qbtn.answered.review{background:#ef6c00}/* Orange */
+.qbtn.correct{background:#1f9e5a}
+.qbtn.wrong{background:#c82d3f}
+
+/* Telegram Popup */
+#tgPopup{
+ position:fixed;
+ top:50%;
+ left:45%;
+ transform:translate(-50%,-50%);
+ background:#fff;
+ padding:20px;
+ width:300px;
+ border-radius:12px;
+ box-shadow:0 20px 60px rgba(0,0,0,.4);
+ display:none;
+ z-index:9999;
+ text-align:center
+}
+#tgPopup a{
+ display:block;
+ background:#0088cc;
+ color:#fff;
+ padding:10px;
+ border-radius:8px;
+ text-decoration:none;
+ margin-top:10px;
+ font-weight:bold
 }
 </style>
 </head>
 
-<body>
+<body onload="showTg()">
 
-<div id="loginBox">
-<h2>DSSSB MTS – Candidate Login</h2>
-<input id="cname" placeholder="Enter Name" style="padding:10px;width:90%;"><br><br>
-<input id="croll" placeholder="Enter Roll Number" style="padding:10px;width:90%;"><br><br>
-<input id="telegram" placeholder="Enter Telegram Username (without @)" style="padding:10px;width:90%;"><br><br>
-  
-<button onclick="startTest()" style="padding:10px 20px;background:#0b2c4d;color:white;border:none;">Start Test</button>
+<div id="tgPopup">
+ <b>Join DSSSB Smart Notes</b><br>
+ Get Daily Mock Tests & PDFs
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a>
+ <br><br>
+ <button onclick="closeTg()">Continue Test</button>
 </div>
 
-<header style="display:none" id="topbar">
-DSSSB MTS – English Language CBT (20 Questions)
-<button onclick="togglePalette()" style="float:right;margin-left:10px;background:#ffc107;border:none;padding:6px 10px">☰ Questions</button>
-<span id="timer" style="float:right">30:00</span>
+<div class="watermark">
+ <div class="wm" style="top:10%;left:5%">DSSSB SMART NOTES</div>
+ <div class="wm" style="top:40%;left:60%">DSSSB SMART NOTES</div>
+ <div class="wm" style="top:70%;left:20%">DSSSB SMART NOTES</div>
+</div>
+
+<header>
+ <b>DSSSB English PYQ – DSSSB Smart Notes</b>
+ <div id="timer">00:00</div>
 </header>
 
-<div id="box" style="display:none;">
-<div id="left">
-<h3 id="q"></h3>
-<div id="opt"></div>
-<button onclick="prev()">Previous</button>
+<div class="card">
+<input id="stuName" placeholder="Enter Your Name" required
+ style="width:100%;padding:10px;border-radius:6px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+<div><b>Q <span id="qno"></span>/<span id="total"></span></b></div>
+<div id="qtext"></div>
+<div id="opts"></div>
+<button onclick="markReview()">⭐ Mark Review</button>
+<div id="expBox" style="display:none;background:#eef;padding:10px;margin-top:8px;border-radius:6px"></div>
+<button id="expBtn" onclick="toggleExp()" style="display:none">📘 Show / Hide Solution</button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;gap:10px">
+<button onclick="prev()">Prev</button>
 <button onclick="next()">Next</button>
-<button onclick="mark()">Mark for Review</button>
+<button onclick="togglePalette()">Palette</button>
 <button onclick="submit()">Submit</button>
-</div>
-<div id="right"></div>
-</div>
-
-<div id="scoreCard" style="display:none; padding:20px; background:#fff;">
-<h2>RESULT SUMMARY</h2>
-<p>Name: <b id="sname"></b></p>
-<p>Roll No: <b id="sroll"></b></p>
-
-<p>Total Questions: <span id="tq"></span></p>
-<p>Attempted: <span id="att"></span></p>
-<p>Not Attempted: <span id="na"></span></p>
-<p>Correct: <span id="cor"></span></p>
-<p>Wrong: <span id="wr"></span></p>
-<h3>Score: <span id="scr"></span></h3>
-
-<hr>
-<h3>🏆 Rank List</h3>
-<table border="1" width="100%" id="rankTable"></table>
-
-<hr>
-<h3>❌ Wrong Questions</h3>
-<div id="wrongList"></div>
-
-<h3>⚪ Not Attempted</h3>
-<div id="naList"></div>
-
-<h3>🟧 Marked for Review</h3>
-<div id="reviewList"></div>
-
-<button onclick="location.reload()" style="background:#28a745;color:white;border:none;padding:10px 20px;">Start New Test</button>
 </div>
 
 <script>
-let qdata = [
-["His answers are always _________, brief, and to the point.",
-"lengthy","elaborate","detailed","concise",3,"Concise means brief and to the point."],
+const TELEGRAM_BOT_TOKEN = "8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID = "@dsssbcbtresult";
 
-["Select the grammatically correct sentence.",
-"She feels happily about the news.",
-"He is the most smartest student in the class.",
-"The flowers smell beautifully in the garden.",
-"This is a unique painting.",3,"Unique already means one of a kind, so 'a unique' is correct."],
+function sendResultToTelegram(name, score, correct, wrong, skip, time){
+ const msg =
+"📘 DSSSB Maths CBT Result\n\n" +
+"👤 Name: " + name + "\n" +
+"⏱ Time: " + time + "\n" +
+"✅ Correct: " + correct + "\n" +
+"❌ Wrong: " + wrong + "\n" +
+"➖ Skipped: " + skip + "\n" +
+"🎯 Score: " + score + "\n\n" +
+"🔥 DSSSB Smart Notes";
 
-[`Sentences of a paragraph are given below in jumbled order.
-A. He decided to quit his job and dedicate his time to social work.
-B. Ramesh always felt a deep desire to help the underprivileged in his city.
-C. Today, his NGO provides education to hundreds of children.
-D. Initially, he started by volunteering at local shelters during weekends`,
-"BADC","BDAC","BACD","DABC",1,"Desire → quit → volunteer → NGO"],
+ fetch("https://api.telegram.org/bot"+TELEGRAM_BOT_TOKEN+"/sendMessage",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+    chat_id:TELEGRAM_CHAT_ID,
+    text:msg
+  })
+ });
+}
 
-["Too many cooks spoil the broth means —",
-"Telling secrets to too many people can strain relationships.",
-"It is better to hire experts to do complicated tasks.",
-"Cooperation is key to completing a task successfully.",
-"Too many people trying to manage something can ruin it.",3,"Too many people interfere → work gets spoiled."],
+const NEGATIVE_MARK = 0.25;
 
-["Parthip and Menaka ______ the strong bond they had built.",
-"esteemed","elite","collectible","cherished",3,"Cherished means valued and loved."],
-
-[`Sentences of a paragraph are given below in jumbled order.
-A. As the Saudi currency, the Riyal, is pegged to the dollar.
-B. However, even if India gets to pay in rupees...
-C. However, it will have long term benefits.
-D. After 50 years, Saudi Arabia has decided to accept other currencies.`,
-"DBAC","ABCD","ABDC","DABC",3,"Decision → benefits"],
-
-["The invention of ______ printing press revolutionised _____ spread of knowledge.",
-"a; a","no article needed; the","the; the","the; no article needed",2,"Printing press is general → the spread of knowledge."],
-
-["You cannot judge a book by its cover means —",
-"Books with plain covers are better written.",
-"One should not make assumptions based on outward appearances.",
-"Books must be judged by their content, not their appearance.",
-"Judging is necessary for improvement.",1,"We should not judge by looks."],
-
-[`Sentences of a paragraph are given below in jumbled order.
-A. Jane Goodall had always been passionate about environmental conservation.
-B. Her efforts have been recognised with several awards.
-C. She implemented numerous initiatives to protect local wildlife.
-D. Her dedication has inspired many others to join the cause`,
-"ACBD","DACB","CADB","BDCA",0,"Passion → actions → awards → inspiration."],
-
-["Antonym of Naive",
-"Primitive","Terrible","Sophisticated","Radiant",2,"Naive = inexperienced; opposite = sophisticated."],
-
-["___ Bible is one of the most widely read books in ___ world.",
-"A; the","The; no article needed","No article needed; the","The; the",3,"The Bible and the world are specific."],
-
-["Antonym of Incite",
-"Cling","Calm","Belong","Deny",1,"Incite means provoke; opposite = calm."],
-
-["A person excessively concerned with health",
-"Hypochondriac","Misanthrope","Philanthropist","Sadist",0,"Hypochondriac worries too much about health."],
-
-["We camped near _______ Himalayas and flew over ______ Arabian Sea.",
-"a; a","the; the","the; an","a; the",1,"Names of mountain ranges and seas use 'the'."],
-
-["Rohan’s lazy efforts —",
-"careless","harsh","sincere","dull",2,"Lazy is wrong; sincere fits the meaning."],
-
-["She painted ___ unicorn beside ___ orange tree.",
-"an; a","an; an","a; a","a; an",3,"Unicorn → constant sound, orange → vowel."],
-
-["Variety is the spice of life means —",
-"Different experiences make life enjoyable",
-"Repetition is the key to happiness",
-"Simplicity is better",
-"Life is best when same",0,"Different things make life interesting."],
-
-["A long speech by one person is called",
-"Dialogue","Epilogue","Aside","Monologue",3,"One person speaking = monologue."],
-
-["Point on the map means —",
-"a tapered sharp end",
-"an item or idea",
-"a particular place",
-"an electrical socket",2,"Point here refers to a location."],
-
-["Antonym of Lend",
-"Bounce","Claim","Borrow","Accept",2,"Opposite of lend is borrow."]
-
-];
-
-let i=0, ans=[], t=1800;
-let timer;
-
-function startTest(){
-  let n = document.getElementById("cname").value;
-  let r = document.getElementById("croll").value;
-  let tg = document.getElementById("telegram").value;
-
-  if(n=="" || r=="" || tg==""){
-    alert("Enter Name, Roll & Telegram Username");
-    return;
+const QUESTIONS = [
+  {
+    q: "Select the most appropriate idiom to substitute the underlined segment in the given sentence.\nThe news spread very rapidly, and soon everyone in the office knew about the announcement.",
+    o: [
+      "a mile a minute",
+      "a country mile",
+      "a mile off",
+      "a mile in someone's shoes"
+    ],
+    a: 0
+  },
+  {
+    q: "Select the most appropriate idiom that can substitute the underlined words in the given sentence.\nShe was fired without any warning, and it really surprised her.",
+    o: [
+      "caught her off guard",
+      "made her hit the roof",
+      "knocked her socks off",
+      "put her on cloud nine"
+    ],
+    a: 0
+  },
+  {
+    q: "Select the INCORRECTLY spelt word.",
+    o: [
+      "Delung",
+      "Extrovert",
+      "Dimple",
+      "Extrinsic"
+    ],
+    a: 0
+  },
+  {
+    q: "Select the most appropriate meaning of the given proverb.\nLet sleeping dogs lie",
+    o: [
+      "Always confront problems immediately",
+      "Trouble should be created to teach a lesson",
+      "Avoid disturbing a situation that may cause trouble",
+      "Sleeping dogs must always be woken"
+    ],
+    a: 2
+  },
+  {
+    q: "Select the most appropriate ANTONYM of the given word.\nIndulgent",
+    o: [
+      "Fit",
+      "Sharp",
+      "Strict",
+      "Patient"
+    ],
+    a: 2
+  },
+  {
+    q: "Select the idiom that conveys the same meaning as the underlined segment in the given sentence.\nThere are a lot of useless formalities in Government offices.",
+    o: [
+      "Primrose path",
+      "Ugly duckling",
+      "Red tapism",
+      "Zero tolerance"
+    ],
+    a: 2
+  },
+  {
+    q: "Select the proverb that conveys the same meaning as the underlined segment in the given sentence.\nI think they killed him because he knew too much. People who are dead cannot reveal secrets.",
+    o: [
+      "Dead men tell no tales",
+      "A wolf in sheep’s clothing",
+      "One lie draws ten after it",
+      "A burnt child dreads the fire"
+    ],
+    a: 0
+  },
+  {
+    q: "Select the option that uses the adjective correctly.",
+    o: [
+      "This is the most best movie I have ever seen",
+      "This is the best movie I have ever seen.",
+      "This is the bestest movie I have ever seen.",
+      "This is the more best movie I have ever seen."
+    ],
+    a: 1
+  },
+  {
+    q: "Select the most appropriate adjective to fill in the blank.\nThe ________ weather today makes it perfect for a picnic.",
+    o: [
+      "more sunny",
+      "sunnier",
+      "sunniest",
+      "sunny"
+    ],
+    a: 3
+  },
+  {
+    q: "Select the INCORRECTLY spelt word.",
+    o: [
+      "Gourmet",
+      "Herculean",
+      "Glosary",
+      "Holistic"
+    ],
+    a: 2
+  },
+  {
+    q: "Select the most appropriate meaning of the given proverb.\nA fool and his money are soon parted",
+    o: [
+      "A wise person always saves all their money",
+      "A careless person quickly loses their money",
+      "Only foolish people should handle money",
+      "Money is never lost if handled properly"
+    ],
+    a: 1
+  },
+  {
+    q: "Select the most appropriate ANTONYM of the underlined word in the given sentence.\nManas felt a sense of abundance surrounded by the love and laughter of his family.",
+    o: [
+      "Impression",
+      "Scarcity",
+      "Guidance",
+      "Happiness"
+    ],
+    a: 1
+  },
+  {
+    q: "Select the most appropriate meaning of the given proverb.\nMisery loves company",
+    o: [
+      "Misery never affects anyone else",
+      "Sad people prefer to be completely alone",
+      "Happiness spreads faster than sadness",
+      "Unhappy people enjoy sharing their sadness"
+    ],
+    a: 3
+  },
+  {
+    q: "Select the most appropriate ANTONYM of the underlined word in the given sentence.\nMaria is highly adept at solving complex mathematical problems, making her a valuable asset to the research team.",
+    o: [
+      "Crude",
+      "Deft",
+      "Irate",
+      "Repentant"
+    ],
+    a: 0
+  },
+  {
+    q: "Select the most appropriate options to fill in the blanks.\nThe tourists explored __________ Great Wall of China and later sailed across ______ Pacific Ocean.",
+    o: [
+      "a; a",
+      "the; a",
+      "an; the",
+      "the; the"
+    ],
+    a: 3
+  },
+  {
+    q: "Select the option that rectifies the highlighted text in the given sentence.\nHer explanation was the clearest and most simplest of all the presentations offered.",
+    o: [
+      "simpler",
+      "the most simple",
+      "simple",
+      "more simple"
+    ],
+    a: 1
+  },
+  {
+    q: "Select the most appropriate options to fill in the blanks.\nShe bought ___ European dress from ___ unique boutique.",
+    o: [
+      "a; an",
+      "a; a",
+      "an; a",
+      "the; an"
+    ],
+    a: 1
+  },
+  {
+    q: "Select the most appropriate adjective to fill in the blank.\nShe has the ________ collection of stamps in the entire school.",
+    o: [
+      "larger",
+      "more large",
+      "most large",
+      "largest"
+    ],
+    a: 3
+  },
+  {
+    q: "Select the most appropriate adjective to fill in the blank.\nThey gave me a/an _______, bright and clean room with a sea view.",
+    o: [
+      "amusing",
+      "fine",
+      "boring",
+      "beautiful"
+    ],
+    a: 3
+  },
+  {
+    q: "Select the sentence with the correct use of an adjective.",
+    o: [
+      "This is a more better solution.",
+      "She wore a bright red dress.",
+      "He is more stronger than his brother.",
+      "The cake tastes deliciously."
+    ],
+    a: 1
   }
+]
 
-  localStorage.setItem("cname", n);
-  localStorage.setItem("croll", r);
-  localStorage.setItem("telegram", tg);
+let i=0,submitted=false;
+let ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false);
+let totalTime=0;
 
-  document.getElementById("loginBox").style.display="none";
-  document.getElementById("topbar").style.display="block";
-  document.getElementById("box").style.display="flex";
+document.getElementById("total").innerText=QUESTIONS.length;
 
-  startTimer();
-  buildPalette();
-  load();
-}
+setInterval(()=>{
+ if(submitted) return;
+ totalTime++;
+ let m=Math.floor(totalTime/60), s=totalTime%60;
+ document.getElementById("timer").innerText =
+  m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
 
-
-function startTimer(){
- timer=setInterval(()=>{
-  t--;
-  let m=Math.floor(t/60), s=t%60;
-  document.getElementById("timer").innerText=m+":"+(s<10?"0":"")+s;
-  if(t==0) submit();
- },1000);
-}
-
-function buildPalette(){
- let pal="";
- for(let j=0;j<qdata.length;j++){
-  pal+=`<button class="qbtn" id="b${j}" onclick="go(${j})">${j+1}</button>`;
- }
- document.getElementById("right").innerHTML=pal;
-}
+function showTg(){ document.getElementById("tgPopup").style.display="block"; }
+function closeTg(){ document.getElementById("tgPopup").style.display="none"; }
 
 function load(){
- let q=qdata[i];
- document.getElementById("q").innerText=(i+1)+". "+q[0];
- let o="";
- for(let k=1;k<=4;k++){
-  let checked=(ans[i]==k-1)?"checked":"";
-  o+=`<label><input type="radio" name="opt" ${checked} onclick="sel(${k-1})"> ${q[k]}</label><br>`;
- }
- document.getElementById("opt").innerHTML=o;
+ let q=QUESTIONS[i];
+ document.getElementById("qno").innerText=i+1;
+ document.getElementById("qtext").innerText=q.q;
+ document.getElementById("expBox").innerText=q.exp;
+ document.getElementById("expBox").style.display="none";
+
+ let html="";
+ q.o.forEach((op,idx)=>{
+  let cls="";
+  if(submitted){
+    if(idx===q.a) cls="correct";
+    else if(ans[i]===idx) cls="wrong";
+  } else if(ans[i]===idx) cls="sel";
+  html+=`<div class="opt ${cls}" onclick="sel(${idx})">${op}</div>`;
+ });
+ document.getElementById("opts").innerHTML=html;
+ drawPalette();
 }
 
+/* ===== SELECT OPTION ===== */
 function sel(x){
+ if(submitted) return;
  ans[i]=x;
- let btn=document.getElementById("b"+i);
- btn.classList.add("attempted");
- btn.classList.remove("review");
+ drawPalette();
+ load();
 }
 
-function next(){ if(i<qdata.length-1){i++;load();}}
-function prev(){ if(i>0){i--;load();}}
-function go(n){i=n;load();}
+/* ===== NAVIGATION ===== */
+function next(){
+ if(i<QUESTIONS.length-1){i++;drawPalette();load();}
+}
+function prev(){
+ if(i>0){i--;drawPalette();load();}
+}
 
-function mark(){
- let btn=document.getElementById("b"+i);
- btn.classList.add("review");
+/* ===== REVIEW ===== */
+function markReview(){
+ review[i]=!review[i];
+ drawPalette();
+}
+
+/* ===== PALETTE ===== */
+function drawPalette(){
+ let p="";
+ for(let k=0;k<QUESTIONS.length;k++){
+  let cls="";
+  if(submitted){
+    if(ans[k]===QUESTIONS[k].a) cls="correct";
+    else cls="wrong";
+  }
+  else if(review[k] && ans[k]!=null) cls="answered review";
+  else if(review[k]) cls="review";
+  else if(ans[k]!=null) cls="answered";
+  else if(k<i) cls="visited";
+
+  p+=`<button class="qbtn ${cls}" onclick="i=${k};load()">${k+1}</button>`;
+ }
+ document.getElementById("palette").innerHTML=p;
+}
+
+/* ===== PALETTE TOGGLE ===== */
+function togglePalette(){
+ document.getElementById("palettePanel").classList.toggle("show");
 }
 
 function submit(){
- clearInterval(timer);
-
- let total=qdata.length, correct=0, attempted=0;
- let wrongHTML="", naHTML="", reviewHTML="";
-
- for(let j=0;j<total;j++){
-  let q=qdata[j];
-  let correctAns=q[q[5]+1];
-  if(ans[j]===undefined){
-    naHTML+=`<p>Q${j+1}. ${q[0]} <br><b>Correct:</b> ${correctAns}</p>`;
-  }else{
-    attempted++;
-    if(ans[j]==q[5]) correct++;
-    else wrongHTML+=`<p>Q${j+1}. ${q[0]}<br><b>Your:</b> ${q[ans[j]+1]}<br><b>Correct:</b> ${correctAns}<br><i>${q[6]}</i></p>`;
-  }
-  if(document.getElementById("b"+j).classList.contains("review")){
-    reviewHTML+=`<p>Q${j+1}. ${q[0]}</p>`;
-  }
+ let name = document.getElementById("stuName").value.trim();
+ if(name===""){
+  alert("Please enter your name before submitting");
+  document.getElementById("stuName").focus();
+  return;
  }
 
- document.getElementById("box").style.display="none";
- document.getElementById("topbar").style.display="none";
- document.getElementById("scoreCard").style.display="block";
+ submitted=true;
+ showTg();
 
- document.getElementById("sname").innerText=localStorage.getItem("cname");
- document.getElementById("sroll").innerText=localStorage.getItem("croll");
-
- document.getElementById("tq").innerText=total;
- document.getElementById("att").innerText=attempted;
- document.getElementById("na").innerText=total-attempted;
- document.getElementById("cor").innerText=correct;
- document.getElementById("wr").innerText=attempted-correct;
- document.getElementById("scr").innerText=correct+" / "+total;
-
- // 🔥 Send result to Google Sheet + get AIR
- fetch("https://script.google.com/macros/s/AKfycbwoOdGwX7N6uhNUDRHlKtuCvqsJAd5cY6CB6U43Lj_U5p5X8103O0Rk0FD7Po0AJ6OpzQ/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name: localStorage.getItem("cname"),
-    roll: localStorage.getItem("croll"),
-    user: localStorage.getItem("telegram"),
-    score: correct,
-    total: total,
-    test: "DSSSB MTS ENGLISH"
-  })
- })
- .then(res => res.json())
- .then(data => {
-
-  document.getElementById("rankTable").innerHTML =
-   `<tr>
-      <th>AIR</th>
-      <th>Name</th>
-      <th>Roll</th>
-      <th>Score</th>
-    </tr>
-    <tr>
-      <td>${data.air}</td>
-      <td>${data.name}</td>
-      <td>${data.roll}</td>
-      <td>${data.score}</td>
-    </tr>`;
-
+ let score=0,correct=0,wrong=0,skip=0;
+ QUESTIONS.forEach((q,idx)=>{
+  if(ans[idx]==null) skip++;
+  else if(ans[idx]===q.a){score++;correct++;}
+  else{score-=NEGATIVE_MARK;wrong++;}
  });
 
- document.getElementById("wrongList").innerHTML=wrongHTML||"None 🎉";
- document.getElementById("naList").innerHTML=naHTML||"None";
- document.getElementById("reviewList").innerHTML=reviewHTML||"None";
+ let t=document.getElementById("timer").innerText;
+
+ document.getElementById("result").innerHTML=
+  `<h3>Result</h3>
+   Name: ${name}<br>
+   Correct: ${correct}<br>
+   Wrong: ${wrong}<br>
+   Skipped: ${skip}<br>
+   <b>Final Score: ${score.toFixed(2)}</b>`;
+ document.getElementById("result").style.display="block";
+ document.getElementById("expBtn").style.display="block";
+
+ sendResultToTelegram(name,score.toFixed(2),correct,wrong,skip,t);
+ load();
 }
 
-
-function togglePalette(){
- document.getElementById("right").classList.toggle("hidden");
-}
+load();
 </script>
+
 </body>
 </html>
