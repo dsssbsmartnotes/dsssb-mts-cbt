@@ -1,0 +1,550 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DSSSB PYQ GK NOV 25 – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<style>
+body{font-family:Arial;background:#f5f7fa;margin:0;padding-bottom:110px}
+header{background:#fff;padding:10px;display:flex;justify-content:space-between;
+box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:50}
+#timer{font-weight:bold;color:#2196f3}
+.card{background:#fff;margin:8px;padding:14px;border-radius:10px}
+
+.opt{border:1px solid #ddd;padding:14px;margin:8px 0;border-radius:8px}
+.opt.sel{background:#e3f2fd;border-color:#2196f3}
+.opt.correct{background:#e8f5e9;border-color:#2e7d32}
+.opt.wrong{background:#ffebee;border-color:#c62828}
+
+button{background:#2196f3;color:#fff;border:none;padding:10px 12px;border-radius:8px}
+#langBtn{background:#673ab7}
+
+#palettePanel{position:fixed;top:0;right:-85%;width:85%;height:100%;
+background:#fff;transition:.3s;z-index:1000;padding:10px}
+#palettePanel.show{right:0}
+
+.qbtn{width:42px;height:42px;margin:5px;border-radius:8px;border:none;color:#fff}
+.qbtn.visited{background:#9e9e9e}
+.qbtn.answered{background:#1565c0}
+.qbtn.review{background:#f9a825}
+.qbtn.correct{background:#2e7d32}
+.qbtn.wrong{background:#c62828}
+
+#tgPopup{
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:20px;width:85%;max-width:320px;
+border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);
+z-index:9999;text-align:center;display:none
+}
+#tgPopup a{display:block;background:#0088cc;color:#fff;padding:10px;
+border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
+</style>
+</head>
+
+<body onload="initExam()">
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br><br>
+ <button onclick="closeTg()">Continue Test</button>
+</div>
+
+<header>
+ <b>DSSSB English PYQ – DSSSB Smart Notes</b>
+ <div style="display:flex;gap:8px;align-items:center">
+  <button id="langBtn" onclick="toggleLang()">ENG</button>
+  <div id="timer">00:00</div>
+ </div>
+</header>
+
+<div class="card">
+ <input id="stuName" placeholder="Enter Your Name"
+ style="width:100%;padding:12px;border-radius:8px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+ <b>Q <span id="qno"></span>/<span id="total"></span></b>
+ <div id="qtext"></div>
+ <div id="opts"></div>
+
+ <button onclick="markReview()">⭐ Mark for Review</button>
+
+ <div id="expBox" style="display:none;background:#eef;padding:12px;margin-top:10px;border-radius:8px"></div>
+ <button id="expBtn" onclick="toggleExp()" style="display:none;margin-top:8px">
+  📘 Show / Hide Solution
+ </button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;
+display:flex;gap:8px;justify-content:space-between">
+ <button onclick="prev()">Prev</button>
+ <button onclick="next()">Next</button>
+ <button onclick="togglePalette()">Palette</button>
+ <button onclick="submit()">Submit</button>
+</div>
+
+<script>
+/* TELEGRAM */
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* CBT CORE */
+let LANG="EN",i=0,submitted=false,totalTime=0;
+const NEGATIVE_MARK=0.25;
+
+const QUESTIONS = [
+
+{
+q_en:"Which term in the Preamble of the Indian Constitution signifies independence from external control?",
+q_hi:"भारतीय संविधान की प्रस्तावना में कौन-सा शब्द बाहरी नियंत्रण से स्वतंत्रता को दर्शाता है?",
+o_en:["Sovereign","Federal","Secular","Democratic"],
+o_hi:["संप्रभु","संघीय","धर्मनिरपेक्ष","लोकतांत्रिक"],
+a:0,
+e_en:"‘Sovereign’ means complete independence from external authority.",
+e_hi:"‘संप्रभु’ का अर्थ बाहरी नियंत्रण से पूर्ण स्वतंत्रता है।"
+},
+
+{
+q_en:"Which one of the following is not a part of the Deccan Plateau of India?",
+q_hi:"निम्नलिखित में से कौन-सा भारत के दक्कन के पठार का भाग नहीं है?",
+o_en:["Aravali Range","Satmala Hills","Mahadev Hills","Maikal Range"],
+o_hi:["अरावली पर्वतमाला","सतपुड़ा पहाड़ियाँ","महादेव पहाड़ियाँ","मैकाल पर्वतमाला"],
+a:0,
+e_en:"The Aravali Range is not part of the Deccan Plateau.",
+e_hi:"अरावली पर्वतमाला दक्कन के पठार का भाग नहीं है।"
+},
+
+{
+q_en:"From 21 to 23 August 2025, the first Khelo India Water Sports Festival was organized in which lake?",
+q_hi:"21 से 23 अगस्त 2025 तक पहला खेलो इंडिया वाटर स्पोर्ट्स फेस्टिवल किस झील में आयोजित किया गया?",
+o_en:["Nagin Lake","Dal Lake","Mansbal Lake","Wular Lake"],
+o_hi:["नागिन झील","डल झील","मंसबल झील","वुलर झील"],
+a:1,
+e_en:"The first Khelo India Water Sports Festival was held at Dal Lake.",
+e_hi:"पहला खेलो इंडिया वाटर स्पोर्ट्स फेस्टिवल डल झील में आयोजित हुआ।"
+},
+
+{
+q_en:"Which term mentioned in Mesopotamian inscriptions is linked by historians to the Harappan region of the Indus Valley Civilization?",
+q_hi:"मेसोपोटामिया के शिलालेखों में उल्लिखित कौन-सा शब्द हड़प्पा क्षेत्र से जोड़ा जाता है?",
+o_en:["Meluhha","Dilmun","Magan","Sumer"],
+o_hi:["मेलुहा","दिलमुन","मगन","सुमेर"],
+a:0,
+e_en:"Meluhha is associated with the Harappan/Indus Valley region.",
+e_hi:"मेलुहा को सिंधु घाटी सभ्यता के हड़प्पा क्षेत्र से जोड़ा जाता है।"
+},
+
+{
+q_en:"After the Revolt of 1857, which of the following was a major military change?",
+q_hi:"1857 के विद्रोह के बाद निम्नलिखित में से कौन-सा एक प्रमुख सैन्य परिवर्तन था?",
+o_en:[
+"Bengal sepoys were completely dismissed from service",
+"Soldiers of Awadh, Bihar and Central India were declared non-martial",
+"Recruitment increased uniformly from all regions of India except Sindh",
+"British citizens were specially allowed to join the army"
+],
+o_hi:[
+"बंगाल के सिपाहियों को पूरी तरह सेवा से हटा दिया गया",
+"अवध, बिहार और मध्य भारत के सैनिकों को गैर-मार्शल घोषित किया गया",
+"सिंध को छोड़कर सभी क्षेत्रों से भर्ती समान रूप से बढ़ाई गई",
+"विशेष रूप से ब्रिटिश नागरिकों को सेना में शामिल होने की अनुमति दी गई"
+],
+a:1,
+e_en:"Certain regions were declared non-martial after 1857.",
+e_hi:"1857 के बाद कुछ क्षेत्रों को गैर-मार्शल घोषित किया गया।"
+},
+
+{
+q_en:"Which is the highest revenue court in a district?",
+q_hi:"किसी जिले का सर्वोच्च राजस्व न्यायालय कौन-सा है?",
+o_en:[
+"Court of the Commissioner",
+"Board of Revenue",
+"Court of the Collector",
+"Court of the Tehsildar"
+],
+o_hi:[
+"आयुक्त न्यायालय",
+"राजस्व परिषद",
+"कलेक्टर न्यायालय",
+"तहसीलदार न्यायालय"
+],
+a:1,
+e_en:"The Board of Revenue is the highest revenue court.",
+e_hi:"राजस्व परिषद सर्वोच्च राजस्व न्यायालय होती है।"
+},
+
+{
+q_en:"Which nationalist leader started the newspapers ‘Maratha’ (English) and ‘Kesari’ (Marathi) in 1881?",
+q_hi:"किस राष्ट्रवादी नेता ने 1881 में ‘मराठा’ (अंग्रेज़ी) और ‘केसरी’ (मराठी) समाचारपत्र शुरू किए?",
+o_en:[
+"Bal Gangadhar Tilak",
+"Bipin Chandra Pal",
+"Lala Lajpat Rai",
+"Gopal Krishna Gokhale"
+],
+o_hi:[
+"बाल गंगाधर तिलक",
+"बिपिन चंद्र पाल",
+"लाला लाजपत राय",
+"गोपाल कृष्ण गोखले"
+],
+a:0,
+e_en:"Bal Gangadhar Tilak started both newspapers.",
+e_hi:"‘मराठा’ और ‘केसरी’ बाल गंगाधर तिलक ने शुरू किए।"
+},
+
+{
+q_en:"During the social reform movement in South India, which issues were supported by Kandukuri Veeresalingam?",
+q_hi:"दक्षिण भारत में सुधार आंदोलन के दौरान कंदुकुरी वीरेशलिंगम द्वारा किन मुद्दों का समर्थन किया गया?",
+o_en:[
+"Political awakening of lower castes",
+"Temple reforms and Vedic rituals",
+"Widow remarriage, women education and removal of social evils",
+"Promotion of press in local language and farmers’ self-reliance"
+],
+o_hi:[
+"निम्न जातियों का राजनीतिक जागरण",
+"मंदिर सुधार और वैदिक अनुष्ठान",
+"विधवा पुनर्विवाह, महिला शिक्षा और सामाजिक बुराइयों का उन्मूलन",
+"स्थानीय भाषा में प्रेस और किसानों की आत्मनिर्भरता"
+],
+a:2,
+e_en:"He supported widow remarriage and women education.",
+e_hi:"उन्होंने विधवा पुनर्विवाह और महिला शिक्षा का समर्थन किया।"
+},
+
+{
+q_en:"Which Article of the Indian Constitution allows special provisions for the advancement of SCs, STs and OBCs?",
+q_hi:"भारतीय संविधान का कौन-सा अनुच्छेद अनुसूचित जाति, जनजाति और पिछड़े वर्गों के लिए विशेष प्रावधान की अनुमति देता है?",
+o_en:["Article 14","Article 18","Article 15(4)","Article 16(1)"],
+o_hi:["अनुच्छेद 14","अनुच्छेद 18","अनुच्छेद 15(4)","अनुच्छेद 16(1)"],
+a:2,
+e_en:"Article 15(4) provides for special provisions.",
+e_hi:"अनुच्छेद 15(4) विशेष प्रावधान की अनुमति देता है।"
+},
+
+{
+q_en:"Nagabhata I established the Gurjara-Pratihara dynasty in which region?",
+q_hi:"नागभट्ट प्रथम ने गुर्जर-प्रतिहार वंश की स्थापना किस क्षेत्र में की?",
+o_en:[
+"Bundelkhand region of Central India",
+"Gujarat region of Western India",
+"Malwa region of Central India",
+"Kannauj region of North India"
+],
+o_hi:[
+"मध्य भारत का बुंदेलखंड क्षेत्र",
+"पश्चिमी भारत का गुजरात क्षेत्र",
+"मध्य भारत का मालवा क्षेत्र",
+"उत्तर भारत का कन्नौज क्षेत्र"
+],
+a:2,
+e_en:"Nagabhata I established the dynasty in Malwa.",
+e_hi:"नागभट्ट प्रथम ने मालवा क्षेत्र में वंश की स्थापना की।"
+},
+
+{
+q_en:"Kalamkari, a traditional Indian art form, originated in which state?",
+q_hi:"कलमकारी, एक पारंपरिक भारतीय कला शैली, किस राज्य में शुरू हुई?",
+o_en:["Jharkhand","Uttar Pradesh","Andhra Pradesh","Kerala"],
+o_hi:["झारखंड","उत्तर प्रदेश","आंध्र प्रदेश","केरल"],
+a:2,
+e_en:"Kalamkari originated in Andhra Pradesh.",
+e_hi:"कलमकारी कला आंध्र प्रदेश में विकसित हुई।"
+},
+
+{
+q_en:"Which provision of the Indian Constitution directs the State to ensure equal pay for equal work for men and women?",
+q_hi:"भारतीय संविधान का कौन-सा उपबंध पुरुषों और महिलाओं के लिए समान कार्य के लिए समान वेतन सुनिश्चित करता है?",
+o_en:["Article 37","Article 39(d)","Article 45(b)","Article 41"],
+o_hi:["अनुच्छेद 37","अनुच्छेद 39(d)","अनुच्छेद 45(b)","अनुच्छेद 41"],
+a:1,
+e_en:"Article 39(d) ensures equal pay for equal work.",
+e_hi:"अनुच्छेद 39(d) समान कार्य के लिए समान वेतन की बात करता है।"
+},
+
+{
+q_en:"‘Sundari’ trees are mainly found in which type of forest in India?",
+q_hi:"‘सुंदरी’ वृक्ष भारत में किस प्रकार के वन में पाए जाते हैं?",
+o_en:[
+"Tropical deciduous forest",
+"Mangrove forest",
+"Tropical rainforest",
+"Montane forest"
+],
+o_hi:[
+"उष्णकटिबंधीय पर्णपाती वन",
+"मैंग्रोव वन",
+"उष्णकटिबंधीय वर्षा वन",
+"पर्वतीय वन"
+],
+a:1,
+e_en:"Sundari trees are found in mangrove forests.",
+e_hi:"सुंदरी वृक्ष मैंग्रोव वनों में पाए जाते हैं।"
+},
+
+{
+q_en:"After his release from Mandalay in 1914, which major agreement did Bal Gangadhar Tilak help conclude between the Congress and the Muslim League?",
+q_hi:"1914 में मंडले से रिहा होने के बाद बाल गंगाधर तिलक ने कांग्रेस और मुस्लिम लीग के बीच किस समझौते को संपन्न कराने में भूमिका निभाई?",
+o_en:[
+"Poona Pact, 1932",
+"Lucknow Pact, 1916",
+"Gandhi-Irwin Pact, 1931",
+"Surat Pact, 1907"
+],
+o_hi:[
+"पूना समझौता, 1932",
+"लखनऊ समझौता, 1916",
+"गांधी-इरविन समझौता, 1931",
+"सूरत समझौता, 1907"
+],
+a:1,
+e_en:"Tilak played a key role in the Lucknow Pact of 1916.",
+e_hi:"तिलक ने 1916 के लखनऊ समझौते में महत्वपूर्ण भूमिका निभाई।"
+},
+
+{
+q_en:"Which authority supervises and controls the working of subordinate courts in a state?",
+q_hi:"किस प्राधिकरण के पास राज्य में अधीनस्थ न्यायालयों के कार्य पर पर्यवेक्षी नियंत्रण होता है?",
+o_en:[
+"Supreme Court of India",
+"District Collector",
+"Ministry of Home Affairs",
+"State High Court"
+],
+o_hi:[
+"भारत का सर्वोच्च न्यायालय",
+"जिला कलेक्टर",
+"गृह मंत्रालय",
+"राज्य उच्च न्यायालय"
+],
+a:3,
+e_en:"The State High Court supervises subordinate courts.",
+e_hi:"राज्य उच्च न्यायालय अधीनस्थ न्यायालयों की निगरानी करता है।"
+},
+
+{
+q_en:"The rock-cut Kailasanatha Temple is located at which place?",
+q_hi:"एकल चट्टान से निर्मित कैलाशनाथ मंदिर किस स्थान पर स्थित है?",
+o_en:["Ajanta","Ellora","Mahabalipuram","Deogarh"],
+o_hi:["अजंता","एलोरा","महाबलीपुरम","देवगढ़"],
+a:1,
+e_en:"The Kailasanatha Temple is located at Ellora.",
+e_hi:"कैलाशनाथ मंदिर एलोरा में स्थित है।"
+},
+
+{
+q_en:"During the post-Gupta period, what caused a major setback to India’s silk trade?",
+q_hi:"गुप्तोत्तर काल में भारत के रेशम व्यापार को किस कारण से गंभीर बाधा उत्पन्न हुई?",
+o_en:[
+"Western regions learned sericulture techniques",
+"Ban on export of fine cloth by Gupta rulers",
+"Indian traders abandoned sea trade",
+"Silk replaced by cotton as royal fabric"
+],
+o_hi:[
+"पश्चिमी क्षेत्रों द्वारा रेशम उत्पादन तकनीक सीख लेना",
+"गुप्त शासकों द्वारा महीन वस्त्रों के निर्यात पर रोक",
+"भारतीय व्यापारियों द्वारा समुद्री व्यापार त्यागना",
+"रेशम के स्थान पर कपास का प्रयोग"
+],
+a:0,
+e_en:"Western countries learned silk production, reducing India’s monopoly.",
+e_hi:"पश्चिमी क्षेत्रों द्वारा रेशम तकनीक सीख लेने से भारत का एकाधिकार खत्म हुआ।"
+},
+
+{
+q_en:"Which Article directs the State to promote the welfare of people by securing a social order based on justice?",
+q_hi:"कौन-सा अनुच्छेद राज्य को न्याय पर आधारित सामाजिक व्यवस्था सुनिश्चित करने का निर्देश देता है?",
+o_en:["Article 39","Article 40","Article 37","Article 38"],
+o_hi:["अनुच्छेद 39","अनुच्छेद 40","अनुच्छेद 37","अनुच्छेद 38"],
+a:3,
+e_en:"Article 38 directs the State to promote welfare through social justice.",
+e_hi:"अनुच्छेद 38 सामाजिक न्याय के माध्यम से कल्याण का निर्देश देता है।"
+},
+
+{
+q_en:"The Right to Information (RTI) Act, implemented in October 2005, replaced which earlier law in India?",
+q_hi:"अक्टूबर 2005 में लागू सूचना का अधिकार अधिनियम (RTI) ने भारत में किस पुराने कानून को प्रतिस्थापित किया?",
+o_en:[
+"Freedom of Information Act, 2002",
+"Public Transparency Act, 2001",
+"Citizens’ Access to Information Act, 2003",
+"National Archives Access Act, 2000"
+],
+o_hi:[
+"सूचना की स्वतंत्रता अधिनियम, 2002",
+"सार्वजनिक पारदर्शिता अधिनियम, 2001",
+"नागरिकों की सूचना तक पहुँच अधिनियम, 2003",
+"राष्ट्रीय अभिलेख अभिगम अधिनियम, 2000"
+],
+a:0,
+e_en:"RTI Act replaced the Freedom of Information Act, 2002.",
+e_hi:"RTI अधिनियम ने सूचना की स्वतंत्रता अधिनियम, 2002 को प्रतिस्थापित किया।"
+},
+
+{
+q_en:"In 2004, which ministry initially granted classical language status to Tamil?",
+q_hi:"2004 में प्रारंभ में किस मंत्रालय ने तमिल को शास्त्रीय भाषा का दर्जा दिया था?",
+o_en:[
+"Ministry of Education",
+"Ministry of Home Affairs",
+"Ministry of Culture",
+"Ministry of Defence"
+],
+o_hi:[
+"शिक्षा मंत्रालय",
+"गृह मंत्रालय",
+"संस्कृति मंत्रालय",
+"रक्षा मंत्रालय"
+],
+a:1,
+e_en:"Initially, the Ministry of Home Affairs granted classical status to Tamil.",
+e_hi:"प्रारंभ में तमिल को शास्त्रीय भाषा का दर्जा गृह मंत्रालय ने दिया।"
+}
+
+];
+
+let ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false);
+total.innerText=QUESTIONS.length;
+
+/* TIMER */
+setInterval(()=>{
+ if(submitted) return;
+ totalTime++;
+ let m=Math.floor(totalTime/60),s=totalTime%60;
+ timer.innerText=m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
+
+/* INIT */
+function initExam(){load();tgPopup.style.display="block"}
+function closeTg(){tgPopup.style.display="none"}
+function toggleLang(){LANG=LANG==="EN"?"HI":"EN";langBtn.innerText=LANG;load()}
+
+/* LOAD */
+function load(){
+ let q=QUESTIONS[i];
+ qno.innerText=i+1;
+ qtext.innerText=LANG==="EN"?q.q_en:q.q_hi;
+ expBox.innerText=LANG==="EN"?q.e_en:q.e_hi;
+
+ let arr=LANG==="EN"?q.o_en:q.o_hi;
+ let h="";
+ arr.forEach((op,idx)=>{
+  let cls="";
+  if(submitted){
+   if(idx===q.a) cls="correct";
+   else if(ans[i]===idx) cls="wrong";
+  }else if(ans[i]===idx) cls="sel";
+  h+=`<div class="opt ${cls}" onclick="selectOpt(${idx})">${op}</div>`;
+ });
+ opts.innerHTML=h;
+ drawPalette();
+}
+
+/* ACTIONS */
+function selectOpt(x){if(submitted)return;ans[i]=x;load()}
+function next(){if(i<QUESTIONS.length-1){i++;load()}}
+function prev(){if(i>0){i--;load()}}
+function togglePalette(){palettePanel.classList.toggle("show")}
+function markReview(){review[i]=!review[i];drawPalette()}
+function toggleExp(){expBox.style.display=expBox.style.display==="none"?"block":"none"}
+
+/* PALETTE */
+function drawPalette(){
+ let p="";
+ for(let k=0;k<QUESTIONS.length;k++){
+  let cls="";
+  if(submitted){
+   if(ans[k]===QUESTIONS[k].a) cls="correct";
+   else if(ans[k]!=null) cls="wrong";
+  }else if(review[k]) cls="review";
+  else if(ans[k]!=null) cls="answered";
+  else if(k<i) cls="visited";
+  p+=`<button class="qbtn ${cls}" onclick="i=${k};load();palettePanel.classList.remove('show')">${k+1}</button>`;
+ }
+ palette.innerHTML=p;
+}
+
+/* SUBMIT */
+function submit(){
+ let name=stuName.value.trim();
+ if(!name){alert("Enter name");return}
+ submitted=true;
+
+ let c=0,w=0,s=0,score=0;
+ QUESTIONS.forEach((q,idx)=>{
+  if(ans[idx]==null)s++;
+  else if(ans[idx]===q.a){c++;score++}
+  else{w++;score-=NEGATIVE_MARK}
+ });
+
+ let attempted=c+w;
+ let accuracy=attempted?((c/attempted)*100):0;
+ let rankScore=(score*100)+accuracy;
+ let estRank=Math.max(1,Math.round(1000-rankScore));
+
+ result.innerHTML=`
+ <h3>Result</h3>
+ Correct: ${c}<br>
+ Wrong: ${w}<br>
+ Skipped: ${s}<br>
+ Accuracy: <b>${accuracy.toFixed(2)}%</b><br>
+ Estimated Rank: <b>${estRank}</b><br><br>
+ <b>Final Score: ${score.toFixed(2)}</b>`;
+ result.style.display="block";
+
+ expBox.style.display="block";
+ expBtn.style.display="block";
+
+ sendResultToTelegram(
+  name,
+  score.toFixed(2),
+  c,
+  w,
+  s,
+  timer.innerText,
+  accuracy,
+  estRank
+ );
+ load();
+}
+
+/* TELEGRAM SEND (WITH ACCURACY + RANK) */
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text:
+`📘 DSSSB PYQ NOV 25 Gk 01 CBT Result
+
+👤 Name: ${name}
+⏱ Time: ${time}
+✅ Correct: ${c}
+❌ Wrong: ${w}
+➖ Skipped: ${s}
+🎯 Score: ${score}
+📊 Accuracy: ${accuracy.toFixed(2)}%
+🏆 Estimated Rank: ${estRank}
+
+🔥 DSSSB Smart Notes`
+  })
+ });
+}
+</script>
+</body>
+</html>
