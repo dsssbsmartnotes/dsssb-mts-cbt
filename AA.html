@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DSSSB PYQ GK NOV 25 – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<style>
+body{font-family:Arial;background:#f5f7fa;margin:0;padding-bottom:110px}
+
+header{
+background:#fff;
+padding:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+position:sticky;
+top:0;
+z-index:50;
+}
+
+/* 🔥 FIXED TIMER */
+#timer{
+position:fixed;
+top:64px;
+right:12px;
+z-index:9999;
+background:#e3f2fd;
+color:#1565c0;
+padding:6px 10px;
+border-radius:8px;
+font-weight:bold;
+min-width:70px;
+text-align:center;
+white-space:nowrap;
+box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+
+/* FULLSCREEN BUTTON */
+#fsBtn{
+background:#000;
+color:#fff;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+font-size:12px;
+}
+
+.card{background:#fff;margin:8px;padding:14px;border-radius:10px}
+
+.opt{border:1px solid #ddd;padding:14px;margin:8px 0;border-radius:8px}
+.opt.sel{background:#e3f2fd;border-color:#2196f3}
+.opt.correct{background:#e8f5e9;border-color:#2e7d32}
+.opt.wrong{background:#ffebee;border-color:#c62828}
+
+button{background:#2196f3;color:#fff;border:none;padding:10px 12px;border-radius:8px}
+#langBtn{background:#673ab7}
+
+#palettePanel{position:fixed;top:0;right:-85%;width:85%;height:100%;
+background:#fff;transition:.3s;z-index:1000;padding:10px}
+#palettePanel.show{right:0}
+
+.qbtn{width:42px;height:42px;margin:5px;border-radius:8px;border:none;color:#fff}
+.qbtn.visited{background:#9e9e9e}
+.qbtn.answered{background:#1565c0}
+.qbtn.review{background:#f9a825}
+.qbtn.correct{background:#2e7d32}
+.qbtn.wrong{background:#c62828}
+
+#tgPopup{
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:20px;width:85%;max-width:320px;
+border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);
+z-index:9999;text-align:center;display:none
+}
+#tgPopup a{display:block;background:#0088cc;color:#fff;padding:10px;
+border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
+</style>
+</head>
+
+<body onload="initExam();autoFullScreen()">
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br><br>
+ <button onclick="closeTg()">Continue Test</button>
+</div>
+
+<header>
+ <b>DSSSB English PYQ – DSSSB Smart Notes</b>
+ <div style="display:flex;gap:6px">
+  <button id="fsBtn" onclick="toggleFullScreen()">⛶</button>
+  <button id="langBtn" onclick="toggleLang()">ENG</button>
+ </div>
+</header>
+
+<div id="timer">00:00</div>
+
+<div class="card">
+ <input id="stuName" placeholder="Enter Your Name"
+ style="width:100%;padding:12px;border-radius:8px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+ <b>Q <span id="qno"></span>/<span id="total"></span></b>
+ <div id="qtext"></div>
+ <div id="opts"></div>
+
+ <button onclick="markReview()">⭐ Mark for Review</button>
+
+ <div id="expBox" style="display:none;background:#eef;padding:12px;margin-top:10px;border-radius:8px"></div>
+ <button id="expBtn" onclick="toggleExp()" style="display:none;margin-top:8px">
+  📘 Show / Hide Solution
+ </button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;
+display:flex;gap:8px;justify-content:space-between">
+ <button onclick="prev()">Prev</button>
+ <button onclick="next()">Next</button>
+ <button onclick="togglePalette()">Palette</button>
+ <button onclick="submit()">Submit</button>
+</div>
+
+<script>
+/* FULLSCREEN */
+function toggleFullScreen(){
+ if(!document.fullscreenElement){
+  document.documentElement.requestFullscreen().catch(()=>{});
+ }else{
+  document.exitFullscreen();
+ }
+}
+function autoFullScreen(){
+ setTimeout(()=>{toggleFullScreen()},500);
+}
+
+/* TELEGRAM */
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* CBT CORE */
+let LANG="EN",i=0,submitted=false,totalTime=0;
+const NEGATIVE_MARK=0.25;
+
+const QUESTIONS=[
+{
+q_en:"Which term in the Preamble of the Indian Constitution signifies independence from external control?",
+q_hi:"भारतीय संविधान की प्रस्तावना में कौन-सा शब्द बाहरी नियंत्रण से स्वतंत्रता को दर्शाता है?",
+o_en:["Sovereign","Federal","Secular","Democratic"],
+o_hi:["संप्रभु","संघीय","धर्मनिरपेक्ष","लोकतांत्रिक"],
+a:0,
+e_en:"‘Sovereign’ means complete independence from external authority.",
+e_hi:"‘संप्रभु’ का अर्थ बाहरी नियंत्रण से पूर्ण स्वतंत्रता है।"
+},
+{
+q_en:"In 2004, which ministry initially granted classical language status to Tamil?",
+q_hi:"2004 में प्रारंभ में किस मंत्रालय ने तमिल को शास्त्रीय भाषा का दर्जा दिया था?",
+o_en:["Ministry of Education","Ministry of Home Affairs","Ministry of Culture","Ministry of Defence"],
+o_hi:["शिक्षा मंत्रालय","गृह मंत्रालय","संस्कृति मंत्रालय","रक्षा मंत्रालय"],
+a:1,
+e_en:"Initially, the Ministry of Home Affairs granted classical status to Tamil.",
+e_hi:"प्रारंभ में तमिल को शास्त्रीय भाषा का दर्जा गृह मंत्रालय ने दिया।"
+}
+];
+
+let ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false);
+total.innerText=QUESTIONS.length;
+
+/* TIMER */
+setInterval(()=>{
+ if(submitted) return;
+ totalTime++;
+ let m=Math.floor(totalTime/60),s=totalTime%60;
+ timer.innerText=m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
+
+/* INIT */
+function initExam(){load();tgPopup.style.display="block"}
+function closeTg(){tgPopup.style.display="none"}
+function toggleLang(){LANG=LANG==="EN"?"HI":"EN";langBtn.innerText=LANG;load()}
+
+/* LOAD */
+function load(){
+ let q=QUESTIONS[i];
+ qno.innerText=i+1;
+ qtext.innerText=LANG==="EN"?q.q_en:q.q_hi;
+ expBox.innerText=LANG==="EN"?q.e_en:q.e_hi;
+
+ let arr=LANG==="EN"?q.o_en:q.o_hi;
+ let h="";
+ arr.forEach((op,idx)=>{
+  let cls="";
+  if(submitted){
+   if(idx===q.a) cls="correct";
+   else if(ans[i]===idx) cls="wrong";
+  }else if(ans[i]===idx) cls="sel";
+  h+=`<div class="opt ${cls}" onclick="selectOpt(${idx})">${op}</div>`;
+ });
+ opts.innerHTML=h;
+ drawPalette();
+}
+
+/* ACTIONS */
+function selectOpt(x){if(submitted)return;ans[i]=x;load()}
+function next(){if(i<QUESTIONS.length-1){i++;load()}}
+function prev(){if(i>0){i--;load()}}
+function togglePalette(){palettePanel.classList.toggle("show")}
+function markReview(){review[i]=!review[i];drawPalette()}
+function toggleExp(){expBox.style.display=expBox.style.display==="none"?"block":"none"}
+
+/* PALETTE */
+function drawPalette(){
+ let p="";
+ for(let k=0;k<QUESTIONS.length;k++){
+  let cls="";
+  if(submitted){
+   if(ans[k]===QUESTIONS[k].a) cls="correct";
+   else if(ans[k]!=null) cls="wrong";
+  }else if(review[k]) cls="review";
+  else if(ans[k]!=null) cls="answered";
+  else if(k<i) cls="visited";
+  p+=`<button class="qbtn ${cls}" onclick="i=${k};load();palettePanel.classList.remove('show')">${k+1}</button>`;
+ }
+ palette.innerHTML=p;
+}
+
+/* SUBMIT */
+function submit(){
+ let name=stuName.value.trim();
+ if(!name){alert("Enter name");return}
+ submitted=true;
+
+ let c=0,w=0,s=0,score=0;
+ QUESTIONS.forEach((q,idx)=>{
+  if(ans[idx]==null)s++;
+  else if(ans[idx]===q.a){c++;score++}
+  else{w++;score-=NEGATIVE_MARK}
+ });
+
+ let attempted=c+w;
+ let accuracy=attempted?((c/attempted)*100):0;
+ let rankScore=(score*100)+accuracy;
+ let estRank=Math.max(1,Math.round(1000-rankScore));
+
+ result.innerHTML=`
+ <h3>Result</h3>
+ Correct: ${c}<br>
+ Wrong: ${w}<br>
+ Skipped: ${s}<br>
+ Accuracy: <b>${accuracy.toFixed(2)}%</b><br>
+ Estimated Rank: <b>${estRank}</b><br><br>
+ <b>Final Score: ${score.toFixed(2)}</b>`;
+ result.style.display="block";
+
+ expBox.style.display="block";
+ expBtn.style.display="block";
+
+ sendResultToTelegram(name,score.toFixed(2),c,w,s,timer.innerText,accuracy,estRank);
+ load();
+}
+
+/* TELEGRAM */
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text:
+`📘 DSSSB PYQ NOV 25 GK 01 CBT Result
+
+👤 Name: ${name}
+⏱ Time: ${time}
+✅ Correct: ${c}
+❌ Wrong: ${w}
+➖ Skipped: ${s}
+🎯 Score: ${score}
+📊 Accuracy: ${accuracy.toFixed(2)}%
+🏆 Estimated Rank: ${estRank}
+
+🔥 DSSSB Smart Notes`
+  })
+ });
+}
+</script>
+</body>
+</html>
