@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html>
 <head>
@@ -13,19 +14,36 @@ background:#fff;
 padding:10px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 box-shadow:0 2px 8px rgba(0,0,0,.1);
 position:sticky;
 top:0;
 z-index:50;
-overflow:visible;   /* ✅ ADDED */
+overflow:hidden;
+}
+
+/* LEFT TITLE */
+#titleBox{
+flex:1;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+/* RIGHT FIXED AREA */
+#rightBox{
+display:flex;
+gap:8px;
+align-items:center;
+flex-shrink:0;
 }
 
 #timer{
 font-weight:bold;
 color:#2196f3;
-min-width:80px;     /* ✅ ADDED */
-text-align:right;   /* ✅ ADDED */
-white-space:nowrap; /* ✅ ADDED */
+min-width:80px;
+text-align:right;
+white-space:nowrap;
 }
 
 .card{background:#fff;margin:8px;padding:14px;border-radius:10px}
@@ -70,12 +88,15 @@ border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
 </div>
 
 <header>
- <b>DSSSB English PYQ – DSSSB Smart Notes</b>
- <div style="display:flex;gap:8px;align-items:center">
+ <div id="titleBox">
+  <b>DSSSB English PYQ – DSSSB Smart Notes</b>
+ </div>
+ <div id="rightBox">
   <button id="langBtn" onclick="toggleLang()">ENG</button>
   <div id="timer">00:00</div>
  </div>
 </header>
+
 <div class="card">
  <input id="stuName" placeholder="Enter Your Name"
  style="width:100%;padding:12px;border-radius:8px;border:2px solid #2196f3">
@@ -132,7 +153,6 @@ e_hi:"‘संप्रभु’ का अर्थ बाहरी निय�
 },
 
 {
-
 q_en:"In 2004, which ministry initially granted classical language status to Tamil?",
 q_hi:"2004 में प्रारंभ में किस मंत्रालय ने तमिल को शास्त्रीय भाषा का दर्जा दिया था?",
 o_en:[
@@ -260,7 +280,7 @@ function submit(){
  load();
 }
 
-/* TELEGRAM SEND (WITH ACCURACY + RANK) */
+/* TELEGRAM SEND */
 function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
   method:"POST",
@@ -268,7 +288,7 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
   body:JSON.stringify({
    chat_id:TELEGRAM_CHAT_ID,
    text:
-`📘 DSSSB PYQ NOV 25 Gk 01 CBT Result
+`📘 DSSSB PYQ NOV 25 GK 01 CBT Result
 
 👤 Name: ${name}
 ⏱ Time: ${time}
@@ -286,3 +306,4 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
 </script>
 </body>
 </html>
+```
