@@ -20,25 +20,22 @@ top:0;
 z-index:50;
 }
 
-/* 🔥 REAL FIXED TIMER */
+/* 🔥 FIXED TIMER (SCREEN LEVEL – GUARANTEED) */
 #timer{
-position:fixed;        /* ✅ ACTUALLY FIXED */
-top:12px;
+position:fixed;
+top:64px;              /* header ke just neeche */
 right:12px;
-z-index:1000;
+z-index:9999;
 background:#e3f2fd;
 color:#1565c0;
 padding:6px 10px;
 border-radius:8px;
 font-weight:bold;
-min-width:72px;
+min-width:70px;
 text-align:center;
 white-space:nowrap;
-box-shadow:0 2px 6px rgba(0,0,0,.2);
+box-shadow:0 2px 6px rgba(0,0,0,.25);
 }
-
-/* keep space so header text doesn't hide */
-#timerHolder{width:80px}
 
 .card{background:#fff;margin:8px;padding:14px;border-radius:10px}
 
@@ -50,8 +47,10 @@ box-shadow:0 2px 6px rgba(0,0,0,.2);
 button{background:#2196f3;color:#fff;border:none;padding:10px 12px;border-radius:8px}
 #langBtn{background:#673ab7}
 
-#palettePanel{position:fixed;top:0;right:-85%;width:85%;height:100%;
-background:#fff;transition:.3s;z-index:1000;padding:10px}
+#palettePanel{
+position:fixed;top:0;right:-85%;width:85%;height:100%;
+background:#fff;transition:.3s;z-index:1000;padding:10px
+}
 #palettePanel.show{right:0}
 
 .qbtn{width:42px;height:42px;margin:5px;border-radius:8px;border:none;color:#fff}
@@ -67,13 +66,16 @@ background:#fff;padding:20px;width:85%;max-width:320px;
 border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);
 z-index:9999;text-align:center;display:none
 }
-#tgPopup a{display:block;background:#0088cc;color:#fff;padding:10px;
-border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
+#tgPopup a{
+display:block;background:#0088cc;color:#fff;padding:10px;
+border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold
+}
 </style>
 </head>
 
 <body onload="initExam()">
 
+<!-- TELEGRAM POPUP -->
 <div id="tgPopup">
  <b>📢 Join DSSSB Smart Notes</b><br><br>
  Daily CBT Tests • PDFs • Results
@@ -81,19 +83,14 @@ border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
  <button onclick="closeTg()">Continue Test</button>
 </div>
 
+<!-- HEADER -->
 <header>
  <b>DSSSB English PYQ – DSSSB Smart Notes</b>
- <div style="display:flex;gap:8px;align-items:center">
-  <button id="langBtn" onclick="toggleLang()">ENG</button>
-  <div id="timerHolder"></div>
- </div>
+ <button id="langBtn" onclick="toggleLang()">ENG</button>
 </header>
 
-<!-- 🔥 FIXED TIMER (SCREEN LEVEL) -->
+<!-- 🔥 FIXED TIMER -->
 <div id="timer">00:00</div>
- </div>
-</header>
-
 
 <div class="card">
  <input id="stuName" placeholder="Enter Your Name"
@@ -107,10 +104,11 @@ border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
 
  <button onclick="markReview()">⭐ Mark for Review</button>
 
- <div id="expBox" style="display:none;background:#eef;padding:12px;margin-top:10px;border-radius:8px"></div>
- <button id="expBtn" onclick="toggleExp()" style="display:none;margin-top:8px">
-  📘 Show / Hide Solution
- </button>
+ <div id="expBox"
+ style="display:none;background:#eef;padding:12px;margin-top:10px;border-radius:8px"></div>
+
+ <button id="expBtn" onclick="toggleExp()"
+ style="display:none;margin-top:8px">📘 Show / Hide Solution</button>
 </div>
 
 <div class="card" id="result" style="display:none"></div>
@@ -138,7 +136,7 @@ const TELEGRAM_CHAT_ID="@dsssbcbtresult";
 let LANG="EN",i=0,submitted=false,totalTime=0;
 const NEGATIVE_MARK=0.25;
 
-const QUESTIONS = [
+const QUESTIONS=[
 
 {
 q_en:"Which term in the Preamble of the Indian Constitution signifies independence from external control?",
@@ -229,7 +227,8 @@ function drawPalette(){
   }else if(review[k]) cls="review";
   else if(ans[k]!=null) cls="answered";
   else if(k<i) cls="visited";
-  p+=`<button class="qbtn ${cls}" onclick="i=${k};load();palettePanel.classList.remove('show')">${k+1}</button>`;
+  p+=`<button class="qbtn ${cls}"
+   onclick="i=${k};load();palettePanel.classList.remove('show')">${k+1}</button>`;
  }
  palette.innerHTML=p;
 }
@@ -266,14 +265,7 @@ function submit(){
  expBtn.style.display="block";
 
  sendResultToTelegram(
-  name,
-  score.toFixed(2),
-  c,
-  w,
-  s,
-  timer.innerText,
-  accuracy,
-  estRank
+  name,score.toFixed(2),c,w,s,timer.innerText,accuracy,estRank
  );
  load();
 }
@@ -304,4 +296,3 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
 </script>
 </body>
 </html>
-```
