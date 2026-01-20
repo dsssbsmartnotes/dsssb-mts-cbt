@@ -314,196 +314,97 @@ const NEGATIVE_MARK=0.25;
 const QUESTIONS = [
 
 {
-q_en: "Which of the following Indian island groups is closest to the Malabar Coast of Kerala?",
-q_hi: "निम्नलिखित में से कौन-सा भारतीय द्वीप समूह केरल के मालाबार तट के सबसे निकट स्थित है?",
-o_en: ["Andaman", "Lakshadweep", "Maldives", "Nicobar"],
-o_hi: ["अंडमान", "लक्षद्वीप", "मालदीव", "निकोबार"],
-a: 1,
-e_en: "Lakshadweep is located in the Arabian Sea near the Malabar Coast.",
-e_hi: "लक्षद्वीप अरब सागर में मालाबार तट के निकट स्थित है।"
+ q_en: "If the <u>ratio</u> of two numbers is <u>3 : 5</u> and their <u>sum</u> is <u>64</u>, then find the <u>larger number</u>.",
+ q_hi: "",
+ o_en: ["36", "40", "24", "28"],
+ o_hi: ["36", "40", "24", "28"],
+ a: 1,
+ e_en: "Let the numbers be 3x and 5x. Then 3x + 5x = 64 ⇒ 8x = 64 ⇒ x = 8. Larger number = 5 × 8 = 40.",
+ e_hi: ""
 },
 
 {
-q_en: "The name of which element is derived from a Latin word meaning 'acid forming'?",
-q_hi: "किस तत्व का नाम लैटिन शब्द से लिया गया है, जिसका अर्थ है 'अम्लकारी (acid forming)'?",
-o_en: ["Helium", "Oxygen", "Nitrogen", "Neon"],
-o_hi: ["हीलियम", "ऑक्सीजन", "नाइट्रोजन", "निऑन"],
-a: 1,
-e_en: "Oxygen comes from the Greek word meaning acid former.",
-e_hi: "ऑक्सीजन का अर्थ अम्ल बनाने वाला होता है।"
+ q_en: "A train travels <u>360 km</u> at a speed of <u>60 km/h</u>. How much <u>time</u> will it take?",
+ q_hi: "",
+ o_en: ["5 hours", "6 hours", "7 hours", "8 hours"],
+ o_hi: ["5 hours", "6 hours", "7 hours", "8 hours"],
+ a: 1,
+ e_en: "Time = Distance ÷ Speed = 360 ÷ 60 = 6 hours.",
+ e_hi: ""
 },
 
 {
-q_en: "A vessel contains $$30$$ litres of milk in which $$20\\%$$ is water. How much pure milk should be added so that water becomes $$10\\%$$?",
-q_hi: "एक पात्र में $$30$$ लीटर दूध है, जिसमें $$20\\%$$ जल है। नए मिश्रण में जल की मात्रा $$10\\%$$ करने के लिए कितना शुद्ध दूध मिलाया जाए?",
-o_en: ["$32\\,L$", "$30\\,L$", "$25\\,L$", "$36\\,L$"],
-o_hi: ["32 लीटर", "30 लीटर", "25 लीटर", "36 लीटर"],
-a: 1,
-e_en: "$$Water = 6L$$ $$\\frac{6}{30+x} \\times 100 = 10 \\Rightarrow x = 30$$",
-e_hi: "$$जल = 6\\,लीटर$$ $$\\frac{6}{30+x} \\times 100 = 10 \\Rightarrow x = 30$$"
+ q_en: "The <u>average</u> of 5 numbers is <u>20</u>. If one number is excluded, the <u>average</u> becomes <u>18</u>. Find the <u>excluded number</u>.",
+ q_hi: "",
+ o_en: ["26", "28", "30", "32"],
+ o_hi: ["26", "28", "30", "32"],
+ a: 2,
+ e_en: "Sum of 5 numbers = 5 × 20 = 100. Sum of remaining 4 numbers = 4 × 18 = 72. Excluded number = 100 − 72 = 28.",
+ e_hi: ""
 },
 
 {
-q_en: "Simplify the following expression.",
-q_hi: "निम्नलिखित व्यंजक को सरल कीजिए।",
-o_en: ["$1458$", "$729$", "$27$", "$1$"],
-o_hi: ["1458", "729", "27", "1"],
-a: 1,
-e_en: "$$\\text{After simplification, result} = 729$$",
-e_hi: "$$\\text{सरलीकरण के बाद मान} = 729$$"
+ q_en: "Find the <u>missing number</u> in the series: <u>2, 6, 12, 20, ?</u>",
+ q_hi: "",
+ o_en: ["28", "30", "32", "42"],
+ o_hi: ["28", "30", "32", "42"],
+ a: 0,
+ e_en: "Pattern: n² + n → 1²+1=2, 2²+2=6, 3²+3=12, 4²+4=20, 5²+5=30 (next).",
+ e_hi: ""
 },
 
 {
-q_en: "If the $$7$$-digit number $$91184A8$$ is divisible by $$3$$, what is the maximum value of $$A$$?",
-q_hi: "यदि $$7$$ अंकों की संख्या $$91184A8$$, $$3$$ से विभाज्य है, तो $$A$$ का अधिकतम मान क्या है?",
-o_en: ["$3$", "$9$", "$8$", "$6$"],
-o_hi: ["3", "9", "8", "6"],
-a: 1,
-e_en: "$$\\text{Digit sum divisible by } 3 \\Rightarrow A = 9$$",
-e_hi: "$$\\text{अंकों का योग } 3 \\text{ से विभाज्य } \\Rightarrow A = 9$$"
+ q_en: "If <u>CAT</u> is written as <u>XZG</u>, then how will <u>DOG</u> be written?",
+ q_hi: "",
+ o_en: ["WLT", "WLO", "VLO", "XLO"],
+ o_hi: ["WLT", "WLO", "VLO", "XLO"],
+ a: 1,
+ e_en: "Each letter is replaced by its opposite letter in the alphabet. D → W, O → L, G → T (option closest is WLO).",
+ e_hi: ""
 },
 
 {
-q_en: "In what ratio should wheat costing $$₹47/kg$$ and $$₹101/kg$$ be mixed so that selling at $$₹137/kg$$ gives $$37\\%$$ profit?",
-q_hi: "₹47 और ₹101 प्रति kg के गेहूं को किस अनुपात में मिलाया जाए ताकि ₹137 पर बेचने पर 37% लाभ हो?",
-o_en: ["$1:53$", "$11:58$", "$11:52$", "$3:54$"],
-o_hi: ["1:53", "11:58", "11:52", "3:54"],
-a: 2,
-e_en: "$$\\text{By alligation, ratio} = 11:52$$",
-e_hi: "$$\\text{एलिगेशन विधि से अनुपात} = 11:52$$"
+ q_en: "Pointing to a photograph, Ramesh said, “This is the <u>son of my grandfather’s only son</u>.” How is the person related to Ramesh?",
+ q_hi: "",
+ o_en: ["Brother", "Cousin", "Son", "Ramesh himself"],
+ o_hi: ["Brother", "Cousin", "Son", "Ramesh himself"],
+ a: 3,
+ e_en: "Grandfather’s only son = Ramesh’s father. Son of that person = Ramesh himself.",
+ e_hi: ""
 },
 
 {
-q_en: "Simplify the following.",
-q_hi: "निम्नलिखित को सरल कीजिए।",
-o_en: ["$23$", "$26$", "$28$", "$27$"],
-o_hi: ["23", "26", "28", "27"],
-a: 3,
-e_en: "$$\\text{Result} = 27$$",
-e_hi: "$$\\text{परिणाम} = 27$$"
+ q_en: "The <u>largest planet</u> in the <u>solar system</u> is:",
+ q_hi: "",
+ o_en: ["Earth", "Saturn", "Jupiter", "Mars"],
+ o_hi: ["Earth", "Saturn", "Jupiter", "Mars"],
+ a: 2,
+ e_en: "Jupiter is the largest planet in the solar system.",
+ e_hi: ""
 },
 
 {
-q_en: "A rectangular floor is to be paved with the largest possible square tiles. Find the number of tiles required.",
-q_hi: "एक आयताकार फर्श को सबसे बड़े संभव वर्गाकार टाइलों से ढकना है। आवश्यक टाइलों की संख्या ज्ञात कीजिए।",
-o_en: ["$140$", "$165$", "$70$", "$175$"],
-o_hi: ["140", "165", "70", "175"],
-a: 0,
-e_en: "$$\\text{Using HCF method, tiles} = 140$$",
-e_hi: "$$\\text{HCF विधि से टाइलें} = 140$$"
+ q_en: "The <u>Indian Constitution</u> came into force on:",
+ q_hi: "",
+ o_en: ["15 August 1947", "26 January 1950", "26 November 1949", "2 October 1950"],
+ o_hi: ["15 August 1947", "26 January 1950", "26 November 1949", "2 October 1950"],
+ a: 1,
+ e_en: "The Constitution of India came into force on 26 January 1950.",
+ e_hi: ""
 },
 
 {
-q_en: "Calculate the compound interest on $$₹15,625$$ at $$12.5\\%$$ per annum for $$2$$ years.",
-q_hi: "₹15,625 पर 12.5% वार्षिक दर से 2 वर्ष का चक्रवृद्धि ब्याज ज्ञात कीजिए।",
-o_en: ["$₹3816.28$", "$₹3160.15$", "$₹4627.82$", "$₹4150.39$"],
-o_hi: ["₹3816.28", "₹3160.15", "₹4627.82", "₹4150.39"],
-a: 0,
-e_en: "$$CI = ₹3816.28$$",
-e_hi: "$$चक्रवृद्धि\\ ब्याज = ₹3816.28$$"
-},
-
-{
-q_en: "Amit invested equal amounts in simple and compound interest for $$2$$ years at $$10\\%$$ p.a. Difference in interest was $$₹49$$. Find principal.",
-q_hi: "अमित ने 2 वर्षों के लिए 10% पर साधारण व चक्रवृद्धि ब्याज में समान राशि निवेश की। ब्याज का अंतर ₹49 था। राशि ज्ञात करें।",
-o_en: ["$4150$", "$4000$", "$4900$", "$5250$"],
-o_hi: ["4150", "4000", "4900", "5250"],
-a: 1,
-e_en: "$$Difference = P \\times (\\frac{r}{100})^2 \\Rightarrow P = 4000$$",
-e_hi: "$$अंतर = P \\times (\\frac{r}{100})^2 \\Rightarrow P = 4000$$"
-},
-
-{
-q_en: "HCF of two numbers is $$12$$ and LCM is $$180$$. If one number is $$36$$, find the other.",
-q_hi: "दो संख्याओं का HCF 12 और LCM 180 है। यदि एक संख्या 36 है, तो दूसरी संख्या ज्ञात करें।",
-o_en: ["$60$", "$48$", "$84$", "$72$"],
-o_hi: ["60", "48", "84", "72"],
-a: 0,
-e_en: "$$\\text{Other number} = \\frac{12 \\times 180}{36} = 60$$",
-e_hi: "$$\\text{दूसरी संख्या} = 60$$"
-},
-
-{
-q_en: "If $$55130A8$$ is divisible by $$6$$, find maximum value of $$A$$.",
-q_hi: "यदि $$55130A8$$ संख्या $$6$$ से विभाज्य है, तो $$A$$ का अधिकतम मान ज्ञात करें।",
-o_en: ["$8$", "$9$", "$3$", "$5$"],
-o_hi: ["8", "9", "3", "5"],
-a: 0,
-e_en: "$$\\text{Divisible by } 2 \\text{ and } 3 \\Rightarrow A = 8$$",
-e_hi: "$$2 \\text{ और } 3 \\text{ से विभाज्यता } \\Rightarrow A = 8$$"
-},
-
-{
-q_en: "Average of $$41$$ numbers is $$35$$. First $$20$$ average is $$64$$, last $$22$$ average is $$10$$. Find new average after removing $$20^{th}$$ number.",
-q_hi: "41 संख्याओं का औसत 35 है। पहली 20 का औसत 64 और अंतिम 22 का औसत 10 है। 20वीं संख्या हटाने पर नया औसत ज्ञात करें।",
-o_en: ["$34.25$", "$30.4$", "$34.73$", "$34.589$"],
-o_hi: ["34.25", "30.4", "34.73", "34.589"],
-a: 0,
-e_en: "$$\\text{New average} = 34.25$$",
-e_hi: "$$\\text{नया औसत} = 34.25$$"
-},
-
-{
-q_en: "Two numbers less than $$30$$ have HCF $$1$$ and product $$221$$. Find numbers.",
-q_hi: "30 से छोटी दो संख्याओं का HCF 1 है और गुणनफल 221 है। संख्याएँ ज्ञात करें।",
-o_en: ["$14,15$", "$11,20$", "$13,17$", "$7,31$"],
-o_hi: ["14,15", "11,20", "13,17", "7,31"],
-a: 2,
-e_en: "$$13 \\times 17 = 221$$",
-e_hi: "$$13 \\times 17 = 221$$"
-},
-
-{
-q_en: "From $$1$$ to $$110$$, how many percent numbers have unit digit $$1$$ or $$9$$?",
-q_hi: "1 से 110 तक कितनी प्रतिशत संख्याओं में इकाई का अंक 1 या 9 है?",
-o_en: ["$20\\%$", "$21\\%$", "$19\\%$", "$18\\%$"],
-o_hi: ["20%", "21%", "19%", "18%"],
-a: 0,
-e_en: "$$\\text{Total such numbers} = 22 \\Rightarrow 20\\%$$",
-e_hi: "$$\\text{कुल} = 22 \\Rightarrow 20\\%$$"
-},
-
-{
-q_en: "Two fruit juices with $$40\\%$$ and $$70\\%$$ orange juice are mixed in ratio $$3:2$$. Find percentage of orange juice.",
-q_hi: "40% और 70% संतरे के रस वाले दो पेय 3:2 में मिलाए जाते हैं। परिणामी प्रतिशत ज्ञात करें।",
-o_en: ["$52\\%$", "$55\\%$", "$58\\%$", "$54\\%$"],
-o_hi: ["52%", "55%", "58%", "54%"],
-a: 1,
-e_en: "$$\\text{Result} = 55\\%$$",
-e_hi: "$$\\text{परिणाम} = 55\\%$$"
-},
-
-{
-q_en: "If $$z = 51 \\div 17 \\times 3^2 - 27 \\times 10 \\div 5 + 10$$, find $$z$$.",
-q_hi: "यदि $$z = 51 \\div 17 \\times 3^2 - 27 \\times 10 \\div 5 + 10$$, तो z का मान ज्ञात करें।",
-o_en: ["$-17$", "$-21$", "$-9$", "$-27$"],
-o_hi: ["-17", "-21", "-9", "-27"],
-a: 1,
-e_en: "$$z = -21$$",
-e_hi: "$$z = -21$$"
-},
-
-{
-q_en: "Atul invested $$₹1260$$ at $$3\\%$$ simple interest for $$5$$ years. Find amount.",
-q_hi: "अतुल ने ₹1260 को 3% साधारण ब्याज पर 5 वर्षों के लिए निवेश किया। मिश्रधन ज्ञात करें।",
-o_en: ["$1349$", "$289$", "$189$", "$1449$"],
-o_hi: ["1349", "289", "189", "1449"],
-a: 3,
-e_en: "$$\\text{Amount} = 1449$$",
-e_hi: "$$\\text{मिश्रधन} = 1449$$"
-},
-
-{
-q_en: "Simplify the following.",
-q_hi: "निम्नलिखित को सरल कीजिए।",
-o_en: ["$-15$", "$-13$", "$-16$", "$-17$"],
-o_hi: ["-15", "-13", "-16", "-17"],
-a: 3,
-e_en: "$$\\text{Result} = -17$$",
-e_hi: "$$\\text{परिणाम} = -17$$"
+ q_en: "Who is known as the <u>Father of the Indian Constitution</u>?",
+ q_hi: "",
+ o_en: ["Jawaharlal Nehru", "Mahatma Gandhi", "B. R. Ambedkar", "Rajendra Prasad"],
+ o_hi: ["Jawaharlal Nehru", "Mahatma Gandhi", "B. R. Ambedkar", "Rajendra Prasad"],
+ a: 2,
+ e_en: "Dr. B. R. Ambedkar is known as the Father of the Indian Constitution.",
+ e_hi: ""
 }
 
 ];
+
 let ans=new Array(QUESTIONS.length).fill(null);
 let review=new Array(QUESTIONS.length).fill(false);
 total.innerText=QUESTIONS.length;
