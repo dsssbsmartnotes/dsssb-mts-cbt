@@ -509,8 +509,8 @@ function toggleLang(){LANG=LANG==="EN"?"HI":"EN";langBtn.innerText=LANG;load()}
 function load(){
  let q=QUESTIONS[i];
  qno.innerText=i+1;
- qtext.innerText=LANG==="EN"?q.q_en:q.q_hi;
- expBox.innerText=LANG==="EN"?q.e_en:q.e_hi;
+qtext.innerHTML = LANG==="EN" ? q.q_en : q.q_hi;
+expBox.innerHTML = LANG==="EN" ? q.e_en : q.e_hi;
 
  /* ✅ IMAGE RENDER FIX */
  const qImg=document.getElementById("qImg");
