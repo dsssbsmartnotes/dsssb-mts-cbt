@@ -55,6 +55,7 @@ header{
  margin:10px auto;
  border-radius:8px;
  border:1px solid #ddd;
+ cursor:zoom-in;   /* 👈 ADD THIS */
 }
 
 /* FIXED TIMER */
@@ -291,6 +292,15 @@ function toggleFullScreen(){
 }
 function autoFullScreen(){
  setTimeout(()=>{toggleFullScreen()},500);
+}
+ 
+function openImgZoom(src){
+ document.getElementById("imgZoomed").src = src;
+ document.getElementById("imgZoom").style.display = "flex";
+}
+
+function closeImgZoom(){
+ document.getElementById("imgZoom").style.display = "none";
 }
 
 /* TELEGRAM */
@@ -545,6 +555,7 @@ expBox.innerHTML = LANG==="EN" ? q.e_en : q.e_hi;
  if(q.img && q.img.startsWith("data:image")){
   qImg.src=q.img;
   qImg.style.display="block";
+ qImg.onclick = () => openImgZoom(q.img); 
  }else{
   qImg.src="";
   qImg.style.display="none";
@@ -653,5 +664,22 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
  });
 }
 </script>
+ 
+ <!-- IMAGE ZOOM OVERLAY -->
+<div id="imgZoom" onclick="closeImgZoom()" style="
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.85);
+ z-index:10000;
+ align-items:center;
+ justify-content:center;">
+ 
+ <img id="imgZoomed" style="
+  max-width:95%;
+  max-height:95%;
+  border-radius:10px;">
+</div>
+
 </body>
 </html>
