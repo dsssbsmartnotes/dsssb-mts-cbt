@@ -302,21 +302,187 @@ let LANG="EN",i=0,submitted=false,totalTime=0;
 const NEGATIVE_MARK=0.25;
 
 const QUESTIONS = [
+
 {
-  q_en: "Solve the equation:\n\n$$2x^2 - 5x + 3 = 0$$",
-  q_hi: "",
-  o_en: [
-    "$x = 1, \\; x = \\frac{3}{2}$",
-    "$x = 3, \\; x = 1$",
-    "$x = -1, \\; x = 3$",
-    "$x = \\frac{1}{2}, \\; x = 3$"
-  ],
-  o_hi: ["", "", "", ""],
-  a: 0,
-  e_en: "Factorizing:\n\n$$2x^2 - 5x + 3 = (2x-3)(x-1)$$\n\nSo, $$x=1$$ or $$x=\\frac{3}{2}$$.",
-  e_hi: ""
-}
- 
+q_en: "Which of the following Indian island groups is closest to the Malabar Coast of Kerala?",
+q_hi: "निम्नलिखित में से कौन-सा भारतीय द्वीप समूह केरल के मालाबार तट के सबसे निकट स्थित है?",
+o_en: ["Andaman", "Lakshadweep", "Maldives", "Nicobar"],
+o_hi: ["अंडमान", "लक्षद्वीप", "मालदीव", "निकोबार"],
+a: 1,
+e_en: "Lakshadweep is located in the Arabian Sea near the Malabar Coast.",
+e_hi: "लक्षद्वीप अरब सागर में मालाबार तट के निकट स्थित है।"
+},
+
+{
+q_en: "The name of which element is derived from a Latin word meaning 'acid forming'?",
+q_hi: "किस तत्व का नाम लैटिन शब्द से लिया गया है, जिसका अर्थ है 'अम्लकारी (acid forming)'?",
+o_en: ["Helium", "Oxygen", "Nitrogen", "Neon"],
+o_hi: ["हीलियम", "ऑक्सीजन", "नाइट्रोजन", "निऑन"],
+a: 1,
+e_en: "Oxygen comes from the Greek word meaning acid former.",
+e_hi: "ऑक्सीजन का अर्थ अम्ल बनाने वाला होता है।"
+},
+
+{
+q_en: "A vessel contains 30 litres of milk in which 20% is water. How much pure milk should be added so that water becomes 10%?",
+q_hi: "एक पात्र में 30 लीटर दूध है, जिसमें 20% जल है। नए मिश्रण में जल की मात्रा 10% करने के लिए कितना शुद्ध दूध मिलाया जाए?",
+o_en: ["32 L", "30 L", "25 L", "36 L"],
+o_hi: ["32 लीटर", "30 लीटर", "25 लीटर", "36 लीटर"],
+a: 1,
+e_en: "Water = 6L. (6/(30+x))×100=10 ⇒ x=30.",
+e_hi: "जल = 6 लीटर। (6/(30+x))×100=10 ⇒ x=30।"
+},
+
+{
+q_en: "Simplify the following expression.",
+q_hi: "निम्नलिखित व्यंजक को सरल कीजिए।",
+o_en: ["1458", "729", "27", "1"],
+o_hi: ["1458", "729", "27", "1"],
+a: 1,
+e_en: "After simplification the result is 729.",
+e_hi: "सरलीकरण के बाद मान 729 प्राप्त होता है।"
+},
+
+{
+q_en: "If the 7-digit number 91184A8 is divisible by 3, what is the maximum value of A?",
+q_hi: "यदि 7 अंकों की संख्या 91184A8, 3 से विभाज्य है, तो A का अधिकतम मान क्या है?",
+o_en: ["3", "9", "8", "6"],
+o_hi: ["3", "9", "8", "6"],
+a: 1,
+e_en: "Digit sum divisible by 3 ⇒ A = 9.",
+e_hi: "अंकों का योग 3 से विभाज्य ⇒ A = 9।"
+},
+
+{
+q_en: "In what ratio should wheat costing ₹47/kg and ₹101/kg be mixed so that selling at ₹137/kg gives 37% profit?",
+q_hi: "₹47 और ₹101 प्रति kg के गेहूं को किस अनुपात में मिलाया जाए ताकि ₹137 पर बेचने पर 37% लाभ हो?",
+o_en: ["1:53", "11:58", "11:52", "3:54"],
+o_hi: ["1:53", "11:58", "11:52", "3:54"],
+a: 2,
+e_en: "Using alligation, ratio = 11:52.",
+e_hi: "एलिगेशन विधि से अनुपात 11:52।"
+},
+
+{
+q_en: "Simplify the following.",
+q_hi: "निम्नलिखित को सरल कीजिए।",
+o_en: ["23", "26", "28", "27"],
+o_hi: ["23", "26", "28", "27"],
+a: 3,
+e_en: "On simplification, result is 27.",
+e_hi: "सरलीकरण पर मान 27 आता है।"
+},
+
+{
+q_en: "A rectangular floor is to be paved with the largest possible square tiles. Find the number of tiles required.",
+q_hi: "एक आयताकार फर्श को सबसे बड़े संभव वर्गाकार टाइलों से ढकना है। आवश्यक टाइलों की संख्या ज्ञात कीजिए।",
+o_en: ["140", "165", "70", "175"],
+o_hi: ["140", "165", "70", "175"],
+a: 0,
+e_en: "Using HCF method, required tiles = 140.",
+e_hi: "HCF विधि से टाइलों की संख्या 140।"
+},
+
+{
+q_en: "Calculate the compound interest on ₹15,625 at 12.5% per annum for 2 years.",
+q_hi: "₹15,625 पर 12.5% वार्षिक दर से 2 वर्ष का चक्रवृद्धि ब्याज ज्ञात कीजिए।",
+o_en: ["₹3816.28", "₹3160.15", "₹4627.82", "₹4150.39"],
+o_hi: ["₹3816.28", "₹3160.15", "₹4627.82", "₹4150.39"],
+a: 0,
+e_en: "CI = ₹3816.28.",
+e_hi: "चक्रवृद्धि ब्याज = ₹3816.28।"
+},
+
+{
+q_en: "Amit invested equal amounts in simple and compound interest for 2 years at 10% p.a. Difference in interest was ₹49. Find principal.",
+q_hi: "अमित ने 2 वर्षों के लिए 10% पर साधारण व चक्रवृद्धि ब्याज में समान राशि निवेश की। ब्याज का अंतर ₹49 था। राशि ज्ञात करें।",
+o_en: ["4150", "4000", "4900", "5250"],
+o_hi: ["4150", "4000", "4900", "5250"],
+a: 1,
+e_en: "Difference = P×(r/100)² ⇒ P=4000.",
+e_hi: "अंतर = P×(r/100)² ⇒ P=4000।"
+},
+
+{
+q_en: "HCF of two numbers is 12 and LCM is 180. If one number is 36, find the other.",
+q_hi: "दो संख्याओं का HCF 12 और LCM 180 है। यदि एक संख्या 36 है, तो दूसरी संख्या ज्ञात करें।",
+o_en: ["60", "48", "84", "72"],
+o_hi: ["60", "48", "84", "72"],
+a: 0,
+e_en: "Other number = (12×180)/36 = 60.",
+e_hi: "दूसरी संख्या = 60।"
+},
+
+{
+q_en: "If 55130A8 is divisible by 6, find maximum value of A.",
+q_hi: "यदि 55130A8 संख्या 6 से विभाज्य है, तो A का अधिकतम मान ज्ञात करें।",
+o_en: ["8", "9", "3", "5"],
+o_hi: ["8", "9", "3", "5"],
+a: 0,
+e_en: "Divisible by 2 & 3 ⇒ A = 8.",
+e_hi: "2 और 3 से विभाज्यता ⇒ A = 8।"
+},
+
+{
+q_en: "Average of 41 numbers is 35. First 20 average is 64, last 22 average is 10. Find new average after removing 20th number.",
+q_hi: "41 संख्याओं का औसत 35 है। पहली 20 का औसत 64 और अंतिम 22 का औसत 10 है। 20वीं संख्या हटाने पर नया औसत ज्ञात करें।",
+o_en: ["34.25", "30.4", "34.73", "34.589"],
+o_hi: ["34.25", "30.4", "34.73", "34.589"],
+a: 0,
+e_en: "New average = 34.25.",
+e_hi: "नया औसत = 34.25।"
+},
+
+{
+q_en: "Two numbers less than 30 have HCF 1 and product 221. Find numbers.",
+q_hi: "30 से छोटी दो संख्याओं का HCF 1 है और गुणनफल 221 है। संख्याएँ ज्ञात करें।",
+o_en: ["14,15", "11,20", "13,17", "7,31"],
+o_hi: ["14,15", "11,20", "13,17", "7,31"],
+a: 2,
+e_en: "13 × 17 = 221.",
+e_hi: "13 × 17 = 221।"
+},
+
+{
+q_en: "From 1 to 110, how many percent numbers have unit digit 1 or 9?",
+q_hi: "1 से 110 तक कितनी प्रतिशत संख्याओं में इकाई का अंक 1 या 9 है?",
+o_en: ["20%", "21%", "19%", "18%"],
+o_hi: ["20%", "21%", "19%", "18%"],
+a: 0,
+e_en: "Total such numbers = 22 ⇒ 20%.",
+e_hi: "कुल = 22 ⇒ 20%।"
+},
+
+{
+q_en: "Two fruit juices with 40% and 70% orange juice are mixed in ratio 3:2. Find percentage of orange juice.",
+q_hi: "40% और 70% संतरे के रस वाले दो पेय 3:2 में मिलाए जाते हैं। परिणामी प्रतिशत ज्ञात करें।",
+o_en: ["52%", "55%", "58%", "54%"],
+o_hi: ["52%", "55%", "58%", "54%"],
+a: 1,
+e_en: "Result = 55%.",
+e_hi: "परिणाम = 55%।"
+},
+
+{
+q_en: "If z = 51 ÷ 17 × 3² − 27 × 10 ÷ 5 + 10, find z.",
+q_hi: "यदि z = 51 ÷ 17 × 3² − 27 × 10 ÷ 5 + 10, तो z का मान ज्ञात करें।",
+o_en: ["-17", "-21", "-9", "-27"],
+o_hi: ["-17", "-21", "-9", "-27"],
+a: 1,
+e_en: "z = -21.",
+e_hi: "z = -21।"
+},
+
+{
+q_en: "Atul invested ₹1260 at 3% simple interest for 5 years. Find amount.",
+q_hi: "अतुल ने ₹1260 को 3% साधारण ब्याज पर 5 वर्षों के लिए निवेश किया। मिश्रधन ज्ञात करें।",
+o_en: ["1349", "289", "189", "1449"],
+o_hi: ["1349", "289", "189", "1449"],
+a: 3,
+e_en: "Amount = 1449.",
+e_hi: "मिश्रधन = 1449।"
+},
+
 {
 q_en: "Study the bar graph and find the average number of successful students.",
 q_hi: "बार ग्राफ का अध्ययन कर सफल विद्यार्थियों की औसत संख्या ज्ञात करें।",
@@ -326,7 +492,7 @@ o_hi: ["31.4", "3140", "35", "3500"],
 a: 0,
 e_en: "Average = 31.4.",
 e_hi: "औसत = 31.4।"
-}
+},
 
 {
 q_en: "Study the table and find bonus paid as percentage of total salary.",
@@ -337,10 +503,19 @@ o_hi: ["2%", "1%", "0.5%", "2.5%"],
 a: 2,
 e_en: "Answer ≈ 0.5%.",
 e_hi: "उत्तर ≈ 0.5%।"
+},
+
+{
+q_en: "Simplify the following.",
+q_hi: "निम्नलिखित को सरल कीजिए।",
+o_en: ["-15", "-13", "-16", "-17"],
+o_hi: ["-15", "-13", "-16", "-17"],
+a: 3,
+e_en: "Result is -17.",
+e_hi: "परिणाम -17 है।"
 }
 
 ];
-
 let ans=new Array(QUESTIONS.length).fill(null);
 let review=new Array(QUESTIONS.length).fill(false);
 total.innerText=QUESTIONS.length;
