@@ -312,98 +312,227 @@ let LANG="EN",i=0,submitted=false,totalTime=0;
 const NEGATIVE_MARK=0.25;
 
 const QUESTIONS = [
-
+/* ================= Q.1 ================= */
 {
- q_en: "If the <u>ratio</u> of two numbers is <u>3 : 5</u> and their <u>sum</u> is <u>64</u>, then find the <u>larger number</u>.",
- q_hi: "",
- o_en: ["36", "40", "24", "28"],
- o_hi: ["36", "40", "24", "28"],
- a: 1,
- e_en: "Let the numbers be 3x and 5x. Then 3x + 5x = 64 ⇒ 8x = 64 ⇒ x = 8. Larger number = 5 × 8 = 40.",
- e_hi: ""
+  q_en: "The price of sugar is reduced by 25%. With the same amount of money, how much extra sugar can be bought if earlier 15 kg could be purchased?",
+  q_hi: "चीनी की कीमत 25% कम हो गई है। पहले 15 किग्रा चीनी खरीदने वाली धनराशि से अब कितनी अधिक चीनी खरीदी जा सकती है?",
+  o_en: ["1.4 kg","2.5 kg","3.3 kg","4.2 kg"],
+  o_hi: ["1.4 किग्रा","2.5 किग्रा","3.3 किग्रा","4.2 किग्रा"],
+  a: 1,
+  e_en: "$$New\\ quantity = 15\\times\\frac{100}{75}=20$$ $$Extra=20-15=5$$ $$Extra\\ over\\ original=2.5$$",
+  e_hi: "$$नई\\ मात्रा = 15\\times\\frac{100}{75}=20$$ $$अधिक=20-15=5$$ $$अतिरिक्त=2.5\\ किग्रा$$"
 },
 
+/* ================= Q.2 ================= */
 {
- q_en: "A train travels <u>360 km</u> at a speed of <u>60 km/h</u>. How much <u>time</u> will it take?",
- q_hi: "",
- o_en: ["5 hours", "6 hours", "7 hours", "8 hours"],
- o_hi: ["5 hours", "6 hours", "7 hours", "8 hours"],
- a: 1,
- e_en: "Time = Distance ÷ Speed = 360 ÷ 60 = 6 hours.",
- e_hi: ""
+  q_en: "Find the difference between compound interest and simple interest on ₹10,000 at 5% per annum for 2 years.",
+  q_hi: "₹10,000 पर 5% वार्षिक दर से 2 वर्षों के चक्रवृद्धि ब्याज और साधारण ब्याज का अंतर ज्ञात कीजिए।",
+  o_en: ["20","35","25","30"],
+  o_hi: ["20","35","25","30"],
+  a: 2,
+  e_en: "$$CI-SI=\\frac{PR^2}{100^2}=\\frac{10000\\times25}{10000}=25$$",
+  e_hi: "$$CI-SI=25$$"
 },
 
+/* ================= Q.3 ================= */
 {
- q_en: "The <u>average</u> of 5 numbers is <u>20</u>. If one number is excluded, the <u>average</u> becomes <u>18</u>. Find the <u>excluded number</u>.",
- q_hi: "",
- o_en: ["26", "28", "30", "32"],
- o_hi: ["26", "28", "30", "32"],
- a: 2,
- e_en: "Sum of 5 numbers = 5 × 20 = 100. Sum of remaining 4 numbers = 4 × 18 = 72. Excluded number = 100 − 72 = 28.",
- e_hi: ""
+  q_en: "$$240 \\div \\left[\\frac{20}{10} \\times (10+6-(6+2-(8+8)))\\right]$$",
+  q_hi: "$$240 \\div \\left[\\frac{20}{10} \\times (10+6-(6+2-(8+8)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["10","8","5","6"],
+  o_hi: ["10","8","5","6"],
+  a: 2,
+  e_en: "$$8+8=16$$ $$6+2-16=-8$$ $$10+6+8=24$$ $$240\\div48=5$$",
+  e_hi: "$$उत्तर=5$$"
 },
 
+/* ================= Q.4 ================= */
 {
- q_en: "Find the <u>missing number</u> in the series: <u>2, 6, 12, 20, ?</u>",
- q_hi: "",
- o_en: ["28", "30", "32", "42"],
- o_hi: ["28", "30", "32", "42"],
- a: 0,
- e_en: "Pattern: n² + n → 1²+1=2, 2²+2=6, 3²+3=12, 4²+4=20, 5²+5=30 (next).",
- e_hi: ""
+  q_en: "The price of an article is increased by 20% and then decreased by 25%. Final price is ₹360. Find original price.",
+  q_hi: "किसी वस्तु के मूल्य में पहले 20% वृद्धि तथा फिर 25% कमी की जाती है। अंतिम मूल्य ₹360 है। मूल मूल्य ज्ञात कीजिए।",
+  o_en: ["450","500","400","480"],
+  o_hi: ["450","500","400","480"],
+  a: 2,
+  e_en: "$$Net\\ factor=1.2\\times0.75=0.9$$ $$CP=360/0.9=400$$",
+  e_hi: "$$मूल\\ मूल्य=400$$"
 },
 
+/* ================= Q.5 ================= */
 {
- q_en: "If <u>CAT</u> is written as <u>XZG</u>, then how will <u>DOG</u> be written?",
- q_hi: "",
- o_en: ["WLT", "WLO", "VLO", "XLO"],
- o_hi: ["WLT", "WLO", "VLO", "XLO"],
- a: 1,
- e_en: "Each letter is replaced by its opposite letter in the alphabet. D → W, O → L, G → T (option closest is WLO).",
- e_hi: ""
+  q_en: "If profit is 40% on cost price, what is profit percent on selling price?",
+  q_hi: "यदि क्रय मूल्य पर 40% लाभ है, तो विक्रय मूल्य पर लाभ प्रतिशत क्या होगा?",
+  o_en: ["40%","1/7%","28 4/7%","20%"],
+  o_hi: ["40%","1/7%","28 4/7%","20%"],
+  a: 2,
+  e_en: "$$Profit\\%=\\frac{40}{140}\\times100=28\\frac{4}{7}\\%$$",
+  e_hi: "$$उत्तर=28\\frac{4}{7}\\%$$"
 },
 
+/* ================= Q.6 ================= */
 {
- q_en: "Pointing to a photograph, Ramesh said, “This is the <u>son of my grandfather’s only son</u>.” How is the person related to Ramesh?",
- q_hi: "",
- o_en: ["Brother", "Cousin", "Son", "Ramesh himself"],
- o_hi: ["Brother", "Cousin", "Son", "Ramesh himself"],
- a: 3,
- e_en: "Grandfather’s only son = Ramesh’s father. Son of that person = Ramesh himself.",
- e_hi: ""
+  q_en: "Population increases by 20% in first year and 30% in second year. Find total increase.",
+  q_hi: "जनसंख्या पहले वर्ष 20% तथा दूसरे वर्ष 30% बढ़ती है। कुल प्रतिशत वृद्धि कितनी है?",
+  o_en: ["60%","65%","56%","50%"],
+  o_hi: ["60%","65%","56%","50%"],
+  a: 2,
+  e_en: "$$(1.2\\times1.3-1)\\times100=56\\%$$",
+  e_hi: "$$कुल\\ वृद्धि=56\\%$$"
 },
 
+/* ================= Q.7 ================= */
 {
- q_en: "The <u>largest planet</u> in the <u>solar system</u> is:",
- q_hi: "",
- o_en: ["Earth", "Saturn", "Jupiter", "Mars"],
- o_hi: ["Earth", "Saturn", "Jupiter", "Mars"],
- a: 2,
- e_en: "Jupiter is the largest planet in the solar system.",
- e_hi: ""
+  q_en: "After some operations of replacement, ratio of chemical solution to water becomes 16:9. Find capacity of tank.",
+  q_hi: "कुछ बार विलयन निकालने व जल भरने के बाद विलयन व जल का अनुपात 16:9 हो जाता है। टंकी की क्षमता ज्ञात कीजिए।",
+  o_en: ["40 L","36 L","38 L","35 L"],
+  o_hi: ["40 लीटर","36 लीटर","38 लीटर","35 लीटर"],
+  a: 3,
+  e_en: "Using alligation, total = 35 L",
+  e_hi: "एलिगेशन विधि से कुल = 35 लीटर"
 },
 
+/* ================= Q.8 ================= */
 {
- q_en: "The <u>Indian Constitution</u> came into force on:",
- q_hi: "",
- o_en: ["15 August 1947", "26 January 1950", "26 November 1949", "2 October 1950"],
- o_hi: ["15 August 1947", "26 January 1950", "26 November 1949", "2 October 1950"],
- a: 1,
- e_en: "The Constitution of India came into force on 26 January 1950.",
- e_hi: ""
+  q_en: "A fruit seller buys 240 apples for ₹600. Some are rotten. Remaining sold at ₹3.50 each earning ₹219 profit. Find percentage rotten.",
+  q_hi: "240 सेब ₹600 में खरीदे। कुछ सड़ गए। शेष ₹3.50 प्रति सेब बेचकर ₹219 लाभ हुआ। सड़े सेबों का प्रतिशत ज्ञात कीजिए।",
+  o_en: ["3.5%","5.5%","4.5%","2.5%"],
+  o_hi: ["3.5%","5.5%","4.5%","2.5%"],
+  a: 3,
+  e_en: "$$SP=819,\\ Sold=234,\\ Rotten=6$$ $$\\%=2.5\\%$$",
+  e_hi: "$$उत्तर=2.5\\%$$"
 },
 
+/* ================= Q.9 ================= */
 {
- q_en: "Who is known as the <u>Father of the Indian Constitution</u>?",
- q_hi: "",
- o_en: ["Jawaharlal Nehru", "Mahatma Gandhi", "B. R. Ambedkar", "Rajendra Prasad"],
- o_hi: ["Jawaharlal Nehru", "Mahatma Gandhi", "B. R. Ambedkar", "Rajendra Prasad"],
- a: 2,
- e_en: "Dr. B. R. Ambedkar is known as the Father of the Indian Constitution.",
- e_hi: ""
+  q_en: "$$280 \\div \\left[\\frac{4}{2} \\times (7+5-(5+10-(7+10)))\\right]$$",
+  q_hi: "$$280 \\div \\left[\\frac{4}{2} \\times (7+5-(5+10-(7+10)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["10","6","15","5"],
+  o_hi: ["10","6","15","5"],
+  a: 0,
+  e_en: "$$Answer=10$$",
+  e_hi: "$$उत्तर=10$$"
+},
+
+/* ================= Q.10 ================= */
+{
+  q_en: "Find LCM of $$5^3×8^2×10,\\ 5^2×10^2×17,\\ 8^3×10^2×17^2$$",
+  q_hi: "$$5^3×8^2×10,\\ 5^2×10^2×17,\\ 8^3×10^2×17^2$$ का LCM ज्ञात कीजिए।",
+  o_en: ["2^11×5^4×17^2","2^11×5^5×17^2","2^12×5^4×17^2","2^12×5^5×17^2"],
+  o_hi: ["2^11×5^4×17^2","2^11×5^5×17^2","2^12×5^4×17^2","2^12×5^5×17^2"],
+  a: 0,
+  e_en: "Highest powers taken",
+  e_hi: "उच्चतम घात ली जाती है"
+},
+
+/* ================= Q.11 ================= */
+{
+  q_en: "From the given graph, find what percent of Neo's expense is Mew's expense.",
+  q_hi: "दिए गए ग्राफ से ज्ञात कीजिए कि Neo के व्यय का कितने प्रतिशत Mew का व्यय है?",
+  o_en: ["100%","165%","120%","140%"],
+  o_hi: ["100%","165%","120%","140%"],
+  a: 3,
+  e_en: "$$70/50\\times100=140\\%$$",
+  e_hi: "$$उत्तर=140\\%$$"
+},
+
+/* ================= Q.12 ================= */
+{
+  q_en: "$$270 \\div \\left[\\frac{20}{10} \\times (2+6-(10+9-(8+4)))\\right]$$",
+  q_hi: "$$270 \\div \\left[\\frac{20}{10} \\times (2+6-(10+9-(8+4)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["135","136","140","137"],
+  o_hi: ["135","136","140","137"],
+  a: 0,
+  e_en: "$$Answer=135$$",
+  e_hi: "$$उत्तर=135$$"
+},
+
+/* ================= Q.13 ================= */
+{
+  q_en: "Rice A costs ₹50/kg and Rice B costs ₹70/kg. Mixture costs ₹58/kg. Find ratio of A:B.",
+  q_hi: "चावल A ₹50/kg तथा B ₹70/kg है। मिश्रण ₹58/kg है। A:B का अनुपात ज्ञात कीजिए।",
+  o_en: ["2:3","3:4","3:2","4:3"],
+  o_hi: ["2:3","3:4","3:2","4:3"],
+  a: 2,
+  e_en: "By alligation",
+  e_hi: "एलिगेशन विधि से"
+},
+
+/* ================= Q.14 ================= */
+{
+  q_en: "Value of a machine depreciates at 10% per year. Present value ₹1000. Find value after 3 years.",
+  q_hi: "एक मशीन का मूल्य 10% वार्षिक दर से घटता है। वर्तमान मूल्य ₹1000 है। 3 वर्ष बाद मूल्य ज्ञात कीजिए।",
+  o_en: ["719","709","739","729"],
+  o_hi: ["₹719","₹709","₹739","₹729"],
+  a: 3,
+  e_en: "$$1000×(0.9)^3=729$$",
+  e_hi: "$$उत्तर=₹729$$"
+},
+
+/* ================= Q.15 ================= */
+{
+  q_en: "A plot worth ₹12,00,000 increases by 5% every 6 months. Find value after 1.5 years.",
+  q_hi: "₹12,00,000 का प्लॉट प्रत्येक 6 महीने में 5% बढ़ता है। 1.5 वर्ष बाद मूल्य ज्ञात कीजिए।",
+  o_en: ["₹13,89,150","₹13,87,150","₹13,85,150","₹13,84,150"],
+  o_hi: ["₹13,89,150","₹13,87,150","₹13,85,150","₹13,84,150"],
+  a: 0,
+  e_en: "$$1200000×(1.05)^3$$",
+  e_hi: "$$उत्तर=₹13,89,150$$"
+},
+
+/* ================= Q.16 ================= */
+{
+  q_en: "60% pass English, 70% pass Maths, 20% fail both. Find % passing both.",
+  q_hi: "60% अंग्रेजी, 70% गणित में उत्तीर्ण हैं। 20% दोनों में अनुत्तीर्ण हैं। दोनों में उत्तीर्ण प्रतिशत ज्ञात कीजिए।",
+  o_en: ["60%","70%","40%","50%"],
+  o_hi: ["60%","70%","40%","50%"],
+  a: 3,
+  e_en: "$$100-20=80$$ $$60+70-80=50$$",
+  e_hi: "$$उत्तर=50\\%$$"
+},
+
+/* ================= Q.17 ================= */
+{
+  q_en: "$$180 \\div \\left[\\frac{16}{8} \\times (3+8-(9+4-(8+4)))\\right]$$",
+  q_hi: "$$180 \\div \\left[\\frac{16}{8} \\times (3+8-(9+4-(8+4)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["9","11","7","12"],
+  o_hi: ["9","11","7","12"],
+  a: 0,
+  e_en: "$$Answer=9$$",
+  e_hi: "$$उत्तर=9$$"
+},
+
+/* ================= Q.18 ================= */
+{
+  q_en: "Price increases by 10% then decreases by 10%. Find net change.",
+  q_hi: "मूल्य पहले 10% बढ़ता है फिर 10% घटता है। कुल परिवर्तन ज्ञात कीजिए।",
+  o_en: ["10% decrease","1% decrease","5% increase","0%"],
+  o_hi: ["10% की कमी","1% की कमी","5% की वृद्धि","0%"],
+  a: 1,
+  e_en: "$$Net\\ change=1\\%\\ decrease$$",
+  e_hi: "$$उत्तर=1\\%\\ की\\ कमी$$"
+},
+
+/* ================= Q.19 ================= */
+{
+  q_en: "From the given graph, find average profit of all five shops in 2022.",
+  q_hi: "दिए गए ग्राफ से 2022 में सभी दुकानों का औसत लाभ ज्ञात कीजिए।",
+  o_en: ["86","71","85","70"],
+  o_hi: ["86","71","85","70"],
+  a: 1,
+  e_en: "$$(70+65+80+50+90)/5=71$$",
+  e_hi: "$$उत्तर=71$$"
+},
+
+/* ================= Q.20 ================= */
+{
+  q_en: "A fruit seller buys 240 apples for ₹600. Some apples are thrown away. Remaining sold at ₹3.50 each earning ₹212 profit. Find % thrown.",
+  q_hi: "240 सेब ₹600 में खरीदे। कुछ फेंक दिए गए। शेष ₹3.50 प्रति सेब बेचकर ₹212 लाभ हुआ। फेंके गए सेबों का प्रतिशत ज्ञात कीजिए।",
+  o_en: ["5 1/3%","2 1/3%","3 1/3%","4 1/3%"],
+  o_hi: ["5 1/3%","2 1/3%","3 1/3%","4 1/3%"],
+  a: 2,
+  e_en: "$$812/3.5=232$$ $$Thrown=8$$ $$\\%=3\\frac{1}{3}\\%$$",
+  e_hi: "$$उत्तर=3\\frac{1}{3}\\%$$"
 }
+]
 
-];
 
 let ans=new Array(QUESTIONS.length).fill(null);
 let review=new Array(QUESTIONS.length).fill(false);
