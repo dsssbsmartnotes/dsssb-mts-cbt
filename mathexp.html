@@ -302,15 +302,21 @@ let LANG="EN",i=0,submitted=false,totalTime=0;
 const NEGATIVE_MARK=0.25;
 
 const QUESTIONS = [
-  {
-    q_en: "Solve the equation:\n\n$$2x^2 - 5x + 3 = 0$$",
-    q_hi: "",
-    o_en: ["x = 1, \\; x = \\frac{3}{2}", "x = 3, \\; x = 1", "x = -1, \\; x = 3", "x = \\frac{1}{2}, \\; x = 3"],
-    o_hi: ["", "", "", ""],
-    a: 0,
-    e_en: "Factorizing the equation:\n\n$$2x^2 - 5x + 3 = (2x - 3)(x - 1) = 0$$\n\nSo, $$x = 1$$ or $$x = \\frac{3}{2}$$.",
-    e_hi: ""
-  }
+{
+  q_en: "Solve the equation:\n\n$$2x^2 - 5x + 3 = 0$$",
+  q_hi: "",
+  o_en: [
+    "$x = 1, \\; x = \\frac{3}{2}$",
+    "$x = 3, \\; x = 1$",
+    "$x = -1, \\; x = 3$",
+    "$x = \\frac{1}{2}, \\; x = 3$"
+  ],
+  o_hi: ["", "", "", ""],
+  a: 0,
+  e_en: "Factorizing:\n\n$$2x^2 - 5x + 3 = (2x-3)(x-1)$$\n\nSo, $$x=1$$ or $$x=\\frac{3}{2}$$.",
+  e_hi: ""
+}
+
 ];
 
 let ans=new Array(QUESTIONS.length).fill(null);
