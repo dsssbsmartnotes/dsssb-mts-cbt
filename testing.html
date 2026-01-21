@@ -32,22 +32,35 @@ body{
   padding-bottom:110px;
 }
 
-/* ==== HINDI ANSWER / SOLUTION FONT FIX (FINAL) ==== */
+/* ===== FINAL HINDI SOLUTION FIX (GUARANTEED) ===== */
+
+/* Solution / Answer area – force Devanagari */
 .solution,
 .answer,
 #solution,
 #answer,
-.solution-box,
-.answer-box,
-.explanation,
-.explain,
-.result,
-.result-box {
+.solution *,
+.answer *,
+.result *,
+.explanation * {
   font-family: "Noto Sans Devanagari", "Mangal", sans-serif !important;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
+  letter-spacing: 0 !important;
+  word-spacing: 0 !important;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
   unicode-bidi: plaintext;
 }
+
+/* Fix for sup / sub inside Hindi */
+.solution sup,
+.solution sub,
+.answer sup,
+.answer sub {
+  font-family: "Noto Sans Devanagari", "Mangal", sans-serif !important;
+}
+
 
 
 /* =========================
