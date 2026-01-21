@@ -87,6 +87,11 @@ header{
   padding:14px;
   border-radius:10px;
 }
+   
+/* right palette ke liye space */
+.card{
+    margin-right: 220px;
+}
 
 /* QUESTION IMAGE */
 .q-img{
@@ -189,29 +194,42 @@ header{
     border-top:1px solid #b5d9ee;
 }
 
+/* ===== RIGHT FLOATING CBT PALETTE ===== */
+
 .palette{
-    padding:15px;
-    display:grid;
+    position: fixed;
+    top: 170px;              /* header + status bar ke baad */
+    right: 10px;
+    width: 200px;
+    padding: 12px;
+    background: #f5f7fa;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap:12px;
+    gap: 10px;
+    z-index: 999;
 }
 
+/* palette buttons */
 .q-box{
-    height:45px;
-    border-radius:6px;
+    height: 38px;
+    border-radius: 8px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-weight:bold;
+    font-weight:600;
+    font-size:14px;
     cursor:pointer;
-    border:2px solid #000;
-    background:#fff;
+    background:#9e9e9e;   /* not visited */
+    color:#fff;
+    border:none;
 }
 
 .q-active{
     outline:3px solid #000;
 }
-   
+  
    
 /* =========================
    FIXED TIMER
@@ -378,6 +396,34 @@ z-index:9999;text-align:center;display:none
 }
 #tgPopup a{display:block;background:#0088cc;color:#fff;padding:10px;
 border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
+
+/* Desktop right floating palette */
+.palette{
+    position: fixed;
+    top: 180px;
+    right: 12px;
+    width: 260px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    z-index: 999;
+}
+   
+/* Mobile view me palette normal ho */
+@media (max-width: 768px){
+    .palette{
+        position: static;
+        width: auto;
+        margin: 10px;
+        box-shadow: none;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .card{
+        margin-right: 8px;
+    }
+}
+   
 </style>
  
 <!-- MATHJAX CONFIG -->
