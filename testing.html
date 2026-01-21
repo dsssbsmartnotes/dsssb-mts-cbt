@@ -1,0 +1,772 @@
+
+<!doctype html>
+<html lang="HI">
+<head>
+<meta charset="utf-8">
+<title>PYQ Eng Nov – DSSSB Smart Notes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   CBT FULL FOCUS FIX
+   ========================= */
+html, body{
+  width:100%;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+/* CBT EXAM FEEL */
+body{
+  overscroll-behavior:none;
+  touch-action:pan-y;
+  font-family:Arial;
+  background:#f5f7fa;
+  padding-bottom:110px;
+}
+
+/* ==== HINDI ANSWER / SOLUTION FONT FIX (FINAL) ==== */
+.solution,
+.answer,
+#solution,
+#answer,
+.solution-box,
+.answer-box,
+.explanation,
+.explain,
+.result,
+.result-box {
+  font-family: "Noto Sans Devanagari", "Mangal", sans-serif !important;
+  font-size: 16px;
+  line-height: 1.6;
+  unicode-bidi: plaintext;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+header{
+  background:#fff;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+/* =========================
+   QUESTION CARD
+   ========================= */
+.card{
+  background:#fff;
+  margin:8px;
+  padding:14px;
+  border-radius:10px;
+}
+
+/* QUESTION IMAGE */
+.q-img{
+  width:100%;
+  max-width:420px;
+  display:block;
+  margin:10px auto;
+  border-radius:8px;
+  border:1px solid #ddd;
+  cursor:zoom-in;
+}
+
+/* =========================
+   OPTIONS
+   ========================= */
+.opt{
+  border:1px solid #ddd;
+  padding:14px;
+  margin:8px 0;
+  border-radius:8px;
+  cursor:pointer;
+  background:#fff;
+  transition:.15s ease;
+}
+
+.opt:hover{
+  background:#f5f9ff;
+}
+
+.opt.sel{
+  background:#e3f2fd;
+  border-color:#1976d2;
+  font-weight:600;
+}
+
+.opt.correct{
+  background:#e8f5e9;
+  border-color:#2e7d32;
+  font-weight:600;
+}
+
+.opt.wrong{
+  background:#ffebee;
+  border-color:#c62828;
+  font-weight:600;
+}
+
+/* =========================
+   FIXED TIMER
+   ========================= */
+#timer{
+  position:fixed;
+  top:64px;
+  right:12px;
+  z-index:9999;
+  background:#e3f2fd;
+  color:#1565c0;
+  padding:6px 10px;
+  border-radius:8px;
+  font-weight:bold;
+  min-width:70px;
+  text-align:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+
+/* =========================
+   BOTTOM BUTTONS
+   ========================= */
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  padding:8px;
+  display:flex;
+  gap:8px;
+  justify-content:space-between;
+  box-shadow:0 -2px 8px rgba(0,0,0,.15);
+}
+/* FULLSCREEN BUTTON */
+#fsBtn{
+background:#000;
+color:#fff;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+font-size:12px;
+}
+
+.card{background:#fff;margin:8px;padding:14px;border-radius:10px}
+
+.opt{border:1px solid #ddd;padding:14px;margin:8px 0;border-radius:8px}
+.opt.sel{background:#e3f2fd;border-color:#2196f3}
+.opt.correct{background:#e8f5e9;border-color:#2e7d32}
+.opt.wrong{background:#ffebee;border-color:#c62828}
+
+button{background:#2196f3;color:#fff;border:none;padding:10px 12px;border-radius:8px}
+#langBtn{background:#673ab7}
+
+#palettePanel{position:fixed;top:0;right:-85%;width:85%;height:100%;
+background:#fff;transition:.3s;z-index:1000;padding:10px}
+#palettePanel.show{right:0}
+
+.qbtn{width:42px;height:42px;margin:5px;border-radius:8px;border:none;color:#fff}
+.qbtn.visited{background:#9e9e9e}
+.qbtn.answered{background:#1565c0}
+.qbtn.review{background:#f9a825}
+.qbtn.correct{background:#2e7d32}
+.qbtn.wrong{background:#c62828}
+/* ===== DSSSB EXAM LOOK POLISH ===== */
+
+/* Question text */
+#qtext{
+ font-size:16px;
+ line-height:1.6;
+ margin-top:10px;
+ color:#111;
+}
+
+/* Hindi text thoda readable */
+body[lang="HI"] #qtext{
+ font-size:17px;
+}
+
+/* Options – exam style */
+.opt{
+ background:#fff;
+ transition:all .15s ease;
+}
+.opt:hover{
+ background:#f5f9ff;
+ border-color:#1976d2;
+}
+.opt.sel{
+ background:#e3f2fd;
+ border-color:#1976d2;
+ font-weight:600;
+}
+
+/* Correct / Wrong after submit */
+.opt.correct{
+ background:#e8f5e9;
+ border-color:#2e7d32;
+ font-weight:600;
+}
+.opt.wrong{
+ background:#ffebee;
+ border-color:#c62828;
+ font-weight:600;
+}
+
+/* Question number header */
+.card b{
+ font-size:15px;
+}
+
+/* Palette panel polish */
+#palettePanel{
+ box-shadow:-4px 0 20px rgba(0,0,0,.2);
+}
+#palette h3{
+ margin:8px 0 12px;
+}
+
+/* Bottom navigation bar */
+body > div[style*="position:fixed"][style*="bottom"]{
+ box-shadow:0 -2px 10px rgba(0,0,0,.15);
+}
+
+/* Result card */
+#result{
+ font-size:15px;
+ line-height:1.6;
+}
+#result h3{
+ margin-top:0;
+ color:#1565c0;
+}
+
+/* Solution box */
+#expBox{
+ font-size:15px;
+ line-height:1.6;
+ border-left:4px solid #2196f3;
+}
+
+/* Buttons polish */
+button{
+ transition:transform .1s ease, box-shadow .1s ease;
+}
+button:active{
+ transform:scale(.97);
+ box-shadow:0 2px 4px rgba(0,0,0,.3) inset;
+}
+
+/* Mobile exam feel */
+@media(max-width:480px){
+ #qtext{font-size:15.5px}
+ .opt{padding:13px}
+ button{padding:9px 10px;font-size:14px}
+}
+  
+
+#tgPopup{
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:20px;width:85%;max-width:320px;
+border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.4);
+z-index:9999;text-align:center;display:none
+}
+#tgPopup a{display:block;background:#0088cc;color:#fff;padding:10px;
+border-radius:8px;text-decoration:none;margin-top:10px;font-weight:bold}
+</style>
+ 
+<!-- MATHJAX CONFIG -->
+<script>
+window.MathJax = {
+ tex: {
+  inlineMath: [['$', '$'], ['\\(', '\\)']],
+  displayMath: [['$$', '$$']]
+ },
+ svg: { fontCache: 'global' }
+};
+</script>
+
+<!-- MATHJAX CDN -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+ 
+</head>
+
+<body onload="initExam();autoFullScreen()">
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br><br>
+ <button onclick="closeTg()">Continue Test</button>
+</div>
+
+<header>
+ <b>English PYQ – DSSSB Smart Notes</b>
+ <div style="display:flex;gap:6px">
+  <button id="fsBtn" onclick="toggleFullScreen()">⛶</button>
+  <button id="langBtn" onclick="toggleLang()">ENG</button>
+ </div>
+</header>
+
+<div id="timer">00:00</div>
+
+<div class="card">
+ <input id="stuName" placeholder="Enter Your Name"
+ style="width:100%;padding:12px;border-radius:8px;border:2px solid #2196f3">
+</div>
+
+<div class="card">
+ <b>Q <span id="qno"></span>/<span id="total"></span></b>
+ <div id="qtext"></div>
+ 
+ <div id="opts"></div>
+<!-- ✅ QUESTION IMAGE -->
+<img id="qImg" class="q-img" style="display:none;">
+
+ <button onclick="markReview()">⭐ Mark for Review</button>
+
+ <div id="expBox" style="display:none;background:#eef;padding:12px;margin-top:10px;border-radius:8px"></div>
+ <button id="expBtn" onclick="toggleExp()" style="display:none;margin-top:8px">
+  📘 Show / Hide Solution
+ </button>
+</div>
+
+<div class="card" id="result" style="display:none"></div>
+
+<div id="palettePanel">
+ <h3>Questions</h3>
+ <div id="palette"></div>
+ <button onclick="togglePalette()">Close</button>
+</div>
+
+<div style="position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;
+display:flex;gap:8px;justify-content:space-between">
+ <button onclick="prev()">Prev</button>
+ <button onclick="next()">Next</button>
+ <button onclick="togglePalette()">Palette</button>
+ <button onclick="submit()">Submit</button>
+</div>
+
+<script>
+/* FULLSCREEN */
+function toggleFullScreen(){
+ if(!document.fullscreenElement){
+  document.documentElement.requestFullscreen().catch(()=>{});
+ }else{
+  document.exitFullscreen();
+ }
+}
+function autoFullScreen(){
+ setTimeout(()=>{toggleFullScreen()},500);
+}
+ 
+function openImgZoom(src){
+ document.getElementById("imgZoomed").src = src;
+ document.getElementById("imgZoom").style.display = "flex";
+}
+
+function closeImgZoom(){
+ document.getElementById("imgZoom").style.display = "none";
+}
+
+/* TELEGRAM */
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* CBT CORE */
+let LANG="EN",i=0,submitted=false,totalTime=0;
+const NEGATIVE_MARK=0.25;
+
+const QUESTIONS = [
+/* ================= Q.1 ================= */
+{
+  q_en: "The price of sugar is reduced by 25%. With the same amount of money, how much extra sugar can be bought if earlier 15 kg could be purchased?",
+  q_hi: "चीनी की कीमत 25% कम हो गई है। पहले 15 किग्रा चीनी खरीदने वाली धनराशि से अब कितनी अधिक चीनी खरीदी जा सकती है?",
+  o_en: ["1.4 kg","2.5 kg","3.3 kg","4.2 kg"],
+  o_hi: ["1.4 किग्रा","2.5 किग्रा","3.3 किग्रा","4.2 किग्रा"],
+  a: 1,
+  e_en: "$$New\\ quantity = 15\\times\\frac{100}{75}=20$$ $$Extra=20-15=5$$ $$Extra\\ over\\ original=2.5$$",
+  e_hi: "$$नई\\ मात्रा = 15\\times\\frac{100}{75}=20$$ $$अधिक=20-15=5$$ $$अतिरिक्त=2.5\\ किग्रा$$"
+},
+
+/* ================= Q.2 ================= */
+{
+  q_en: "Find the difference between compound interest and simple interest on ₹10,000 at 5% per annum for 2 years.",
+  q_hi: "₹10,000 पर 5% वार्षिक दर से 2 वर्षों के चक्रवृद्धि ब्याज और साधारण ब्याज का अंतर ज्ञात कीजिए।",
+  o_en: ["20","35","25","30"],
+  o_hi: ["20","35","25","30"],
+  a: 2,
+  e_en: "$$CI-SI=\\frac{PR^2}{100^2}=\\frac{10000\\times25}{10000}=25$$",
+  e_hi: "$$CI-SI=25$$"
+},
+
+/* ================= Q.3 ================= */
+{
+  q_en: "$$240 \\div \\left[\\frac{20}{10} \\times (10+6-(6+2-(8+8)))\\right]$$",
+  q_hi: "$$240 \\div \\left[\\frac{20}{10} \\times (10+6-(6+2-(8+8)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["10","8","5","6"],
+  o_hi: ["10","8","5","6"],
+  a: 2,
+  e_en: "$$8+8=16$$ $$6+2-16=-8$$ $$10+6+8=24$$ $$240\\div48=5$$",
+  e_hi: "$$उत्तर=5$$"
+},
+
+/* ================= Q.4 ================= */
+{
+  q_en: "The price of an article is increased by 20% and then decreased by 25%. Final price is ₹360. Find original price.",
+  q_hi: "किसी वस्तु के मूल्य में पहले 20% वृद्धि तथा फिर 25% कमी की जाती है। अंतिम मूल्य ₹360 है। मूल मूल्य ज्ञात कीजिए।",
+  o_en: ["450","500","400","480"],
+  o_hi: ["450","500","400","480"],
+  a: 2,
+  e_en: "$$Net\\ factor=1.2\\times0.75=0.9$$ $$CP=360/0.9=400$$",
+  e_hi: "$$मूल\\ मूल्य=400$$"
+},
+
+/* ================= Q.5 ================= */
+{
+  q_en: "If profit is 40% on cost price, what is profit percent on selling price?",
+  q_hi: "यदि क्रय मूल्य पर 40% लाभ है, तो विक्रय मूल्य पर लाभ प्रतिशत क्या होगा?",
+  o_en: ["40%","1/7%","28 4/7%","20%"],
+  o_hi: ["40%","1/7%","28 4/7%","20%"],
+  a: 2,
+  e_en: "$$Profit\\%=\\frac{40}{140}\\times100=28\\frac{4}{7}\\%$$",
+  e_hi: "$$उत्तर=28\\frac{4}{7}\\%$$"
+},
+
+/* ================= Q.6 ================= */
+{
+  q_en: "Population increases by 20% in first year and 30% in second year. Find total increase.",
+  q_hi: "जनसंख्या पहले वर्ष 20% तथा दूसरे वर्ष 30% बढ़ती है। कुल प्रतिशत वृद्धि कितनी है?",
+  o_en: ["60%","65%","56%","50%"],
+  o_hi: ["60%","65%","56%","50%"],
+  a: 2,
+  e_en: "$$(1.2\\times1.3-1)\\times100=56\\%$$",
+  e_hi: "$$कुल\\ वृद्धि=56\\%$$"
+},
+
+/* ================= Q.7 ================= */
+{
+  q_en: "After some operations of replacement, ratio of chemical solution to water becomes 16:9. Find capacity of tank.",
+  q_hi: "कुछ बार विलयन निकालने व जल भरने के बाद विलयन व जल का अनुपात 16:9 हो जाता है। टंकी की क्षमता ज्ञात कीजिए।",
+  o_en: ["40 L","36 L","38 L","35 L"],
+  o_hi: ["40 लीटर","36 लीटर","38 लीटर","35 लीटर"],
+  a: 3,
+  e_en: "Using alligation, total = 35 L",
+  e_hi: "एलिगेशन विधि से कुल = 35 लीटर"
+},
+
+/* ================= Q.8 ================= */
+{
+  q_en: "A fruit seller buys 240 apples for ₹600. Some are rotten. Remaining sold at ₹3.50 each earning ₹219 profit. Find percentage rotten.",
+  q_hi: "240 सेब ₹600 में खरीदे। कुछ सड़ गए। शेष ₹3.50 प्रति सेब बेचकर ₹219 लाभ हुआ। सड़े सेबों का प्रतिशत ज्ञात कीजिए।",
+  o_en: ["3.5%","5.5%","4.5%","2.5%"],
+  o_hi: ["3.5%","5.5%","4.5%","2.5%"],
+  a: 3,
+  e_en: "$$SP=819,\\ Sold=234,\\ Rotten=6$$ $$\\%=2.5\\%$$",
+  e_hi: "$$उत्तर=2.5\\%$$"
+},
+
+/* ================= Q.9 ================= */
+{
+  q_en: "$$280 \\div \\left[\\frac{4}{2} \\times (7+5-(5+10-(7+10)))\\right]$$",
+  q_hi: "$$280 \\div \\left[\\frac{4}{2} \\times (7+5-(5+10-(7+10)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["10","6","15","5"],
+  o_hi: ["10","6","15","5"],
+  a: 0,
+  e_en: "$$Answer=10$$",
+  e_hi: "$$उत्तर=10$$"
+},
+
+/* ================= Q.10 ================= */
+{
+  q_en: "Find LCM of $$5^3×8^2×10,\\ 5^2×10^2×17,\\ 8^3×10^2×17^2$$",
+  q_hi: "$$5^3×8^2×10,\\ 5^2×10^2×17,\\ 8^3×10^2×17^2$$ का LCM ज्ञात कीजिए।",
+  o_en: ["2^11×5^4×17^2","2^11×5^5×17^2","2^12×5^4×17^2","2^12×5^5×17^2"],
+  o_hi: ["2^11×5^4×17^2","2^11×5^5×17^2","2^12×5^4×17^2","2^12×5^5×17^2"],
+  a: 0,
+  e_en: "Highest powers taken",
+  e_hi: "उच्चतम घात ली जाती है"
+},
+
+/* ================= Q.11 ================= */
+{
+  q_en: "From the given graph, find what percent of Neo's expense is Mew's expense.",
+  q_hi: "दिए गए ग्राफ से ज्ञात कीजिए कि Neo के व्यय का कितने प्रतिशत Mew का व्यय है?",
+  o_en: ["100%","165%","120%","140%"],
+  o_hi: ["100%","165%","120%","140%"],
+  a: 3,
+  e_en: "$$70/50\\times100=140\\%$$",
+  e_hi: "$$उत्तर=140\\%$$"
+},
+
+/* ================= Q.12 ================= */
+{
+  q_en: "$$270 \\div \\left[\\frac{20}{10} \\times (2+6-(10+9-(8+4)))\\right]$$",
+  q_hi: "$$270 \\div \\left[\\frac{20}{10} \\times (2+6-(10+9-(8+4)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["135","136","140","137"],
+  o_hi: ["135","136","140","137"],
+  a: 0,
+  e_en: "$$Answer=135$$",
+  e_hi: "$$उत्तर=135$$"
+},
+
+/* ================= Q.13 ================= */
+{
+  q_en: "Rice A costs ₹50/kg and Rice B costs ₹70/kg. Mixture costs ₹58/kg. Find ratio of A:B.",
+  q_hi: "चावल A ₹50/kg तथा B ₹70/kg है। मिश्रण ₹58/kg है। A:B का अनुपात ज्ञात कीजिए।",
+  o_en: ["2:3","3:4","3:2","4:3"],
+  o_hi: ["2:3","3:4","3:2","4:3"],
+  a: 2,
+  e_en: "By alligation",
+  e_hi: "एलिगेशन विधि से"
+},
+
+/* ================= Q.14 ================= */
+{
+  q_en: "Value of a machine depreciates at 10% per year. Present value ₹1000. Find value after 3 years.",
+  q_hi: "एक मशीन का मूल्य 10% वार्षिक दर से घटता है। वर्तमान मूल्य ₹1000 है। 3 वर्ष बाद मूल्य ज्ञात कीजिए।",
+  o_en: ["719","709","739","729"],
+  o_hi: ["₹719","₹709","₹739","₹729"],
+  a: 3,
+  e_en: "$$1000×(0.9)^3=729$$",
+  e_hi: "$$उत्तर=₹729$$"
+},
+
+/* ================= Q.15 ================= */
+{
+  q_en: "A plot worth ₹12,00,000 increases by 5% every 6 months. Find value after 1.5 years.",
+  q_hi: "₹12,00,000 का प्लॉट प्रत्येक 6 महीने में 5% बढ़ता है। 1.5 वर्ष बाद मूल्य ज्ञात कीजिए।",
+  o_en: ["₹13,89,150","₹13,87,150","₹13,85,150","₹13,84,150"],
+  o_hi: ["₹13,89,150","₹13,87,150","₹13,85,150","₹13,84,150"],
+  a: 0,
+  e_en: "$$1200000×(1.05)^3$$",
+  e_hi: "$$उत्तर=₹13,89,150$$"
+},
+
+/* ================= Q.16 ================= */
+{
+  q_en: "60% pass English, 70% pass Maths, 20% fail both. Find % passing both.",
+  q_hi: "60% अंग्रेजी, 70% गणित में उत्तीर्ण हैं। 20% दोनों में अनुत्तीर्ण हैं। दोनों में उत्तीर्ण प्रतिशत ज्ञात कीजिए।",
+  o_en: ["60%","70%","40%","50%"],
+  o_hi: ["60%","70%","40%","50%"],
+  a: 3,
+  e_en: "$$100-20=80$$ $$60+70-80=50$$",
+  e_hi: "$$उत्तर=50\\%$$"
+},
+
+/* ================= Q.17 ================= */
+{
+  q_en: "$$180 \\div \\left[\\frac{16}{8} \\times (3+8-(9+4-(8+4)))\\right]$$",
+  q_hi: "$$180 \\div \\left[\\frac{16}{8} \\times (3+8-(9+4-(8+4)))\\right]$$ का मान ज्ञात कीजिए।",
+  o_en: ["9","11","7","12"],
+  o_hi: ["9","11","7","12"],
+  a: 0,
+  e_en: "$$Answer=9$$",
+  e_hi: "$$उत्तर=9$$"
+},
+
+/* ================= Q.18 ================= */
+{
+  q_en: "Price increases by 10% then decreases by 10%. Find net change.",
+  q_hi: "मूल्य पहले 10% बढ़ता है फिर 10% घटता है। कुल परिवर्तन ज्ञात कीजिए।",
+  o_en: ["10% decrease","1% decrease","5% increase","0%"],
+  o_hi: ["10% की कमी","1% की कमी","5% की वृद्धि","0%"],
+  a: 1,
+  e_en: "$$Net\\ change=1\\%\\ decrease$$",
+  e_hi: "$$उत्तर=1\\%\\ की\\ कमी$$"
+},
+
+/* ================= Q.19 ================= */
+{
+  q_en: "From the given graph, find average profit of all five shops in 2022.",
+  q_hi: "दिए गए ग्राफ से 2022 में सभी दुकानों का औसत लाभ ज्ञात कीजिए।",
+  o_en: ["86","71","85","70"],
+  o_hi: ["86","71","85","70"],
+  a: 1,
+  e_en: "$$(70+65+80+50+90)/5=71$$",
+  e_hi: "$$उत्तर=71$$"
+},
+
+/* ================= Q.20 ================= */
+{
+  q_en: "A fruit seller buys 240 apples for ₹600. Some apples are thrown away. Remaining sold at ₹3.50 each earning ₹212 profit. Find % thrown.",
+  q_hi: "240 सेब ₹600 में खरीदे। कुछ फेंक दिए गए। शेष ₹3.50 प्रति सेब बेचकर ₹212 लाभ हुआ। फेंके गए सेबों का प्रतिशत ज्ञात कीजिए।",
+  o_en: ["5 1/3%","2 1/3%","3 1/3%","4 1/3%"],
+  o_hi: ["5 1/3%","2 1/3%","3 1/3%","4 1/3%"],
+  a: 2,
+  e_en: "$$812/3.5=232$$ $$Thrown=8$$ $$\\%=3\\frac{1}{3}\\%$$",
+  e_hi: "$$उत्तर=3\\frac{1}{3}\\%$$"
+}
+]
+
+
+let ans=new Array(QUESTIONS.length).fill(null);
+let review=new Array(QUESTIONS.length).fill(false);
+total.innerText=QUESTIONS.length;
+
+/* TIMER */
+setInterval(()=>{
+ if(submitted) return;
+ totalTime++;
+ let m=Math.floor(totalTime/60),s=totalTime%60;
+ timer.innerText=m.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+},1000);
+
+/* INIT */
+function initExam(){load();tgPopup.style.display="block"}
+function closeTg(){tgPopup.style.display="none"}
+function toggleLang(){LANG=LANG==="EN"?"HI":"EN";langBtn.innerText=LANG;load()}
+
+/* LOAD */
+function load(){
+ let q=QUESTIONS[i];
+ qno.innerText=i+1;
+qtext.innerHTML = LANG==="EN" ? q.q_en : q.q_hi;
+expBox.innerHTML = LANG==="EN" ? q.e_en : q.e_hi;
+
+ /* ✅ IMAGE RENDER FIX */
+ const qImg=document.getElementById("qImg");
+ if(q.img && q.img.startsWith("data:image")){
+  qImg.src=q.img;
+  qImg.style.display="block";
+ qImg.onclick = () => openImgZoom(q.img); 
+ }else{
+  qImg.src="";
+  qImg.style.display="none";
+ }
+
+ let arr=LANG==="EN"?q.o_en:q.o_hi;
+ let h="";
+ arr.forEach((op,idx)=>{
+  let cls="";
+  if(submitted){
+   if(idx===q.a) cls="correct";
+   else if(ans[i]===idx) cls="wrong";
+  }else if(ans[i]===idx) cls="sel";
+  h+=`<div class="opt ${cls}" onclick="selectOpt(${idx})">${op}</div>`;
+ });
+ opts.innerHTML=h;
+ drawPalette();
+ 
+// ✅ MathJax re-render (STEP 2)
+if (window.MathJax) {
+ MathJax.typesetPromise();
+}
+}
+
+
+/* ACTIONS */
+function selectOpt(x){if(submitted)return;ans[i]=x;load()}
+function next(){if(i<QUESTIONS.length-1){i++;load()}}
+function prev(){if(i>0){i--;load()}}
+function togglePalette(){palettePanel.classList.toggle("show")}
+function markReview(){review[i]=!review[i];drawPalette()}
+function toggleExp(){expBox.style.display=expBox.style.display==="none"?"block":"none"}
+
+/* PALETTE */
+function drawPalette(){
+ let p="";
+ for(let k=0;k<QUESTIONS.length;k++){
+  let cls="";
+  if(submitted){
+   if(ans[k]===QUESTIONS[k].a) cls="correct";
+   else if(ans[k]!=null) cls="wrong";
+  }else if(review[k]) cls="review";
+  else if(ans[k]!=null) cls="answered";
+  else if(k<i) cls="visited";
+  p+=`<button class="qbtn ${cls}" onclick="i=${k};load();palettePanel.classList.remove('show')">${k+1}</button>`;
+ }
+ palette.innerHTML=p;
+}
+
+/* SUBMIT */
+function submit(){
+ let name=stuName.value.trim();
+ if(!name){alert("Enter name");return}
+ submitted=true;
+
+ let c=0,w=0,s=0,score=0;
+ QUESTIONS.forEach((q,idx)=>{
+  if(ans[idx]==null)s++;
+  else if(ans[idx]===q.a){c++;score++}
+  else{w++;score-=NEGATIVE_MARK}
+ });
+
+ let attempted=c+w;
+ let accuracy=attempted?((c/attempted)*100):0;
+ let rankScore=(score*100)+accuracy;
+ let estRank=Math.max(1,Math.round(1000-rankScore));
+
+ result.innerHTML=`
+ <h3>Result</h3>
+ Correct: ${c}<br>
+ Wrong: ${w}<br>
+ Skipped: ${s}<br>
+ Accuracy: <b>${accuracy.toFixed(2)}%</b><br>
+ Estimated Rank: <b>${estRank}</b><br><br>
+ <b>Final Score: ${score.toFixed(2)}</b>`;
+ result.style.display="block";
+
+ expBox.style.display="block";
+ expBtn.style.display="block";
+
+ sendResultToTelegram(name,score.toFixed(2),c,w,s,timer.innerText,accuracy,estRank);
+ load();
+}
+
+/* TELEGRAM */
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text:
+`📘 Eng PYQ 01 CBT Result
+
+👤 Name: ${name}
+⏱ Time: ${time}
+✅ Correct: ${c}
+❌ Wrong: ${w}
+➖ Skipped: ${s}
+🎯 Score: ${score}
+📊 Accuracy: ${accuracy.toFixed(2)}%
+🏆 Estimated Rank: ${estRank}
+
+🔥 DSSSB Smart Notes`
+  })
+ });
+}
+</script>
+ 
+ <!-- IMAGE ZOOM OVERLAY -->
+<div id="imgZoom" onclick="closeImgZoom()" style="
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.85);
+ z-index:10000;
+ align-items:center;
+ justify-content:center;">
+ 
+ <img id="imgZoomed" style="
+  max-width:95%;
+  max-height:95%;
+  border-radius:10px;">
+</div>
+
+</body>
+</html>
