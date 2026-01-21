@@ -134,6 +134,85 @@ header{
   font-weight:600;
 }
 
+/* ==========================
+   CBT QUESTION PALETTE
+========================== */
+
+.status-box{
+    background:#dff0f8;
+    padding:12px;
+}
+
+.status-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    font-size:14px;
+}
+
+.stat{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.dot{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.answered{background:#2ecc71;}
+.marked{background:#9b59b6;}
+.marked-answered{background:#9b59b6;}
+.not-answered{background:#e74c3c;}
+
+.not-visited{
+    background:#fff;
+    color:#000;
+    border:2px solid #000;
+    border-radius:4px;
+    width:28px;
+    height:28px;
+}
+
+.section-title{
+    background:#cfe8f6;
+    padding:10px;
+    font-weight:bold;
+    border-top:1px solid #b5d9ee;
+}
+
+.palette{
+    padding:15px;
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:12px;
+}
+
+.q-box{
+    height:45px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    cursor:pointer;
+    border:2px solid #000;
+    background:#fff;
+}
+
+.q-active{
+    outline:3px solid #000;
+}
+   
+   
 /* =========================
    FIXED TIMER
    ========================= */
@@ -333,6 +412,22 @@ window.MathJax = {
   <button id="langBtn" onclick="toggleLang()">ENG</button>
  </div>
 </header>
+<!-- ===== CBT STATUS BAR ===== -->
+<div class="status-box">
+    <div class="status-row">
+        <div class="stat"><div class="dot answered">0</div>Answered</div>
+        <div class="stat"><div class="dot marked">0</div>Marked</div>
+        <div class="stat"><div class="not-visited">20</div>Not Visited</div>
+        <div class="stat"><div class="dot marked-answered">0</div>Marked & Answered</div>
+        <div class="stat"><div class="dot not-answered">0</div>Not Answered</div>
+    </div>
+</div>
+
+<div class="section-title">
+    SECTION : General Intelligence and Reasoning
+</div>
+
+<div class="palette" id="questionPalette"></div>
 
 <div id="timer">00:00</div>
 
@@ -763,6 +858,25 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
   })
  });
 }
+
+/* =========================
+   CBT PALETTE – STEP 3
+========================= */
+
+const palette = document.getElementById("questionPalette");
+
+if (palette) {
+    for (let i = 1; i <= 20; i++) {
+        const box = document.createElement("div");
+        box.className = "q-box";
+        box.innerText = i;
+
+        if (i === 1) box.classList.add("q-active");
+
+        palette.appendChild(box);
+    }
+}   
+   
 </script>
  
  <!-- IMAGE ZOOM OVERLAY -->
