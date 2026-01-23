@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DSSSB CBT Advanced Exam Portal</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* =========================
+   CORE VARIABLES & THEME
+   ========================= */
+:root {
+  /* Light Mode Defaults */
+  --primary: #2196f3;
+  --primary-dark: #1976d2;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f9a825;
+  
+  --bg-body: #f5f7fa;
+  --bg-card: #ffffff;
+  --text-main: #333333;
+  --text-muted: #555555;
+  --border-color: #dddddd;
+  --header-bg: #ffffff;
+  --section-bar-bg: #e3f2fd;
+  --opt-hover: #f0f7ff;
+  --opt-sel-bg: #e3f2fd;
+  --palette-bg: #ffffff;
+  
+  --font-base: 16px;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  --primary: #64b5f6;
+  --primary-dark: #42a5f5;
+  --success: #66bb6a;
+  --danger: #ef5350;
+  
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #b0b0b0;
+  --border-color: #333333;
+  --header-bg: #1e1e1e;
+  --section-bar-bg: #263238;
+  --opt-hover: #2c3e50;
+  --opt-sel-bg: #1565c0;
+  --palette-bg: #1e1e1e;
+}
+
+html, body {
+  width: 100%; margin: 0; padding: 0;
+  overflow-x: hidden; font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-body); color: var(--text-main);
+  height: 100%;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* =========================
+   LAYOUT GRID
+   ========================= */
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; 
+  height: 100vh;
+}
+
+/* =========================
+   SCREENS (START & INSTRUCTIONS)
+   ========================= */
+.full-screen-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg-body);
+  z-index: 2000;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 20px;
+}
+.start-card {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  width: 100%; max-width: 500px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+/* Instructions Specific */
+.inst-list { text-align: left; margin: 15px 0; font-size: 14px; line-height: 1.6; color: var(--text-main); }
+.inst-list li { margin-bottom: 8px; }
+.legend-item { display: inline-flex; align-items: center; gap: 5px; margin-right: 10px; font-size: 12px; }
+.legend-box { width: 15px; height: 15px; border-radius: 3px; }
+
+.start-input {
+  width: 90%; padding: 12px;
+  margin: 20px 0;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 16px;
+  background: var(--bg-body);
+  color: var(--text-main);
+}
+.primary-btn {
+  background: var(--primary); color: #fff;
+  border: none; padding: 12px 30px;
+  font-size: 18px; font-weight: bold;
+  border-radius: 6px; cursor: pointer;
+  transition: 0.2s; width: 100%;
+}
+.primary-btn:disabled { background: #999; cursor: not-allowed; }
+.primary-btn:hover:not(:disabled) { background: var(--primary-dark); }
+
+/* =========================
+   HEADER & NAV
+   ========================= */
+header {
+  background: var(--header-bg);
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 20;
+  border-bottom: 1px solid var(--border-color);
+}
+.brand { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+.tools { display: flex; gap: 8px; }
+.tool-btn {
+  background: var(--bg-body); border: 1px solid var(--border-color); 
+  padding: 6px 10px;
+  border-radius: 4px; font-size: 12px; cursor: pointer;
+  font-weight: 600; color: var(--text-main);
+}
+
+#sectionBar {
+  background: var(--section-bar-bg);
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  box-shadow: inset 0 -1px 2px rgba(0,0,0,0.1);
+  scrollbar-width: none;
+}
+.sec-tab {
+  padding: 12px 16px; font-size: 14px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer;
+  border-bottom: 3px solid transparent; transition: all 0.2s;
+}
+.sec-tab.active {
+  color: var(--primary); border-bottom-color: var(--primary);
+  background: rgba(33, 150, 243, 0.1);
+}
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+#mainArea {
+  padding: 10px; overflow-y: auto; position: relative;
+  padding-bottom: 80px; display: none;
+}
+.card {
+  background: var(--bg-card); padding: 16px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px;
+  font-size: var(--font-base); border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+.passage-box {
+  background: var(--bg-body); border-left: 4px solid var(--primary);
+  padding: 10px; margin-bottom: 15px; font-size: 0.95em;
+  color: var(--text-main); max-height: 200px; overflow-y: auto;
+  border: 1px solid var(--border-color);
+}
+
+/* Options */
+.opt {
+  border: 1px solid var(--border-color); padding: 12px 15px;
+  margin: 8px 0; border-radius: 6px; cursor: pointer;
+  transition: background 0.15s; display: flex; align-items: center;
+  color: var(--text-main);
+}
+.opt:hover { background: var(--opt-hover); border-color: var(--primary); }
+.opt.sel { background: var(--opt-sel-bg); border-color: var(--primary); font-weight: 600; }
+.opt.correct { background: rgba(46, 125, 50, 0.2); border-color: var(--success); }
+.opt.wrong { background: rgba(198, 40, 40, 0.2); border-color: var(--danger); }
+
+.opt-circle {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted);
+  margin-right: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--text-main);
+}
+.opt.sel .opt-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
+
+/* Footer */
+footer {
+  background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color);
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  position: fixed; bottom: 0; width: 100%;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: none;
+}
+.nav-btn {
+  padding: 12px; border: none; border-radius: 6px;
+  font-weight: bold; color: #fff; cursor: pointer; font-size: 14px;
+}
+.btn-prev { background: #757575; }
+.btn-next { background: var(--primary); }
+.btn-submit { background: var(--success); }
+.btn-palette { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; }
+
+/* Palette Panel */
+#palettePanel {
+  position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px;
+  height: 100%; background: var(--palette-bg); z-index: 100;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column; color: var(--text-main);
+}
+#palettePanel.show { right: 0; }
+.p-header { padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
+.p-grid { padding: 15px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-content: start; }
+.p-footer { padding: 15px; border-top: 1px solid var(--border-color); }
+
+.qbtn {
+  aspect-ratio: 1; border-radius: 50%; border: none; font-weight: bold; font-size: 12px;
+  cursor: pointer; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+}
+.qbtn.visited { background: var(--bg-body); border-color: #bbb; } 
+.qbtn.answered { background: var(--success); color: #fff; border: none; }
+.qbtn.review { background: var(--primary-dark); color: #fff; border-radius: 50%; }
+.qbtn.review-ans { background: var(--primary-dark); color: #fff; position: relative; } 
+.qbtn.review-ans::after { content:'✔'; position: absolute; bottom: -2px; right: -2px; font-size: 8px; background: #fff; color:green; border-radius:50%; padding:1px;} 
+.qbtn.current { box-shadow: 0 0 0 2px var(--text-main); transform: scale(1.1); }
+
+/* Utilities */
+#timer { background: var(--bg-card); padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--primary); border: 1px solid var(--primary); }
+#expBox { margin-top: 15px; padding: 15px; background: rgba(46, 125, 50, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 14px; display: none; color: var(--text-main); }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; display: none; }
+.overlay.show { display: block; }
+
+/* Modal & Chart */
+#qpModal { 
+  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
+  background: var(--bg-card); color: var(--text-main);
+  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
+  border: 1px solid var(--border-color);
+}
+.chart-container {
+    width: 100%; max-width: 300px; margin: 0 auto 20px auto;
+}
+
+/* Telegram Popup */
+#tgPopup{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background: var(--bg-card); padding:25px; width:85%; max-width:320px;
+  border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  z-index:9999; text-align:center; display:none; color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+#tgPopup a{ display:block; background:#0088cc; color:#fff; padding:12px; border-radius:8px; text-decoration:none; margin-top:15px; font-weight:bold; }
+.tg-btn-continue { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: 600; }
+
+/* Responsive */
+@media(min-width: 768px) {
+  body { grid-template-columns: 1fr 300px; grid-template-rows: auto auto 1fr; }
+  header { grid-column: 1 / -1; }
+  #sectionBar { grid-column: 1 / 2; }
+  #mainArea { grid-column: 1 / 2; grid-row: 3 / 4; padding-bottom: 20px; }
+  #palettePanel {
+    position: static; width: auto; height: auto; right: auto;
+    grid-column: 2 / 3; grid-row: 2 / 4;
+    border-left: 1px solid var(--border-color); box-shadow: none; z-index: 1;
+  }
+  footer {
+    grid-column: 1 / 2; position: static;
+    display: flex; justify-content: space-between;
+    box-shadow: none; border-top: 1px solid var(--border-color);
+  }
+  .btn-palette { display: none; } 
+  .p-grid { grid-template-columns: repeat(4, 1fr); }
+  #qpModal { width: 60%; left: 20%; }
+}
+</style>
+</head>
+
+<body onload="initApp()">
+
+<div id="startScreen" class="full-screen-overlay">
+    <div class="start-card">
+        <h2 style="color:var(--primary); margin-top:0;">Welcome to DSSSB Portal</h2>
+        <p style="color:var(--text-muted)">Please enter your name to proceed.</p>
+        <input type="text" id="startNameInput" class="start-input" placeholder="Enter Full Name">
+        <button class="primary-btn" onclick="goToInstructions()">NEXT</button>
+    </div>
+</div>
+
+<div id="instScreen" class="full-screen-overlay" style="display:none;">
+    <div class="start-card" style="max-width:600px; text-align:left;">
+        <h3 style="color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:10px;">General Instructions</h3>
+        
+        <div class="inst-list">
+            <b>Please read the following instructions carefully:</b>
+            <ol style="padding-left:20px;">
+                <li>Total Duration: <b>According to Timer</b> in top right corner.</li>
+                <li>The clock will be set at the server. The countdown timer shows remaining time.</li>
+                <li><b>Marking Scheme:</b>
+                    <ul>
+                        <li style="color:var(--success)">Correct Answer: +1 Mark</li>
+                        <li style="color:var(--danger)">Wrong Answer: -0.25 Mark</li>
+                        <li>Unanswered: 0 Mark</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <b>Color Legend:</b><br>
+            <div style="margin-top:5px;">
+                <span class="legend-item"><div class="legend-box" style="background:var(--success)"></div> Answered</span>
+                <span class="legend-item"><div class="legend-box" style="background:var(--danger)"></div> Not Answered</span>
+                <span class="legend-item"><div class="legend-box" style="background:#ddd"></div> Not Visited</span>
+                <span class="legend-item"><div class="legend-box" style="background:var(--primary-dark)"></div> Marked Review</span>
+            </div>
+        </div>
+
+        <div style="margin-top:20px; padding:10px; background:var(--bg-body); border-radius:5px; border:1px solid var(--border-color);">
+            <label style="display:flex; align-items:center; cursor:pointer; font-weight:600; font-size:14px;">
+                <input type="checkbox" id="instCheck" onchange="toggleStartBtn()" style="width:20px; height:20px; margin-right:10px;">
+                I have read and understood the instructions.
+            </label>
+        </div>
+        
+        <br>
+        <button id="finalStartBtn" class="primary-btn" onclick="startTestFlow()" disabled>I AM READY TO BEGIN</button>
+    </div>
+</div>
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br>
+ <button class="tg-btn-continue" onclick="closeTg()">Continue Test</button>
+</div>
+
+<div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
+
+<header>
+  <div class="brand">DSSSB CBT <span style="font-size:0.8em; color:var(--text-muted)">v2.3</span></div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div id="timer">00:00</div>
+    <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
+    <button class="tool-btn" onclick="toggleLang()" id="langBtn">EN/HI</button>
+    <button class="tool-btn" onclick="toggleFS()">⛶</button>
+    <button class="tool-btn" onclick="openQP()">📄 Paper</button>
+  </div>
+</header>
+
+<div id="sectionBar"></div>
+
+<div id="mainArea">
+  <input type="hidden" id="stuName">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--text-muted); font-size:13px;">
+      <span>Question No. <b id="qNumDisp">1</b></span>
+      <span style="display:flex; gap:10px;">
+        <span style="color:var(--success)">+1.00</span>
+        <span style="color:var(--danger)">-0.25</span>
+      </span>
+    </div>
+    
+    <div style="font-size:14px; text-align:right; margin-bottom:5px;">
+        <button class="tool-btn" onclick="changeFont(1)">A+</button>
+        <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+    </div>
+
+    <div id="qContent"></div> 
+    <div id="opts"></div>     
+    
+    <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
+        <button class="tool-btn" style="color:orange; border:1px solid orange; background:var(--bg-card)" onclick="markReview()">⭐ Mark for Review</button>
+        <button class="tool-btn" style="color:var(--text-muted);" onclick="clearResponse()">Borrar (Clear)</button>
+    </div>
+
+    <div id="expBox"></div>
+    <button id="expBtn" onclick="toggleExp()" style="width:100%; padding:10px; margin-top:10px; background:var(--primary); border:none; border-radius:4px; display:none; color:#fff; font-weight:bold;">View Solution</button>
+  </div>
+</div>
+
+<div id="palettePanel">
+  <div class="p-header">
+    <b>Question Palette</b>
+    <button onclick="togglePalette()" style="border:none; background:none; font-size:20px; cursor:pointer; color:var(--text-main)" class="close-pal">&times;</button>
+  </div>
+  
+  <div style="padding:10px; background:var(--bg-card); font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn answered" style="width:20px; height:20px;"></div> Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn visited" style="width:20px; height:20px;"></div> Not Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn review" style="width:20px; height:20px;"></div> Mark Review</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn" style="width:20px; height:20px;"></div> Not Visited</div>
+  </div>
+
+  <div class="p-grid" id="paletteGrid"></div>
+  
+  <div class="p-footer">
+    <button onclick="submitTest()" style="width:100%; padding:12px; background:var(--success); color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:16px;">SUBMIT TEST</button>
+  </div>
+</div>
+
+<footer>
+  <button class="nav-btn btn-palette" onclick="togglePalette()">Grid</button>
+  <button class="nav-btn btn-prev" onclick="prev()">Previous</button>
+  <button class="nav-btn btn-next" onclick="next()">Next</button>
+</footer>
+
+<div id="qpModal">
+    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;">
+        <b id="modalTitle">Full Question Paper</b>
+        <button onclick="closeQP()" style="border:none; background:none; font-size:20px; color:var(--text-main)">&times;</button>
+    </div>
+    <div id="qpContent" style="padding:20px; overflow-y:auto; flex:1;"></div>
+</div>
+
+<script>
+/* ====================================================
+   DATA CONFIGURATION
+   ==================================================== */
+const SECTIONS = ["Reasoning", "GK", "Maths", "English", "Hindi"];
+const NEGATIVE_MARK = 0.25;
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* MOCK DATA */
+const QUESTIONS = [
+  // --- REASONING ---
+  {
+    id: 1, section: "Reasoning",
+    q_hi: "नीचे दी गई श्रृंखला में अगला पद क्या होगा? 2, 5, 11, 23, ?",
+    q_en: "What is the next term in the series? 2, 5, 11, 23, ?",
+    o_hi: ["44", "47", "50", "46"],
+    o_en: ["44", "47", "50", "46"],
+    a: 1, 
+    e_hi: "तर्क: x2 + 1. (2x2+1=5, 5x2+1=11...). 23x2+1 = 47."
+  },
+  {
+    id: 2, section: "Reasoning",
+    q_hi: "विषम शब्द चुनें:",
+    q_en: "Find the odd word:",
+    o_hi: ["सेब", "गेंद", "कमल", "गुलाब"],
+    o_en: ["Apple", "Ball", "Lotus", "Rose"],
+    a: 1,
+    e_hi: "गेंद एक खेल की वस्तु है, बाकी प्राकृतिक हैं।"
+  },
+  // --- GK ---
+  {
+    id: 3, section: "GK",
+    q_hi: "भारत के संविधान में मौलिक कर्तव्य किस देश से लिए गए हैं?",
+    q_en: "Fundamental Duties in Indian Constitution are borrowed from?",
+    o_hi: ["USA", "Russia (USSR)", "Canada", "UK"],
+    o_en: ["USA", "Russia (USSR)", "Canada", "UK"],
+    a: 1,
+    e_hi: "मौलिक कर्तव्य सोवियत संघ (USSR) से लिए गए हैं।"
+  },
+  // --- MATHS ---
+  {
+    id: 4, section: "Maths",
+    q_hi: "यदि क्रय मूल्य ₹800 है और लाभ 25% है, तो विक्रय मूल्य क्या है?",
+    q_en: "If CP is ₹800 and Profit is 25%, find SP.",
+    o_hi: ["₹900", "₹1000", "₹1100", "₹1200"],
+    o_en: ["₹900", "₹1000", "₹1100", "₹1200"],
+    a: 1,
+    e_hi: "$$ SP = 800 \\times \\frac{125}{100} = 800 \\times 1.25 = 1000 $$"
+  },
+  // --- ENGLISH ---
+  {
+    id: 5, section: "English",
+    q_en: `<div class="passage-box"><b>Passage:</b><br>Pollution is rising. We must plant trees.</div><br>What must we do?`,
+    q_hi: `<div class="passage-box"><b>गद्यांश:</b><br>प्रदूषण बढ़ रहा है। हमें पेड़ लगाने चाहिए।</div><br>हमें क्या करना चाहिए?`,
+    o_en: ["Cut trees", "Plant trees", "Sleep", "Drive cars"],
+    o_hi: ["पेड़ काटें", "पेड़ लगाएँ", "सो जाएं", "गाड़ी चलाएं"],
+    a: 1,
+    e_hi: "Passage clearly states we must plant trees."
+  },
+  // --- HINDI ---
+  {
+    id: 6, section: "Hindi",
+    q_hi: " 'नया नौ दिन पुराना सौ दिन' लोकोक्ति का सही अर्थ है?",
+    q_en: "",
+    o_hi: ["नई चीज अच्छी", "पुरानी चीज विश्वसनीय", "दोनों बेकार", "महंगी चीज"],
+    a: 1,
+    e_hi: "पुरानी चीजें अधिक विश्वसनीय होती हैं।"
+  }
+];
+
+/* ====================================================
+   STATE VARIABLES
+   ==================================================== */
+let currentIdx = 0;
+let currentLang = "HI";
+let answers = new Array(QUESTIONS.length).fill(null);
+let reviewStatus = new Array(QUESTIONS.length).fill(false);
+let visitedStatus = new Array(QUESTIONS.length).fill(false);
+let submitted = false;
+let timeElapsed = 0;
+let fontSize = 16;
+let currentSection = SECTIONS[0];
+let isDarkMode = false;
+let timerInterval;
+let resultChart = null; // Chart Instance
+
+/* ====================================================
+   APP FLOW
+   ==================================================== */
+function initApp() {
+    // Dark Mode Check
+    if(localStorage.getItem('dsssb_dark_mode') === 'true') {
+        toggleDarkMode();
+    }
+    
+    // Check if resuming
+    const saved = localStorage.getItem('dsssb_cbt_state');
+    if(saved) {
+        document.getElementById('startScreen').style.display = 'none';
+        initExam();
+    } else {
+        document.getElementById('startScreen').style.display = 'flex';
+    }
+}
+
+function goToInstructions() {
+    const name = document.getElementById('startNameInput').value.trim();
+    if(!name) { alert("Please enter your name!"); return; }
+    document.getElementById('stuName').value = name;
+    
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('instScreen').style.display = 'flex';
+}
+
+function toggleStartBtn() {
+    const chk = document.getElementById('instCheck');
+    document.getElementById('finalStartBtn').disabled = !chk.checked;
+}
+
+function startTestFlow() {
+    document.getElementById('instScreen').style.display = 'none';
+    initExam();
+}
+
+function initExam() {
+  document.getElementById('mainArea').style.display = 'block';
+  document.querySelector('footer').style.display = 'flex';
+  document.getElementById('tgPopup').style.display = "block";
+
+  loadState(); 
+  renderSectionTabs();
+  loadQuestion(currentIdx);
+  startTimer();
+  
+  document.addEventListener('keydown', (e) => {
+    if(e.key === "ArrowRight") next();
+    if(e.key === "ArrowLeft") prev();
+  });
+}
+
+function closeTg(){ document.getElementById('tgPopup').style.display = "none"; }
+
+/* ====================================================
+   CORE LOGIC (UNCHANGED)
+   ==================================================== */
+function saveState() {
+  if(submitted) return;
+  const state = {
+    idx: currentIdx, ans: answers, rev: reviewStatus, vis: visitedStatus,
+    time: timeElapsed, name: document.getElementById('stuName').value
+  };
+  localStorage.setItem('dsssb_cbt_state', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('dsssb_cbt_state');
+  if(saved) {
+    const s = JSON.parse(saved);
+    currentIdx = s.idx || 0; answers = s.ans || answers;
+    reviewStatus = s.rev || reviewStatus; visitedStatus = s.vis || visitedStatus;
+    timeElapsed = s.time || 0;
+    document.getElementById('stuName').value = s.name || "";
+    currentSection = QUESTIONS[currentIdx].section;
+  }
+}
+
+function renderSectionTabs() {
+  const bar = document.getElementById('sectionBar');
+  bar.innerHTML = SECTIONS.map(sec => 
+    `<div class="sec-tab ${sec === currentSection ? 'active' : ''}" 
+          onclick="switchSection('${sec}')">${sec}</div>`
+  ).join('');
+}
+
+function switchSection(secName) {
+  currentSection = secName;
+  const newIdx = QUESTIONS.findIndex(q => q.section === secName);
+  if(newIdx !== -1) { currentIdx = newIdx; loadQuestion(newIdx); }
+  renderSectionTabs();
+}
+
+function loadQuestion(idx) {
+  currentIdx = idx; visitedStatus[idx] = true; saveState(); 
+  if(QUESTIONS[idx].section !== currentSection) {
+    currentSection = QUESTIONS[idx].section; renderSectionTabs();
+  }
+
+  const q = QUESTIONS[idx];
+  document.getElementById('qNumDisp').innerText = idx + 1;
+  const txt = (currentLang === "HI" && q.q_hi) ? q.q_hi : (q.q_en || q.q_hi);
+  document.getElementById('qContent').innerHTML = txt;
+  document.getElementById('qContent').style.fontSize = fontSize + "px";
+
+  const optsArr = (currentLang === "HI" && q.o_hi) ? q.o_hi : (q.o_en || q.o_hi);
+  let html = "";
+  optsArr.forEach((opt, i) => {
+    let cls = "opt";
+    if(submitted) {
+      if(i === q.a) cls += " correct"; else if(answers[idx] === i) cls += " wrong";
+    } else {
+      if(answers[idx] === i) cls += " sel";
+    }
+    html += `
+    <div class="${cls}" onclick="selectAnswer(${i})">
+      <div class="opt-circle">${String.fromCharCode(65+i)}</div>
+      <div>${opt}</div>
+    </div>`;
+  });
+  document.getElementById('opts').innerHTML = html;
+  renderPalette();
+  if(window.MathJax) MathJax.typesetPromise();
+  if(submitted) {
+    const expText = (currentLang === "HI" && q.e_hi) ? q.e_hi : (q.e_en || q.e_hi);
+    document.getElementById('expBox').innerHTML = "<b>Explanation:</b><br>" + (expText || "No explanation.");
+    document.getElementById('expBtn').style.display = "block";
+  }
+}
+
+function renderPalette() {
+  const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
+  QUESTIONS.forEach((q, k) => {
+    if(q.section !== currentSection) return;
+    let cls = "qbtn";
+    if(k === currentIdx) cls += " current";
+    if(submitted) {
+      if(answers[k] === q.a) cls += " answered"; else if(answers[k] !== null) cls += " wrong";
+    } else {
+      if(reviewStatus[k] && answers[k] !== null) cls += " review-ans";
+      else if(reviewStatus[k]) cls += " review";
+      else if(answers[k] !== null) cls += " answered";
+      else if(visitedStatus[k]) cls += " visited";
+    }
+    const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
+    btn.onclick = () => { loadQuestion(k); if(window.innerWidth < 768) togglePalette(); };
+    grid.appendChild(btn);
+  });
+}
+
+function selectAnswer(optIdx) { if(!submitted) { answers[currentIdx] = optIdx; loadQuestion(currentIdx); } }
+function clearResponse() { if(!submitted) { answers[currentIdx] = null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
+function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
+function next() { if(currentIdx < QUESTIONS.length - 1) loadQuestion(currentIdx + 1); }
+function prev() { if(currentIdx > 0) loadQuestion(currentIdx - 1); }
+function toggleLang() { currentLang = currentLang === "HI" ? "EN" : "HI"; document.getElementById('langBtn').innerText = currentLang; loadQuestion(currentIdx); }
+function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode');
+    document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙";
+    localStorage.setItem('dsssb_dark_mode', isDarkMode);
+}
+
+/* ====================================================
+   SUBMIT & CHART ANALYTICS
+   ==================================================== */
+function submitTest() {
+  const name = document.getElementById('stuName').value;
+  if(!confirm("Are you sure you want to submit?")) return;
+  
+  submitted = true; clearInterval(timerInterval); localStorage.removeItem('dsssb_cbt_state'); 
+  
+  let scoreData = {}; SECTIONS.forEach(s => scoreData[s] = {c:0, w:0, s:0});
+  let totalScore = 0, totalC = 0, totalW = 0, totalS = 0;
+
+  QUESTIONS.forEach((q, i) => {
+    let s = q.section;
+    if(answers[i] === null) { scoreData[s].s++; totalS++; }
+    else if(answers[i] === q.a) { scoreData[s].c++; totalC++; totalScore++; }
+    else { scoreData[s].w++; totalW++; totalScore -= NEGATIVE_MARK; }
+  });
+
+  let attempted = totalC + totalW;
+  let accuracy = attempted ? ((totalC/attempted)*100) : 0;
+  let rankScore = (totalScore*100) + accuracy;
+  let estRank = Math.max(1, Math.round(1000 - rankScore));
+  let timeStr = document.getElementById('timer').innerText;
+
+  // HTML Report
+  document.getElementById('modalTitle').innerText = "Score Card";
+  let resHTML = `
+  <div style="text-align:center;">
+    <h3>${name}, Test Submitted!</h3>
+    <div style="font-size:24px; color:var(--primary);">Score: <b>${totalScore.toFixed(2)}</b></div>
+    <div style="font-size:14px; color:var(--text-muted); margin-bottom:15px;">Accuracy: ${accuracy.toFixed(1)}%</div>
+    
+    <div class="chart-container">
+        <canvas id="resultChart"></canvas>
+    </div>
+  </div>
+
+  <table border="1" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; border-color:var(--border-color);">
+    <tr style="background:var(--bg-body)"><th>Sec</th><th>✅</th><th>❌</th><th>⚪</th></tr>`;
+  
+  SECTIONS.forEach(s => {
+    resHTML += `<tr><td>${s}</td><td style="color:var(--success)">${scoreData[s].c}</td><td style="color:var(--danger)">${scoreData[s].w}</td><td>${scoreData[s].s}</td></tr>`;
+  });
+  resHTML += `</table><br><button class="primary-btn" onclick="location.reload()">Restart Test</button>`;
+
+  document.getElementById('qpContent').innerHTML = resHTML;
+  document.getElementById('qpModal').style.display = "flex";
+  
+  // RENDER CHART
+  renderChart(totalC, totalW, totalS);
+  
+  sendResultToTelegram(name, totalScore.toFixed(2), totalC, totalW, totalS, timeStr, accuracy, estRank);
+  loadQuestion(currentIdx);
+}
+
+function renderChart(c, w, s) {
+    const ctx = document.getElementById('resultChart').getContext('2d');
+    const txtColor = isDarkMode ? '#e0e0e0' : '#333';
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Correct', 'Wrong', 'Skipped'],
+            datasets: [{
+                data: [c, w, s],
+                backgroundColor: ['#2e7d32', '#c62828', '#bdbdbd'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: txtColor } }
+            }
+        }
+    });
+}
+
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST", headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text:`📘 DSSSB CBT V2 Result\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n🏆 Estimated Rank: ${estRank}\n\n🔥 DSSSB Smart Notes`
+  })
+ });
+}
+
+/* ====================================================
+   UTILS
+   ==================================================== */
+function startTimer() {
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeElapsed++;
+    const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+    const s = (timeElapsed % 60).toString().padStart(2, '0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+  }, 1000);
+}
+function togglePalette() { document.getElementById('palettePanel').classList.toggle('show'); document.getElementById('bgOverlay').classList.toggle('show'); }
+function toggleFS() { !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen(); }
+function toggleExp() { const b=document.getElementById('expBox'); b.style.display = b.style.display==="none"?"block":"none"; }
+function openQP() {
+  document.getElementById('modalTitle').innerText = "Full Question Paper";
+  let html = "";
+  QUESTIONS.forEach((q, i) => {
+    html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+        <b>Q.${i+1} (${q.section})</b><br>${(currentLang==="HI"?q.q_hi:q.q_en) || q.q_hi}<br>
+        <i style="color:var(--text-muted); font-size:0.9em">Options: ${(currentLang==="HI"?q.o_hi:q.o_en).join(', ')}</i>
+    </div>`;
+  });
+  document.getElementById('qpContent').innerHTML = html;
+  document.getElementById('qpModal').style.display = "flex";
+}
+function closeQP() { document.getElementById('qpModal').style.display = "none"; }
+</script>
+</body>
+</html>
