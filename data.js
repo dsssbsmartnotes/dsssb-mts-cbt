@@ -1,4 +1,3 @@
-// data.js
 const testDatabase = [
   {
     "id": "t1",
@@ -31,5 +30,13 @@ const testDatabase = [
     "url": "mock_reasoning_01.html",
     "badge": "MOCK",
     "attempts": "500"
+  },
+  {
+    "id": "t5",
+    "title": "Hindi PYQ Test – 02",
+    "category": "hindi",
+    "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi2.html",
+    "badge": "NEW",
+    "attempts": "0"
   }
 ];
