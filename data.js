@@ -29,7 +29,7 @@ const testDatabase = [
     "category": "reasoning",
     "url": "mock_reasoning_01.html",
     "badge": "MOCK",
-    "attempts": "500"
+    "attempts": "0"
   },
   {
     "id": "t5",
@@ -37,7 +37,7 @@ const testDatabase = [
     "category": "hindi",
     "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi2.html",
     "badge": "NEW",
-    "attempts": "0"
+    "attempts": "101"
   },
   {
     "id": "t1769228284945",
@@ -45,6 +45,6 @@ const testDatabase = [
     "category": "hindi",
     "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi.html",
     "badge": "NEW",
-    "attempts": 0
+    "attempts": 155
   }
 ];
