@@ -11,8 +11,6 @@ body { font-family: 'Poppins', sans-serif; background: #f3f4f6; padding: 15px; m
 h2, h3 { margin-top: 0; color: #333; font-size: 18px; }
 input, select, textarea { width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 14px; }
 button { padding: 12px 20px; background: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-size: 15px; transition: 0.2s; }
-button:active { transform: scale(0.98); }
-.item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 12px 0; }
 .copy-btn { background: #10b981; margin-top: 10px; }
 .import-btn { background: #2d3748; }
 .del-btn { color: #ef4444; cursor: pointer; padding: 5px; font-size: 18px; }
@@ -23,7 +21,6 @@ button:active { transform: scale(0.98); }
 
 <div class="card" style="border: 2px dashed #4361ee; background: #eef2ff;">
   <h3>📥 Step 1: Import Old Data</h3>
-  <p style="font-size:12px; color:#666;">Agar list khali hai, to pehle GitHub se <b>data.js</b> ka code copy karke yahan paste karein aur Load dabayein.</p>
   <textarea id="importBox" rows="3" placeholder="Paste const testDatabase = [...] here"></textarea>
   <button class="import-btn" onclick="importData()">Load Existing Data 🔄</button>
 </div>
@@ -32,10 +29,12 @@ button:active { transform: scale(0.98); }
   <h3>➕ Step 2: Add New Test</h3>
   
   <label>Test Title</label>
-  <input type="text" id="tTitle" placeholder="e.g. Maths Mock Test 02">
+  <input type="text" id="tTitle" placeholder="e.g. MTS Full Mock Test 01">
   
-  <label>Category</label>
+  <label>Folder / Category</label>
   <select id="tCategory">
+    <option value="mts-full">🎯 MTS Full Mock</option>
+    <option value="asst-supt">👮 Asst. Superintendent</option>
     <option value="english">English</option>
     <option value="reasoning">Reasoning</option>
     <option value="gk">GK</option>
@@ -59,7 +58,6 @@ button:active { transform: scale(0.98); }
 
 <div class="card">
   <h3>📤 Step 3: Get New Code</h3>
-  <p style="font-size:12px; color:#666; margin-bottom:10px;">Is code ko copy karein aur GitHub par <b>data.js</b> mein paste karein.</p>
   <textarea id="output" rows="6" readonly></textarea>
   <button class="copy-btn" onclick="copyData()">Copy Final Code 📋</button>
 </div>
@@ -71,95 +69,60 @@ button:active { transform: scale(0.98); }
 
 <script>
 let tests = JSON.parse(localStorage.getItem("adminData")) || [];
-
-// Render on Load
 render();
 
 function render(){
   const list = document.getElementById("list");
   list.innerHTML = "";
-  
   tests.forEach((t, i) => {
     list.innerHTML += `
       <div class="item">
-        <div>
-          <div style="font-weight:600; font-size:14px;">${t.title} <span class="badge">${t.category}</span></div>
-          <div style="font-size:11px; color:#666; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:200px;">${t.url}</div>
-        </div>
+        <div><div style="font-weight:600; font-size:14px;">${t.title} <span class="badge">${t.category}</span></div></div>
         <span class="del-btn" onclick="del(${i})">🗑️</span>
       </div>`;
   });
-  
   document.getElementById("count").innerText = tests.length;
-  const jsCode = `const testDatabase = ${JSON.stringify(tests, null, 2)};`;
-  document.getElementById("output").value = jsCode;
+  document.getElementById("output").value = `const testDatabase = ${JSON.stringify(tests, null, 2)};`;
 }
 
-// NEW IMPORT FUNCTION
 function importData() {
   let input = document.getElementById("importBox").value;
   if(!input) return alert("Please paste code first!");
-  
-  // Clean the input to get only JSON array
   try {
-    // Remove "const testDatabase =" and ";" if present
     let cleanJson = input.replace("const testDatabase =", "").replace(";", "").trim();
-    let importedData = JSON.parse(cleanJson);
-    
-    if(Array.isArray(importedData)) {
-      tests = importedData;
-      localStorage.setItem("adminData", JSON.stringify(tests));
-      render();
-      alert("Data Loaded Successfully! ✅ Now you can add new tests.");
-      document.getElementById("importBox").value = ""; // Clear box
-    } else {
-      alert("Invalid Data Format!");
-    }
-  } catch(e) {
-    alert("Error! Please make sure you copy exact code from data.js");
-  }
+    tests = JSON.parse(cleanJson);
+    localStorage.setItem("adminData", JSON.stringify(tests));
+    render();
+    alert("Data Loaded! ✅");
+    document.getElementById("importBox").value = "";
+  } catch(e) { alert("Error! Copy exact code from data.js"); }
 }
 
 function addTest(){
   const title = document.getElementById("tTitle").value;
   const url = document.getElementById("tLink").value;
+  if(!title || !url) return alert("Enter Title & Link");
   
-  if(!title || !url) return alert("Please enter Title and Link!");
-  
-  const newTest = {
+  tests.push({
     id: "t" + Date.now(),
     title: title,
     category: document.getElementById("tCategory").value,
     url: url,
     badge: document.getElementById("tBadge").value,
     attempts: 0 
-  };
-  
-  // Add to top (unshift) or bottom (push). Let's do bottom to keep order logic simple for imports
-  tests.push(newTest); 
-  
+  });
   localStorage.setItem("adminData", JSON.stringify(tests));
   render();
-  
   document.getElementById("tTitle").value = "";
   document.getElementById("tLink").value = "";
-  alert("Test Added! Scroll down to copy code.");
+  alert("Test Added!");
 }
 
-function del(index){
-  if(confirm("Delete this test?")) { 
-    tests.splice(index, 1); 
-    localStorage.setItem("adminData", JSON.stringify(tests)); 
-    render(); 
-  }
-}
-
+function del(i){ if(confirm("Delete?")) { tests.splice(i, 1); localStorage.setItem("adminData", JSON.stringify(tests)); render(); } }
 function copyData(){
-  const copyText = document.getElementById("output");
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); 
-  navigator.clipboard.writeText(copyText.value);
-  alert("Code Copied! 📋 Go to GitHub -> data.js and paste/replace everything.");
+  const c = document.getElementById("output");
+  c.select(); c.setSelectionRange(0,99999); navigator.clipboard.writeText(c.value);
+  alert("Code Copied! 📋");
 }
 </script>
 </body>
