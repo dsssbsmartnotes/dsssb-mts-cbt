@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; background: #f3f4f6; padding: 20px; max-width: 600px; margin: auto; }
+.card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+h2, h3 { margin-top: 0; color: #333; }
+input, select, textarea { width: 100%; padding: 12px; margin: 8px 0 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+button { padding: 12px 20px; background: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; font-size: 15px; transition: 0.2s; }
+button:hover { opacity: 0.9; }
+.item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 12px 0; }
+.copy-btn { background: #10b981; margin-top: 10px; }
+.del-btn { color: #ef4444; cursor: pointer; padding: 5px; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>➕ Add New Test</h2>
+  
+  <label>Test Title</label>
+  <input type="text" id="tTitle" placeholder="e.g. English Mock Test 05">
+  
+  <label>Category</label>
+  <select id="tCategory">
+    <option value="english">English</option>
+    <option value="reasoning">Reasoning</option>
+    <option value="gk">GK</option>
+    <option value="maths">Maths</option>
+    <option value="hindi">Hindi</option>
+  </select>
+  
+  <label>Test Link (URL)</label>
+  <input type="text" id="tLink" placeholder="Paste link here...">
+  
+  <label>Badge</label>
+  <select id="tBadge">
+    <option value="">None</option>
+    <option value="HOT">HOT 🔥</option>
+    <option value="NEW">NEW ⚡</option>
+    <option value="MOCK">MOCK 🧪</option>
+  </select>
+  
+  <button onclick="addTest()">Add Test to List</button>
+</div>
+
+<div class="card">
+  <h3>📤 Get Code for data.js</h3>
+  <p style="font-size:12px; color:#666; margin-bottom:10px;">Is button ko daba kar code copy karein aur GitHub par <b>data.js</b> file mein paste karein.</p>
+  <textarea id="output" rows="8" readonly></textarea>
+  <button class="copy-btn" onclick="copyData()">Copy Code 📋</button>
+</div>
+
+<div class="card">
+  <h3>Current List (<span id="count">0</span>)</h3>
+  <div id="list"></div>
+</div>
+
+<script>
+// Load existing data from Admin Memory or start empty
+let tests = JSON.parse(localStorage.getItem("adminData")) || [];
+
+// Render List on Load
+render();
+
+function render(){
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  
+  tests.forEach((t, i) => {
+    list.innerHTML += `
+      <div class="item">
+        <div>
+          <div style="font-weight:600">${t.title}</div>
+          <div style="font-size:12px; color:#666">${t.category}</div>
+        </div>
+        <span class="del-btn" onclick="del(${i})">🗑️</span>
+      </div>`;
+  });
+  
+  document.getElementById("count").innerText = tests.length;
+  
+  // Format for data.js file
+  const jsCode = `const testDatabase = ${JSON.stringify(tests, null, 2)};`;
+  document.getElementById("output").value = jsCode;
+}
+
+function addTest(){
+  const title = document.getElementById("tTitle").value;
+  const url = document.getElementById("tLink").value;
+  
+  if(!title || !url) return alert("Please enter Title and Link!");
+  
+  // Create New Test Object
+  const newTest = {
+    id: "t" + Date.now(), // Unique ID based on time
+    title: title,
+    category: document.getElementById("tCategory").value,
+    url: url,
+    badge: document.getElementById("tBadge").value,
+    attempts: 0 // Default 0 attempts
+  };
+  
+  // Add to top of list
+  tests.unshift(newTest);
+  
+  // Save to browser memory
+  localStorage.setItem("adminData", JSON.stringify(tests));
+  
+  render();
+  
+  // Clear inputs
+  document.getElementById("tTitle").value = "";
+  document.getElementById("tLink").value = "";
+  alert("Test Added! Now copy the code.");
+}
+
+function del(index){
+  if(confirm("Delete this test?")) { 
+    tests.splice(index, 1); 
+    localStorage.setItem("adminData", JSON.stringify(tests)); 
+    render(); 
+  }
+}
+
+function copyData(){
+  const copyText = document.getElementById("output");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); 
+  navigator.clipboard.writeText(copyText.value);
+  alert("Code Copied! Go to GitHub -> data.js and paste it.");
+}
+</script>
+</body>
+</html>
