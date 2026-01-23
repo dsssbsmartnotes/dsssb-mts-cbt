@@ -34,6 +34,13 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); col
 .search-box { background: var(--card-bg); padding: 8px 15px; border-radius: 16px; display: flex; align-items: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1px solid var(--border); }
 .search-box input { width: 100%; padding: 10px 0; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text-main); margin-left: 10px; font-family: inherit; }
 
+/* SOCIAL BUTTONS */
+.social-bar { display: flex; gap: 10px; padding: 15px 20px 5px; }
+.social-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.social-btn:active { transform: scale(0.97); }
+.tg-btn { background: linear-gradient(135deg, #229ED9, #0088cc); }
+.yt-btn { background: linear-gradient(135deg, #ff0000, #cc0000); }
+
 /* FILTERS */
 .filters-wrapper { padding: 15px 20px 10px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
 .filters-wrapper::-webkit-scrollbar { display: none; }
@@ -80,6 +87,15 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); col
 
 <div class="search-container">
   <div class="search-box"><i class="fas fa-search" style="color:var(--text-sub)"></i><input type="text" id="searchInput" placeholder="Search tests..."></div>
+</div>
+
+<div class="social-bar">
+  <a href="https://t.me/DSSSBSmartNotes" target="_blank" class="social-btn tg-btn">
+    <i class="fab fa-telegram-plane"></i> Telegram
+  </a>
+  <a href="https://youtube.com/@rankshotofficial?si=xHUs3TVITagePD7T" target="_blank" class="social-btn yt-btn">
+    <i class="fab fa-youtube"></i> YouTube
+  </a>
 </div>
 
 <div class="filters-wrapper">
@@ -134,10 +150,9 @@ function renderTests() {
   
   let visibleCount = 0;
 
-  // Use testDatabase from data.js
+  // Check if database exists
   if(typeof testDatabase !== 'undefined') {
     testDatabase.forEach(test => {
-      // FILTER LOGIC
       let show = true;
       if(currentTab === 'saved' && !savedTests.includes(test.id)) show = false;
       if(currentCategory !== 'all' && test.category !== currentCategory) show = false;
