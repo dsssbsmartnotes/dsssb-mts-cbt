@@ -38,5 +38,13 @@ const testDatabase = [
     "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi2.html",
     "badge": "NEW",
     "attempts": "0"
+  },
+  {
+    "id": "t1769228284945",
+    "title": "Hindi PYQ 01",
+    "category": "hindi",
+    "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi.html",
+    "badge": "NEW",
+    "attempts": 0
   }
 ];
