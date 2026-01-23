@@ -37,15 +37,21 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); col
 /* SOCIAL BUTTONS */
 .social-bar { display: flex; gap: 10px; padding: 15px 20px 5px; }
 .social-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
-.social-btn:active { transform: scale(0.97); }
 .tg-btn { background: linear-gradient(135deg, #229ED9, #0088cc); }
 .yt-btn { background: linear-gradient(135deg, #ff0000, #cc0000); }
 
-/* FILTERS */
+/* FILTERS (FOLDERS) */
 .filters-wrapper { padding: 15px 20px 10px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
 .filters-wrapper::-webkit-scrollbar { display: none; }
 .filter-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-sub); font-weight: 500; font-size: 13px; margin-right: 8px; cursor: pointer; transition: 0.2s; }
 .filter-btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
+/* Specific styling for new folders */
+.filter-btn[data-filter="mts-full"], .filter-btn[data-filter="asst-supt"] {
+    background: #eef2ff; color: var(--primary); border-color: var(--primary); font-weight: 600;
+}
+.filter-btn[data-filter="mts-full"].active, .filter-btn[data-filter="asst-supt"].active {
+    background: var(--primary); color: #fff;
+}
 
 /* CARDS */
 .section { padding: 10px 20px; }
@@ -100,6 +106,8 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); col
 
 <div class="filters-wrapper">
   <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="mts-full">🎯 MTS Mock</button>
+  <button class="filter-btn" data-filter="asst-supt">👮 Asst. Supt.</button>
   <button class="filter-btn" data-filter="english">English</button>
   <button class="filter-btn" data-filter="reasoning">Reasoning</button>
   <button class="filter-btn" data-filter="gk">GK</button>
@@ -146,11 +154,17 @@ function init(){
 function renderTests() {
   const container = document.getElementById("mainContainer");
   const searchVal = document.getElementById("searchInput").value.toLowerCase();
-  container.innerHTML = `<div style="margin-bottom:15px; font-size:14px; font-weight:600; color:var(--text-sub)"><i class="fas fa-layer-group"></i> ${currentTab==='saved'?'Saved Tests':'Available Tests'}</div>`;
+  
+  // Show active folder name
+  let folderName = 'Available Tests';
+  if(currentCategory === 'mts-full') folderName = '🎯 MTS Full Mock Tests';
+  if(currentCategory === 'asst-supt') folderName = '👮 Asst. Supt. Tests';
+  if(currentTab === 'saved') folderName = '❤️ Saved Tests';
+
+  container.innerHTML = `<div style="margin-bottom:15px; font-size:14px; font-weight:600; color:var(--text-sub)"><i class="fas fa-layer-group"></i> ${folderName}</div>`;
   
   let visibleCount = 0;
 
-  // Check if database exists
   if(typeof testDatabase !== 'undefined') {
     testDatabase.forEach(test => {
       let show = true;
@@ -182,8 +196,7 @@ function renderTests() {
       }
     });
   }
-
-  if(visibleCount === 0) container.innerHTML += `<p style="text-align:center; color:var(--text-sub); margin-top:30px;">No tests found.</p>`;
+  if(visibleCount === 0) container.innerHTML += `<p style="text-align:center; color:var(--text-sub); margin-top:30px;">No tests found in this folder.</p>`;
 }
 
 function toggleSave(id){
@@ -192,15 +205,12 @@ function toggleSave(id){
   localStorage.setItem("savedTests", JSON.stringify(savedTests));
   renderTests(); updateStats();
 }
-
 function toggleDone(id){
   if(doneTests.includes(id)) doneTests = doneTests.filter(i => i !== id);
   else doneTests.push(id);
   localStorage.setItem("doneTests", JSON.stringify(doneTests));
   renderTests(); updateStats();
 }
-
-// Event Listeners
 document.querySelectorAll(".filter-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -210,26 +220,19 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   });
 });
 document.getElementById("searchInput").addEventListener("input", renderTests);
-
 function switchTab(tab, el){
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-  el.classList.add("active");
-  currentTab = tab;
-  renderTests();
+  el.classList.add("active"); currentTab = tab; renderTests();
 }
 function updateStats(){
   document.getElementById("statCompleted").innerText = doneTests.length;
   document.getElementById("statSaved").innerText = savedTests.length;
 }
-function openProfile(){ document.getElementById("profileModal").style.display = "flex"; }
 function toggleTheme(){
   if(document.body.getAttribute("data-theme")==="dark"){
     document.body.removeAttribute("data-theme"); localStorage.setItem("theme","light");
-  } else {
-    document.body.setAttribute("data-theme","dark"); localStorage.setItem("theme","dark");
-  }
+  } else { document.body.setAttribute("data-theme","dark"); localStorage.setItem("theme","dark"); }
 }
-
 init();
 </script>
 </body>
