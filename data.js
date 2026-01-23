@@ -29,22 +29,14 @@ const testDatabase = [
     "category": "reasoning",
     "url": "mock_reasoning_01.html",
     "badge": "MOCK",
-    "attempts": "0"
+    "attempts": "500"
   },
   {
     "id": "t5",
-    "title": "Hindi PYQ Test – 01",
+    "title": "Hindi PYQ Test – 02",
     "category": "hindi",
-    "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/eng01-10-25p12ndsft.html",
-    "badge": "NEW",
-    "attempts": "217"
-  }
-   {
-    "id": "t6",
-    "title": "Hindi PYQ – 02",
-    "category": "reasoning",
     "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/Hindi2.html",
-    "badge": "MOCK",
-    "attempts": "225"
-  },
+    "badge": "NEW",
+    "attempts": "0"
+  }
 ];
