@@ -377,11 +377,12 @@ footer {
 <div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
 
 <header>
-  <div class="brand">DSSSB Mock <span style="font-size:0.8em; color:var(--text-muted)">Maths v2.7</span></div>
+  <div class="brand">DSSSB Mock <span style="font-size:0.8em; color:var(--text-muted)">Maths v2.8</span></div>
   <div style="display:flex; align-items:center; gap:10px;">
     <div id="timer">00:00</div>
     <button class="tool-btn" onclick="pauseTest()" style="color:var(--warning); border-color:var(--warning)">⏸ Pause</button>
     <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
+    <button class="tool-btn" onclick="toggleLang()" id="langBtn">EN</button>
     <button class="tool-btn" onclick="toggleFS()">⛶</button>
     <button class="tool-btn" onclick="openQP()">📄 Paper</button>
   </div>
@@ -452,39 +453,37 @@ const NEGATIVE_MARK = 0.25;
 const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
 const TELEGRAM_CHAT_ID="@dsssbcbtresult";
 
-/* MATHEMATICS QUESTIONS (Sample with MathJax) */
+/* MATHEMATICS QUESTIONS (Dual Language) */
 const QUESTIONS = [
   {
-    "q_hi": "A can do a piece of work in 10 days and B can do the same work in 15 days. In how many days will they finish the work together?",
-    "op_1": "5 days",
-    "op_2": "6 days",
-    "op_3": "8 days",
-    "op_4": "9 days",
-    "ans": "2",
+    "q_en": "A can do a piece of work in 10 days and B can do the same work in 15 days. In how many days will they finish the work together?",
+    "q_hi": "A एक काम को 10 दिनों में कर सकता है और B उसी काम को 15 दिनों में कर सकता है। वे एक साथ मिलकर उस काम को कितने दिनों में पूरा करेंगे?",
+    "op_en": ["5 days", "6 days", "8 days", "9 days"],
+    "op_hi": ["5 दिन", "6 दिन", "8 दिन", "9 दिन"],
+    "ans": "2", // Correct is Option 2 (Index 1)
     "solution": "<div class='solution-container'><b>Correct Answer: 6 days</b><br>Efficiency Method:<br>LCM of 10 and 15 = 30 (Total Work)<br>A's Efficiency = 30/10 = 3 units/day<br>B's Efficiency = 30/15 = 2 units/day<br>Total Efficiency = 3 + 2 = 5 units/day<br>Time taken = Total Work / Total Efficiency = 30/5 = 6 days.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>A 10 दिन में और B 15 दिन में काम करता है।<br>कुल काम (LCM) = 30<br>A की क्षमता = 3, B की क्षमता = 2<br>दोनों मिलकर = 30 / (3+2) = 6 दिन।</div><div class='fact-box'><strong>⚡ Short Trick (Formula):</strong><br>$$ \\frac{xy}{x+y} = \\frac{10 \\times 15}{10 + 15} = \\frac{150}{25} = 6 \\text{ days} $$</div></div>"
   },
   {
-    "q_hi": "If \\( \\sin \\theta = \\frac{3}{5} \\), find the value of \\( \\tan \\theta \\).",
-    "op_1": "3/4",
-    "op_2": "4/3",
-    "op_3": "4/5",
-    "op_4": "5/4",
-    "ans": "1",
+    "q_en": "If \\( \\sin \\theta = \\frac{3}{5} \\), find the value of \\( \\tan \\theta \\).",
+    "q_hi": "यदि \\( \\sin \\theta = \\frac{3}{5} \\) है, तो \\( \\tan \\theta \\) का मान ज्ञात कीजिए।",
+    "op_en": ["3/4", "4/3", "4/5", "5/4"],
+    "op_hi": ["3/4", "4/3", "4/5", "5/4"],
+    "ans": "1", // Correct is Option 1 (Index 0)
     "solution": "<div class='solution-container'><b>Correct Answer: 3/4</b><br>Given: \\( \\sin \\theta = \\frac{Perpendicular}{Hypotenuse} = \\frac{3}{5} \\)<br>Using Pythagoras Theorem:<br>\\( Base = \\sqrt{H^2 - P^2} = \\sqrt{5^2 - 3^2} = \\sqrt{25 - 9} = \\sqrt{16} = 4 \\)<br>Now, \\( \\tan \\theta = \\frac{Perpendicular}{Base} = \\frac{3}{4} \\).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>लम्ब (P) = 3, कर्ण (H) = 5<br>आधार (B) = 4 (Pythagorean Triplet: 3, 4, 5)<br>Tan θ = लम्ब/आधार = 3/4</div><div class='fact-box'><strong>📚 Extra Facts:</strong><br>Important Triplets: (3,4,5), (5,12,13), (8,15,17), (7,24,25).</div></div>"
   },
   {
-    "q_hi": "The price of an article is increased by 20% and then decreased by 20%. What is the net change in percentage?",
-    "op_1": "No Change",
-    "op_2": "4% Increase",
-    "op_3": "4% Decrease",
-    "op_4": "10% Decrease",
-    "ans": "3",
+    "q_en": "The price of an article is increased by 20% and then decreased by 20%. What is the net change in percentage?",
+    "q_hi": "एक वस्तु की कीमत में पहले 20% की वृद्धि की जाती है और फिर 20% की कमी की जाती है। प्रतिशत में शुद्ध परिवर्तन क्या है?",
+    "op_en": ["No Change", "4% Increase", "4% Decrease", "10% Decrease"],
+    "op_hi": ["कोई बदलाव नहीं", "4% वृद्धि", "4% कमी", "10% कमी"],
+    "ans": "3", // Correct is Option 3 (Index 2)
     "solution": "<div class='solution-container'><b>Correct Answer: 4% Decrease</b><br>Let initial price = 100.<br>After 20% increase = 120.<br>After 20% decrease on 120 = \\( 120 - \\frac{20}{100} \\times 120 = 120 - 24 = 96 \\).<br>Net Change = 100 - 96 = 4% Decrease.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>जब समान प्रतिशत की वृद्धि और कमी होती है, तो हमेशा **कमी (Loss)** होती है।</div><div class='fact-box'><strong>⚡ Short Trick:</strong><br>Net Change % = \\( \\frac{x^2}{100} \\) % Decrease<br>Here, \\( \\frac{20^2}{100} = \\frac{400}{100} = 4\\% \\) Decrease.</div></div>"
   }
 ];
 
 /* STATE */
 let currentIdx = 0;
+let currentLang = "EN"; // Default Language
 let answers = new Array(QUESTIONS.length).fill(null);
 let reviewStatus = new Array(QUESTIONS.length).fill(false);
 let visitedStatus = new Array(QUESTIONS.length).fill(false);
@@ -564,8 +563,11 @@ function loadQuestion(idx) {
   
   const q = QUESTIONS[idx];
   document.getElementById('qNumDisp').innerText = idx + 1;
-  const txt = q.q_hi;
   
+  // LANGUAGE LOGIC
+  const txt = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
+  const optsArr = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
+
   const contentDiv = document.getElementById('qContent');
   contentDiv.innerHTML = txt;
   contentDiv.style.fontSize = fontSize + "px";
@@ -576,7 +578,6 @@ function loadQuestion(idx) {
       img.onclick = () => openZoom(img.src);
   });
   
-  const optsArr = [q.op_1, q.op_2, q.op_3, q.op_4];
   const correctIdx = parseInt(q.ans) - 1;
 
   let html = "";
@@ -598,7 +599,7 @@ function loadQuestion(idx) {
   if(submitted) {
     document.getElementById('expBox').innerHTML = q.solution || "No explanation.";
     document.getElementById('expBtn').style.display = "block";
-    if(window.MathJax) MathJax.typesetPromise(); // Render Maths in Explanation
+    if(window.MathJax) MathJax.typesetPromise(); 
   }
 }
 
@@ -638,6 +639,14 @@ function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatu
 function next() { if(currentIdx < QUESTIONS.length - 1) loadQuestion(currentIdx + 1); }
 function prev() { if(currentIdx > 0) loadQuestion(currentIdx - 1); }
 function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
+
+// LANGUAGE TOGGLE FUNCTION
+function toggleLang() { 
+    currentLang = currentLang === "HI" ? "EN" : "HI"; 
+    document.getElementById('langBtn').innerText = currentLang; 
+    loadQuestion(currentIdx); 
+}
+
 function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode'); document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙"; localStorage.setItem('dsssb_dark_mode', isDarkMode); }
 
 /* ================== SUBMIT & RESULT GENERATION ================== */
@@ -680,8 +689,10 @@ function submitTest() {
       const isCorrect = answers[i] === correctIdx;
       const statusColor = answers[i] === null ? '#999' : (isCorrect ? 'green' : 'red');
       const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
-      const qText = q.q_hi;
-      const opts = [q.op_1, q.op_2, q.op_3, q.op_4];
+      
+      // Use current language for result view or default to English/Hindi based on toggle
+      const qText = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
+      const opts = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
       const exp = q.solution || "No explanation";
 
       resHTML += `<div class="result-q-box">
@@ -768,9 +779,10 @@ function openQP() {
   document.getElementById('modalTitle').innerText = "Full Question Paper";
   let html = "";
   QUESTIONS.forEach((q, i) => {
-    const opts = [q.op_1, q.op_2, q.op_3, q.op_4];
+    const opts = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
+    const txt = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
     html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-        <b>Q.${i+1}</b><br>${q.q_hi}<br>
+        <b>Q.${i+1}</b><br>${txt}<br>
         <i style="color:var(--text-muted); font-size:0.9em">Options: ${opts.join(', ')}</i>
     </div>`;
   });
