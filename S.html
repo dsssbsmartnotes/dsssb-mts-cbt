@@ -2492,7 +2492,7 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
   method:"POST", headers:{"Content-Type":"application/json"},
   body:JSON.stringify({
    chat_id:TELEGRAM_CHAT_ID,
-   text:`📘 DSSSB Sectional Mock (English)\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n\n🔥 DSSSB Smart Notes`
+   text:`📘 DSSSB Sectional Mock (Synonyms)\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n\n🔥 DSSSB Smart Notes`
   })
  });
 }
