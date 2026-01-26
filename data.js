@@ -62,5 +62,13 @@ const testDatabase = [
     "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/eng-pyq-01.html",
     "badge": "NEW",
     "attempts": 0
+  },
+  {
+    "id": "t1769479626761",
+    "title": "SYNONYMS ",
+    "category": "english",
+    "url": "https://dsssbsmartnotes.github.io/dsssb-mts-cbt/S.html",
+    "badge": "HOT",
+    "attempts": 0
   }
 ];
