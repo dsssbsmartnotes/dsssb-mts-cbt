@@ -1,0 +1,2530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DSSSB Sectional Mock Test - English</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+/* =========================
+   CORE VARIABLES & THEME
+   ========================= */
+:root {
+  --primary: #2196f3;
+  --primary-dark: #1976d2;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f9a825;
+  
+  --bg-body: #f5f7fa;
+  --bg-card: #ffffff;
+  --text-main: #333333;
+  --text-muted: #555555;
+  --border-color: #dddddd;
+  --header-bg: #ffffff;
+  --section-bar-bg: #e3f2fd;
+  --opt-hover: #f0f7ff;
+  --opt-sel-bg: #e3f2fd;
+  --palette-bg: #ffffff;
+  --zoom-bg: rgba(255, 255, 255, 0.95);
+  
+  --font-base: 16px;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  --primary: #64b5f6;
+  --primary-dark: #42a5f5;
+  --success: #66bb6a;
+  --danger: #ef5350;
+  
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #b0b0b0;
+  --border-color: #333333;
+  --header-bg: #1e1e1e;
+  --section-bar-bg: #263238;
+  --opt-hover: #2c3e50;
+  --opt-sel-bg: #1565c0;
+  --palette-bg: #1e1e1e;
+  --zoom-bg: rgba(0, 0, 0, 0.9);
+}
+
+html, body {
+  width: 100%; margin: 0; padding: 0;
+  overflow-x: hidden; font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-body); color: var(--text-main);
+  height: 100%;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* =========================
+   NEW SOLUTION STYLES
+   ========================= */
+.solution-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+.hindi-expl {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffc107;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: #333;
+}
+body.dark-mode .hindi-expl {
+    background-color: #3e3820;
+    color: #e0e0e0;
+}
+
+.fact-box {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    padding: 12px;
+    margin-top: 15px;
+    color: #155724;
+}
+body.dark-mode .fact-box {
+    background-color: #1b3320;
+    border-color: #2e5c36;
+    color: #a8d6b0;
+}
+.fact-box strong {
+    display: block;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+/* =========================
+   LAYOUT GRID
+   ========================= */
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; 
+  height: 100vh;
+}
+
+/* =========================
+   SCREENS
+   ========================= */
+.full-screen-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg-body);
+  z-index: 2000;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 20px;
+}
+.start-card {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  width: 100%; max-width: 500px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.inst-list { text-align: left; margin: 15px 0; font-size: 14px; line-height: 1.6; color: var(--text-main); }
+.inst-list li { margin-bottom: 8px; }
+
+.start-input {
+  width: 90%; padding: 12px; margin: 20px 0;
+  border: 2px solid var(--border-color); border-radius: 6px;
+  font-size: 16px; background: var(--bg-body); color: var(--text-main);
+}
+.primary-btn {
+  background: var(--primary); color: #fff;
+  border: none; padding: 12px 30px;
+  font-size: 16px; font-weight: bold;
+  border-radius: 6px; cursor: pointer;
+  transition: 0.2s; width: 100%; margin-top: 10px;
+}
+.primary-btn:disabled { background: #999; cursor: not-allowed; }
+.secondary-btn {
+    background: transparent; color: var(--text-muted); border: 2px solid var(--border-color);
+    margin-top: 10px; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold;
+}
+
+/* =========================
+   HEADER & NAV
+   ========================= */
+header {
+  background: var(--header-bg); padding: 10px 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 20;
+  border-bottom: 1px solid var(--border-color);
+}
+.brand { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+.tools { display: flex; gap: 8px; }
+.tool-btn {
+  background: var(--bg-body); border: 1px solid var(--border-color); 
+  padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  font-weight: 600; color: var(--text-main);
+}
+
+/* SUB-HEADER (Subject Name) */
+#subHeader {
+    background: var(--section-bar-bg); padding: 10px 15px;
+    font-weight: bold; color: var(--primary-dark);
+    border-bottom: 1px solid var(--border-color);
+    text-align: center; font-size: 1.1em;
+}
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+#mainArea {
+  padding: 10px; overflow-y: auto; position: relative;
+  padding-bottom: 80px; display: none;
+}
+.card {
+  background: var(--bg-card); padding: 16px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px;
+  font-size: var(--font-base); border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+.passage-box {
+  background: var(--bg-body); border-left: 4px solid var(--primary);
+  padding: 10px; margin-bottom: 15px; font-size: 0.95em;
+  color: var(--text-main); max-height: 200px; overflow-y: auto;
+  border: 1px solid var(--border-color);
+}
+
+/* IMAGE STYLING */
+.q-img {
+    max-width: 100%; height: auto; border: 1px solid var(--border-color); 
+    border-radius: 4px; margin: 10px 0; cursor: zoom-in; transition: transform 0.2s; display: block;
+}
+.q-img:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+.opt {
+  border: 1px solid var(--border-color); padding: 12px 15px;
+  margin: 8px 0; border-radius: 6px; cursor: pointer;
+  transition: background 0.15s; display: flex; align-items: center;
+  color: var(--text-main);
+}
+.opt:hover { background: var(--opt-hover); border-color: var(--primary); }
+.opt.sel { background: var(--opt-sel-bg); border-color: var(--primary); font-weight: 600; }
+.opt.correct { background: rgba(46, 125, 50, 0.2); border-color: var(--success); }
+.opt.wrong { background: rgba(198, 40, 40, 0.2); border-color: var(--danger); }
+.opt-circle {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted);
+  margin-right: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--text-main);
+}
+.opt.sel .opt-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
+
+footer {
+  background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color);
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  position: fixed; bottom: 0; width: 100%;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: none;
+}
+.nav-btn {
+  padding: 12px; border: none; border-radius: 6px;
+  font-weight: bold; color: #fff; cursor: pointer; font-size: 14px;
+}
+.btn-prev { background: #757575; }
+.btn-next { background: var(--primary); }
+.btn-submit { background: var(--success); }
+.btn-palette { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; }
+
+#palettePanel {
+  position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px;
+  height: 100%; background: var(--palette-bg); z-index: 100;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column; color: var(--text-main);
+}
+#palettePanel.show { right: 0; }
+.p-header { padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
+.p-grid { padding: 15px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-content: start; }
+.p-footer { padding: 15px; border-top: 1px solid var(--border-color); }
+
+.qbtn {
+  aspect-ratio: 1; border-radius: 50%; border: none; font-weight: bold; font-size: 12px;
+  cursor: pointer; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+}
+.qbtn.visited { background: var(--bg-body); border-color: #bbb; } 
+.qbtn.answered { background: var(--success); color: #fff; border: none; }
+.qbtn.review { background: var(--primary-dark); color: #fff; border-radius: 50%; }
+.qbtn.review-ans { background: var(--primary-dark); color: #fff; position: relative; } 
+.qbtn.review-ans::after { content:'✔'; position: absolute; bottom: -2px; right: -2px; font-size: 8px; background: #fff; color:green; border-radius:50%; padding:1px;} 
+.qbtn.current { box-shadow: 0 0 0 2px var(--text-main); transform: scale(1.1); }
+
+#timer { background: var(--bg-card); padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--primary); border: 1px solid var(--primary); }
+#expBox { margin-top: 15px; padding: 15px; background: rgba(46, 125, 50, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 14px; display: none; color: var(--text-main); }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; display: none; }
+.overlay.show { display: block; }
+
+#qpModal { 
+  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
+  background: var(--bg-card); color: var(--text-main);
+  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
+  border: 1px solid var(--border-color);
+}
+.chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px auto; }
+
+/* TELEGRAM POPUP */
+#tgPopup{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background: var(--bg-card); padding:25px; width:85%; max-width:320px;
+  border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  z-index:9999; text-align:center; display:none; color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+#tgPopup a{ display:block; background:#0088cc; color:#fff; padding:12px; border-radius:8px; text-decoration:none; margin-top:15px; font-weight:bold; }
+.tg-btn-continue { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: 600; }
+
+/* ZOOM MODAL */
+#zoomModal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--zoom-bg); z-index: 5000;
+    display: none; justify-content: center; align-items: center;
+    flex-direction: column;
+}
+#zoomImg {
+    max-width: 90%; max-height: 85vh; border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 1px solid #fff;
+}
+.close-zoom {
+    position: absolute; top: 20px; right: 20px;
+    font-size: 40px; color: var(--text-main); cursor: pointer; font-weight: bold;
+}
+
+/* Result Question Box Styling (for PDF) */
+.result-q-box {
+    margin-bottom: 15px; padding: 10px; border: 1px solid var(--border-color);
+    border-radius: 6px; background: var(--bg-card);
+    page-break-inside: avoid;
+}
+.res-opt {
+    padding: 5px; margin: 2px 0; border-radius: 4px; font-size: 14px;
+}
+.res-opt.c { background: rgba(46, 125, 50, 0.2); border: 1px solid var(--success); }
+.res-opt.w { background: rgba(198, 40, 40, 0.2); border: 1px solid var(--danger); text-decoration: line-through; }
+
+/* Responsive */
+@media(min-width: 768px) {
+  body { grid-template-columns: 1fr 300px; grid-template-rows: auto auto 1fr; }
+  header { grid-column: 1 / -1; }
+  #subHeader { grid-column: 1 / 2; }
+  #mainArea { grid-column: 1 / 2; grid-row: 3 / 4; padding-bottom: 20px; }
+  #palettePanel {
+    position: static; width: auto; height: auto; right: auto;
+    grid-column: 2 / 3; grid-row: 2 / 4;
+    border-left: 1px solid var(--border-color); box-shadow: none; z-index: 1;
+  }
+  footer {
+    grid-column: 1 / 2; position: static;
+    display: flex; justify-content: space-between;
+    box-shadow: none; border-top: 1px solid var(--border-color);
+  }
+  .btn-palette { display: none; } 
+  .p-grid { grid-template-columns: repeat(4, 1fr); }
+  #qpModal { width: 60%; left: 20%; }
+}
+</style>
+</head>
+
+<body onload="initApp()">
+
+<div id="zoomModal" onclick="closeZoom()">
+    <span class="close-zoom">&times;</span>
+    <img id="zoomImg" src="">
+    <div style="color:var(--text-main); margin-top:10px;">Click anywhere to close</div>
+</div>
+
+<div id="startScreen" class="full-screen-overlay">
+    <div class="start-card">
+        <h2 style="color:var(--primary); margin-top:0;">Sectional Mock Test</h2>
+        <p style="color:var(--text-muted)">Please enter your name to proceed.</p>
+        <input type="text" id="startNameInput" class="start-input" placeholder="Enter Full Name">
+        <button class="primary-btn" onclick="goToInstructions()">NEXT</button>
+    </div>
+</div>
+
+<div id="instScreen" class="full-screen-overlay" style="display:none;">
+    <div class="start-card" style="max-width:600px; text-align:left;">
+        <h3 style="color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:10px;">General Instructions</h3>
+        <div class="inst-list">
+            <b>Subject: English Language (Single Section)</b><br>
+            <b>Marking Scheme:</b>
+            <ul>
+                <li style="color:var(--success)">Correct Answer: +1 Mark</li>
+                <li style="color:var(--danger)">Wrong Answer: -0.25 Mark</li>
+            </ul>
+        </div>
+        <label style="display:flex; align-items:center; cursor:pointer; font-weight:600; font-size:14px; margin-top:20px;">
+            <input type="checkbox" id="instCheck" onchange="toggleStartBtn()" style="width:20px; height:20px; margin-right:10px;">
+            I have read and understood the instructions.
+        </label>
+        <br>
+        <button id="finalStartBtn" class="primary-btn" onclick="startTestFlow()" disabled>I AM READY TO BEGIN</button>
+    </div>
+</div>
+
+<div id="resumeScreen" class="full-screen-overlay" style="display:none;">
+    <div class="start-card">
+        <h3 style="color:var(--primary);">Test In Progress Found</h3>
+        <p style="color:var(--text-muted);">We found a previous unfinished session for <b id="resumeName"></b>.</p>
+        <div style="background:var(--bg-body); padding:10px; margin:10px 0; border-radius:5px;">
+            <small>Last active: <span id="resumeTime"></span> mins elapsed</small>
+        </div>
+        <button class="primary-btn" onclick="resumeTest()">RESUME SESSION</button>
+        <button class="secondary-btn" onclick="startNewTest()">START FRESH</button>
+    </div>
+</div>
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br>
+ <button class="tg-btn-continue" onclick="closeTg()">Continue Test</button>
+</div>
+
+<div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
+
+<header>
+  <div class="brand">DSSSB Mock <span style="font-size:0.8em; color:var(--text-muted)">v2.7</span></div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div id="timer">00:00</div>
+    <button class="tool-btn" onclick="pauseTest()" style="color:var(--warning); border-color:var(--warning)">⏸ Pause</button>
+    <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
+    <button class="tool-btn" onclick="toggleLang()" id="langBtn">EN/HI</button>
+    <button class="tool-btn" onclick="toggleFS()">⛶</button>
+    <button class="tool-btn" onclick="openQP()">📄 Paper</button>
+  </div>
+</header>
+
+<div id="subHeader">English Language</div>
+
+<div id="mainArea">
+  <input type="hidden" id="stuName">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--text-muted); font-size:13px;">
+      <span>Question No. <b id="qNumDisp">1</b></span>
+      <span style="display:flex; gap:10px;">
+        <span style="color:var(--success)">+1.00</span>
+        <span style="color:var(--danger)">-0.25</span>
+      </span>
+    </div>
+    <div style="font-size:14px; text-align:right; margin-bottom:5px;">
+        <button class="tool-btn" onclick="changeFont(1)">A+</button>
+        <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+    </div>
+    <div id="qContent"></div> 
+    <div id="opts"></div>      
+    <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
+        <button class="tool-btn" style="color:orange; border:1px solid orange; background:var(--bg-card)" onclick="markReview()">⭐ Mark for Review</button>
+        <button class="tool-btn" style="color:var(--text-muted);" onclick="clearResponse()">Borrar (Clear)</button>
+    </div>
+    <div id="expBox"></div>
+    <button id="expBtn" onclick="toggleExp()" style="width:100%; padding:10px; margin-top:10px; background:var(--primary); border:none; border-radius:4px; display:none; color:#fff; font-weight:bold;">View Solution</button>
+  </div>
+</div>
+
+<div id="palettePanel">
+  <div class="p-header">
+    <b>Question Palette</b>
+    <button onclick="togglePalette()" style="border:none; background:none; font-size:20px; cursor:pointer; color:var(--text-main)" class="close-pal">&times;</button>
+  </div>
+  <div style="padding:10px; background:var(--bg-card); font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn answered" style="width:20px; height:20px;"></div> Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn visited" style="width:20px; height:20px;"></div> Not Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn review" style="width:20px; height:20px;"></div> Mark Review</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn" style="width:20px; height:20px;"></div> Not Visited</div>
+  </div>
+  <div class="p-grid" id="paletteGrid"></div>
+  <div class="p-footer">
+    <button onclick="submitTest()" style="width:100%; padding:12px; background:var(--success); color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:16px;">SUBMIT TEST</button>
+  </div>
+</div>
+
+<footer>
+  <button class="nav-btn btn-palette" onclick="togglePalette()">Grid</button>
+  <button class="nav-btn btn-prev" onclick="prev()">Previous</button>
+  <button class="nav-btn btn-next" onclick="next()">Next</button>
+</footer>
+
+<div id="qpModal">
+    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;">
+        <b id="modalTitle">Full Question Paper</b>
+        <button onclick="closeQP()" style="border:none; background:none; font-size:20px; color:var(--text-main)">&times;</button>
+    </div>
+    <div id="qpContent" style="padding:20px; overflow-y:auto; flex:1;"></div>
+</div>
+
+<script>
+/* DATA & CONFIG */
+const SECTION_NAME = "English Language"; 
+const NEGATIVE_MARK = 0.25;
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* UPDATED QUESTIONS WITH NEW JSON FORMAT */
+const QUESTIONS = [
+  {
+    "q_hi": "Select the word that is closest in meaning (SYNONYM) to the word given below.<br><br><b>Deride</b>",
+    "op_1": "Mock",
+    "op_2": "Defend",
+    "op_3": "Inspire",
+    "op_4": "Blame",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Mock</b><br>Deride means to ridicule or express contempt for someone.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Deride का अर्थ है उपहास करना या मजाक उड़ाना। इसलिए सही Synonym <b>Mock</b> (मजाक उड़ाना) है।<br>• <b>Defend:</b> रक्षा करना।<br>• <b>Inspire:</b> प्रेरित करना।<br>• <b>Blame:</b> दोष देना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is closest in meaning (SYNONYM) to the word given below.<br><br><b>Uncouth</b>",
+    "op_1": "Vibrate",
+    "op_2": "Awkward",
+    "op_3": "Knave",
+    "op_4": "Elegant",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Awkward</b><br>Uncouth means lacking good manners, refinement, or grace (often awkward or clumsy).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Uncouth का अर्थ है गंवार या भद्दा (अशिष्ट)। <b>Awkward</b> (भद्दा/अजीब) इसका सबसे करीबी शब्द है।<br>• <b>Vibrate:</b> कांपना/कंपन।<br>• <b>Knave:</b> धूर्त या बेईमान व्यक्ति।<br>• <b>Elegant:</b> सुरुचिपूर्ण/शिष्ट।</div></div>"
+  },
+  {
+    "q_hi": "Choose the correct synonym of the given word.<br><br><b>Consent</b>",
+    "op_1": "Release",
+    "op_2": "Agree",
+    "op_3": "Refuse",
+    "op_4": "Protest",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Agree</b><br>Consent means permission for something to happen or agreement to do something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Consent का अर्थ है सहमति या अनुमति। इसलिए <b>Agree</b> (सहमत होना) सही उत्तर है।<br>• <b>Release:</b> रिहा करना।<br>• <b>Refuse:</b> मना करना।<br>• <b>Protest:</b> विरोध करना।</div></div>"
+  },
+  {
+    "q_hi": "Select the synonym of the given word.<br><br><b>SCINTILLATE</b>",
+    "op_1": "Gleam",
+    "op_2": "Foresee",
+    "op_3": "Help",
+    "op_4": "Render",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Gleam</b><br>Scintillate means to emit flashes of light; sparkle.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Scintillate का अर्थ है टिमटिमाना या चमकना। <b>Gleam</b> (जगमगाना/चमकना) इसका सही पर्यायवाची है।<br>• <b>Foresee:</b> पहले से देख लेना (भविष्यवाणी)।<br>• <b>Render:</b> प्रस्तुत करना या बनाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Solicitous</b>",
+    "op_1": "Unafraid",
+    "op_2": "Attentive",
+    "op_3": "Heedless",
+    "op_4": "Agitated",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Attentive</b><br>Solicitous means characterized by or showing interest or concern.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Solicitous का अर्थ है किसी की चिंता करने वाला या ध्यान रखने वाला। <b>Attentive</b> (सचेत/ध्यान देने वाला) समान अर्थ रखता है।<br>• <b>Heedless:</b> असावधान/बेपरवाह।<br>• <b>Agitated:</b> उत्तेजित/परेशान।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Specious</b>",
+    "op_1": "Genuine",
+    "op_2": "Deceptive",
+    "op_3": "Effusive",
+    "op_4": "Valid",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Deceptive</b><br>Specious means superficially plausible, but actually wrong (misleading).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Specious का अर्थ है जो ऊपर से अच्छा दिखे पर असल में गलत हो (दिखावटी/भ्रामक)। <b>Deceptive</b> (धोखेबाज/भ्रामक) सही उत्तर है।<br>• <b>Genuine:</b> असली/प्रामाणिक।<br>• <b>Effusive:</b> भावपूर्ण/अतिशयोक्तिपूर्ण।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Untenable</b>",
+    "op_1": "Controvert",
+    "op_2": "Exuberant",
+    "op_3": "Illogical",
+    "op_4": "Depressed",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Illogical</b><br>Untenable means not able to be maintained or defended against attack or objection.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Untenable का अर्थ है जिसका समर्थन न किया जा सके (असमर्थनीय/तर्कहीन)। यहाँ <b>Illogical</b> (अतार्किक) सबसे निकट है।<br>• <b>Controvert:</b> खंडन करना।<br>• <b>Exuberant:</b> उल्लासपूर्ण/ऊर्जावान।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Awareness</b>",
+    "op_1": "Stupidity",
+    "op_2": "Alertness",
+    "op_3": "Ignorance",
+    "op_4": "Join",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Alertness</b><br>Awareness implies knowledge or perception of a situation.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Awareness का अर्थ है जागरूकता या जानकारी। <b>Alertness</b> (सतर्कता/सावधानी) इसका सही पर्यायवाची है।<br>• <b>Stupidity:</b> मूर्खता।<br>• <b>Ignorance:</b> अज्ञानता।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Concede</b>",
+    "op_1": "Start",
+    "op_2": "Affirm",
+    "op_3": "Reject",
+    "op_4": "Weaken",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Affirm</b><br>Concede means to admit that something is true or valid after first denying or resisting it.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Concede का अर्थ है स्वीकार करना (हार या तथ्य)। दिए गए विकल्पों में <b>Affirm</b> (पुष्टि करना/हाँ कहना) सबसे करीब है, हालांकि Concede में थोड़ी अनिच्छा होती है।<br>• <b>Reject:</b> अस्वीकार करना।<br>• <b>Weaken:</b> कमजोर करना।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Entire</b>",
+    "op_1": "Loud",
+    "op_2": "Whole",
+    "op_3": "Piece",
+    "op_4": "Residue",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Whole</b><br>Entire means with no part left out; whole.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Entire का अर्थ है संपूर्ण या पूरा। <b>Whole</b> (सारा/साबुत) इसका सही पर्यायवाची है।<br>• <b>Piece:</b> टुकड़ा।<br>• <b>Residue:</b> बचा हुआ भाग (अवशेष)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Loyal</b>",
+    "op_1": "Devoted",
+    "op_2": "Permit",
+    "op_3": "Taboo",
+    "op_4": "Ban",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Devoted</b><br>Loyal means giving or showing firm and constant support or allegiance to a person or institution.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Loyal का अर्थ है वफादार। <b>Devoted</b> (समर्पित/भक्त) इसका सही पर्यायवाची है।<br>• <b>Taboo:</b> वर्जित कार्य।<br>• <b>Ban:</b> प्रतिबंध।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Impartial</b>",
+    "op_1": "Censure",
+    "op_2": "Unbiased",
+    "op_3": "Prejudiced",
+    "op_4": "Biased",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Unbiased</b><br>Impartial means treating all rivals or disputants equally; fair and just.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Impartial का अर्थ है निष्पक्ष। <b>Unbiased</b> (पक्षपात रहित) इसका सही अर्थ है।<br>• <b>Censure:</b> निंदा करना।<br>• <b>Prejudiced/Biased:</b> पक्षपाती (भेदभाव करने वाला)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Apathy</b>",
+    "op_1": "Lethargy",
+    "op_2": "Disgust",
+    "op_3": "Yell",
+    "op_4": "Apex",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Lethargy</b><br>Apathy means lack of interest, enthusiasm, or concern.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Apathy का अर्थ है उदासीनता (रुचि न होना)। <b>Lethargy</b> (सुस्ती/आलस) इससे मिलता-जुलता है क्योंकि दोनों में ऊर्जा/रुचि की कमी होती है।<br>• <b>Apex:</b> शिखर/चोटी।<br>• <b>Disgust:</b> घृणा।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Hypocrisy</b>",
+    "op_1": "Deception",
+    "op_2": "Timid",
+    "op_3": "Sincerity",
+    "op_4": "Meek",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Deception</b><br>Hypocrisy is the practice of claiming to have moral standards or beliefs to which one's own behavior does not conform.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Hypocrisy का अर्थ है पाखंड या ढोंग। यह एक तरह का <b>Deception</b> (धोखा/छलावा) है।<br>• <b>Timid:</b> डरपोक।<br>• <b>Sincerity:</b> सच्चाई (Antonym)।<br>• <b>Meek:</b> विनम्र/दब्बू।</div></div>"
+  }
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Confident</b>",
+    "op_1": "Bold",
+    "op_2": "Loose",
+    "op_3": "Diffident",
+    "op_4": "Fine",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Bold</b><br>Confident means feeling or showing certainty about something. Bold implies a willingness to take risks and being confident.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Confident का अर्थ है आत्मविश्वासी। <b>Bold</b> (साहसी/निडर) इसका सही पर्यायवाची है।<br>• <b>Diffident:</b> संकोची (Antonym)।<br>• <b>Loose:</b> ढीला।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Effect</b>",
+    "op_1": "Cheerful",
+    "op_2": "Result",
+    "op_3": "Pure",
+    "op_4": "Lack",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Result</b><br>Effect means a change which is a result or consequence of an action.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Effect का अर्थ है प्रभाव या परिणाम। इसलिए <b>Result</b> (परिणाम) सही उत्तर है।<br>• <b>Lack:</b> कमी।<br>• <b>Pure:</b> शुद्ध।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Veritable</b>",
+    "op_1": "Genuine",
+    "op_2": "Impugn",
+    "op_3": "Vociferous",
+    "op_4": "Latent",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Genuine</b><br>Veritable is used to emphasize that something is true or real (often used as 'true' or 'genuine').<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Veritable का अर्थ है सच्चा या असली। <b>Genuine</b> (असली) इसका सही पर्यायवाची है।<br>• <b>Impugn:</b> चुनौती देना/खंडन करना।<br>• <b>Vociferous:</b> शोरगुल करने वाला।<br>• <b>Latent:</b> गुप्त/छिपा हुआ।</div></div>"
+  },
+  {
+    "q_hi": "Choose the option that is the HOMONYM with the meanings 'to pull apart' and 'a hole in a piece of paper or cloth'.",
+    "op_1": "Tear",
+    "op_2": "Rear",
+    "op_3": "Peer",
+    "op_4": "Dear",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Tear</b><br>The word 'Tear' acts as a homonym here. To tear (verb) means to pull apart. A tear (noun) means a hole caused by ripping.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br><b>Tear</b> शब्द के दो अर्थ हैं: 1. फाड़ना (to pull apart), 2. फटा हुआ छेद (a hole)।<br>Note: 'Tear' का एक और अर्थ 'आंसू' भी होता है, लेकिन यहाँ संदर्भ 'कागज फटने' से है।</div></div>"
+  },
+  {
+    "q_hi": "Select the option that is the SYNONYM of the given word.<br><br><b>Viable</b>",
+    "op_1": "Workable",
+    "op_2": "Impossible",
+    "op_3": "Unworkable",
+    "op_4": "Difficult",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Workable</b><br>Viable means capable of working successfully; feasible.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Viable का अर्थ है जो संभव हो या व्यावहारिक हो। <b>Workable</b> (काम करने योग्य) सही उत्तर है।<br>• <b>Unworkable/Impossible:</b> असंभव (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the option that is the HOMONYM with the meanings 'sloping land' and 'a pile'.",
+    "op_1": "Bank",
+    "op_2": "Tank",
+    "op_3": "Rank",
+    "op_4": "Rack",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Bank</b><br>'Bank' refers to the land alongside a river (sloping land) and also means to heap or pile up (e.g., banking a fire or bank of clouds).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br><b>Bank</b> का अर्थ 'नदी का किनारा' (ढलान वाली जमीन) भी होता है और 'ढेर लगाना' (pile) भी होता है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>ZENITH</b>",
+    "op_1": "Foundation",
+    "op_2": "Nadir",
+    "op_3": "Establishment",
+    "op_4": "Summit",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Summit</b><br>Zenith means the time at which something is most powerful or successful; the peak.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Zenith का अर्थ है शीर्षबिंदु या शिखर। <b>Summit</b> (चोटी/शिखर) इसका सही पर्यायवाची है।<br>• <b>Nadir:</b> सबसे निचला स्तर (Antonym)।<br>• <b>Foundation:</b> नींव।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Horrified</b>",
+    "op_1": "Sacred",
+    "op_2": "Desperate",
+    "op_3": "Anxious",
+    "op_4": "Terrified",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Terrified</b><br>Horrified means extremely shocked or frightened.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Horrified का अर्थ है बहुत डरा हुआ। <b>Terrified</b> (आतंकित/भयभीत) इसका सही पर्यायवाची है।<br>• <b>Anxious:</b> चिंतित।<br>• <b>Sacred:</b> पवित्र (शायद यहाँ 'Scared' लिखा जाना था, पर विकल्प में Sacred है)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Abuse</b>",
+    "op_1": "Aspersion",
+    "op_2": "Omen",
+    "op_3": "Oppression",
+    "op_4": "Ablution",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Aspersion</b><br>Abuse involves insulting or offensive language. Aspersion refers to an attack on the reputation or integrity of someone.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abuse का अर्थ है अपशब्द या निंदा। <b>Aspersion</b> (कलंक/निंदा) इसका सबसे करीबी शब्द है।<br>• <b>Ablution:</b> स्नान/धुलाई।<br>• <b>Omen:</b> शकुन।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Imperative</b>",
+    "op_1": "Immigrant",
+    "op_2": "Impish",
+    "op_3": "Imperial",
+    "op_4": "Mandatory",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Mandatory</b><br>Imperative means of vital importance; crucial or compulsory.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Imperative का अर्थ है अनिवार्य या बहुत महत्वपूर्ण। <b>Mandatory</b> (अनिवार्य) सही उत्तर है।<br>• <b>Impish:</b> शरारती।<br>• <b>Imperial:</b> शाही।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Censure</b>",
+    "op_1": "Push",
+    "op_2": "Heed",
+    "op_3": "Instruct",
+    "op_4": "Rebuke",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Rebuke</b><br>Censure means to express severe disapproval. Rebuke means to express sharp disapproval or criticism.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Censure का अर्थ है निंदा करना। <b>Rebuke</b> (फटकारना/डांटना) इसका सही पर्यायवाची है।<br>• <b>Heed:</b> ध्यान देना।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Passionate</b>",
+    "op_1": "Folly",
+    "op_2": "Fervent",
+    "op_3": "Fallacy",
+    "op_4": "Figure",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Fervent</b><br>Passionate means showing strong feelings or belief. Fervent means having or displaying a passionate intensity.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Passionate का अर्थ है भावुक या उत्साही। <b>Fervent</b> (उत्साही/जोशीला) सही पर्यायवाची है।<br>• <b>Folly:</b> मूर्खता।<br>• <b>Fallacy:</b> भ्रांति/गलतफहमी।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Waver</b>",
+    "op_1": "Vaccinate",
+    "op_2": "Voucher",
+    "op_3": "Waiver",
+    "op_4": "Vacillate",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Vacillate</b><br>Waver means to shake with a quivering motion or become unsteady/undecided. Vacillate means to be indecisive.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Waver का अर्थ है डगमगाना या हिचकिचाना। <b>Vacillate</b> (दुविधा में होना) इसका सही अर्थ है।<br>• <b>Waiver:</b> त्यागनामा (हक छोड़ना)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Stubborn</b>",
+    "op_1": "Observant",
+    "op_2": "Obese",
+    "op_3": "Obstinate",
+    "op_4": "Obtrusive",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obstinate</b><br>Stubborn means having or showing dogged determination not to change one's attitude. Obstinate is a direct synonym.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Stubborn का अर्थ है जिद्दी। <b>Obstinate</b> (हठी/जिद्दी) इसका सही पर्यायवाची है।<br>• <b>Obese:</b> मोटा।<br>• <b>Obtrusive:</b> जो जबरदस्ती ध्यान खींचे (बाधक)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Compunction</b>",
+    "op_1": "Defiance",
+    "op_2": "Attrition",
+    "op_3": "Happiness",
+    "op_4": "Disdain",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Attrition</b><br>Compunction means a feeling of guilt or moral scruple. Attrition (in a religious/moral sense) means sorrow for sin (imperfect contrition).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Compunction का अर्थ है पछतावा या आत्मग्लानि। दिए गए विकल्पों में <b>Attrition</b> (पाप का पछतावा) सबसे उपयुक्त है।<br>• <b>Defiance:</b> अवज्ञा/विद्रोह।<br>• <b>Disdain:</b> तिरस्कार/घृणा।</div></div>"
+  }
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Endowment</b>",
+    "op_1": "Impropriety",
+    "op_2": "Incongruity",
+    "op_3": "Bequest",
+    "op_4": "Dissonance",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Bequest</b><br>Endowment refers to a quality or ability possessed or inherited, or a financial donation. Bequest is a legacy left by will.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Endowment का अर्थ है दान, बंदोबस्ती या प्राकृतिक प्रतिभा। <b>Bequest</b> (वसीयत/धरोहर) इसका सबसे करीबी शब्द है।<br>• <b>Impropriety:</b> अनुचितता।<br>• <b>Incongruity:</b> असंगतता।<br>• <b>Dissonance:</b> मतभेद/कर्कशता।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Gourmand</b>",
+    "op_1": "Quotidian",
+    "op_2": "Temperance",
+    "op_3": "Propagate",
+    "op_4": "Connoisseur",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Connoisseur</b><br>A Gourmand is someone who enjoys eating and often eats too much. While not identical, Connoisseur (an expert judge in taste) is the only related positive term in the options.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Gourmand वह होता है जिसे खाने का बहुत शौक हो (पेटू)। दिए गए विकल्पों में <b>Connoisseur</b> (खाने-पीने का पारखी) ही इससे संबंधित है।<br>• <b>Quotidian:</b> दैनिक/साधारण।<br>• <b>Temperance:</b> संयम (खाने-पीने में)।<br>• <b>Propagate:</b> प्रचार करना/फैलाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Horticulture</b>",
+    "op_1": "Litigation",
+    "op_2": "Omniscience",
+    "op_3": "Cultivation",
+    "op_4": "Nascent",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Cultivation</b><br>Horticulture is the art or practice of garden cultivation and management.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Horticulture का अर्थ है बागवानी। <b>Cultivation</b> (खेती/उपज) इसका सही पर्यायवाची है।<br>• <b>Litigation:</b> मुकदमेबाजी।<br>• <b>Omniscience:</b> सर्वज्ञता (सब कुछ जानने वाला)।<br>• <b>Nascent:</b> नवजात/उभरता हुआ।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Bashful</b>",
+    "op_1": "Garrulous",
+    "op_2": "Coward",
+    "op_3": "Shy",
+    "op_4": "Expressive",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Shy</b><br>Bashful means reluctant to draw attention to oneself; shy.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Bashful का अर्थ है संकोची या शर्मीला। <b>Shy</b> (शर्मीला) इसका सही उत्तर है।<br>• <b>Garrulous:</b> बातूनी।<br>• <b>Coward:</b> कायर।<br>• <b>Expressive:</b> अर्थपूर्ण/भावपूर्ण।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Jovial</b>",
+    "op_1": "Merry",
+    "op_2": "Tame",
+    "op_3": "Creepy",
+    "op_4": "Occult",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Merry</b><br>Jovial means cheerful and friendly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Jovial का अर्थ है हंसमुख या उल्लासपूर्ण। <b>Merry</b> (आनंदित) इसका सही पर्यायवाची है।<br>• <b>Tame:</b> पालतू/सीधा।<br>• <b>Occult:</b> तंत्र-मंत्र/गुप्त।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Cloudy</b>",
+    "op_1": "Diminish",
+    "op_2": "Danger",
+    "op_3": "Down",
+    "op_4": "Unclear",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Unclear</b><br>Cloudy means covered with clouds or not transparent/clear.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Cloudy का अर्थ है बादलों से घिरा या धुंधला। इसका अर्थ <b>Unclear</b> (अस्पष्ट) होता है।<br>• <b>Diminish:</b> कम करना/घटाना।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Strict</b>",
+    "op_1": "Lavish",
+    "op_2": "Deplorable",
+    "op_3": "Austere",
+    "op_4": "Prodigal",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Austere</b><br>Strict means demanding that rules concerning behavior are obeyed. Austere means severe or strict in manner, attitude, or appearance.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Strict का अर्थ है सख्त। <b>Austere</b> (कठोर/सादगीपूर्ण) इसका सही पर्यायवाची है।<br>• <b>Lavish:</b> खर्चीला/भव्य।<br>• <b>Deplorable:</b> खेदजनक/दयनीय।<br>• <b>Prodigal:</b> अतिव्ययी (फिजूलखर्ची)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Prevalent</b>",
+    "op_1": "Confident",
+    "op_2": "Widespread",
+    "op_3": "Fraudulent",
+    "op_4": "Ambivalent",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Widespread</b><br>Prevalent means widespread in a particular area or at a particular time.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Prevalent का अर्थ है प्रचलित। <b>Widespread</b> (व्यापक/फैला हुआ) इसका सही अर्थ है।<br>• <b>Fraudulent:</b> धोखेबाज।<br>• <b>Ambivalent:</b> उभयभावी (मिली-जुली भावनाएं)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Ardent</b>",
+    "op_1": "Withdrawn",
+    "op_2": "Lovable",
+    "op_3": "Denture",
+    "op_4": "Passionate",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Passionate</b><br>Ardent means enthusiastic or passionate.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ardent का अर्थ है उत्साही या प्रखर। <b>Passionate</b> (जोशीला) इसका सही पर्यायवाची है।<br>• <b>Withdrawn:</b> अंतर्मुखी/अलग-थलग।<br>• <b>Denture:</b> कृत्रिम दांत।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Disenable</b>",
+    "op_1": "Assist",
+    "op_2": "Cripple",
+    "op_3": "Soothe",
+    "op_4": "Assuage",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Cripple</b><br>Disenable means to make unfit or disable. Cripple means to cause a severe and disabling injury.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Disenable का अर्थ है अक्षम करना। <b>Cripple</b> (विकलांग करना/पंगु बनाना) इसका सही अर्थ है।<br>• <b>Assist:</b> सहायता करना।<br>• <b>Soothe/Assuage:</b> शांत करना/कम करना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Subsidize</b>",
+    "op_1": "Arbitrary",
+    "op_2": "Contribute",
+    "op_3": "Waggish",
+    "op_4": "Erratic",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Contribute</b><br>Subsidize means to support financially. Contribute means to give (something, especially money) to help.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Subsidize का अर्थ है आर्थिक सहायता देना। <b>Contribute</b> (योगदान देना/चंदा देना) इससे मिलता-जुलता है।<br>• <b>Arbitrary:</b> मनमाना।<br>• <b>Waggish:</b> मजाकिया।<br>• <b>Erratic:</b> अनियमित।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Voracious</b>",
+    "op_1": "Satiable",
+    "op_2": "Avid",
+    "op_3": "Ambiguous",
+    "op_4": "Quenched",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Avid</b><br>Voracious means wanting or devouring great quantities of food, or having a very eager approach to an activity. Avid means showing a keen interest or enthusiasm.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Voracious का अर्थ है पेटू या बहुत इच्छुक। <b>Avid</b> (उत्सुक/लालायित) इसका सही पर्यायवाची है।<br>• <b>Satiable:</b> जिसे संतुष्ट किया जा सके।<br>• <b>Quenched:</b> प्यास बुझाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Ravenous</b>",
+    "op_1": "Conscious",
+    "op_2": "Capricious",
+    "op_3": "Tenacious",
+    "op_4": "Ferocious",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Ferocious</b><br>Ravenous means extremely hungry. It is often associated with intense, wild hunger, making 'Ferocious' (savagely fierce) the closest match in this context among the options.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ravenous का अर्थ है बहुत भूखा (मरभुक्का)। विकल्पों में <b>Ferocious</b> (क्रूर/भयंकर) सबसे निकट है क्योंकि यह भूख की तीव्रता को दर्शाता है।<br>• <b>Capricious:</b> मनमौजी/चंचल।<br>• <b>Tenacious:</b> दृढ़/जबरदस्त।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Delirium</b>",
+    "op_1": "Hysteria",
+    "op_2": "Calmness",
+    "op_3": "Apathy",
+    "op_4": "Indifference",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Hysteria</b><br>Delirium is a disturbed state of mind characterized by restlessness, illusions, and incoherence. Hysteria refers to exaggerated or uncontrollable emotion/excitement.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Delirium का अर्थ है प्रलाप या बेहोशी का बड़बड़ाना। <b>Hysteria</b> (उन्माद/मिर्गी) इससे मिलता-जुलता मानसिक आवेग है।<br>• <b>Calmness:</b> शांति।<br>• <b>Apathy/Indifference:</b> उदासीनता।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Disdain</b>",
+    "op_1": "Capitulate",
+    "op_2": "Assimilate",
+    "op_3": "Spurn",
+    "op_4": "Sanction",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Spurn</b><br>Disdain is the feeling that someone or something is unworthy of one's consideration. Spurn means to reject with disdain.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Disdain का अर्थ है तिरस्कार या अवहेलना। <b>Spurn</b> (ठुकराना/तिरस्कार करना) इसका सही पर्यायवाची है।<br>• <b>Capitulate:</b> हथियार डालना।<br>• <b>Assimilate:</b> अपनाना/सम्मिलित करना।<br>• <b>Sanction:</b> मंजूरी देना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Disenable</b>",
+    "op_1": "Assist",
+    "op_2": "Soothe",
+    "op_3": "Assuage",
+    "op_4": "Cripple",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Cripple</b><br>Disenable means to disable. Cripple means to cause a severe and disabling injury.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Disenable का अर्थ है अक्षम करना। <b>Cripple</b> (अपंग बनाना) सही उत्तर है।<br>• <b>Assist:</b> मदद करना।<br>• <b>Soothe/Assuage:</b> राहत देना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Debased</b>",
+    "op_1": "Amenable",
+    "op_2": "Unamenable",
+    "op_3": "Corrupted",
+    "op_4": "Aggrandize",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Corrupted</b><br>Debased means reduced in quality or value. Corrupted implies moral ruin or impurity.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Debased का अर्थ है जिसका मान कम किया गया हो या भ्रष्ट। <b>Corrupted</b> (भ्रष्ट/दूषित) इसका सही पर्यायवाची है।<br>• <b>Amenable:</b> आज्ञाकारी/जवाबदेह।<br>• <b>Aggrandize:</b> शक्ति या प्रतिष्ठा बढ़ाना।</div></div>"
+  }
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Capricious</b>",
+    "op_1": "Steadfast",
+    "op_2": "Arbitrary",
+    "op_3": "Stable",
+    "op_4": "Cautious",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Arbitrary</b><br>Capricious means given to sudden and unaccountable changes of mood or behavior (fickle). Arbitrary also implies random choice or whim rather than reason.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Capricious का अर्थ है मनमौजी या अस्थिर। <b>Arbitrary</b> (मनमाना/स्वेच्छिक) इसका सही पर्यायवाची है।<br>• <b>Steadfast/Stable:</b> स्थिर (Antonyms)।<br>• <b>Cautious:</b> सतर्क।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Enthusiasm</b>",
+    "op_1": "Entertain",
+    "op_2": "Passion",
+    "op_3": "Emend",
+    "op_4": "Gainsay",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Passion</b><br>Enthusiasm means intense and eager enjoyment, interest, or approval. Passion shares this meaning of strong emotion.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Enthusiasm का अर्थ है उत्साह या जोश। <b>Passion</b> (जुनून/जोश) इसका सही पर्यायवाची है।<br>• <b>Emend:</b> सुधारना (पाठ आदि)।<br>• <b>Gainsay:</b> अस्वीकार करना।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Affection</b>",
+    "op_1": "Adore",
+    "op_2": "Abhor",
+    "op_3": "Amend",
+    "op_4": "Astute",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Adore</b><br>Affection refers to a gentle feeling of fondness or liking. Adore means to love and respect deeply.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Affection का अर्थ है स्नेह या लगाव। <b>Adore</b> (पूजा करना/बहुत स्नेह करना) इससे सबसे निकट है।<br>• <b>Abhor:</b> घृणा करना।<br>• <b>Astute:</b> चतुर/धूर्त।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Warning</b>",
+    "op_1": "Caution",
+    "op_2": "Attention",
+    "op_3": "Accuse",
+    "op_4": "Victim",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Caution</b><br>Warning means a statement or event that indicates a possible or impending danger. Caution refers to care taken to avoid danger or mistakes.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Warning का अर्थ है चेतावनी। <b>Caution</b> (सावधानी/चेतावनी) इसका सही अर्थ है।<br>• <b>Accuse:</b> आरोप लगाना।<br>• <b>Victim:</b> पीड़ित।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Encounter</b>",
+    "op_1": "Sale",
+    "op_2": "Avoiding",
+    "op_3": "Announcing",
+    "op_4": "Meeting",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Meeting</b><br>Encounter means an unexpected or casual meeting with someone or something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Encounter का अर्थ है सामना होना या मुलाकात। <b>Meeting</b> (मुलाकात/बैठक) इसका सही पर्यायवाची है।<br>• <b>Avoiding:</b> बचना।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Consistent</b>",
+    "op_1": "Steady",
+    "op_2": "Certain",
+    "op_3": "Slow",
+    "op_4": "Often",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Steady</b><br>Consistent means acting or done in the same way over time. Steady means regular, even, and continuous.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Consistent का अर्थ है सुसंगत या स्थिर (जो बदलता न हो)। <b>Steady</b> (स्थिर/नियमित) इसका सही पर्यायवाची है।<br>• <b>Certain:</b> निश्चित।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Boast</b>",
+    "op_1": "Brag",
+    "op_2": "Bloat",
+    "op_3": "Demure",
+    "op_4": "Distract",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Brag</b><br>Boast means to talk with excessive pride and self-satisfaction. Brag is a direct synonym.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Boast का अर्थ है डींग मारना या शेखी बघारना। <b>Brag</b> (शेखी मारना) इसका सही अर्थ है।<br>• <b>Bloat:</b> फूलना/सूजना।<br>• <b>Demure:</b> संकोची/शांत।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Encourage</b>",
+    "op_1": "Condemn",
+    "op_2": "Constitute",
+    "op_3": "Urge",
+    "op_4": "Criticize",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Urge</b><br>Encourage means to give support, confidence, or hope. Urge means to try earnestly or persistently to persuade someone to do something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Encourage का अर्थ है प्रोत्साहित करना। <b>Urge</b> (आग्रह करना/प्रेरित करना) इसका समानार्थी है।<br>• <b>Condemn/Criticize:</b> निंदा करना (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Burst</b>",
+    "op_1": "Create",
+    "op_2": "Apart",
+    "op_3": "Pop",
+    "op_4": "Tear",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Pop</b><br>Burst means to break open or apart suddenly. Pop means to make a light explosive sound or burst open.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Burst का अर्थ है फटना या फूटना। <b>Pop</b> (पटाखा फूटना/फटना) इसका सही पर्यायवाची है।<br>• <b>Tear:</b> फाड़ना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>CANONIZATION</b>",
+    "op_1": "VETO",
+    "op_2": "MOBILIZATION",
+    "op_3": "COMPARISON",
+    "op_4": "RECOGNITION",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: RECOGNITION</b><br>Canonization is the official admission of a dead person into sainthood. In a broader sense, it means official recognition or approval.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Canonization का मुख्य अर्थ है 'संत घोषित करना'। व्यापक अर्थ में यह किसी को आधिकारिक <b>Recognition</b> (मान्यता) देना है।<br>• <b>Veto:</b> निषेधाधिकार (मना करना)।<br>• <b>Mobilization:</b> लामबंदी (एकजुट करना)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>ETHEREAL</b>",
+    "op_1": "INDELICATE",
+    "op_2": "AIRY",
+    "op_3": "SUBSTANTIAL",
+    "op_4": "UNREAL",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: AIRY</b><br>Ethereal means extremely delicate and light in a way that seems not to be of this world. Airy is a close synonym representing lightness.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ethereal का अर्थ है बहुत नाजुक या हवाई (स्वर्गीय)। <b>Airy</b> (हवादार/नाजुक) इसका सही पर्यायवाची है।<br>• <b>Substantial:</b> ठोस/मजबूत (Antonym)।<br>• <b>Indelicate:</b> अभद्र।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>RIVALRY</b>",
+    "op_1": "ANTAGONISM",
+    "op_2": "ASSIMILATE",
+    "op_3": "COUNTERATTACK",
+    "op_4": "ACCORD",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: ANTAGONISM</b><br>Rivalry means competition for the same objective or for superiority in the same field. Antagonism refers to active hostility or opposition.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Rivalry का अर्थ है प्रतिद्वंद्विता। <b>Antagonism</b> (विरोध/शत्रुता) इसका सही पर्यायवाची है।<br>• <b>Accord:</b> समझौता/सहमति (Antonym)।<br>• <b>Assimilate:</b> अपनाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>CAUTIOUS</b>",
+    "op_1": "LOOSE",
+    "op_2": "PRUDENT",
+    "op_3": "PRECISE",
+    "op_4": "PREDOMINANT",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: PRUDENT</b><br>Cautious means careful to avoid potential problems or dangers. Prudent means acting with or showing care and thought for the future.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Cautious का अर्थ है सतर्क। <b>Prudent</b> (विवेकी/सावधान) इसका सही पर्यायवाची है।<br>• <b>Precise:</b> सटीक।<br>• <b>Predominant:</b> प्रमुख/प्रभावी।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>GRUDGE</b>",
+    "op_1": "RAPPORT",
+    "op_2": "COMMUNION",
+    "op_3": "CONCORD",
+    "op_4": "MALICE",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: MALICE</b><br>A grudge is a persistent feeling of ill will or resentment. Malice is the intention or desire to do evil; ill will.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Grudge का अर्थ है ईर्ष्या या बैर। <b>Malice</b> (द्वेष/दुर्भावना) इसका सही पर्यायवाची है।<br>• <b>Rapport/Concord:</b> मेल-जोल/सद्भाव (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>RAPACIOUSNESS</b>",
+    "op_1": "BENEFICENCE",
+    "op_2": "PROFUSION",
+    "op_3": "VORACIOUSNESS",
+    "op_4": "MUNIFICENCE",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: VORACIOUSNESS</b><br>Rapaciousness refers to being aggressively greedy or grasping. Voraciousness means wanting or devouring great quantities of food (greedy).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Rapaciousness का अर्थ है लालच या लूटने की प्रवृत्ति। <b>Voraciousness</b> (पेटूपन/लालच) इसका सही पर्यायवाची है।<br>• <b>Beneficence/Munificence:</b> उदारता/दानशीलता (Antonyms)।<br>• <b>Profusion:</b> प्रचुरता।</div></div>"
+  }
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>LIBERTY</b>",
+    "op_1": "REFUSAL",
+    "op_2": "DEPENDENCE",
+    "op_3": "AUTARCHY",
+    "op_4": "INCARCERATION",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: AUTARCHY</b><br>Liberty means the state of being free. Autarchy (often confused with Autonomy) means absolute sovereignty or self-government. Among the options, it is the only one related to independence.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Liberty का अर्थ है स्वतंत्रता। <b>Autarchy</b> (स्वशासन/निरंकुश शासन) यहाँ स्वतंत्रता के सबसे करीब है।<br>• <b>Dependence:</b> परतंत्रता (Antonym)।<br>• <b>Incarceration:</b> कैद।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>PRIVILEGE</b>",
+    "op_1": "PREROGATIVE",
+    "op_2": "RESPONSIBILITY",
+    "op_3": "DISPENSATION",
+    "op_4": "DETRIMENT",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: PREROGATIVE</b><br>Privilege is a special right or advantage. Prerogative is a right or privilege exclusive to a particular individual or class.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Privilege का अर्थ है विशेषाधिकार। <b>Prerogative</b> (परमाधिकार) इसका सही पर्यायवाची है।<br>• <b>Detriment:</b> हानि।<br>• <b>Dispensation:</b> वितरण/छूट।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>CORRALLED</b>",
+    "op_1": "COOP UP",
+    "op_2": "EXPOSE",
+    "op_3": "FALTER",
+    "op_4": "RELEASE",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: COOP UP</b><br>To corral means to gather together and confine. Coop up means to confine in a small space.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Corralled का अर्थ है घेरना या इकट्ठा करना (जानवरों को)। <b>Coop up</b> (बंद करना/घेरना) इसका सही अर्थ है।<br>• <b>Release:</b> मुक्त करना।<br>• <b>Falter:</b> लड़खड़ाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>DISCOURTEOUS</b>",
+    "op_1": "BRUSQUE",
+    "op_2": "TACTFUL",
+    "op_3": "APPLAUD",
+    "op_4": "HUMBLE",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: BRUSQUE</b><br>Discourteous means showing rude manners. Brusque means abrupt or offhand in speech or manner.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Discourteous का अर्थ है अशिष्ट या असभ्य। <b>Brusque</b> (रूखा/अशिष्ट) इसका सही पर्यायवाची है।<br>• <b>Tactful/Humble:</b> व्यवहारकुशल/विनम्र (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>HUMDRUM</b>",
+    "op_1": "MUNDANE",
+    "op_2": "EVENTFUL",
+    "op_3": "EXCITING",
+    "op_4": "FUNDAMENTAL",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: MUNDANE</b><br>Humdrum means lacking excitement or variety; dull. Mundane means lacking interest or excitement; dull.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Humdrum का अर्थ है नीरस या फीका। <b>Mundane</b> (सांसारिक/साधारण) इसका सही पर्यायवाची है।<br>• <b>Eventful/Exciting:</b> रोमांचक (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>BUNCO</b>",
+    "op_1": "BUNKER",
+    "op_2": "TREASON",
+    "op_3": "TENSION",
+    "op_4": "HARMONY",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: TREASON</b><br>Bunco refers to a swindle or confidence game. While 'Treason' (betrayal) is not a direct synonym, it is the closest option implying a breach of trust or deception.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Bunco का अर्थ है ठगी या धोखा। विकल्पों में <b>Treason</b> (विश्वासघात/राजद्रोह) सबसे निकट नकारात्मक शब्द है जो धोखे से संबंधित है।<br>• <b>Harmony:</b> सामंजस्य।<br>• <b>Tension:</b> तनाव।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>BELLICOSE</b>",
+    "op_1": "PACIFISTIC",
+    "op_2": "STEADINESS",
+    "op_3": "PASSIVE",
+    "op_4": "THREATENING",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: THREATENING</b><br>Bellicose means demonstrating aggression and willingness to fight. Threatening captures this aggressive nature.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Bellicose का अर्थ है लड़ाकू या युद्धप्रिय। <b>Threatening</b> (धमकाने वाला/आक्रामक) इसका सही पर्यायवाची है।<br>• <b>Pacifistic/Passive:</b> शांतिप्रिय (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>PROPENSITY</b>",
+    "op_1": "ANTIPATHY",
+    "op_2": "DISINCLINATION",
+    "op_3": "INADEQUACY",
+    "op_4": "BIAS",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: BIAS</b><br>Propensity is an inclination or natural tendency to behave in a particular way. Bias is a prejudice or inclination.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Propensity का अर्थ है प्रवृत्ति या झुकाव। <b>Bias</b> (पूर्वाग्रह/झुकाव) इसका सही पर्यायवाची है।<br>• <b>Antipathy:</b> घृणा।<br>• <b>Disinclination:</b> अनिच्छा (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the right synonym for 'abduct'.",
+    "op_1": "Deceive",
+    "op_2": "Kidnap",
+    "op_3": "Kill",
+    "op_4": "Ravage",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Kidnap</b><br>Abduct means to take (someone) away illegally by force or deception; kidnap.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abduct का अर्थ है अपहरण करना। <b>Kidnap</b> (अगवा करना) इसका सही पर्यायवाची है।<br>• <b>Deceive:</b> धोखा देना।<br>• <b>Ravage:</b> नाश करना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>DISPARAGING</b>",
+    "op_1": "COMPLIMENTARY",
+    "op_2": "DISLOYAL",
+    "op_3": "DEVOTED",
+    "op_4": "DEFAMATORY",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: DEFAMATORY</b><br>Disparaging means expressing the opinion that something is of little worth; derogatory. Defamatory means damaging the good reputation of someone.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Disparaging का अर्थ है निंदापूर्ण या अपमानजनक। <b>Defamatory</b> (मानहानिकारक) इसका सही पर्यायवाची है।<br>• <b>Complimentary:</b> प्रशंसात्मक (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>CONGLOMERATE</b>",
+    "op_1": "CONSTANT",
+    "op_2": "HOMOGENOUS",
+    "op_3": "COMBINE",
+    "op_4": "UNVARIED",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: COMBINE</b><br>A Conglomerate is a thing consisting of a number of different and distinct parts or items that are grouped together. Combine means to unite or merge.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Conglomerate का अर्थ है समूह या मिश्रण (इकट्ठा करना)। <b>Combine</b> (मिलाना/जोड़ना) इसका सही क्रिया रूप है।<br>• <b>Homogenous:</b> सजातीय (एक जैसा)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>INSULAR</b>",
+    "op_1": "PENINSULAR",
+    "op_2": "CONTINENT",
+    "op_3": "UNBIASED",
+    "op_4": "DETACHED",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: DETACHED</b><br>Insular means ignorant of or uninterested in cultures, ideas, or peoples outside one's own experience; isolated. Detached means separate or aloof.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Insular का अर्थ है संकीर्ण या द्वीपीय (सबसे अलग-थलग)। <b>Detached</b> (अलग/तटस्थ) इसका सही पर्यायवाची है।<br>• <b>Unbiased:</b> निष्पक्ष।</div></div>"
+  },
+  {
+    "q_hi": "Choose the right synonym for 'barbaric'.",
+    "op_1": "Barber-like",
+    "op_2": "Kind",
+    "op_3": "Savage",
+    "op_4": "Civilized",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Savage</b><br>Barbaric means savagely cruel; exceedingly brutal.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Barbaric का अर्थ है बर्बर या जंगली। <b>Savage</b> (जंगली/क्रूर) इसका सही पर्यायवाची है।<br>• <b>Civilized:</b> सभ्य (Antonym)।<br>• <b>Kind:</b> दयालु।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>SALACIOUS</b>",
+    "op_1": "OBSCENE",
+    "op_2": "CLEAN",
+    "op_3": "CONSPIRACY",
+    "op_4": "MORAL",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: OBSCENE</b><br>Salacious means treating sexual matters in an indecent way. Obscene means offensive or disgusting by accepted standards of morality and decency.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Salacious का अर्थ है कामुक या अश्लील। <b>Obscene</b> (अश्लील/घिनौना) इसका सही पर्यायवाची है।<br>• <b>Moral/Clean:</b> नैतिक/साफ (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>sycophant</b>",
+    "op_1": "aggravate",
+    "op_2": "adulator",
+    "op_3": "obeisant",
+    "op_4": "confident",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: adulator</b><br>A sycophant is a person who acts obsequiously toward someone important in order to gain advantage. An adulator is someone who praises excessively.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Sycophant का अर्थ है चापलूस। <b>Adulator</b> (खुशामद करने वाला) इसका सही पर्यायवाची है।<br>• <b>Aggravate:</b> भड़काना/बिगाड़ना।<br>• <b>Obeisant:</b> आज्ञाकारी।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>untenable</b>",
+    "op_1": "asinine",
+    "op_2": "illogical",
+    "op_3": "congruent",
+    "op_4": "relevant",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: illogical</b><br>Untenable means not able to be maintained or defended against objection. Arguments that are untenable are often illogical.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Untenable का अर्थ है जो समर्थन के योग्य न हो (तर्कहीन)। <b>Illogical</b> (अतार्किक) सबसे उपयुक्त विकल्प है।<br>• <b>Asinine:</b> मूर्खतापूर्ण।<br>• <b>Congruent:</b> सर्वांगसम (अनुरूप)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>elusive</b>",
+    "op_1": "honest",
+    "op_2": "ambiguous",
+    "op_3": "intelligible",
+    "op_4": "definite",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: ambiguous</b><br>Elusive means difficult to find, catch, or achieve. Ambiguous means open to more than one interpretation; having a double meaning (unclear).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Elusive का अर्थ है पकड़ में न आने वाला या अस्पष्ट। <b>Ambiguous</b> (अस्पष्ट/द्विअर्थी) इसका निकटतम अर्थ है।<br>• <b>Intelligible/Definite:</b> सुस्पष्ट (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>timorous</b>",
+    "op_1": "widening",
+    "op_2": "bombastic",
+    "op_3": "bold",
+    "op_4": "apprehensive",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: apprehensive</b><br>Timorous means showing or suffering from nervousness, fear, or a lack of confidence. Apprehensive means anxious or fearful that something bad or unpleasant will happen.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Timorous का अर्थ है डरपोक या भीरु। <b>Apprehensive</b> (आशंकित/भयभीत) इसका सही पर्यायवाची है।<br>• <b>Bold:</b> साहसी (Antonym)।<br>• <b>Bombastic:</b> शब्दाडंबरपूर्ण (बड़ी-बड़ी बातें करने वाला)।</div></div>"
+  }
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Confident</b>",
+    "op_1": "Bold",
+    "op_2": "Loose",
+    "op_3": "Diffident",
+    "op_4": "Fine",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Bold</b><br>Confident means feeling or showing certainty. Bold implies a willingness to take risks and being confident.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Confident का अर्थ है आत्मविश्वासी। <b>Bold</b> (साहसी/निडर) इसका सही पर्यायवाची है।<br>• <b>Diffident:</b> संकोची (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Effect</b>",
+    "op_1": "Cheerful",
+    "op_2": "Result",
+    "op_3": "Pure",
+    "op_4": "Lack",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Result</b><br>Effect means a change which is a result or consequence of an action.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Effect का अर्थ है प्रभाव या परिणाम। <b>Result</b> (परिणाम) सही उत्तर है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Veritable</b>",
+    "op_1": "Genuine",
+    "op_2": "Impugn",
+    "op_3": "Vociferous",
+    "op_4": "Latent",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Genuine</b><br>Veritable is used to emphasize that something is true or real. Genuine means truly what it is said to be.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Veritable का अर्थ है सच्चा या असली। <b>Genuine</b> (असली) इसका सही पर्यायवाची है।<br>• <b>Impugn:</b> खंडन करना।<br>• <b>Vociferous:</b> शोरगुल वाला।</div></div>"
+  },
+  {
+    "q_hi": "Choose the option that is the HOMONYM with the meanings 'to pull apart' and 'a hole in a piece of paper or cloth'.",
+    "op_1": "Tear",
+    "op_2": "Rear",
+    "op_3": "Peer",
+    "op_4": "Dear",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Tear</b><br>Tear (verb) means to pull apart. Tear (noun) means a hole caused by ripping.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br><b>Tear</b> शब्द के दो अर्थ हैं: 'फाड़ना' (क्रिया) और 'फटा हुआ छेद' (संज्ञा)।</div></div>"
+  },
+  {
+    "q_hi": "Select the option that is the SYNONYM of the given word.<br><br><b>Viable</b>",
+    "op_1": "Workable",
+    "op_2": "Impossible",
+    "op_3": "Unworkable",
+    "op_4": "Difficult",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Workable</b><br>Viable means capable of working successfully; feasible.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Viable का अर्थ है व्यावहारिक। <b>Workable</b> (काम करने योग्य) सही उत्तर है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the option that is the HOMONYM with the meanings 'sloping land' and 'a pile'.",
+    "op_1": "Bank",
+    "op_2": "Tank",
+    "op_3": "Rank",
+    "op_4": "Rack",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Bank</b><br>Bank refers to the land alongside a river (slope) and also means to heap or pile up (e.g., to bank a fire).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br><b>Bank</b> का मतलब 'नदी का किनारा' (ढलान) भी होता है और 'ढेर लगाना' (pile) भी।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>ZENITH</b>",
+    "op_1": "Foundation",
+    "op_2": "Nadir",
+    "op_3": "Establishment",
+    "op_4": "Summit",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Summit</b><br>Zenith means the highest point reached by a celestial or other object. Summit means the highest point of a hill or mountain.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Zenith का अर्थ है शिखर। <b>Summit</b> (चोटी) इसका सही पर्यायवाची है।<br>• <b>Nadir:</b> गर्त/सबसे निचला बिंदु (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Horrified</b>",
+    "op_1": "Sacred",
+    "op_2": "Desperate",
+    "op_3": "Anxious",
+    "op_4": "Terrified",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Terrified</b><br>Horrified means extremely shocked or frightened.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Horrified का अर्थ है भयभीत। <b>Terrified</b> (डरा हुआ) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Abuse</b>",
+    "op_1": "Aspersion",
+    "op_2": "Omen",
+    "op_3": "Oppression",
+    "op_4": "Ablution",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Aspersion</b><br>Abuse involves insulting language. Aspersion is an attack on the reputation or integrity of someone or something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abuse का अर्थ है दुर्वचन या निंदा। <b>Aspersion</b> (कलंक/आक्षेप) इसका सबसे करीबी शब्द है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Imperative</b>",
+    "op_1": "Immigrant",
+    "op_2": "Impish",
+    "op_3": "Imperial",
+    "op_4": "Mandatory",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Mandatory</b><br>Imperative means of vital importance; crucial or compulsory.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Imperative का अर्थ है अनिवार्य। <b>Mandatory</b> (बाध्यकारी) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Censure</b>",
+    "op_1": "Push",
+    "op_2": "Heed",
+    "op_3": "Instruct",
+    "op_4": "Rebuke",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Rebuke</b><br>Censure means to express severe disapproval. Rebuke means to express sharp disapproval.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Censure का अर्थ है निंदा करना। <b>Rebuke</b> (डांटना/फटकारना) इसका सही उत्तर है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Passionate</b>",
+    "op_1": "Folly",
+    "op_2": "Fervent",
+    "op_3": "Fallacy",
+    "op_4": "Figure",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Fervent</b><br>Passionate means showing strong feelings. Fervent means displaying a passionate intensity.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Passionate का अर्थ है जोशीला। <b>Fervent</b> (उत्साही) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Waver</b>",
+    "op_1": "Vaccinate",
+    "op_2": "Voucher",
+    "op_3": "Waiver",
+    "op_4": "Vacillate",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Vacillate</b><br>Waver means to be undecided between two opinions. Vacillate means the same.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Waver का अर्थ है हिचकिचाना। <b>Vacillate</b> (दुविधा में होना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Stubborn</b>",
+    "op_1": "Observant",
+    "op_2": "Obese",
+    "op_3": "Obstinate",
+    "op_4": "Obtrusive",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obstinate</b><br>Stubborn means determined not to change one's attitude. Obstinate is a direct synonym.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Stubborn का अर्थ है जिद्दी। <b>Obstinate</b> (हठी) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Compunction</b>",
+    "op_1": "Defiance",
+    "op_2": "Attrition",
+    "op_3": "Happiness",
+    "op_4": "Disdain",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Attrition</b><br>Compunction means a feeling of guilt. Attrition (in a moral sense) means sorrow for sin (repentance).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Compunction का अर्थ है आत्मग्लानि। <b>Attrition</b> (पछतावा) इसका सही पर्यायवाची है।</div></div>"
+  },
+  // --- From Image 1000288559.jpg ---
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Volatile</b>",
+    "op_1": "Constant",
+    "op_2": "Buoyant",
+    "op_3": "Steady",
+    "op_4": "Dependable",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Buoyant</b><br>Volatile implies changeability or liveliness. Buoyant means cheerful and optimistic (lively) or able to float.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Volatile का अर्थ है चंचल या परिवर्तनशील। <b>Buoyant</b> (प्रफुल्लित/तैरनेवाला) यहाँ चंचलता के संदर्भ में सबसे निकट है। बाकी तीनों (Constant, Steady, Dependable) स्थिरता दिखाते हैं।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Verbose</b>",
+    "op_1": "Concise",
+    "op_2": "Diffuse",
+    "op_3": "Solemn",
+    "op_4": "Succinct",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Diffuse</b><br>Verbose means using more words than are needed. Diffuse means spread out over a large area; not concentrated (wordy).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Verbose का अर्थ है वाचाल (शब्दबहुल)। <b>Diffuse</b> (फैला हुआ/विस्तृत) इसका सही पर्यायवाची है।<br>• <b>Concise/Succinct:</b> संक्षिप्त (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Plausible</b>",
+    "op_1": "Irrational",
+    "op_2": "Credible",
+    "op_3": "Allay",
+    "op_4": "Untenable",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Credible</b><br>Plausible means seeming reasonable or probable. Credible means able to be believed.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Plausible का अर्थ है स्वीकार्य या मुमकिन। <b>Credible</b> (विश्वसनीय) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Malign</b>",
+    "op_1": "Commend",
+    "op_2": "Besmirch",
+    "op_3": "Benefit",
+    "op_4": "Approve",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Besmirch</b><br>Malign means to speak about (someone) in a spitefully critical manner. Besmirch means to damage the reputation of.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Malign का अर्थ है बदनाम करना। <b>Besmirch</b> (कीचड़ उछालना/मैला करना) इसका सही पर्यायवाची है।<br>• <b>Commend:</b> प्रशंसा करना (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Congruent</b>",
+    "op_1": "Relevant",
+    "op_2": "Coinciding",
+    "op_3": "Asinine",
+    "op_4": "Inharmonious",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Coinciding</b><br>Congruent means in agreement or harmony. Coinciding means occurring at or during the same time or matching.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Congruent का अर्थ है सर्वांगसम या अनुरूप। <b>Coinciding</b> (मेल खाता हुआ) इसका सही उत्तर है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Decide</b>",
+    "op_1": "Goad",
+    "op_2": "Urge",
+    "op_3": "Vacillate",
+    "op_4": "Choose",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Choose</b><br>Decide means to come to a resolution. Choose means to pick out or select.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Decide का अर्थ है निर्णय लेना। <b>Choose</b> (चुनना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Think</b>",
+    "op_1": "Learn",
+    "op_2": "Study",
+    "op_3": "Contemplate",
+    "op_4": "Forget",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Contemplate</b><br>Think means to have a particular opinion, belief, or idea. Contemplate means to look thoughtfully for a long time at.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Think का अर्थ है सोचना। <b>Contemplate</b> (चिंतन करना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Hunt</b>",
+    "op_1": "Pick",
+    "op_2": "Haste",
+    "op_3": "Search",
+    "op_4": "Glance",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Search</b><br>Hunt means to pursue and kill (a wild animal) for sport or food, or to search determinedly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Hunt का अर्थ है शिकार करना या खोजना। <b>Search</b> (खोजना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Result</b>",
+    "op_1": "Obey",
+    "op_2": "Dissipate",
+    "op_3": "Derision",
+    "op_4": "Outcome",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Outcome</b><br>Result means a consequence, effect, or outcome of something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Result का अर्थ है परिणाम। <b>Outcome</b> (नतीजा) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Humanity</b>",
+    "op_1": "Notion",
+    "op_2": "Mankind",
+    "op_3": "Apathy",
+    "op_4": "Adulation",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Mankind</b><br>Humanity refers to human beings collectively.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Humanity का अर्थ है मानवता या मानव जाति। <b>Mankind</b> (मानव जाति) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Cogent</b>",
+    "op_1": "Dreamy",
+    "op_2": "Feeble",
+    "op_3": "Indecisive",
+    "op_4": "Convincing",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Convincing</b><br>Cogent means (of an argument or case) clear, logical, and convincing.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Cogent का अर्थ है प्रभावशाली या ठोस (तर्क)। <b>Convincing</b> (यकीन दिलाने वाला) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Disgruntled</b>",
+    "op_1": "Tyrant",
+    "op_2": "Doleful",
+    "op_3": "Upright",
+    "op_4": "Grunted",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Doleful</b><br>Disgruntled means angry or dissatisfied. Doleful means expressing sorrow; mournful. Among the options, only Doleful represents a negative emotion similar to dissatisfaction.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Disgruntled का अर्थ है असंतुष्ट या खिझा हुआ। विकल्पों में <b>Doleful</b> (उदास/शोकपूर्ण) ही एकमात्र नकारात्मक भावना वाला शब्द है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Fleeting</b>",
+    "op_1": "Fecund",
+    "op_2": "Ephemeral",
+    "op_3": "Stagnant",
+    "op_4": "Shipping",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Ephemeral</b><br>Fleeting means lasting for a very short time. Ephemeral means lasting for a very short time.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Fleeting का अर्थ है क्षणभंगुर। <b>Ephemeral</b> (अल्पकालिक) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Retreat</b>",
+    "op_1": "Brazen",
+    "op_2": "Uninterested",
+    "op_3": "Unbiased",
+    "op_4": "Withdraw",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Withdraw</b><br>Retreat means to withdraw from enemy forces or a difficult situation.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Retreat का अर्थ है पीछे हटना। <b>Withdraw</b> (वापस लेना/हटना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Vigilant</b>",
+    "op_1": "Aware",
+    "op_2": "Alarm",
+    "op_3": "Unassuming",
+    "op_4": "Unaware",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Aware</b><br>Vigilant means keeping careful watch for possible danger or difficulties. Aware implies having knowledge or perception.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Vigilant का अर्थ है जागरूक या सतर्क। <b>Aware</b> (जानकार/सचेत) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Benevolent</b>",
+    "op_1": "Gracious",
+    "op_2": "Barbaric",
+    "op_3": "Cruel",
+    "op_4": "Savage",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Gracious</b><br>Benevolent means well meaning and kindly. Gracious means courteous, kind, and pleasant.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Benevolent का अर्थ है परोपकारी या दयालु। <b>Gracious</b> (दयालु/विनीत) इसका सही पर्यायवाची है।<br>• <b>Cruel/Savage/Barbaric:</b> क्रूर (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Wily</b>",
+    "op_1": "Fluke",
+    "op_2": "Scald",
+    "op_3": "Sly",
+    "op_4": "Stumble",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Sly</b><br>Wily means skilled at gaining an advantage, especially deceitfully. Sly means having or showing a cunning and deceitful nature.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Wily का अर्थ है धूर्त या चालबाज। <b>Sly</b> (मक्कार/चालाक) इसका सही पर्यायवाची है।</div></div>"
+  }
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Deceiving</b>",
+    "op_1": "Misleading",
+    "op_2": "Composed",
+    "op_3": "Honest",
+    "op_4": "Stolid",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Misleading</b><br>Deceiving means giving an appearance or impression different from the true one. Misleading shares this meaning.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Deceiving का अर्थ है धोखा देने वाला या भ्रामक। <b>Misleading</b> (गुमराह करने वाला) इसका सही पर्यायवाची है।<br>• <b>Honest:</b> ईमानदार (Antonym)।<br>• <b>Stolid:</b> भावहीन।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Narcissism</b>",
+    "op_1": "Humility",
+    "op_2": "Insanity",
+    "op_3": "Arrogance",
+    "op_4": "Modesty",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Arrogance</b><br>Narcissism is excessive interest in or admiration of oneself. Arrogance implies an exaggerated sense of one's own importance.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Narcissism का अर्थ है आत्म-मुग्धता या अहंकार। <b>Arrogance</b> (अहंकार/घमंड) इससे सबसे निकट है।<br>• <b>Humility/Modesty:</b> विनम्रता (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>LUCRATIVE</b>",
+    "op_1": "Sharp",
+    "op_2": "Harmful",
+    "op_3": "Hidden",
+    "op_4": "Profitable",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Profitable</b><br>Lucrative means producing a great deal of profit.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Lucrative का अर्थ है लाभप्रद। <b>Profitable</b> (फायदेमंद/लाभदायक) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Ease</b>",
+    "op_1": "Demean",
+    "op_2": "Soften",
+    "op_3": "Expression",
+    "op_4": "Assault",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Soften</b><br>To ease means to make (something unpleasant or intense) less serious or severe. Soften means to make less severe.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ease का अर्थ है आसान करना या राहत देना (कठोरता कम करना)। <b>Soften</b> (नरम करना/कम करना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Warning</b>",
+    "op_1": "Presage",
+    "op_2": "Pardon",
+    "op_3": "Honesty",
+    "op_4": "Mitigate",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Presage</b><br>A warning is a statement regarding a possible danger. Presage is a sign or warning that something (typically something bad) will happen.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Warning का अर्थ है चेतावनी। <b>Presage</b> (पूर्व-आभास/शगुन) किसी भविष्य की घटना (अक्सर बुरी) का संकेत या चेतावनी होती है।<br>• <b>Mitigate:</b> कम करना।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym for the given word.<br><br><b>Grim</b>",
+    "op_1": "Peevish",
+    "op_2": "Cheerful",
+    "op_3": "Bluff",
+    "op_4": "Gloomy",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Gloomy</b><br>Grim means depressing or uninviting. Gloomy implies a dark or depressing atmosphere.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Grim का अर्थ है विकट या उदास। <b>Gloomy</b> (निराशाजनक/उदास) इसका सही पर्यायवाची है।<br>• <b>Cheerful:</b> हंसमुख (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>INNOCUOUS</b>",
+    "op_1": "DELICIOUS",
+    "op_2": "INOFFENSIVE",
+    "op_3": "DESTRUCTIVE",
+    "op_4": "HURTFUL",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: INOFFENSIVE</b><br>Innocuous means not harmful or offensive.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Innocuous का अर्थ है अहानिकर (जो नुकसान न पहुँचाए)। <b>Inoffensive</b> (हानि न पहुँचाने वाला) इसका सही पर्यायवाची है।<br>• <b>Destructive/Hurtful:</b> हानिकारक (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>MULTITUDE</b>",
+    "op_1": "HANDFUL",
+    "op_2": "HORDE",
+    "op_3": "PORTION",
+    "op_4": "MINORITY",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: HORDE</b><br>Multitude means a large number of people. Horde refers to a large group of people.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Multitude का अर्थ है भीड़ या बड़ी संख्या। <b>Horde</b> (झुंड/भीड़) इसका सही पर्यायवाची है।<br>• <b>Handful/Minority:</b> मुट्ठी भर/अल्पसंख्यक (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>reproach</b>",
+    "op_1": "disgrace",
+    "op_2": "approval",
+    "op_3": "endorsement",
+    "op_4": "regard",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: disgrace</b><br>Reproach can mean the expression of disapproval or disappointment, or a thing that brings disgrace/shame. Given the options, 'disgrace' is the only negative term.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Reproach का अर्थ है निंदा या तिरस्कार। यह कलंक (<b>Disgrace</b>) का कारण भी बन सकता है। बाकी तीनों विकल्प (Approval, Endorsement, Regard) सकारात्मक हैं।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Alteration</b>",
+    "op_1": "Valour",
+    "op_2": "Amendment",
+    "op_3": "Preserve",
+    "op_4": "Altercation",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Amendment</b><br>Alteration means the action or process of altering or being altered (change). Amendment is a minor change or addition designed to improve a text, piece of legislation, etc.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Alteration का अर्थ है बदलाव। <b>Amendment</b> (संशोधन/सुधार) इसका सही पर्यायवाची है।<br>• <b>Altercation:</b> कहा-सुनी (झगड़ा)।<br>• <b>Valour:</b> वीरता।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Virtue</b>",
+    "op_1": "Truism",
+    "op_2": "Intent",
+    "op_3": "Expanse",
+    "op_4": "Probity",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Probity</b><br>Virtue is behavior showing high moral standards. Probity means the quality of having strong moral principles; honesty and decency.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Virtue का अर्थ है सदाचार या गुण। <b>Probity</b> (सत्यनिष्ठा/ईमानदारी) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Sincere</b>",
+    "op_1": "Heartfelt",
+    "op_2": "Flowed",
+    "op_3": "False",
+    "op_4": "Critical",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Heartfelt</b><br>Sincere means free from pretense or deceit; proceeding from genuine feelings. Heartfelt means deeply and strongly felt; sincere.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Sincere का अर्थ है सच्चा या निष्कपट। <b>Heartfelt</b> (हार्दिक/सच्चा) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Trouble</b>",
+    "op_1": "Flight",
+    "op_2": "Plight",
+    "op_3": "Advocate",
+    "op_4": "Oblige",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Plight</b><br>Trouble refers to difficulty or problems. Plight is a dangerous, difficult, or otherwise unfortunate situation.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Trouble का अर्थ है मुसीबत। <b>Plight</b> (दुर्दशा/कठिन परिस्थिति) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Dedicate</b>",
+    "op_1": "Neglect",
+    "op_2": "Abate",
+    "op_3": "Misapply",
+    "op_4": "Devote",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Devote</b><br>Dedicate means to devote (time, effort, or oneself) to a particular task or purpose.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Dedicate का अर्थ है समर्पित करना। <b>Devote</b> (समर्पित करना) इसका सही पर्यायवाची है।<br>• <b>Neglect:</b> उपेक्षा करना (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Excitement</b>",
+    "op_1": "Keenness",
+    "op_2": "Apathy",
+    "op_3": "Casual",
+    "op_4": "Amicable",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Keenness</b><br>Excitement is a feeling of great enthusiasm and eagerness. Keenness is the quality of being eager or enthusiastic.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Excitement का अर्थ है उत्साह या जोश। <b>Keenness</b> (उत्सुकता/तीव्रता) इसका सही पर्यायवाची है।<br>• <b>Apathy:</b> उदासीनता (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "In the following question, out of the four alternatives, select the word similar in meaning to the word given.<br><br><b>KEEN</b>",
+    "op_1": "disgusted",
+    "op_2": "Irritable",
+    "op_3": "subtle",
+    "op_4": "eager",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: eager</b><br>Keen means having or showing eagerness or enthusiasm.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Keen का अर्थ है उत्सुक या इच्छुक। <b>Eager</b> (उत्सुक) इसका सही पर्यायवाची है।</div></div>"
+  }
+  {
+    "q_hi": "Suggest the correct synonym of the word 'rancor' in the sentence from the given options.<br><br>Mark decided to put his past <b>rancor</b> with Aby behind and move ahead in life.",
+    "op_1": "sadness",
+    "op_2": "guilt",
+    "op_3": "animosity",
+    "op_4": "relationship",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: animosity</b><br>Rancor means bitterness or resentfulness, especially when long-standing. Animosity means strong hostility.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Rancor का अर्थ है विद्वेष या पुरानी शत्रुता (बैर)। <b>Animosity</b> (बैर/दुश्मनी) इसका सही पर्यायवाची है।<br>• <b>Guilt:</b> अपराधबोध।<br>• <b>Sadness:</b> उदासी।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>QUARANTINE</b>",
+    "op_1": "Combine",
+    "op_2": "Integrate",
+    "op_3": "Restrain",
+    "op_4": "Desegregate",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Restrain</b><br>Quarantine means to isolate or impose isolation on (a person, animal, or place). Restrain means to prevent from doing something or keep under control (isolate).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Quarantine का अर्थ है अलग रखना (संगरोध)। <b>Restrain</b> (नियंत्रित करना/रोकना) यहाँ सबसे उपयुक्त है क्योंकि यह अलगाव या पाबंदी को दर्शाता है।<br>• <b>Integrate/Combine:</b> जोड़ना (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Precocious</b>",
+    "op_1": "Announced",
+    "op_2": "Sufficed",
+    "op_3": "Advanced",
+    "op_4": "Convinced",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Advanced</b><br>Precocious means having developed certain abilities or proclivities at an earlier age than usual. Advanced means far on in progress or development.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Precocious का अर्थ है अकालप्रौढ़ (समय से पहले विकसित)। <b>Advanced</b> (उन्नत/विकसित) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Amicable</b>",
+    "op_1": "Radial",
+    "op_2": "Cordial",
+    "op_3": "Ferocious",
+    "op_4": "Hostile",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Cordial</b><br>Amicable means characterized by friendliness and absence of discord. Cordial means warm and friendly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Amicable का अर्थ है मैत्रीपूर्ण। <b>Cordial</b> (सौहार्दपूर्ण/मित्रवत) इसका सही पर्यायवाची है।<br>• <b>Hostile:</b> शत्रुतापूर्ण (Antonym)।<br>• <b>Ferocious:</b> क्रूर।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>RAMPANT</b>",
+    "op_1": "Universal",
+    "op_2": "Local",
+    "op_3": "Restricted",
+    "op_4": "Particular",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Universal</b><br>Rampant means flourishing or spreading unchecked (widespread). Universal means affecting everyone or everything (widespread).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Rampant का अर्थ है अनियंत्रित या व्यापक (फैला हुआ)। <b>Universal</b> (सार्वभौमिक/व्यापक) दिए गए विकल्पों में सबसे निकट है।<br>• <b>Restricted/Local:</b> सीमित (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>INTRIGUE</b>",
+    "op_1": "Sink",
+    "op_2": "Attract",
+    "op_3": "Bore",
+    "op_4": "Burrow",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Attract</b><br>Intrigue means to arouse the curiosity or interest of; fascinate. Attract shares this meaning.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Intrigue का अर्थ है दिलचस्प लगना या जिज्ञासा जगाना। <b>Attract</b> (आकर्षित करना) इसका सही पर्यायवाची है।<br>• <b>Bore:</b> उबाना (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Abject</b>",
+    "op_1": "Senile",
+    "op_2": "Obsequious",
+    "op_3": "Putrid",
+    "op_4": "Perfunctory",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obsequious</b><br>Abject can mean completely without pride or dignity; self-abasing. Obsequious means obedient or attentive to an excessive or servile degree.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abject का अर्थ है नीच या स्वाभिमान रहित (चापलूस जैसा)। <b>Obsequious</b> (चापलूस/जी-हुज़ूरिया) इसका सही पर्यायवाची है।<br>• <b>Putrid:</b> सड़ा हुआ।<br>• <b>Perfunctory:</b> बेपरवाह।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Choleric</b>",
+    "op_1": "Amiable",
+    "op_2": "Affable",
+    "op_3": "Indestructible",
+    "op_4": "Irritable",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Irritable</b><br>Choleric means bad-tempered or irritable.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Choleric का अर्थ है चिड़चिड़ा या गुस्सैल। <b>Irritable</b> (चिड़चिड़ा) इसका सही पर्यायवाची है।<br>• <b>Amiable/Affable:</b> मिलनसार (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Prattle</b>",
+    "op_1": "Quiet",
+    "op_2": "Rattle",
+    "op_3": "Chatter",
+    "op_4": "Quitter",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Chatter</b><br>Prattle means to talk at length in a foolish or inconsequential way. Chatter means to talk informally about unimportant matters.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Prattle का अर्थ है बकबक करना। <b>Chatter</b> (बकबक/गपशप) इसका सही पर्यायवाची है।<br>• <b>Quiet:</b> शांत (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate homonym to fill in the blanks.<br><br>As she ______ her hands from the deck I fear the huge ______ of ocean.",
+    "op_1": "ripples",
+    "op_2": "hauls",
+    "op_3": "tides",
+    "op_4": "waves",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: waves</b><br>Here 'waves' acts as a homonym. 1. To wave (verb) - move hand. 2. Wave (noun) - sea wave.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>यहाँ <b>waves</b> सही शब्द है।<br>1. हाथ हिलाना (Wave hand).<br>2. समुद्र की लहरें (Waves of ocean).</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate homonym to fill in the blanks.<br><br>We need to ______ up the wall with a new wallpaper.<br>The ______ tree has grown very huge.",
+    "op_1": "oak ; oak",
+    "op_2": "fir ; fir",
+    "op_3": "teak ; teak",
+    "op_4": "spruce ; spruce",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: spruce ; spruce</b><br>'Spruce up' means to make something look cleaner or smarter. 'Spruce' is also a type of tree.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>सही शब्द <b>spruce</b> है।<br>1. Spruce up = सजाना/संवारना।<br>2. Spruce tree = एक प्रकार का वृक्ष।</div></div>"
+  },
+  {
+    "q_hi": "Choose the most appropriate synonym of the given word.<br><br><b>Obstinate</b>",
+    "op_1": "Headstrong",
+    "op_2": "Devilish",
+    "op_3": "Joyful",
+    "op_4": "Agreeable",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Headstrong</b><br>Obstinate means stubbornly refusing to change one's opinion. Headstrong means self-willed and obstinate.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Obstinate का अर्थ है जिद्दी। <b>Headstrong</b> (हठी/जिद्दी) इसका सही पर्यायवाची है।<br>• <b>Agreeable:</b> सहमत होने योग्य (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Acumen</b>",
+    "op_1": "Acuity",
+    "op_2": "Responsibility",
+    "op_3": "Authority",
+    "op_4": "Complexity",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Acuity</b><br>Acumen means the ability to make good judgments and quick decisions. Acuity means sharpness or keenness of thought, vision, or hearing.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Acumen का अर्थ है कुशाग्रता या तीक्ष्ण बुद्धि। <b>Acuity</b> (तीक्ष्णता/तेज दिमाग) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Assiduous</b>",
+    "op_1": "Meticulous",
+    "op_2": "Ostracize",
+    "op_3": "Droll",
+    "op_4": "Dogmatic",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Meticulous</b><br>Assiduous means showing great care and perseverance. Meticulous means showing great attention to detail; very careful and precise.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Assiduous का अर्थ है परिश्रमी और सावधान। <b>Meticulous</b> (अतिसावधान/सूक्ष्म) इससे सबसे निकट है।<br>• <b>Droll:</b> मजाकिया।<br>• <b>Dogmatic:</b> कट्टर।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>TACITURNITY</b>",
+    "op_1": "Changeableness",
+    "op_2": "Preserve",
+    "op_3": "Reserveness",
+    "op_4": "Hesitation",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Reserveness</b><br>Taciturnity means the state of being reserved or uncommunicative in speech. Reserveness (Reserve) refers to a lack of warmth or openness in manner.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Taciturnity का अर्थ है अल्पभाषिता (कम बोलना)। <b>Reserveness</b> (संकोच/चुप्पी) इसका सही पर्यायवाची है।</div></div>"
+  }
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>CONSENSUS</b>",
+    "op_1": "Discord",
+    "op_2": "Denial",
+    "op_3": "Agreement",
+    "op_4": "Dissension",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Agreement</b><br>Consensus means a general agreement.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Consensus का अर्थ है सर्वसम्मति। <b>Agreement</b> (सहमति/समझौता) इसका सही पर्यायवाची है।<br>• <b>Discord/Dissension:</b> मतभेद (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>AMBIVALENCE</b>",
+    "op_1": "Puzzle",
+    "op_2": "Violence",
+    "op_3": "Intensity",
+    "op_4": "Despair",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Puzzle</b><br>Ambivalence means the state of having mixed feelings or contradictory ideas about something or someone. Puzzle implies confusion or a state of being perplexed, which aligns with the confusion inherent in ambivalence.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ambivalence का अर्थ है दुविधा या असमंजस (मिली-जुली भावनाएं)। दिए गए विकल्पों में <b>Puzzle</b> (उलझन/पहेली) सबसे निकट है क्योंकि दोनों में मानसिक स्पष्टता की कमी होती है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Aggregate</b>",
+    "op_1": "Conservation",
+    "op_2": "Congregation",
+    "op_3": "Accumulation",
+    "op_4": "Assimilation",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Accumulation</b><br>Aggregate means a whole formed by combining several (typically disparate) elements. Accumulation means the acquisition or gradual gathering of something.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Aggregate का अर्थ है कुल जोड़ या समूह। <b>Accumulation</b> (जमाव/संचय) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Conformist</b>",
+    "op_1": "Rebel",
+    "op_2": "Coveted",
+    "op_3": "Traditionalist",
+    "op_4": "Eccentric",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Traditionalist</b><br>A conformist is a person who conforms to accepted behavior or established practices. A traditionalist advocates maintaining tradition, similar to conforming.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Conformist का अर्थ है जो नियमों या परंपराओं का पालन करे (अनुगामी)। <b>Traditionalist</b> (परंपरावादी) इसका सही पर्यायवाची है।<br>• <b>Rebel/Eccentric:</b> विद्रोही/सनकी (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Precious</b>",
+    "op_1": "Valuable",
+    "op_2": "Necessary",
+    "op_3": "Simple",
+    "op_4": "Waste",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Valuable</b><br>Precious means of great value; not to be wasted or treated carelessly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Precious का अर्थ है कीमती। <b>Valuable</b> (बहुमूल्य) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Advocate</b>",
+    "op_1": "Spur",
+    "op_2": "Intimidate",
+    "op_3": "Deny",
+    "op_4": "Support",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Support</b><br>To advocate means to publicly recommend or support.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Advocate का अर्थ है वकालत करना या समर्थन करना। <b>Support</b> (समर्थन देना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>INEBRIATED</b>",
+    "op_1": "Broken",
+    "op_2": "Stupefied",
+    "op_3": "Drunken",
+    "op_4": "Unsteady",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Drunken</b><br>Inebriated means drunk; intoxicated.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Inebriated का अर्थ है नशे में धुत। <b>Drunken</b> (शराबी/नशे में) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Bulky</b>",
+    "op_1": "Soothe",
+    "op_2": "Enormous",
+    "op_3": "Tender",
+    "op_4": "Simplify",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Enormous</b><br>Bulky means taking up much space, typically inconveniently; large and unwieldy. Enormous means very large in size.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Bulky का अर्थ है भारी-भरकम या विशाल। <b>Enormous</b> (विशाल/बहुत बड़ा) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Intermittent</b>",
+    "op_1": "Steady",
+    "op_2": "Swift",
+    "op_3": "Continuous",
+    "op_4": "Recurring",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Recurring</b><br>Intermittent means occurring at irregular intervals; not continuous or steady. Recurring means occurring again periodically or repeatedly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Intermittent का अर्थ है रुक-रुक कर होने वाला। <b>Recurring</b> (बार-बार होने वाला) इसका निकटतम अर्थ है।<br>• <b>Steady/Continuous:</b> लगातार (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Asinine</b>",
+    "op_1": "Collide",
+    "op_2": "Preposterous",
+    "op_3": "Intelligent",
+    "op_4": "Sway",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Preposterous</b><br>Asinine means extremely stupid or foolish. Preposterous means contrary to reason or common sense; utterly absurd or foolish.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Asinine का अर्थ है मूर्खतापूर्ण। <b>Preposterous</b> (बेतुका/हास्यास्पद) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Sovereignty</b>",
+    "op_1": "Fleet",
+    "op_2": "Kindle",
+    "op_3": "Debut",
+    "op_4": "Administration",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Administration</b><br>Sovereignty refers to supreme power or authority. Administration refers to the management of public affairs or government. Among the options, it is the only one related to governance.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Sovereignty का अर्थ है संप्रभुता या सर्वोच्च सत्ता। दिए गए विकल्पों में <b>Administration</b> (प्रशासन/शासन) ही सत्ता या शासन से संबंधित है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Abstruse</b>",
+    "op_1": "Transparent",
+    "op_2": "Obscure",
+    "op_3": "Obvious",
+    "op_4": "Angle",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obscure</b><br>Abstruse means difficult to understand; obscure.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abstruse का अर्थ है गूढ़ या समझने में कठिन। <b>Obscure</b> (अस्पष्ट/धुंधला) इसका सही पर्यायवाची है।<br>• <b>Transparent/Obvious:</b> स्पष्ट (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>AMBIGUITY</b>",
+    "op_1": "Despair",
+    "op_2": "Violence",
+    "op_3": "Puzzle",
+    "op_4": "Intensity",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Puzzle</b><br>Ambiguity means inexactness or lack of clarity. A puzzle is something difficult to understand or explain.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ambiguity का अर्थ है अस्पष्टता। <b>Puzzle</b> (पहेली/उलझन) इसका सही पर्यायवाची है क्योंकि दोनों में स्पष्टता का अभाव होता है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>PRECARIOUS</b>",
+    "op_1": "Cautious",
+    "op_2": "Brittle",
+    "op_3": "Perilous",
+    "op_4": "Sharp",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Perilous</b><br>Precarious means not securely held or in position; dangerously likely to fall or collapse. Perilous means full of danger or risk.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Precarious का अर्थ है अनिश्चित या खतरनाक। <b>Perilous</b> (जोखिम भरा/खतरनाक) इसका सही पर्यायवाची है।</div></div>"
+  }
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Nuance</b>",
+    "op_1": "Euphoria",
+    "op_2": "Nostalgia",
+    "op_3": "Prejudice",
+    "op_4": "Overtone",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Overtone</b><br>Nuance means a subtle difference in or shade of meaning, expression, or sound. Overtone refers to a subtle or subsidiary quality, implication, or connotation.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Nuance का अर्थ है सूक्ष्म अंतर या बारीक भेद। <b>Overtone</b> (झलक/गूँज) भी किसी चीज के सूक्ष्म अर्थ को दर्शाता है।<br>• <b>Nostalgia:</b> पुरानी यादें।<br>• <b>Euphoria:</b> उत्साह।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Sordid</b>",
+    "op_1": "Strident",
+    "op_2": "Respectable",
+    "op_3": "Immaculate",
+    "op_4": "Dishonourable",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Dishonourable</b><br>Sordid means involving ignoble actions and motives; arousing moral distaste. Dishonourable means bringing shame or disgrace.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Sordid का अर्थ है घिनौना या अनैतिक। <b>Dishonourable</b> (अपमानजनक/अनैतिक) इसका सही पर्यायवाची है।<br>• <b>Immaculate:</b> बेदाग/शुद्ध।<br>• <b>Strident:</b> कर्कश।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>CONTAINMENT</b>",
+    "op_1": "Confinement",
+    "op_2": "Toil",
+    "op_3": "Perish",
+    "op_4": "Despair",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Confinement</b><br>Containment means the action of keeping something harmful under control or within limits. Confinement means the action of confining or state of being confined.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Containment का अर्थ है रोकथाम या नियंत्रण। <b>Confinement</b> (कैद/सीमित करना) इसका सही पर्यायवाची है।<br>• <b>Toil:</b> कठिन परिश्रम।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>COUNTERPART</b>",
+    "op_1": "Duplicate",
+    "op_2": "Advocate",
+    "op_3": "Gradient",
+    "op_4": "Boast",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Duplicate</b><br>A counterpart is a person or thing holding a position or performing a function that corresponds to that of another person or thing in another place. Duplicate implies a copy or match.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Counterpart का अर्थ है समकक्ष या प्रतिरूप। <b>Duplicate</b> (नकल/प्रतिलिपि) इसका सबसे करीबी अर्थ है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>EXODUS</b>",
+    "op_1": "Gradient",
+    "op_2": "Evacuation",
+    "op_3": "Slope",
+    "op_4": "Advocate",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Evacuation</b><br>Exodus means a mass departure of people. Evacuation is the action of evacuating a person or a place.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Exodus का अर्थ है सामूहिक प्रस्थान (बड़ी संख्या में जाना)। <b>Evacuation</b> (निकास/पलायन) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Mandate</b>",
+    "op_1": "Stalk",
+    "op_2": "Injunction",
+    "op_3": "Fizzle",
+    "op_4": "Annuity",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Injunction</b><br>Mandate is an official order or commission to do something. Injunction is an authoritative warning or order.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Mandate का अर्थ है जनादेश या आधिकारिक आदेश। <b>Injunction</b> (आदेश/निषेधाज्ञा) इसका सही पर्यायवाची है।<br>• <b>Fizzle:</b> असफल होना (फुस्स हो जाना)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Celerity</b>",
+    "op_1": "Sluggish",
+    "op_2": "Careful",
+    "op_3": "Dull",
+    "op_4": "Swift",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Swift</b><br>Celerity means swiftness of movement. Swift means happening quickly or promptly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Celerity का अर्थ है तत्परता या तेजी। <b>Swift</b> (तेज) इसका सही पर्यायवाची है (हालांकि Swift एक विशेषण है और Celerity संज्ञा, पर अर्थ समान है)।<br>• <b>Sluggish:</b> सुस्त (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>MEMORANDUM</b>",
+    "op_1": "Missive",
+    "op_2": "Gradient",
+    "op_3": "Despair",
+    "op_4": "Evacuation",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Missive</b><br>Memorandum is a written message in business or diplomacy. Missive is a letter, especially a long or official one.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Memorandum का अर्थ है ज्ञापन या स्मृति-पत्र। <b>Missive</b> (लिखित संदेश/पत्र) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the synonym of the given word.<br><br><b>APPARENT</b>",
+    "op_1": "Latent",
+    "op_2": "Concealed",
+    "op_3": "Hidden",
+    "op_4": "Obvious",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obvious</b><br>Apparent means clearly visible or understood; obvious.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Apparent का अर्थ है स्पष्ट या प्रत्यक्ष। <b>Obvious</b> (ज़ाहिर/स्पष्ट) इसका सही पर्यायवाची है।<br>• <b>Latent/Hidden:</b> गुप्त (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the word that means the same as the given word.<br><br><b>Authorize</b>",
+    "op_1": "Obstruct",
+    "op_2": "Repress",
+    "op_3": "Amend",
+    "op_4": "Allow",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Allow</b><br>Authorize means give official permission for or approval to. Allow means to give permission.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Authorize का अर्थ है अधिकार देना या अनुमति देना। <b>Allow</b> (अनुमति देना) इसका सही पर्यायवाची है।<br>• <b>Repress:</b> दबाना।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Nebulous</b>",
+    "op_1": "Ambiguous",
+    "op_2": "Definite",
+    "op_3": "Clear",
+    "op_4": "Defined",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Ambiguous</b><br>Nebulous means in the form of a cloud or haze; hazy/unclear. Ambiguous means open to more than one interpretation; having a double meaning (unclear).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Nebulous का अर्थ है धुंधला या अस्पष्ट। <b>Ambiguous</b> (अस्पष्ट/द्विअर्थी) इसका सही पर्यायवाची है।<br>• <b>Definite/Clear:</b> स्पष्ट (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the word that is similar in meaning (SYNONYM) to the word given below.<br><br><b>Tacit</b>",
+    "op_1": "Insinuated",
+    "op_2": "Stated",
+    "op_3": "Explicit",
+    "op_4": "Outspoken",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Insinuated</b><br>Tacit means understood or implied without being stated. Insinuated implies suggesting or hinting at something indirectly.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Tacit का अर्थ है मौन या बिना कहे समझा जाने वाला (अव्यक्त)। <b>Insinuated</b> (इशारों में कहा गया) इसका सबसे करीबी अर्थ है।<br>• <b>Explicit/Stated:</b> स्पष्ट रूप से कहा गया (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>RAMP</b>",
+    "op_1": "Flag",
+    "op_2": "Manifest",
+    "op_3": "Gradient",
+    "op_4": "Hanging",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Gradient</b><br>Ramp means a sloping surface joining two different levels. Gradient means an inclined part of a road or railway; a slope.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ramp का अर्थ है ढलान। <b>Gradient</b> (ढाल/उतार-चढ़ाव) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Aberrant</b>",
+    "op_1": "Permeable",
+    "op_2": "Malleable",
+    "op_3": "Eccentric",
+    "op_4": "Spongy",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Eccentric</b><br>Aberrant means departing from an accepted standard (diverging from the normal type). Eccentric means unconventional and slightly strange (deviant).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Aberrant का अर्थ है पथभ्रष्ट या असामान्य। <b>Eccentric</b> (सनकी/असामान्य) इसका सही पर्यायवाची है।<br>• <b>Malleable:</b> जिसे ढाला जा सके (लचीला)।</div></div>"
+  }
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Detract</b>",
+    "op_1": "Support",
+    "op_2": "Reinforce",
+    "op_3": "Strengthen",
+    "op_4": "Diminish",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Diminish</b><br>Detract means to reduce or take away the worth or value of something. Diminish means to make or become less.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Detract का अर्थ है कम करना या घटाना। <b>Diminish</b> (घटाना/कम करना) इसका सही पर्यायवाची है।<br>• <b>Strengthen/Reinforce:</b> मजबूत करना (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Abandon</b>",
+    "op_1": "Forsake",
+    "op_2": "Injure",
+    "op_3": "Exploit",
+    "op_4": "Abuse",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Forsake</b><br>Abandon means to leave or desert. Forsake means to abandon (someone or something).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Abandon का अर्थ है छोड़ देना या त्यागना। <b>Forsake</b> (त्यागना/छोड़ना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Connive</b>",
+    "op_1": "Conspire",
+    "op_2": "Dismiss",
+    "op_3": "Suspect",
+    "op_4": "Refuse",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Conspire</b><br>Connive means to secretly allow or be involved in something illegal or immoral. Conspire means to make secret plans jointly to commit an unlawful or harmful act.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Connive का अर्थ है मिलीभगत करना या अनदेखी करना। <b>Conspire</b> (षड्यंत्र रचना/साजिश करना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Embargo</b>",
+    "op_1": "Sanction",
+    "op_2": "Authorisation",
+    "op_3": "Restriction",
+    "op_4": "Submission",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Restriction</b><br>Embargo is an official ban on trade or other commercial activity with a particular country. It acts as a restriction.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Embargo का अर्थ है व्यापार घाटबंदी या रोक। <b>Restriction</b> (प्रतिबंध/रोक) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Austere</b>",
+    "op_1": "Extravagant",
+    "op_2": "Luxurious",
+    "op_3": "Excited",
+    "op_4": "Ascetic",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Ascetic</b><br>Austere means severe or strict in manner, attitude, or appearance; simple/plain. Ascetic suggests a lifestyle characterized by severe self-discipline and abstention from all forms of indulgence.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Austere का अर्थ है कठोर या सादगीपूर्ण (तपस्वी जैसा)। <b>Ascetic</b> (वैरागी/तपस्वी) इसका सही पर्यायवाची है।<br>• <b>Extravagant/Luxurious:</b> खर्चीला/विलासी (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the following word.<br><br><b>Wilful</b>",
+    "op_1": "Hopeful",
+    "op_2": "Light-Headed",
+    "op_3": "Willing",
+    "op_4": "Headstrong",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Headstrong</b><br>Wilful means determined to do exactly as one wants (stubborn). Headstrong means self-willed and obstinate.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Wilful का अर्थ है जिद्दी या मनमर्जी करने वाला। <b>Headstrong</b> (हठी/जिद्दी) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate SYNONYM of the word highlighted/given in brackets in the below sentence.<br><br>A person, who is <b>(imperious)</b> and tries to gloss over his fault, is bound to suffer in the end.",
+    "op_1": "arrogant",
+    "op_2": "fair",
+    "op_3": "Balanced",
+    "op_4": "Rational",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: arrogant</b><br>Imperious means assuming power or authority without justification; arrogant and domineering.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Imperious का अर्थ है अहंकारी या रौब झाड़ने वाला। <b>Arrogant</b> (घमंडी) इसका सही पर्यायवाची है।<br>• <b>Fair/Rational:</b> उचित/तर्कसंगत।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate SYNONYM of the word highlighted/given in brackets in the below sentence.<br><br>America's top golfers played well despite the <b>(hindrance)</b> of early morning mist.",
+    "op_1": "incentive",
+    "op_2": "Obstruction",
+    "op_3": "Benefit",
+    "op_4": "Profit",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Obstruction</b><br>Hindrance is a thing that provides resistance, delay, or obstruction to something or someone.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Hindrance का अर्थ है बाधा या रुकावट। <b>Obstruction</b> (अवरोध) इसका सही पर्यायवाची है।<br>• <b>Incentive:</b> प्रोत्साहन (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate SYNONYM of the word highlighted/given in brackets in the below sentence.<br><br>He's an <b>(officious)</b> little man and widely disliked in the company.",
+    "op_1": "secretive",
+    "op_2": "reticent",
+    "op_3": "obtrusive",
+    "op_4": "silent",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: obtrusive</b><br>Officious means assertive of authority in an annoyingly domineering way, especially with regard to petty or trivial matters. Obtrusive means noticeable or prominent in an unwelcome or intrusive way.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Officious का अर्थ है टांग अड़ाने वाला (हस्तक्षेप करने वाला)। <b>Obtrusive</b> (दखल देने वाला/अप्रिय) इसका सही पर्यायवाची है।<br>• <b>Reticent/Silent:</b> कम बोलने वाला/शांत (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate SYNONYM of the word highlighted/given in brackets in the below sentence.<br><br>These measures are designed to <b>(deter)</b> an enemy attack.",
+    "op_1": "Persuade",
+    "op_2": "urge",
+    "op_3": "discourage",
+    "op_4": "motivate",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: discourage</b><br>Deter means to discourage someone from doing something by instilling doubt or fear of the consequences.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Deter का अर्थ है रोकना या हतोत्साहित करना। <b>Discourage</b> (हतोत्साहित करना) इसका सही पर्यायवाची है।<br>• <b>Persuade/Motivate:</b> प्रेरित करना (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "In the conversation given below, fill in the blank with the word that has same or nearly the same meaning to the word in brackets.<br><br>A: How was your trip to Rome? B: It was amazing! I saw so many beautiful places...<br>A: Did you visit the Colosseum? B: Of course! It was ______ <b>(impressive)</b>.",
+    "op_1": "stunning",
+    "op_2": "boring",
+    "op_3": "luminous",
+    "op_4": "crafty",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: stunning</b><br>Impressive means evoking admiration through size, quality, or skill. Stunning implies extremely impressive or attractive.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Impressive का अर्थ है प्रभावशाली। <b>Stunning</b> (शानदार/अति सुंदर) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the word from the options which is the same in meaning to the bracketed word given in the conversation below.<br><br>A: Have you watched that new Ranbir Kapoor movie.<br>B: Yes, it was so bad. Won't really <b>(recommend)</b> it to anyone.",
+    "op_1": "Puzzle",
+    "op_2": "Decrease",
+    "op_3": "Propose",
+    "op_4": "Snuggle",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Propose</b><br>Recommend means to put forward (someone or something) with approval as being suitable for a particular purpose. Propose means to put forward (an idea or plan).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Recommend का अर्थ है सिफारिश करना। <b>Propose</b> (प्रस्तावित करना) इससे मिलता-जुलता है।</div></div>"
+  },
+  {
+    "q_hi": "In the conversation given below, fill in the blank with the word that has same or nearly the same meaning to the word in brackets.<br><br>A: I'm so <b>(glad)</b> you came to visit me. I've missed you a lot.<br>B: Me too. I'm very ______ to see you.",
+    "op_1": "upset",
+    "op_2": "happy",
+    "op_3": "grave",
+    "op_4": "troubled",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: happy</b><br>Glad means pleased or delighted. Happy means feeling or showing pleasure.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Glad का अर्थ है प्रसन्न। <b>Happy</b> (खुश) इसका सही पर्यायवाची है।<br>• <b>Upset/Troubled:</b> परेशान (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "In the conversation given below, fill in the blank with the word that has same or nearly the same meaning to the word in brackets.<br><br>A: I'm very grateful for your <b>(help)</b>. You are very kind and generous.<br>B: You're welcome. I'm glad to be of ______.",
+    "op_1": "allegiance",
+    "op_2": "assistance",
+    "op_3": "obstruction",
+    "op_4": "insistence",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: assistance</b><br>Help means the action of helping someone to do something. Assistance is the action of helping someone.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Help का अर्थ है मदद। <b>Assistance</b> (सहायता) इसका सही पर्यायवाची है।</div></div>"
+  }
+  {
+    "q_hi": "Identify the synonym for the bracketed word in the following statement:<br><br>'His <b>(erudition)</b> on the subject matter was truly remarkable.'",
+    "op_1": "absoluteness",
+    "op_2": "eccentricity",
+    "op_3": "sagacity",
+    "op_4": "insightfulness",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: sagacity</b><br>Erudition means the quality of having or showing great knowledge or learning. Sagacity means the quality of being sagacious (having keen mental discernment and good judgment/wisdom).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Erudition का अर्थ है विद्वता या गहरा ज्ञान। <b>Sagacity</b> (बुद्धिमत्ता/समझ) इसका सबसे करीबी विकल्प है।<br>• <b>Eccentricity:</b> सनक/पागलपन।<br>• <b>Insightfulness:</b> अंतर्दृष्टि।</div></div>"
+  },
+  {
+    "q_hi": "Identify the synonym for the bracketed word in the statement:<br><br>'I am feeling <b>(ecstatic)</b> about the upcoming event!'",
+    "op_1": "disgruntled",
+    "op_2": "indifferent",
+    "op_3": "joyous",
+    "op_4": "somber",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: joyous</b><br>Ecstatic means feeling or expressing overwhelming happiness or joyful excitement.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Ecstatic का अर्थ है अति प्रसन्न या भावविभोर। <b>Joyous</b> (आनंदित/उल्लासपूर्ण) इसका सही पर्यायवाची है।<br>• <b>Disgruntled:</b> असंतुष्ट।<br>• <b>Somber:</b> उदास/गंभीर।</div></div>"
+  },
+  {
+    "q_hi": "Choose the most appropriate synonym of the given word.<br><br><b>Terrorize</b>",
+    "op_1": "Transparent",
+    "op_2": "Progress",
+    "op_3": "Terrify",
+    "op_4": "Trustworthy",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Terrify</b><br>Terrorize means create and maintain a state of extreme fear and distress in (someone). Terrify means cause to feel extreme fear.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Terrorize का अर्थ है आतंकित करना या डराना। <b>Terrify</b> (भयभीत करना) इसका सही पर्यायवाची है।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the highlighted word.<br><br>Maria sifted through the overflowing jewellery box, searching for the perfect accessory. 'I have so many options here! It's difficult to decide. Maybe if this box was a bit more <b>organised</b>, I could find what I'm looking for faster.'",
+    "op_1": "Jumbled",
+    "op_2": "Cluttered",
+    "op_3": "Tidy",
+    "op_4": "Attractive",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Tidy</b><br>Organised means arranged in a systematic way; orderly. Tidy means arranged neatly and in order.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Organised का अर्थ है व्यवस्थित। <b>Tidy</b> (साफ-सुथरा/व्यवस्थित) इसका सही पर्यायवाची है।<br>• <b>Jumbled/Cluttered:</b> बिखरा हुआ/अव्यवस्थित (Antonyms)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the highlighted word.<br><br>'Hey, chin up! There's still some time left to prepare for the exam. Try to stay <b>hopeful</b>,' Faisal said trying to cheer her friend up.",
+    "op_1": "Awake",
+    "op_2": "Peaceful",
+    "op_3": "Positive",
+    "op_4": "Desperate",
+    "ans": "3",
+    "solution": "<div class='solution-container'><b>Correct Answer: Positive</b><br>Hopeful means feeling or inspiring optimism about a future event. Positive means constructive, optimistic, or confident.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Hopeful का अर्थ है आशावादी। <b>Positive</b> (सकारात्मक) इसका सही पर्यायवाची है।<br>• <b>Desperate:</b> निराश/हताश (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the highlighted word.<br><br>The teaser looks so <b>intriguing</b>; I can't wait to see how the story unfolds.",
+    "op_1": "Dreadful",
+    "op_2": "Interesting",
+    "op_3": "Tiresome",
+    "op_4": "Wholesome",
+    "ans": "2",
+    "solution": "<div class='solution-container'><b>Correct Answer: Interesting</b><br>Intriguing means arousing one's curiosity or interest; fascinating. Interesting means engaging or exciting and holding the attention or curiosity.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Intriguing का अर्थ है दिलचस्प या रहस्यमयी। <b>Interesting</b> (रोचक) इसका सही पर्यायवाची है।<br>• <b>Tiresome:</b> उबाऊ/थकाऊ।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Adhere</b>",
+    "op_1": "Disobey",
+    "op_2": "Delay",
+    "op_3": "Resist",
+    "op_4": "Follow",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Follow</b><br>Adhere (to) means to believe in and follow the practices of (or stick to). Follow means to act according to (an instruction or precept).<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Adhere का अर्थ है पालन करना (नियम आदि का) या चिपकना। <b>Follow</b> (अनुसरण करना) इसका सही पर्यायवाची है।<br>• <b>Disobey:</b> अवज्ञा करना (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Choose the closest synonym of the word 'concur'.",
+    "op_1": "Agree",
+    "op_2": "Contradict",
+    "op_3": "Compel",
+    "op_4": "Imply",
+    "ans": "1",
+    "solution": "<div class='solution-container'><b>Correct Answer: Agree</b><br>Concur means to be of the same opinion; agree.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Concur का अर्थ है सहमत होना। <b>Agree</b> (मानना/सहमत होना) इसका सही पर्यायवाची है।<br>• <b>Contradict:</b> विरोध करना (Antonym)।</div></div>"
+  },
+  {
+    "q_hi": "Select the most appropriate synonym of the given word.<br><br><b>Tedious</b>",
+    "op_1": "Inspiring",
+    "op_2": "Dynamic",
+    "op_3": "Erratic",
+    "op_4": "Monotonous",
+    "ans": "4",
+    "solution": "<div class='solution-container'><b>Correct Answer: Monotonous</b><br>Tedious means too long, slow, or dull; tiresome or monotonous.<br><br><div class='hindi-expl'><b>🇮🇳 हिंदी में:</b><br>Tedious का अर्थ है उबाऊ या थकाऊ। <b>Monotonous</b> (नीरस/एक जैसा) इसका सही पर्यायवाची है।<br>• <b>Inspiring/Dynamic:</b> प्रेरणादायक/ऊर्जावान (Antonyms)।</div></div>"
+  }  
+];
+
+/* STATE */
+let currentIdx = 0;
+let currentLang = "EN"; // Default
+let answers = new Array(QUESTIONS.length).fill(null);
+let reviewStatus = new Array(QUESTIONS.length).fill(false);
+let visitedStatus = new Array(QUESTIONS.length).fill(false);
+let submitted = false;
+let timeElapsed = 0;
+let fontSize = 16;
+let isDarkMode = false;
+let timerInterval;
+
+/* INIT LOGIC */
+function initApp() {
+    if(localStorage.getItem('dsssb_dark_mode') === 'true') toggleDarkMode();
+    const saved = localStorage.getItem('dsssb_cbt_state_eng');
+    if(saved) {
+        const s = JSON.parse(saved);
+        if(s.submitted) { 
+            document.getElementById('startScreen').style.display = 'flex';
+        } else {
+            document.getElementById('resumeName').innerText = s.name || "Student";
+            document.getElementById('resumeTime').innerText = Math.floor((s.time || 0) / 60);
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('resumeScreen').style.display = 'flex';
+        }
+    } else {
+        document.getElementById('startScreen').style.display = 'flex';
+    }
+}
+
+function startNewTest() { localStorage.removeItem('dsssb_cbt_state_eng'); location.reload(); }
+function resumeTest() { document.getElementById('resumeScreen').style.display = 'none'; initExam(); }
+function pauseTest() { if(submitted) return; saveState(); clearInterval(timerInterval); alert("Paused! You can resume later."); location.reload(); }
+
+function goToInstructions() {
+    const name = document.getElementById('startNameInput').value.trim();
+    if(!name) { alert("Enter Name!"); return; }
+    document.getElementById('stuName').value = name;
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('instScreen').style.display = 'flex';
+}
+
+function toggleStartBtn() { document.getElementById('finalStartBtn').disabled = !document.getElementById('instCheck').checked; }
+function startTestFlow() { document.getElementById('instScreen').style.display = 'none'; initExam(); }
+
+function initExam() {
+  document.getElementById('mainArea').style.display = 'block';
+  document.querySelector('footer').style.display = 'flex';
+  document.getElementById('tgPopup').style.display = "block";
+  loadState(); loadQuestion(currentIdx); startTimer();
+  document.addEventListener('keydown', (e) => { if(e.key === "ArrowRight") next(); if(e.key === "ArrowLeft") prev(); });
+}
+
+function closeTg(){ document.getElementById('tgPopup').style.display = "none"; }
+
+/* LOGIC */
+function saveState() {
+  if(submitted) return;
+  const state = {
+    idx: currentIdx, ans: answers, rev: reviewStatus, vis: visitedStatus,
+    time: timeElapsed, name: document.getElementById('stuName').value, submitted: false
+  };
+  localStorage.setItem('dsssb_cbt_state_eng', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('dsssb_cbt_state_eng');
+  if(saved) {
+    const s = JSON.parse(saved);
+    currentIdx = s.idx || 0; answers = s.ans || answers;
+    reviewStatus = s.rev || reviewStatus; visitedStatus = s.vis || visitedStatus;
+    timeElapsed = s.time || 0;
+    document.getElementById('stuName').value = s.name || "";
+  }
+}
+
+function loadQuestion(idx) {
+  currentIdx = idx; visitedStatus[idx] = true; saveState(); 
+  
+  const q = QUESTIONS[idx];
+  document.getElementById('qNumDisp').innerText = idx + 1;
+  
+  // Use 'q_hi' for both languages since the new format implies single language or embedded text
+  const txt = q.q_hi;
+  
+  // Render text
+  const contentDiv = document.getElementById('qContent');
+  contentDiv.innerHTML = txt;
+  contentDiv.style.fontSize = fontSize + "px";
+  
+  // AUTO-ENABLE ZOOM
+  const imgs = contentDiv.querySelectorAll('img');
+  imgs.forEach(img => {
+      img.classList.add('q-img');
+      img.onclick = () => openZoom(img.src);
+  });
+  
+  // Construct Options Array from the new JSON format (op_1, op_2, etc)
+  const optsArr = [q.op_1, q.op_2, q.op_3, q.op_4];
+  
+  // Convert Answer String ("1", "2") to index (0, 1)
+  const correctIdx = parseInt(q.ans) - 1;
+
+  let html = "";
+  optsArr.forEach((opt, i) => {
+    let cls = "opt";
+    if(submitted) { 
+        if(i === correctIdx) cls += " correct"; 
+        else if(answers[idx] === i) cls += " wrong"; 
+    } 
+    else { if(answers[idx] === i) cls += " sel"; }
+    html += `<div class="${cls}" onclick="selectAnswer(${i})"><div class="opt-circle">${String.fromCharCode(65+i)}</div><div>${opt}</div></div>`;
+  });
+  document.getElementById('opts').innerHTML = html;
+  renderPalette();
+  if(window.MathJax) MathJax.typesetPromise();
+  
+  if(submitted) {
+    // UPDATED: Use innerHTML for rich text solutions
+    document.getElementById('expBox').innerHTML = q.solution || "No explanation.";
+    document.getElementById('expBtn').style.display = "block";
+  }
+}
+
+/* ZOOM FUNCTIONS */
+function openZoom(src) {
+    document.getElementById('zoomImg').src = src;
+    document.getElementById('zoomModal').style.display = 'flex';
+}
+function closeZoom() {
+    document.getElementById('zoomModal').style.display = 'none';
+}
+
+function renderPalette() {
+  const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
+  QUESTIONS.forEach((q, k) => {
+    let cls = "qbtn"; if(k === currentIdx) cls += " current";
+    // Convert Answer "1" to index 0 for comparison
+    const qCorrectIdx = parseInt(q.ans) - 1;
+    
+    if(submitted) { 
+        if(answers[k] === qCorrectIdx) cls += " answered"; // Correct (Green)
+        else if(answers[k] !== null) cls += " wrong"; // Wrong (Red) if needed, or keep standard logic
+        // Note: Standard logic often just shows 'answered' status, but here we can customize. 
+        // Keeping original logic structure:
+    } 
+    else { 
+        if(reviewStatus[k] && answers[k] !== null) cls += " review-ans"; 
+        else if(reviewStatus[k]) cls += " review"; 
+        else if(answers[k] !== null) cls += " answered"; 
+        else if(visitedStatus[k]) cls += " visited"; 
+    }
+    const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
+    btn.onclick = () => { loadQuestion(k); if(window.innerWidth < 768) togglePalette(); };
+    grid.appendChild(btn);
+  });
+}
+
+function selectAnswer(i) { if(!submitted) { answers[currentIdx] = i; loadQuestion(currentIdx); } }
+function clearResponse() { if(!submitted) { answers[currentIdx] = null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
+function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
+function next() { if(currentIdx < QUESTIONS.length - 1) loadQuestion(currentIdx + 1); }
+function prev() { if(currentIdx > 0) loadQuestion(currentIdx - 1); }
+function toggleLang() { currentLang = currentLang === "HI" ? "EN" : "HI"; document.getElementById('langBtn').innerText = currentLang; loadQuestion(currentIdx); }
+function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
+function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode'); document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙"; localStorage.setItem('dsssb_dark_mode', isDarkMode); }
+
+/* ================== SUBMIT & RESULT GENERATION ================== */
+function submitTest() {
+  const name = document.getElementById('stuName').value;
+  if(!confirm("Are you sure you want to submit?")) return;
+  
+  submitted = true; clearInterval(timerInterval); localStorage.removeItem('dsssb_cbt_state_eng'); 
+  let scoreData = { c:0, w:0, s:0 };
+  let totalScore = 0;
+
+  QUESTIONS.forEach((q, i) => {
+    const correctIdx = parseInt(q.ans) - 1; // Convert "1" -> 0
+    if(answers[i] === null) { scoreData.s++; }
+    else if(answers[i] === correctIdx) { scoreData.c++; totalScore++; }
+    else { scoreData.w++; totalScore -= NEGATIVE_MARK; }
+  });
+
+  let attempted = scoreData.c + scoreData.w;
+  let accuracy = attempted ? ((scoreData.c/attempted)*100) : 0;
+  let rankScore = (totalScore*100) + accuracy;
+  let estRank = Math.max(1, Math.round(1000 - rankScore));
+  let timeStr = document.getElementById('timer').innerText;
+
+  /* --- 1. SCORE CARD HTML --- */
+  document.getElementById('modalTitle').innerText = "Score Card";
+  let resHTML = `
+  <div style="text-align:center;">
+    <h3>${name}, Test Submitted!</h3>
+    <div style="font-size:24px; color:var(--primary);">Score: <b>${totalScore.toFixed(2)}</b></div>
+    <div class="chart-container"><canvas id="resultChart"></canvas></div>
+  </div>
+  <table border="1" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; border-color:var(--border-color); margin-bottom:20px;">
+    <tr style="background:var(--bg-body)"><th>Section</th><th>✅</th><th>❌</th><th>⚪</th></tr>
+    <tr><td>${SECTION_NAME}</td><td style="color:var(--success)">${scoreData.c}</td><td style="color:var(--danger)">${scoreData.w}</td><td>${scoreData.s}</td></tr>
+  </table>`;
+
+  /* --- 2. FULL PAPER HTML --- */
+  resHTML += `<h3 style="border-top:1px solid #ccc; padding-top:20px;">Response Sheet</h3>`;
+  QUESTIONS.forEach((q, i) => {
+      const correctIdx = parseInt(q.ans) - 1; // Convert "1" -> 0
+      const isCorrect = answers[i] === correctIdx;
+      const statusColor = answers[i] === null ? '#999' : (isCorrect ? 'green' : 'red');
+      const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
+      const qText = q.q_hi;
+      const opts = [q.op_1, q.op_2, q.op_3, q.op_4]; // Manual array construction
+      const exp = q.solution || "No explanation";
+
+      resHTML += `<div class="result-q-box">
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <b>Q.${i+1}</b>
+            <b style="color:${statusColor}">${statusText}</b>
+        </div>
+        <div style="margin-bottom:10px;">${qText}</div>
+        <div>`;
+       
+      opts.forEach((opt, k) => {
+          let optClass = "res-opt";
+          if(k === correctIdx) optClass += " c"; // Correct Answer
+          if(k === answers[i] && k !== correctIdx) optClass += " w"; // User Wrong Answer
+          resHTML += `<div class="${optClass}">${String.fromCharCode(65+k)}. ${opt}</div>`;
+      });
+      
+      // Use innerHTML for explanation to render boxes
+      resHTML += `</div><div style="margin-top:5px; font-size:13px; color:#555; background:#f9f9f9; padding:5px;"><b>Exp:</b> ${exp}</div></div>`;
+  });
+
+  /* --- 3. ACTION BUTTONS --- */
+  resHTML += `
+  <div style="display:flex; gap:10px; justify-content:center; padding-bottom:30px;">
+    <button class="tool-btn" onclick="downloadPDF()" style="background:var(--primary); color:#fff; border:none; padding:10px 20px;">📥 Download Result</button>
+    <button class="tool-btn" onclick="location.reload()" style="background:var(--success); color:#fff; border:none; padding:10px 20px;">Restart Test</button>
+  </div>`;
+
+  document.getElementById('qpContent').innerHTML = resHTML;
+  document.getElementById('qpModal').style.display = "flex";
+  
+  renderChart(scoreData.c, scoreData.w, scoreData.s);
+  if(window.MathJax) MathJax.typesetPromise();
+  sendResultToTelegram(name, totalScore.toFixed(2), scoreData.c, scoreData.w, scoreData.s, timeStr, accuracy, estRank);
+  loadQuestion(currentIdx);
+}
+
+function renderChart(c, w, s) {
+    const ctx = document.getElementById('resultChart').getContext('2d');
+    const txtColor = isDarkMode ? '#e0e0e0' : '#333';
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: ['Correct', 'Wrong', 'Skipped'], datasets: [{ data: [c, w, s], backgroundColor: ['#2e7d32', '#c62828', '#bdbdbd'], borderWidth: 0 }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: txtColor } } } }
+    });
+}
+
+function downloadPDF() {
+    const element = document.getElementById('qpContent');
+    const btns = element.querySelectorAll('button');
+    btns.forEach(b => b.style.display = 'none'); // Hide buttons
+    const opt = {
+        margin: 5, filename: 'Sectional_Mock_Result.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save().then(() => {
+        btns.forEach(b => b.style.display = 'inline-block'); // Show buttons
+    });
+}
+
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST", headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text:`📘 DSSSB Sectional Mock (English)\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n\n🔥 DSSSB Smart Notes`
+  })
+ });
+}
+
+/* UTILS */
+function startTimer() {
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeElapsed++;
+    const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+    const s = (timeElapsed % 60).toString().padStart(2, '0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+  }, 1000);
+}
+function togglePalette() { document.getElementById('palettePanel').classList.toggle('show'); document.getElementById('bgOverlay').classList.toggle('show'); }
+function toggleFS() { !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen(); }
+function toggleExp() { const b=document.getElementById('expBox'); b.style.display = b.style.display==="none"?"block":"none"; }
+function openQP() {
+  document.getElementById('modalTitle').innerText = "Full Question Paper";
+  let html = "";
+  QUESTIONS.forEach((q, i) => {
+    // Construct manual options array
+    const opts = [q.op_1, q.op_2, q.op_3, q.op_4];
+    html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+        <b>Q.${i+1}</b><br>${q.q_hi}<br>
+        <i style="color:var(--text-muted); font-size:0.9em">Options: ${opts.join(', ')}</i>
+    </div>`;
+  });
+  document.getElementById('qpContent').innerHTML = html;
+  document.getElementById('qpModal').style.display = "flex";
+}
+function closeQP() { document.getElementById('qpModal').style.display = "none"; }
+</script>
+</body>
+</html>
