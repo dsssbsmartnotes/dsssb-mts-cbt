@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<title>DSSSB Smart Mock - Pro Version</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Segoe+UI&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+:root {
+  --primary: #d84315; /* Deep Orange */
+  --primary-light: #fbe9e7;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f57f17;
+  --text-main: #202124;
+  --text-muted: #5f6368;
+  --bg-body: #f0f2f5;
+  --bg-card: #ffffff;
+  --border-color: #dadce0;
+  --font-main: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
+}
+
+body.dark-mode {
+  --primary: #ff8a65;
+  --primary-light: #3e2723;
+  --success: #81c784;
+  --danger: #e57373;
+  --text-main: #e8eaed;
+  --text-muted: #9aa0a6;
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --border-color: #3c4043;
+}
+
+body { margin: 0; font-family: var(--font-main); background: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+
+/* --- HEADER --- */
+header { background: var(--bg-card); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10; }
+.brand { font-weight: 700; font-size: 1.1rem; color: var(--primary); display:flex; align-items:center; gap:5px; }
+.timer-badge { background: var(--primary-light); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-weight: bold; border: 1px solid var(--primary); font-family: monospace; font-size: 1.1em; }
+
+/* --- LAYOUT --- */
+.main-grid { display: grid; grid-template-columns: 1fr 320px; flex: 1; overflow: hidden; }
+#qArea { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+aside { background: var(--bg-card); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 20; }
+
+/* --- QUESTION CARD --- */
+.q-card { background: var(--bg-card); border-radius: 8px; padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border-color); flex: 1; display:flex; flex-direction:column; }
+.q-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; font-size: 0.9em; color: var(--text-muted); }
+.q-text { font-size: 1.25rem; line-height: 1.6; margin-bottom: 25px; flex:1; }
+
+/* --- OPTIONS --- */
+.opt { border: 1px solid var(--border-color); padding: 14px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; }
+.opt:hover { background: var(--primary-light); border-color: var(--primary); }
+.opt.sel { background: var(--primary-light); border-color: var(--primary); font-weight: 600; box-shadow: 0 0 0 1px var(--primary); }
+.opt-badge { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 12px; }
+.opt.sel .opt-badge { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* --- BUTTONS --- */
+.btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-family: var(--font-main); transition: 0.2s; }
+.btn-p { background: var(--primary); color: #fff; }
+.btn-s { background: var(--success); color: #fff; }
+.btn-o { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+.btn-report { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 5px 10px; font-size: 12px; border-radius: 4px; display:flex; align-items:center; gap:5px; }
+
+/* --- PALETTE --- */
+.palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 15px; overflow-y: auto; }
+.p-btn { aspect-ratio: 1; border-radius: 50%; border: 1px solid #ccc; background: #fff; cursor: pointer; font-weight: bold; color: #333; font-size:12px; }
+.p-btn.curr { border: 2px solid var(--primary); transform: scale(1.1); }
+.p-btn.ans { background: var(--success); color: #fff; border:none; }
+.p-btn.rev { background: #7b1fa2; color: #fff; border:none; } /* Purple */
+.p-btn.ans-rev { background: #7b1fa2; color: #fff; position: relative; } /* Purple */
+.p-btn.ans-rev::after { content: '✔'; position: absolute; bottom: -2px; right: -2px; background: var(--success); color: white; border-radius: 50%; font-size: 8px; padding: 2px; }
+
+/* --- MODALS & OVERLAYS --- */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+.modal { background: var(--bg-card); padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid var(--border-color); }
+
+/* --- WARNING TOAST --- */
+#warnToast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #c62828; color: white; padding: 12px 25px; border-radius: 30px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000; display: none; animation: slideDown 0.5s; }
+@keyframes slideDown { from {top:-50px} to {top:20px} }
+
+/* --- RESULT TABLE --- */
+.res-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+.res-table th { background: var(--bg-body); text-align: left; padding: 10px; border-bottom: 2px solid var(--border-color); }
+.res-table td { padding: 10px; border-bottom: 1px solid var(--border-color); }
+
+@media (max-width: 768px) {
+  .main-grid { grid-template-columns: 1fr; }
+  aside { display: none; position: fixed; inset: 0; z-index: 100; }
+  aside.show { display: flex; }
+}
+</style>
+</head>
+
+<body onload="initApp()">
+
+<div id="warnToast">⚠️ Warning: Tab Switching Detected! (<span id="warnCount">0</span>/3)</div>
+
+<div id="startScreen" class="overlay" style="display:flex; background:var(--bg-body);">
+  <div class="modal" style="text-align:center;">
+    <h2 style="color:var(--primary)">DSSSB CBT Mock Test</h2>
+    <p style="color:var(--text-muted)">Subject: General Hindi • 20 Questions</p>
+    <input type="text" id="stuName" placeholder="Enter Full Name" style="width:80%; padding:12px; margin:15px 0; border:1px solid #ccc; border-radius:6px;">
+    
+    <div style="text-align:left; font-size:0.9em; background:rgba(255, 165, 0, 0.1); padding:15px; border-radius:8px; margin-bottom:20px;">
+      <b>🛡️ Exam Instructions:</b>
+      <ul style="margin:5px 0 0 20px; padding:0;">
+        <li>Full Screen mode is mandatory.</li>
+        <li>Do not switch tabs (Warning will be issued).</li>
+        <li>Marking: +1 Correct, -0.25 Wrong.</li>
+      </ul>
+    </div>
+    
+    <button class="btn btn-p" style="width:100%" onclick="startTest()">START TEST</button>
+  </div>
+</div>
+
+<div id="reportModal" class="overlay">
+  <div class="modal">
+    <h3>🚩 Report Question <span id="repQNum"></span></h3>
+    <p>Is sawal mein kya galti hai?</p>
+    <textarea id="repReason" rows="4" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; margin-bottom:15px;" placeholder="Example: Option B is spelling mistake..."></textarea>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button class="btn btn-o" onclick="closeReport()">Cancel</button>
+      <button class="btn btn-p" onclick="submitReport()">Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="brand">
+    <span>DSSSB Mock</span>
+    <span style="font-size:12px; color:var(--text-muted); border:1px solid #ccc; padding:2px 6px; border-radius:4px;">PRO</span>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <div class="timer-badge" id="timer">00:00</div>
+    <button class="btn btn-o" onclick="toggleTheme()" style="padding:5px 10px;">🌙</button>
+    <button class="btn btn-o" onclick="togglePaletteMobile()" id="palBtn" style="padding:5px 10px;">☰</button>
+  </div>
+</header>
+
+<div class="main-grid">
+  <div id="qArea">
+    <div class="q-card">
+      <div class="q-header">
+        <span>Question <b id="qNum">1</b></span>
+        <div style="display:flex; gap:10px;">
+          <span style="color:var(--success)">+1.00</span>
+          <span style="color:var(--danger)">-0.25</span>
+          <button class="btn-report" onclick="openReport()">⚑ Report</button>
+        </div>
+      </div>
+      
+      <div id="qContent" class="q-text">Loading...</div>
+      <div id="opts"></div>
+    </div>
+    
+    <div style="display:flex; justify-content:space-between; margin-top:20px;">
+      <button class="btn btn-o" onclick="prev()">Previous</button>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-o" style="color:#7b1fa2; border-color:#7b1fa2" onclick="markReview()">Mark Review</button>
+        <button class="btn btn-p" onclick="next()">Save & Next</button>
+      </div>
+    </div>
+  </div>
+
+  <aside id="palettePanel">
+    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+      <b>Question Palette</b>
+      <button onclick="togglePaletteMobile()" style="border:none; background:none; font-size:20px; display:none;" id="closePal">&times;</button>
+    </div>
+    
+    <div class="palette-grid" id="pGrid"></div>
+    
+    <div style="margin-top:auto; padding:15px; border-top:1px solid var(--border-color);">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; font-size:11px; color:var(--text-muted); margin-bottom:15px;">
+        <div style="display:flex;align-items:center;gap:5px"><div class="p-btn ans" style="width:15px;height:15px"></div> Answered</div>
+        <div style="display:flex;align-items:center;gap:5px"><div class="p-btn" style="width:15px;height:15px;background:#c62828;color:#fff;border:none"></div> Not Ans</div>
+        <div style="display:flex;align-items:center;gap:5px"><div class="p-btn rev" style="width:15px;height:15px"></div> Review</div>
+        <div style="display:flex;align-items:center;gap:5px"><div class="p-btn ans-rev" style="width:15px;height:15px"></div> Ans+Rev</div>
+      </div>
+      <button class="btn btn-s" style="width:100%" onclick="submitTest()">SUBMIT TEST</button>
+    </div>
+  </aside>
+</div>
+
+<div id="resModal" class="overlay" style="align-items:flex-start; overflow-y:auto; padding:20px 0;">
+  <div class="modal" style="max-width:800px; margin-top:20px;">
+    <div style="text-align:center; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
+      <h2>Score Card</h2>
+      <div style="font-size:2.5rem; font-weight:bold; color:var(--primary);" id="finalScore">0</div>
+      <p style="color:var(--text-muted)">Total Score</p>
+    </div>
+    
+    <div id="resContent"></div> <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+      <button class="btn btn-p" onclick="downloadPDF()">Download PDF</button>
+      <button class="btn btn-s" onclick="location.reload()">New Test</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --- CONFIGURATION --- */
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+const QUESTIONS = [
+  {
+    "q_hi": "'विद्यालय' शब्द का सही संधि विच्छेद क्या है?",
+    "op_hi": ["विद्या + आलय", "विद्य + आलय", "विद्या + लय", "विद + आलय"],
+    "ans": "1",
+    "exp": "विद्या + आलय = विद्यालय (दीर्घ स्वर संधि)"
+  },
+  {
+    "q_hi": "मुहावरा 'आँख का तारा' का क्या अर्थ है?",
+    "op_hi": ["बहुत प्यारा", "दुश्मन होना", "धोखा देना", "दूर जाना"],
+    "ans": "1",
+    "exp": "अर्थ: अत्यंत प्रिय होना।"
+  },
+  {
+    "q_hi": "शुद्ध वर्तनी वाला शब्द चुनिए:",
+    "op_hi": ["कवियत्री", "कवयित्री", "कवयत्री", "कविइत्री"],
+    "ans": "2",
+    "exp": "शुद्ध: कवयित्री"
+  }
+];
+
+/* --- STATE --- */
+let currIdx = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+let review = new Array(QUESTIONS.length).fill(false);
+let timeSpent = new Array(QUESTIONS.length).fill(0); // Tracks seconds per question
+let warnings = 0;
+let totalTime = 0;
+let reports = []; // Stores user reports
+let timerInt, qTimerInt;
+let isSubmitted = false;
+
+/* --- INITIALIZATION --- */
+function initApp() {
+  if(localStorage.getItem('dsssb_dark') === 'true') document.body.classList.add('dark-mode');
+}
+
+function startTest() {
+  const name = document.getElementById('stuName').value;
+  if(!name) return alert("Please enter your name!");
+  
+  // Security Checks
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+  document.getElementById('startScreen').style.display = 'none';
+  
+  startTimers();
+  loadQuestion(0);
+}
+
+/* --- TIMER LOGIC --- */
+function startTimers() {
+  // Global Timer
+  timerInt = setInterval(() => {
+    totalTime++;
+    let m = Math.floor(totalTime / 60).toString().padStart(2,'0');
+    let s = (totalTime % 60).toString().padStart(2,'0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+  }, 1000);
+
+  // Per Question Timer
+  qTimerInt = setInterval(() => {
+    if(!isSubmitted) timeSpent[currIdx]++;
+  }, 1000);
+}
+
+/* --- SECURITY LOGIC --- */
+function handleVisibilityChange() {
+  if(document.hidden && !isSubmitted) {
+    warnings++;
+    const toast = document.getElementById('warnToast');
+    document.getElementById('warnCount').innerText = warnings;
+    toast.style.display = "block";
+    setTimeout(() => toast.style.display = "none", 4000);
+    
+    if(warnings >= 3) {
+      alert("Too many tab switches! Auto-submitting test.");
+      submitTest();
+    }
+  }
+}
+
+/* --- CORE EXAM LOGIC --- */
+function loadQuestion(i) {
+  currIdx = i;
+  const q = QUESTIONS[i];
+  document.getElementById('qNum').innerText = i+1;
+  document.getElementById('qContent').innerHTML = q.q_hi;
+  
+  let html = "";
+  q.op_hi.forEach((op, k) => {
+    let cls = answers[i] === k ? "opt sel" : "opt";
+    html += `<div class="${cls}" onclick="setAns(${k})">
+      <div class="opt-badge">${String.fromCharCode(65+k)}</div>
+      <div>${op}</div>
+    </div>`;
+  });
+  document.getElementById('opts').innerHTML = html;
+  renderPalette();
+}
+
+function setAns(k) { answers[currIdx] = k; loadQuestion(currIdx); }
+function next() { if(currIdx < QUESTIONS.length-1) loadQuestion(currIdx+1); }
+function prev() { if(currIdx > 0) loadQuestion(currIdx-1); }
+function markReview() { review[currIdx] = !review[currIdx]; loadQuestion(currIdx); }
+
+function renderPalette() {
+  let html = "";
+  QUESTIONS.forEach((_, i) => {
+    let cls = "p-btn";
+    if(i===currIdx) cls += " curr";
+    if(review[i] && answers[i]!==null) cls += " ans-rev";
+    else if(review[i]) cls += " rev";
+    else if(answers[i]!==null) cls += " ans";
+    else if(answers[i]===null && i < currIdx) cls += " not-ans"; // Simple logic for visited but not answered if you track visits
+    
+    html += `<button class="${cls}" onclick="loadQuestion(${i})">${i+1}</button>`;
+  });
+  document.getElementById('pGrid').innerHTML = html;
+}
+
+/* --- REPORTING SYSTEM --- */
+function openReport() {
+  document.getElementById('repQNum').innerText = currIdx+1;
+  document.getElementById('reportModal').style.display = 'flex';
+}
+function closeReport() { document.getElementById('reportModal').style.display = 'none'; }
+function submitReport() {
+  const r = document.getElementById('repReason').value;
+  if(r) {
+    reports.push({ q: currIdx+1, reason: r });
+    alert("Report Submitted! Admin will review.");
+    closeReport();
+    document.getElementById('repReason').value = "";
+  }
+}
+
+/* --- SUBMISSION & RESULT --- */
+function submitTest() {
+  if(!confirm("Submit Test?")) return;
+  isSubmitted = true;
+  clearInterval(timerInt); clearInterval(qTimerInt);
+  if(document.exitFullscreen) document.exitFullscreen().catch(e=>{});
+
+  let correct=0, wrong=0, score=0;
+  let tableHtml = `<table class="res-table"><thead><tr><th>Q</th><th>Status</th><th>Time</th><th>Correct Ans</th></tr></thead><tbody>`;
+  
+  QUESTIONS.forEach((q, i) => {
+    let status = "Skipped";
+    let color = "#999";
+    let realAns = parseInt(q.ans)-1;
+    
+    if(answers[i] !== null) {
+      if(answers[i] === realAns) { status="Correct"; color="green"; correct++; score+=1; }
+      else { status="Wrong"; color="red"; wrong++; score-=0.25; }
+    }
+    
+    tableHtml += `<tr>
+      <td><b>${i+1}</b></td>
+      <td style="color:${color}"><b>${status}</b></td>
+      <td>${timeSpent[i]}s</td>
+      <td>${String.fromCharCode(65+realAns)}</td>
+    </tr>`;
+  });
+  tableHtml += `</tbody></table>`;
+  
+  // Analytics Block
+  const analytics = `
+    <div style="display:flex; justify-content:space-around; margin:20px 0; background:var(--bg-body); padding:15px; border-radius:8px;">
+      <div style="text-align:center"><div style="font-size:1.5rem; color:green">${correct}</div><small>Correct</small></div>
+      <div style="text-align:center"><div style="font-size:1.5rem; color:red">${wrong}</div><small>Wrong</small></div>
+      <div style="text-align:center"><div style="font-size:1.5rem; color:orange">${100 - ((correct+wrong)/QUESTIONS.length*100).toFixed(0)}%</div><small>Skipped</small></div>
+    </div>
+  `;
+
+  document.getElementById('finalScore').innerText = score.toFixed(2);
+  document.getElementById('resContent').innerHTML = analytics + tableHtml;
+  document.getElementById('resModal').style.display = 'flex';
+  
+  sendToTelegram(score, correct, wrong, reports);
+}
+
+/* --- UTILS --- */
+function toggleTheme() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('dsssb_dark', document.body.classList.contains('dark-mode'));
+}
+function togglePaletteMobile() {
+  const p = document.getElementById('palettePanel');
+  p.classList.toggle('show');
+  if(p.classList.contains('show')) {
+    document.getElementById('closePal').style.display="block"; 
+    p.style.right="0";
+  } else {
+    document.getElementById('closePal').style.display="none";
+  }
+}
+
+function downloadPDF() {
+  const el = document.getElementById('resModal'); // Capture whole modal
+  const opt = { margin:0, filename:'DSSSB_Result.pdf', image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'in', format:'letter', orientation:'portrait'} };
+  html2pdf().from(el).set(opt).save();
+}
+
+function sendToTelegram(score, c, w, reps) {
+  const name = document.getElementById('stuName').value;
+  let msg = `👤 <b>${name}</b> submitted Hindi Mock!\n\n🎯 Score: ${score}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n⚠️ Warnings: ${warnings}`;
+  
+  if(reps.length > 0) {
+    msg += `\n\n🚩 <b>Reported Questions:</b>`;
+    reps.forEach(r => msg += `\n• Q${r.q}: ${r.reason}`);
+  }
+  
+  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST", headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg, parse_mode: "HTML" })
+  });
+}
+</script>
+</body>
+</html>
