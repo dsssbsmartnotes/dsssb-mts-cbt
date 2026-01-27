@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DSSSB Sectional Mock Test - General Hindi (Pro)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+/* =========================
+   CORE VARIABLES & THEME
+   ========================= */
+:root {
+  --primary: #e64a19; 
+  --primary-dark: #d84315;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f9a825;
+  
+  --bg-body: #f3f4f6;
+  --bg-card: #ffffff;
+  --text-main: #333333;
+  --text-muted: #555555;
+  --border-color: #e0e0e0;
+  --header-bg: #ffffff;
+  --section-bar-bg: #fbe9e7;
+  --opt-hover: #ffccbc;
+  --opt-sel-bg: #ffab91;
+  --palette-bg: #ffffff;
+  --zoom-bg: rgba(255, 255, 255, 0.95);
+  
+  --font-base: 18px;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+  --primary: #ff7043;
+  --primary-dark: #f4511e;
+  --success: #66bb6a;
+  --danger: #ef5350;
+  
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #b0b0b0;
+  --border-color: #333333;
+  --header-bg: #1e1e1e;
+  --section-bar-bg: #3e2723;
+  --opt-hover: #2c3e50;
+  --opt-sel-bg: #bf360c;
+  --palette-bg: #1e1e1e;
+  --zoom-bg: rgba(0, 0, 0, 0.9);
+}
+
+html, body {
+  width: 100%; margin: 0; padding: 0;
+  overflow-x: hidden; font-family: 'Segoe UI', 'Mukta', Arial, sans-serif;
+  background: var(--bg-body); color: var(--text-main);
+  height: 100%;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* =========================
+   NEW FEATURES STYLES
+   ========================= */
+#warnToast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: #d32f2f; color: #fff; padding: 12px 25px; border-radius: 30px;
+    font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 9999; display: none; animation: slideDown 0.5s;
+}
+@keyframes slideDown { from {top:-50px} to {top:20px} }
+
+#reportModal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 3000;
+    display: none; justify-content: center; align-items: center;
+}
+.report-card {
+    background: var(--bg-card); padding: 20px; border-radius: 8px; width: 90%; max-width: 400px;
+}
+
+.report-btn {
+    color: var(--danger); border: 1px solid var(--danger); background: transparent;
+    display: flex; align-items: center; gap: 5px; font-size: 12px;
+}
+
+/* =========================
+   EXISTING STYLES
+   ========================= */
+.solution-container {
+    font-family: 'Segoe UI', 'Mukta', sans-serif;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+.hindi-expl {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffc107;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: #333;
+}
+body.dark-mode .hindi-expl {
+    background-color: #3e3820;
+    color: #e0e0e0;
+}
+
+.fact-box {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    padding: 12px;
+    margin-top: 15px;
+    color: #155724;
+}
+body.dark-mode .fact-box {
+    background-color: #1b3320;
+    border-color: #2e5c36;
+    color: #a8d6b0;
+}
+.fact-box strong {
+    display: block;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto; 
+  height: 100vh;
+}
+
+.full-screen-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg-body);
+  z-index: 2000;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 20px;
+}
+.start-card {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  width: 100%; max-width: 500px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.inst-list { text-align: left; margin: 15px 0; font-size: 14px; line-height: 1.6; color: var(--text-main); }
+.inst-list li { margin-bottom: 8px; }
+
+.start-input {
+  width: 90%; padding: 12px; margin: 20px 0;
+  border: 2px solid var(--border-color); border-radius: 6px;
+  font-size: 16px; background: var(--bg-body); color: var(--text-main);
+}
+.primary-btn {
+  background: var(--primary); color: #fff;
+  border: none; padding: 12px 30px;
+  font-size: 16px; font-weight: bold;
+  border-radius: 6px; cursor: pointer;
+  transition: 0.2s; width: 100%; margin-top: 10px;
+}
+.primary-btn:disabled { background: #999; cursor: not-allowed; }
+.secondary-btn {
+    background: transparent; color: var(--text-muted); border: 2px solid var(--border-color);
+    margin-top: 10px; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold;
+}
+
+header {
+  background: var(--header-bg); padding: 10px 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 20;
+  border-bottom: 1px solid var(--border-color);
+}
+.brand { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+.tools { display: flex; gap: 8px; }
+.tool-btn {
+  background: var(--bg-body); border: 1px solid var(--border-color); 
+  padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  font-weight: 600; color: var(--text-main);
+}
+
+#subHeader {
+    background: var(--section-bar-bg); padding: 10px 15px;
+    font-weight: bold; color: var(--primary-dark);
+    border-bottom: 1px solid var(--border-color);
+    text-align: center; font-size: 1.1em;
+}
+
+#mainArea {
+  padding: 10px; overflow-y: auto; position: relative;
+  padding-bottom: 80px; display: none;
+}
+.card {
+  background: var(--bg-card); padding: 16px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px;
+  font-size: var(--font-base); border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.opt {
+  border: 1px solid var(--border-color); padding: 12px 15px;
+  margin: 8px 0; border-radius: 6px; cursor: pointer;
+  transition: background 0.15s; display: flex; align-items: center;
+  color: var(--text-main);
+}
+.opt:hover { background: var(--opt-hover); border-color: var(--primary); }
+.opt.sel { background: var(--opt-sel-bg); border-color: var(--primary); font-weight: 600; }
+.opt.correct { background: rgba(46, 125, 50, 0.2); border-color: var(--success); }
+.opt.wrong { background: rgba(198, 40, 40, 0.2); border-color: var(--danger); }
+.opt-circle {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted);
+  margin-right: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--text-main);
+}
+.opt.sel .opt-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
+
+footer {
+  background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color);
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  position: fixed; bottom: 0; width: 100%;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: none;
+}
+.nav-btn {
+  padding: 12px; border: none; border-radius: 6px;
+  font-weight: bold; color: #fff; cursor: pointer; font-size: 14px;
+}
+.btn-prev { background: #757575; }
+.btn-next { background: var(--primary); }
+.btn-submit { background: var(--success); }
+.btn-palette { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; }
+
+#palettePanel {
+  position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px;
+  height: 100%; background: var(--palette-bg); z-index: 100;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -5px 0 25px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column; color: var(--text-main);
+}
+#palettePanel.show { right: 0; }
+.p-header { padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
+.p-grid { padding: 15px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-content: start; }
+.p-footer { padding: 15px; border-top: 1px solid var(--border-color); }
+
+.qbtn {
+  aspect-ratio: 1; border-radius: 50%; border: none; font-weight: bold; font-size: 12px;
+  cursor: pointer; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+}
+.qbtn.visited { background: var(--bg-body); border-color: #bbb; } 
+.qbtn.answered { background: var(--success); color: #fff; border: none; }
+.qbtn.review { background: var(--primary-dark); color: #fff; border-radius: 50%; }
+.qbtn.review-ans { background: var(--primary-dark); color: #fff; position: relative; } 
+.qbtn.review-ans::after { content:'✔'; position: absolute; bottom: -2px; right: -2px; font-size: 8px; background: #fff; color:green; border-radius:50%; padding:1px;} 
+.qbtn.current { box-shadow: 0 0 0 2px var(--text-main); transform: scale(1.1); }
+
+#timer { background: var(--bg-card); padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--primary); border: 1px solid var(--primary); }
+#expBox { margin-top: 15px; padding: 15px; background: rgba(46, 125, 50, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 14px; display: none; color: var(--text-main); }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; display: none; }
+.overlay.show { display: block; }
+
+#qpModal { 
+  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
+  background: var(--bg-card); color: var(--text-main);
+  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
+  border: 1px solid var(--border-color);
+}
+.chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px auto; }
+
+#tgPopup{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background: var(--bg-card); padding:25px; width:85%; max-width:320px;
+  border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  z-index:9999; text-align:center; display:none; color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+#tgPopup a{ display:block; background:#0088cc; color:#fff; padding:12px; border-radius:8px; text-decoration:none; margin-top:15px; font-weight:bold; }
+.tg-btn-continue { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: 600; }
+
+#zoomModal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--zoom-bg); z-index: 5000;
+    display: none; justify-content: center; align-items: center;
+    flex-direction: column;
+}
+#zoomImg {
+    max-width: 90%; max-height: 85vh; border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 1px solid #fff;
+}
+.close-zoom {
+    position: absolute; top: 20px; right: 20px;
+    font-size: 40px; color: var(--text-main); cursor: pointer; font-weight: bold;
+}
+
+.result-q-box {
+    margin-bottom: 15px; padding: 10px; border: 1px solid var(--border-color);
+    border-radius: 6px; background: var(--bg-card);
+    page-break-inside: avoid;
+}
+.res-opt {
+    padding: 5px; margin: 2px 0; border-radius: 4px; font-size: 14px;
+}
+.res-opt.c { background: rgba(46, 125, 50, 0.2); border: 1px solid var(--success); }
+.res-opt.w { background: rgba(198, 40, 40, 0.2); border: 1px solid var(--danger); text-decoration: line-through; }
+
+@media(min-width: 768px) {
+  body { grid-template-columns: 1fr 300px; grid-template-rows: auto auto 1fr; }
+  header { grid-column: 1 / -1; }
+  #subHeader { grid-column: 1 / 2; }
+  #mainArea { grid-column: 1 / 2; grid-row: 3 / 4; padding-bottom: 20px; }
+  #palettePanel {
+    position: static; width: auto; height: auto; right: auto;
+    grid-column: 2 / 3; grid-row: 2 / 4;
+    border-left: 1px solid var(--border-color); box-shadow: none; z-index: 1;
+  }
+  footer {
+    grid-column: 1 / 2; position: static;
+    display: flex; justify-content: space-between;
+    box-shadow: none; border-top: 1px solid var(--border-color);
+  }
+  .btn-palette { display: none; } 
+  .p-grid { grid-template-columns: repeat(4, 1fr); }
+  #qpModal { width: 60%; left: 20%; }
+}
+</style>
+</head>
+
+<body onload="initApp()">
+
+<div id="warnToast">⚠️ Warning: Tab Switch Detected! (<span id="warnCount">0</span>/3)</div>
+
+<div id="zoomModal" onclick="closeZoom()">
+    <span class="close-zoom">&times;</span>
+    <img id="zoomImg" src="">
+    <div style="color:var(--text-main); margin-top:10px;">Click anywhere to close</div>
+</div>
+
+<div id="reportModal">
+    <div class="report-card">
+        <h3 style="margin-top:0">🚩 Report Question <span id="repQNum"></span></h3>
+        <p style="font-size:14px; color:var(--text-muted)">Please describe the issue:</p>
+        <textarea id="repReason" style="width:100%; height:80px; padding:10px; border-radius:4px; border:1px solid var(--border-color); margin-bottom:15px;"></textarea>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+            <button class="tool-btn" onclick="closeReport()">Cancel</button>
+            <button class="primary-btn" style="padding:8px 15px; margin:0;" onclick="submitReport()">Submit Report</button>
+        </div>
+    </div>
+</div>
+
+<div id="startScreen" class="full-screen-overlay">
+    <div class="start-card">
+        <h2 style="color:var(--primary); margin-top:0;">Sectional Mock Test</h2>
+        <p style="color:var(--text-muted)">Please enter your name to proceed.</p>
+        <input type="text" id="startNameInput" class="start-input" placeholder="Enter Full Name">
+        <button class="primary-btn" onclick="goToInstructions()">NEXT</button>
+    </div>
+</div>
+
+<div id="instScreen" class="full-screen-overlay" style="display:none;">
+    <div class="start-card" style="max-width:600px; text-align:left;">
+        <h3 style="color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:10px;">General Instructions</h3>
+        <div class="inst-list">
+            <b>Subject: General Hindi</b><br>
+            <b>Marking Scheme:</b>
+            <ul>
+                <li style="color:var(--success)">Correct Answer: +1 Mark</li>
+                <li style="color:var(--danger)">Wrong Answer: -0.25 Mark</li>
+            </ul>
+            <div style="background:rgba(230, 74, 25, 0.1); padding:10px; border-radius:5px; border-left:3px solid var(--primary); margin-top:10px;">
+               <b>🛡️ Security Warning:</b><br>
+               Do not switch tabs during the test. <br>
+               <b>3 Warnings</b> will result in <b>Auto-Submission</b>.
+            </div>
+        </div>
+        <label style="display:flex; align-items:center; cursor:pointer; font-weight:600; font-size:14px; margin-top:20px;">
+            <input type="checkbox" id="instCheck" onchange="toggleStartBtn()" style="width:20px; height:20px; margin-right:10px;">
+            I have read and understood the instructions.
+        </label>
+        <br>
+        <button id="finalStartBtn" class="primary-btn" onclick="startTestFlow()" disabled>I AM READY TO BEGIN</button>
+    </div>
+</div>
+
+<div id="resumeScreen" class="full-screen-overlay" style="display:none;">
+    <div class="start-card">
+        <h3 style="color:var(--primary);">Test In Progress Found</h3>
+        <p style="color:var(--text-muted);">We found a previous unfinished session for <b id="resumeName"></b>.</p>
+        <div style="background:var(--bg-body); padding:10px; margin:10px 0; border-radius:5px;">
+            <small>Last active: <span id="resumeTime"></span> mins elapsed</small>
+        </div>
+        <button class="primary-btn" onclick="resumeTest()">RESUME SESSION</button>
+        <button class="secondary-btn" onclick="startNewTest()">START FRESH</button>
+    </div>
+</div>
+
+<div id="tgPopup">
+ <b>📢 Join DSSSB Smart Notes</b><br><br>
+ Daily CBT Tests • PDFs • Results
+ <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br>
+ <button class="tg-btn-continue" onclick="closeTg()">Continue Test</button>
+</div>
+
+<div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
+
+<header>
+  <div class="brand">DSSSB Mock <span style="font-size:0.8em; color:var(--text-muted)">Hindi v3.0</span></div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div id="timer">00:00</div>
+    <button class="tool-btn" onclick="pauseTest()" style="color:var(--warning); border-color:var(--warning)">⏸ Pause</button>
+    <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
+    <button class="tool-btn" onclick="toggleLang()" id="langBtn">HI</button>
+    <button class="tool-btn" onclick="toggleFS()">⛶</button>
+    <button class="tool-btn" onclick="openQP()">📄 Paper</button>
+  </div>
+</header>
+
+<div id="subHeader">General Hindi Section</div>
+
+<div id="mainArea">
+  <input type="hidden" id="stuName">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--text-muted); font-size:13px;">
+      <span>Question No. <b id="qNumDisp">1</b></span>
+      <span style="display:flex; gap:10px;">
+        <span style="color:var(--success)">+1.00</span>
+        <span style="color:var(--danger)">-0.25</span>
+        <button class="tool-btn report-btn" onclick="openReport()">⚑ Report</button>
+      </span>
+    </div>
+    <div style="font-size:14px; text-align:right; margin-bottom:5px;">
+        <button class="tool-btn" onclick="changeFont(1)">A+</button>
+        <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+    </div>
+    <div id="qContent"></div> 
+    <div id="opts"></div>      
+    <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
+        <button class="tool-btn" style="color:orange; border:1px solid orange; background:var(--bg-card)" onclick="markReview()">⭐ Mark for Review</button>
+        <button class="tool-btn" style="color:var(--text-muted);" onclick="clearResponse()">Borrar (Clear)</button>
+    </div>
+    <div id="expBox"></div>
+    <button id="expBtn" onclick="toggleExp()" style="width:100%; padding:10px; margin-top:10px; background:var(--primary); border:none; border-radius:4px; display:none; color:#fff; font-weight:bold;">View Solution</button>
+  </div>
+</div>
+
+<div id="palettePanel">
+  <div class="p-header">
+    <b>Question Palette</b>
+    <button onclick="togglePalette()" style="border:none; background:none; font-size:20px; cursor:pointer; color:var(--text-main)" class="close-pal">&times;</button>
+  </div>
+  <div style="padding:10px; background:var(--bg-card); font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn answered" style="width:20px; height:20px;"></div> Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn visited" style="width:20px; height:20px;"></div> Not Answered</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn review" style="width:20px; height:20px;"></div> Mark Review</div>
+    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn" style="width:20px; height:20px;"></div> Not Visited</div>
+  </div>
+  <div class="p-grid" id="paletteGrid"></div>
+  <div class="p-footer">
+    <button onclick="submitTest()" style="width:100%; padding:12px; background:var(--success); color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:16px;">SUBMIT TEST</button>
+  </div>
+</div>
+
+<footer>
+  <button class="nav-btn btn-palette" onclick="togglePalette()">Grid</button>
+  <button class="nav-btn btn-prev" onclick="prev()">Previous</button>
+  <button class="nav-btn btn-next" onclick="next()">Next</button>
+</footer>
+
+<div id="qpModal">
+    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;">
+        <b id="modalTitle">Full Question Paper</b>
+        <button onclick="closeQP()" style="border:none; background:none; font-size:20px; color:var(--text-main)">&times;</button>
+    </div>
+    <div id="qpContent" style="padding:20px; overflow-y:auto; flex:1;"></div>
+</div>
+
+<script>
+/* DATA & CONFIG */
+const SECTION_NAME = "General Hindi"; 
+const NEGATIVE_MARK = 0.25;
+const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
+const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+
+/* HINDI QUESTIONS (JSON Format as Requested) */
+const QUESTIONS = [
+  {
+    "q_en": "Select the correct sentence from the following sentences.\nहमारा राष्ट्रीय ध्वजा तिरंगा है。",
+    "q_hi": "निम्नलिखित वाक्यों में शुद्ध वाक्य का चयन करें।\nहमारा राष्ट्रीय ध्वजा तिरंगा है।",
+    "o_en": [
+      "हमारे राष्ट्रीय ध्वज तिरंगा है।",
+      "हमारा राष्ट्रीयता ध्वज तिरंगा है।",
+      "हमारा राष्ट्रीय ध्वज तिरंगा हैं।",
+      "हमारा राष्ट्रीय ध्वज तिरंगा है।"
+    ],
+    "o_hi": [
+      "हमारे राष्ट्रीय ध्वज तिरंगा है।",
+      "हमारा राष्ट्रीयता ध्वज तिरंगा है।",
+      "हमारा राष्ट्रीय ध्वज तिरंगा हैं।",
+      "हमारा राष्ट्रीय ध्वज तिरंगा है।"
+    ],
+    "a": 4,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: हमारा राष्ट्रीय ध्वज तिरंगा है।</b><br>व्याख्या: 'ध्वजा' स्त्रीलिंग शब्द नहीं है, इसलिए 'हमारा राष्ट्रीय ध्वज' सही रूप है।<br><div class='fact-box'><strong>व्याकरण नियम:</strong><br>लिंग और वचन का सही तालमेल होना आवश्यक है। 'ध्वज' एकवचन पुल्लिंग है।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "दिए गए विकल्पों में शुद्ध वाक्य का विकल्प चुनें -",
+    "o_en": [
+      "तुम्हारा कार्य सबसे सर्वश्रेष्ठ है।",
+      "तुम्हारा कार्य सबसे सर्वोत्तम है।",
+      "तुम्हारा कार्य सबसे उत्तमौतम है।",
+      "तुम्हारा कार्य सबसे उत्तम है।"
+    ],
+    "o_hi": [
+      "तुम्हारा कार्य सबसे सर्वश्रेष्ठ है।",
+      "तुम्हारा कार्य सबसे सर्वोत्तम है।",
+      "तुम्हारा कार्य सबसे उत्तमौतम है।",
+      "तुम्हारा कार्य सबसे उत्तम है।"
+    ],
+    "a": 4,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: तुम्हारा कार्य सबसे उत्तम है।</b><br>व्याख्या: 'सर्वश्रेष्ठ' और 'सर्वोत्तम' शब्दों में 'सबसे' का भाव पहले से निहित होता है, इसलिए इनके साथ 'सबसे' का प्रयोग गलत है।<br><div class='fact-box'><strong>व्याकरण नियम:</strong><br>विशेषण की उत्तमावस्था (Superlative Degree) के साथ पुनरुक्ति दोष से बचना चाहिए।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "'आग में कूदना' मुहावरे का अर्थ है-",
+    "o_en": [
+      "जान बचाकर भाग जाना",
+      "जान जोखिम में डालना",
+      "खुद को जला देना",
+      "बहुत गुस्सा होना"
+    ],
+    "o_hi": [
+      "जान बचाकर भाग जाना",
+      "जान जोखिम में डालना",
+      "खुद को जला देना",
+      "बहुत गुस्सा होना"
+    ],
+    "a": 2,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: जान जोखिम में डालना</b><br>व्याख्या: 'आग में कूदना' का अर्थ है जानबूझकर किसी मुसीबत या खतरे का सामना करना।<br><div class='fact-box'><strong>उदाहरण:</strong><br>सच्चे मित्र मुसीबत के समय अपने दोस्त के लिए आग में कूदने को भी तैयार रहते हैं।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "संयम ने मटके ________ पानी निकाला। - रिक्त स्थान के लिए उचित कारक चिह्न है-",
+    "o_en": [
+      "के",
+      "पर",
+      "की",
+      "से"
+    ],
+    "o_hi": [
+      "के",
+      "पर",
+      "की",
+      "से"
+    ],
+    "a": 4,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: से</b><br>व्याख्या: यहाँ 'से' (अपादान कारक) का प्रयोग होगा क्योंकि पानी मटके से अलग हो रहा है।<br><div class='fact-box'><strong>कारक ज्ञान:</strong><br>अपादान कारक का चिह्न 'से' होता है (अलग होने के भाव में)।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "निम्न रिक्त स्थान की पूर्ति स्थानवाचक क्रिया विशेषण से करें।<br>उसके घर के ____ झील है।",
+    "o_en": [
+      "सुंदर",
+      "दाहिने",
+      "बड़ी",
+      "उपयुक्त"
+    ],
+    "o_hi": [
+      "सुंदर",
+      "दाहिने",
+      "बड़ी",
+      "उपयुक्त"
+    ],
+    "a": 2,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: दाहिने</b><br>व्याख्या: 'दाहिने' शब्द स्थान या दिशा का बोध कराता है, इसलिए यह स्थानवाचक क्रिया विशेषण है।<br><div class='fact-box'><strong>परिभाषा:</strong><br>जिन शब्दों से क्रिया के होने के स्थान का पता चले, वे स्थानवाचक क्रिया विशेषण कहलाते हैं।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "निम्नलिखित वाक्यांश के लिए सही अर्थ वाले विकल्प को चुनिए।<br>जो पोत (जहाज) युद्ध का है -",
+    "o_en": [
+      "युद्धपोत",
+      "हथियार",
+      "शस्त्र",
+      "टैंकर"
+    ],
+    "o_hi": [
+      "युद्धपोत",
+      "हथियार",
+      "शस्त्र",
+      "टैंकर"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: युद्धपोत</b><br>व्याख्या: युद्ध के काम आने वाले जहाज को 'युद्धपोत' कहते हैं।<br><div class='fact-box'><strong>शब्द ज्ञान:</strong><br>अनेक शब्दों के लिए एक शब्द भाषा को प्रभावशाली बनाता है।</div></div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "'अपने माता-पिता का ____ मानना' रिक्त स्थान की पूर्ति के लिए उचित क्रिया होगी -",
+    "o_en": [
+      "कहना",
+      "करना",
+      "रहना",
+      "सहना"
+    ],
+    "o_hi": [
+      "कहना",
+      "करना",
+      "रहना",
+      "सहना"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: कहना</b><br>व्याख्या: 'कहना मानना' एक सही मुहावरेदार प्रयोग है जिसका अर्थ है आज्ञा पालन करना।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "“वह व्यक्ति जिसका ज्ञान अपने ही स्थान तक सीमित हो” वाक्यांश के लिए निम्न में से कौनसा सार्थक शब्द है?",
+    "o_en": [
+      "कूपमंडूक",
+      "मूर्ख",
+      "पंडित",
+      "ज्ञानी"
+    ],
+    "o_hi": [
+      "कूपमंडूक",
+      "मूर्ख",
+      "पंडित",
+      "ज्ञानी"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: कूपमंडूक</b><br>व्याख्या: 'कूपमंडूक' का अर्थ होता है कुएँ का मेंढक, जिसे बाहरी दुनिया का ज्ञान न हो।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "वाक्य-खंडों का सही क्रम चुनें - (1) एक अच्छे डॉक्टर की (2) सलाह पर (3) निर्धारित खुराक लेनी चाहिए (4) औषधि का लाभ लेने के लिए ।",
+    "o_en": [
+      "1423",
+      "2143",
+      "4123",
+      "3214"
+    ],
+    "o_hi": [
+      "1423",
+      "2143",
+      "4123",
+      "3214"
+    ],
+    "a": 3,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: 4123</b><br>व्याख्या: सही वाक्य क्रम: 'औषधि का लाभ लेने के लिए (4), एक अच्छे डॉक्टर की (1), सलाह पर (2), निर्धारित खुराक लेनी चाहिए (3)।'</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "निम्नलिखित वाक्य को यौगिक क्रिया विशेषण से पूरा कीजिए।<br>वह ____ परिश्रम करता है।",
+    "o_en": [
+      "दिन-रात",
+      "रोज",
+      "कम",
+      "बहुत"
+    ],
+    "o_hi": [
+      "दिन-रात",
+      "रोज",
+      "कम",
+      "बहुत"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: दिन-रात</b><br>व्याख्या: 'दिन-रात' दो शब्दों के मेल से बना है, अतः यह यौगिक क्रिया विशेषण है।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "दिए गए चार वाक्यों में से तीन वाक्य एक गद्य का अभिन्न अंग हैं, जबकि एक अतिरिक्त है। निम्नलिखित विकल्पों में से उस अतिरिक्त वाक्य को चुनिए-",
+    "o_en": [
+      "गाँव वालों ने कहा",
+      "गाड़ी रुकी।",
+      "सब उतरे।",
+      "सभी तोतापरी ही थे, सभी के ओठ पान से लालम लाल"
+    ],
+    "o_hi": [
+      "गाँव वालों ने कहा",
+      "गाड़ी रुकी।",
+      "सब उतरे।",
+      "सभी तोतापरी ही थे, सभी के ओठ पान से लालम लाल"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: गाँव वालों ने कहा</b><br>व्याख्या: अन्य सभी वाक्य एक दृश्य या घटना (स्टेशन/गाड़ी) का वर्णन कर रहे हैं, जबकि 'गाँव वालों ने कहा' संवाद का हिस्सा है जो संदर्भ से अलग प्रतीत होता है।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "'जो अवश्य होने वाला हो' वाक्यांश के लिए दिए गए विकल्पों में से सार्थक शब्द का चयन करें।",
+    "o_en": [
+      "अवश्यंभावी",
+      "अपकृत",
+      "आवश्यकतानुसार",
+      "आवश्यक"
+    ],
+    "o_hi": [
+      "अवश्यंभावी",
+      "अपकृत",
+      "आवश्यकतानुसार",
+      "आवश्यक"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: अवश्यंभावी</b><br>व्याख्या: जिसका घटित होना निश्चित हो और टाला न जा सके, उसे 'अवश्यंभावी' कहते हैं।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "एक सुसंगत अनुच्छेद बनाने के लिए निम्न वाक्यों को क्रम में व्यवस्थित करें - <br>A शिक्षक और साथी है <br>B व्यक्ति जीवन में कभी असफल नहीं होता <br>C क्योंकि समय ही सबसे बड़ा <br>D समय का सही उपयोग करने वाला",
+    "o_en": [
+      "CDBA",
+      "DBCA",
+      "ABCD",
+      "BCDA"
+    ],
+    "o_hi": [
+      "CDBA",
+      "DBCA",
+      "ABCD",
+      "BCDA"
+    ],
+    "a": 2,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: DBCA</b><br>व्याख्या: सही वाक्य: 'समय का सही उपयोग करने वाला (D) व्यक्ति जीवन में कभी असफल नहीं होता (B) क्योंकि समय ही सबसे बड़ा (C) शिक्षक और साथी है (A)।'</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "दिए गए विकल्पों में से मुहावरे का सही अर्थ पहचानें - <br><b>अँधेरे में रखना</b>",
+    "o_en": [
+      "नियंत्रण न होना",
+      "ज़रूरत पड़ने पर सहायता करने से मना कर देना",
+      "धोखे में रखना",
+      "चापलूसी करना"
+    ],
+    "o_hi": [
+      "नियंत्रण न होना",
+      "ज़रूरत पड़ने पर सहायता करने से मना कर देना",
+      "धोखे में रखना",
+      "चापलूसी करना"
+    ],
+    "a": 3,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: धोखे में रखना</b><br>व्याख्या: किसी से सच्चाई छिपाना या भेद न बताना 'अँधेरे में रखना' कहलाता है।</div>"
+  },
+  {
+    "q_en": "",
+    "q_hi": "निम्नलिखित वाक्यों में से अतिरिक्त वाक्य चुनें -",
+    "o_en": [
+      "शिक्षक हमें ज्ञान देते हैं।",
+      "अस्पताल में डॉक्टर इलाज करते हैं।",
+      "विद्यार्थी मन लगाकर पढ़ते हैं।",
+      "स्कूल में खेलकूद भी होता है।"
+    ],
+    "o_hi": [
+      "शिक्षक हमें ज्ञान देते हैं।",
+      "अस्पताल में डॉक्टर इलाज करते हैं।",
+      "विद्यार्थी मन लगाकर पढ़ते हैं।",
+      "स्कूल में खेलकूद भी होता है।"
+    ],
+    "a": 2,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: अस्पताल में डॉक्टर इलाज करते हैं।</b><br>व्याख्या: विकल्प 1, 3 और 4 विद्यालय/शिक्षा से संबंधित हैं, जबकि विकल्प 2 चिकित्सा/अस्पताल से संबंधित है।</div>"
+  },
+  {
+    "q_en": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 16\nइस गद्यांश के लिए सबसे उपयुक्त शीर्षक क्या हो सकता है?",
+    "q_hi": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 16\nइस गद्यांश के लिए सबसे उपयुक्त शीर्षक क्या हो सकता है?",
+    "o_en": [
+      "अभिलाषा का संतुलन",
+      "मोक्ष प्राप्ति का मार्ग",
+      "तपस्या और मोह",
+      "गतिशीलता और कार्यशीलता"
+    ],
+    "o_hi": [
+      "अभिलाषा का संतुलन",
+      "मोक्ष प्राप्ति का मार्ग",
+      "तपस्या और मोह",
+      "गतिशीलता और कार्यशीलता"
+    ],
+    "a": 1,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: अभिलाषा का संतुलन</b><br>व्याख्या: लेखक ने इच्छाओं को पूरी तरह मारने के बजाय उन्हें 'परिमित' (सीमित/संतुलित) करने की बात कही है।<br><div class='fact-box'><strong>गद्यांश सार:</strong><br>अनियंत्रित अभिलाषा दुख का कारण है, जबकि संतुलित अभिलाषा जीवन की संचालिनी शक्ति है।</div></div>"
+  },
+  {
+    "q_en": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 17\nदिये गए वाक्यांश में रेखांकित शब्द का अर्थ क्या होगा?\nजीवन में कोलाहल बढ़ता जाता है।",
+    "q_hi": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 17\nदिये गए वाक्यांश में रेखांकित शब्द का अर्थ क्या होगा?\nजीवन में कोलाहल बढ़ता जाता है।",
+    "o_en": [
+      "आनंद की चरमावस्था",
+      "बेचैनी से भरा शोरगुल",
+      "उत्साह की अवस्था",
+      "वैराग्य की प्रारम्भिक अवस्था"
+    ],
+    "o_hi": [
+      "आनंद की चरमावस्था",
+      "बेचैनी से भरा शोरगुल",
+      "उत्साह की अवस्था",
+      "वैराग्य की प्रारम्भिक अवस्था"
+    ],
+    "a": 2,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: बेचैनी से भरा शोरगुल</b><br>व्याख्या: यहाँ 'कोलाहल' का तात्पर्य मानसिक अशांति और उथल-पुथल से है।</div>"
+  },
+  {
+    "q_en": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 18\nअभिलाषा का विकास किन गुणों से होता है?",
+    "q_hi": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 18\nअभिलाषा का विकास किन गुणों से होता है?",
+    "o_en": [
+      "परिश्रम, प्रेम और दया",
+      "इच्छा, दर्शन और संघर्ष",
+      "दृढ़ता, समर्पण और कर्मठता",
+      "क्रोध, पाप और स्वार्थ"
+    ],
+    "o_hi": [
+      "परिश्रम, प्रेम और दया",
+      "इच्छा, दर्शन और संघर्ष",
+      "दृढ़ता, समर्पण और कर्मठता",
+      "क्रोध, पाप और स्वार्थ"
+    ],
+    "a": 3,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: दृढ़ता, समर्पण और कर्मठता</b><br>व्याख्या: गद्यांश में स्पष्ट लिखा है कि 'दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है'।</div>"
+  },
+  {
+    "q_en": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 19\nगद्यांश के अनुसार आध्यात्मिकता क्या है?",
+    "q_hi": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 19\nगद्यांश के अनुसार आध्यात्मिकता क्या है?",
+    "o_en": [
+      "शक्ति और संयोग की व्यवस्था बनाने वाली कला",
+      "जीव जगत से विरक्ति की भावना उत्पन्न करने की प्रक्रिया",
+      "भक्ति और भजन की विशेष प्रक्रिया",
+      "इच्छाओं को ज्ञान के वश में रखने की कला"
+    ],
+    "o_hi": [
+      "शक्ति और संयोग की व्यवस्था बनाने वाली कला",
+      "जीव जगत से विरक्ति की भावना उत्पन्न करने की प्रक्रिया",
+      "भक्ति और भजन की विशेष प्रक्रिया",
+      "इच्छाओं को ज्ञान के वश में रखने की कला"
+    ],
+    "a": 4,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: इच्छाओं को ज्ञान के वश में रखने की कला</b><br>व्याख्या: गद्यांश के अनुसार, आध्यात्मिकता का अर्थ अपनी इच्छाओं को ज्ञान द्वारा नियंत्रित करना है।</div>"
+  },
+  {
+    "q_en": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 20\nगद्यांश का केंद्रीय भाव क्या है?",
+    "q_hi": "Comprehension:\nनिर्देश: दिये गए गद्यांश के आधार पर अग्रिलिखित प्रश्नों के उत्तर दीजिए।\nमन की अभिलाषा जिस प्रकार की होगी, मनुष्य उसे प्राप्त करने के लिए वैसा ही प्रयास करेगा और उसका विकास उसी तरह से होगा। दृढ़ता, समर्पण और कर्मठता से अभिलाषा का विकास होता है। अपनी प्रबल अभिलाषाओं के कारण मनुष्य दार्शनिक, वैज्ञानिक, कलाकार, साहित्यकार आदि बन पाते हैं। अभिलाषाओं का होना मनुष्य की गतिशीलता-कार्यशीलता को बढ़ाने में सहायक होता है। लेकिन अभिलाषाओं की प्रचुरता उसे मोह में फंसाती है, उसे स्वार्थी और आत्म-केंद्रित बना देती है। अपनी चरम सीमा में अभिलाषा मनुष्य के लिए प्राणघातक भी सिद्ध हो सकती है। विवेकानंद ने अभिलाषाओं को सागर की भांति अनंत मानते हुए कहा है कि ज्यों-ज्यों हम इन्हें किसी भी तरह पूरी करने के लिए उद्धत होते हैं, त्यों-त्यों जीवन में कोलाहल बढ़ता जाता है। इसलिए अभिलाषा के घोड़े को अनियंत्रित गति से दौड़ने नहीं देना चाहिए। इच्छाओं को शांत करने से नहीं, बल्कि परिमित करने से शांति प्राप्त होती है। आध्यात्मिकता और कुछ नहीं अपनी इच्छाओं को ज्ञान के वश में रखने की कला है। बुद्ध दर्शन में इच्छारहित स्थिति को मोक्ष कहा गया है। इस तरह, अभिलाषा अगर जीवन की संचालिनी शक्ति है तो कहा जाता रहा है कि इसके शमन से मोक्ष की प्राप्ति होती है।\n\nSubQuestion No : 20\nगद्यांश का केंद्रीय भाव क्या है?",
+    "o_en": [
+      "व्यक्ति की अभिलाषा ही उसकी प्रगति की बाधा होती है।",
+      "जीवन में प्रगति के लिए इच्छाओं के विपरीत कार्य करना चाहिए।",
+      "अभिलाषा जीवन की प्रेरणा है लेकिन इसकी अधिकता से हानि है।",
+      "अभिलाषाओं के प्रभाव में व्यक्ति की कार्यक्षमता समाप्त हो जाती है।"
+    ],
+    "o_hi": [
+      "व्यक्ति की अभिलाषा ही उसकी प्रगति की बाधा होती है।",
+      "जीवन में प्रगति के लिए इच्छाओं के विपरीत कार्य करना चाहिए।",
+      "अभिलाषा जीवन की प्रेरणा है लेकिन इसकी अधिकता से हानि है।",
+      "अभिलाषाओं के प्रभाव में व्यक्ति की कार्यक्षमता समाप्त हो जाती है।"
+    ],
+    "a": 3,
+    "e_en": "",
+    "e_hi": "<div class='solution-container'><b>सही उत्तर: अभिलाषा जीवन की प्रेरणा है लेकिन इसकी अधिकता से हानि है।</b><br>व्याख्या: गद्यांश में स्पष्ट किया गया है कि अभिलाषा मनुष्य को दार्शनिक, वैज्ञानिक आदि बनने में मदद करती है (प्रेरणा), लेकिन इसकी 'प्रचुरता' (अधिकता) उसे स्वार्थी बनाती है और जीवन में कोलाहल बढ़ाती है (हानि)।<br><div class='fact-box'><strong>केंद्रीय विचार:</strong><br>संतुलित अभिलाषा ही जीवन का सही मार्ग है; अति सर्वत्र वर्जयेत्।</div></div>"
+  }
+];
+
+function startNewTest() { localStorage.removeItem('dsssb_cbt_state_hindi'); location.reload(); }
+function resumeTest() { document.getElementById('resumeScreen').style.display = 'none'; initExam(); }
+function pauseTest() { if(submitted) return; saveState(); clearInterval(timerInterval); clearInterval(questionTimerInterval); alert("Paused! You can resume later."); location.reload(); }
+
+function goToInstructions() {
+    const name = document.getElementById('startNameInput').value.trim();
+    if(!name) { alert("Enter Name!"); return; }
+    document.getElementById('stuName').value = name;
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('instScreen').style.display = 'flex';
+}
+
+function toggleStartBtn() { document.getElementById('finalStartBtn').disabled = !document.getElementById('instCheck').checked; }
+function startTestFlow() { document.getElementById('instScreen').style.display = 'none'; initExam(); }
+
+function initExam() {
+  document.getElementById('mainArea').style.display = 'block';
+  document.querySelector('footer').style.display = 'flex';
+  document.getElementById('tgPopup').style.display = "block";
+  
+  testActive = true;
+  loadState(); 
+  loadQuestion(currentIdx); 
+  startTimer();
+  startQuestionTimer();
+  
+  // Proctoring Listener
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+  document.addEventListener('keydown', (e) => { if(e.key === "ArrowRight") next(); if(e.key === "ArrowLeft") prev(); });
+}
+
+function closeTg(){ document.getElementById('tgPopup').style.display = "none"; }
+
+/* LOGIC */
+function saveState() {
+  if(submitted) return;
+  const state = {
+    idx: currentIdx, ans: answers, rev: reviewStatus, vis: visitedStatus,
+    time: timeElapsed, name: document.getElementById('stuName').value, submitted: false
+  };
+  localStorage.setItem('dsssb_cbt_state_hindi', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('dsssb_cbt_state_hindi');
+  if(saved) {
+    const s = JSON.parse(saved);
+    currentIdx = s.idx || 0; answers = s.ans || answers;
+    reviewStatus = s.rev || reviewStatus; visitedStatus = s.vis || visitedStatus;
+    timeElapsed = s.time || 0;
+    document.getElementById('stuName').value = s.name || "";
+  }
+}
+
+function loadQuestion(idx) {
+  currentIdx = idx; visitedStatus[idx] = true; saveState(); 
+  
+  const q = QUESTIONS[idx];
+  document.getElementById('qNumDisp').innerText = idx + 1;
+  
+  // LANGUAGE LOGIC
+  const txt = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
+  const optsArr = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
+
+  const contentDiv = document.getElementById('qContent');
+  contentDiv.innerHTML = txt;
+  contentDiv.style.fontSize = fontSize + "px";
+  
+  const imgs = contentDiv.querySelectorAll('img');
+  imgs.forEach(img => {
+      img.classList.add('q-img');
+      img.onclick = () => openZoom(img.src);
+  });
+  
+  const correctIdx = parseInt(q.ans) - 1;
+
+  let html = "";
+  optsArr.forEach((opt, i) => {
+    let cls = "opt";
+    if(submitted) { 
+        if(i === correctIdx) cls += " correct"; 
+        else if(answers[idx] === i) cls += " wrong"; 
+    } 
+    else { if(answers[idx] === i) cls += " sel"; }
+    html += `<div class="${cls}" onclick="selectAnswer(${i})"><div class="opt-circle">${String.fromCharCode(65+i)}</div><div>${opt}</div></div>`;
+  });
+  document.getElementById('opts').innerHTML = html;
+  renderPalette();
+  
+  if(submitted) {
+    document.getElementById('expBox').innerHTML = q.solution || "No explanation.";
+    document.getElementById('expBtn').style.display = "block";
+  }
+}
+
+/* PROCTORING FUNCTION */
+function handleVisibilityChange() {
+    if (document.hidden && !submitted && testActive) {
+        warningCount++;
+        const toast = document.getElementById('warnToast');
+        document.getElementById('warnCount').innerText = warningCount;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 4000);
+        
+        if(warningCount >= 3) {
+            alert("Security Violation: You have switched tabs 3 times. The test will now auto-submit.");
+            submitTest();
+        }
+    }
+}
+
+/* QUESTION TIMER */
+function startQuestionTimer() {
+    if(questionTimerInterval) clearInterval(questionTimerInterval);
+    questionTimerInterval = setInterval(() => {
+        if(!submitted && !document.hidden) {
+            questionTimes[currentIdx]++;
+        }
+    }, 1000);
+}
+
+/* REPORT SYSTEM */
+function openReport() {
+    document.getElementById('repQNum').innerText = currentIdx + 1;
+    document.getElementById('repReason').value = "";
+    document.getElementById('reportModal').style.display = 'flex';
+}
+function closeReport() {
+    document.getElementById('reportModal').style.display = 'none';
+}
+function submitReport() {
+    const reason = document.getElementById('repReason').value;
+    if(reason.trim()) {
+        userReports.push({ q: currentIdx + 1, reason: reason });
+        alert("Report Submitted! Admin will review.");
+        closeReport();
+    } else {
+        alert("Please enter a reason.");
+    }
+}
+
+/* ZOOM FUNCTIONS */
+function openZoom(src) {
+    document.getElementById('zoomImg').src = src;
+    document.getElementById('zoomModal').style.display = 'flex';
+}
+function closeZoom() {
+    document.getElementById('zoomModal').style.display = 'none';
+}
+
+function renderPalette() {
+  const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
+  QUESTIONS.forEach((q, k) => {
+    let cls = "qbtn"; if(k === currentIdx) cls += " current";
+    const qCorrectIdx = parseInt(q.ans) - 1;
+    if(submitted) { 
+        if(answers[k] === qCorrectIdx) cls += " answered"; 
+        else if(answers[k] !== null) cls += " wrong"; 
+    } 
+    else { 
+        if(reviewStatus[k] && answers[k] !== null) cls += " review-ans"; 
+        else if(reviewStatus[k]) cls += " review"; 
+        else if(answers[k] !== null) cls += " answered"; 
+        else if(visitedStatus[k]) cls += " visited"; 
+    }
+    const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
+    btn.onclick = () => { loadQuestion(k); if(window.innerWidth < 768) togglePalette(); };
+    grid.appendChild(btn);
+  });
+}
+
+function selectAnswer(i) { if(!submitted) { answers[currentIdx] = i; loadQuestion(currentIdx); } }
+function clearResponse() { if(!submitted) { answers[currentIdx] = null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
+function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
+function next() { if(currentIdx < QUESTIONS.length - 1) loadQuestion(currentIdx + 1); }
+function prev() { if(currentIdx > 0) loadQuestion(currentIdx - 1); }
+function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
+
+// LANGUAGE TOGGLE FUNCTION
+function toggleLang() { 
+    currentLang = currentLang === "HI" ? "EN" : "HI"; 
+    document.getElementById('langBtn').innerText = currentLang; 
+    loadQuestion(currentIdx); 
+}
+
+function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode'); document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙"; localStorage.setItem('dsssb_dark_mode', isDarkMode); }
+
+/* ================== SUBMIT & RESULT GENERATION ================== */
+function submitTest() {
+  const name = document.getElementById('stuName').value;
+  if(!warningCount >= 3 && !confirm("Are you sure you want to submit?")) return;
+  
+  submitted = true; 
+  testActive = false;
+  clearInterval(timerInterval); 
+  clearInterval(questionTimerInterval);
+  localStorage.removeItem('dsssb_cbt_state_hindi'); 
+  let scoreData = { c:0, w:0, s:0 };
+  let totalScore = 0;
+
+  QUESTIONS.forEach((q, i) => {
+    const correctIdx = parseInt(q.ans) - 1; 
+    if(answers[i] === null) { scoreData.s++; }
+    else if(answers[i] === correctIdx) { scoreData.c++; totalScore++; }
+    else { scoreData.w++; totalScore -= NEGATIVE_MARK; }
+  });
+
+  let attempted = scoreData.c + scoreData.w;
+  let accuracy = attempted ? ((scoreData.c/attempted)*100) : 0;
+  let rankScore = (totalScore*100) + accuracy;
+  let estRank = Math.max(1, Math.round(1000 - rankScore));
+  let timeStr = document.getElementById('timer').innerText;
+
+  document.getElementById('modalTitle').innerText = "Score Card";
+  let resHTML = `
+  <div style="text-align:center;">
+    <h3>${name}, Test Submitted!</h3>
+    <div style="font-size:24px; color:var(--primary);">Score: <b>${totalScore.toFixed(2)}</b></div>
+    <div style="font-size:14px; color:var(--danger)">Warnings Issued: ${warningCount}</div>
+    <div class="chart-container"><canvas id="resultChart"></canvas></div>
+  </div>
+  <table border="1" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; border-color:var(--border-color); margin-bottom:20px;">
+    <tr style="background:var(--bg-body)"><th>Section</th><th>✅</th><th>❌</th><th>⚪</th></tr>
+    <tr><td>${SECTION_NAME}</td><td style="color:var(--success)">${scoreData.c}</td><td style="color:var(--danger)">${scoreData.w}</td><td>${scoreData.s}</td></tr>
+  </table>`;
+
+  if(userReports.length > 0) {
+      resHTML += `<h4 style="color:var(--danger)">🚩 Reported Questions</h4><ul>`;
+      userReports.forEach(r => { resHTML += `<li>Q${r.q}: ${r.reason}</li>`; });
+      resHTML += `</ul>`;
+  }
+
+  resHTML += `<h3 style="border-top:1px solid #ccc; padding-top:20px;">Response Sheet</h3>
+  <table border="1" style="width:100%; border-collapse:collapse; font-size:12px; margin-bottom:15px;">
+    <tr style="background:#eee"><th>Q</th><th>Time Taken</th><th>Status</th></tr>`;
+  
+  QUESTIONS.forEach((q, i) => {
+      const correctIdx = parseInt(q.ans) - 1; 
+      const isCorrect = answers[i] === correctIdx;
+      const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
+      const statusColor = answers[i] === null ? '#999' : (isCorrect ? 'green' : 'red');
+      
+      resHTML += `<tr><td>${i+1}</td><td>${questionTimes[i]}s</td><td style="color:${statusColor}">${statusText}</td></tr>`;
+  });
+  resHTML += `</table>`;
+
+  QUESTIONS.forEach((q, i) => {
+      const correctIdx = parseInt(q.ans) - 1; 
+      const isCorrect = answers[i] === correctIdx;
+      const statusColor = answers[i] === null ? '#999' : (isCorrect ? 'green' : 'red');
+      const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
+      
+      const qText = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
+      const opts = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
+      const exp = q.solution || "No explanation";
+
+      resHTML += `<div class="result-q-box">
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <b>Q.${i+1} <span style="font-size:0.8em; color:#666">(${questionTimes[i]}s)</span></b>
+            <b style="color:${statusColor}">${statusText}</b>
+        </div>
+        <div style="margin-bottom:10px;">${qText}</div>
+        <div>`;
+        
+      opts.forEach((opt, k) => {
+          let optClass = "res-opt";
+          if(k === correctIdx) optClass += " c"; 
+          if(k === answers[i] && k !== correctIdx) optClass += " w"; 
+          resHTML += `<div class="${optClass}">${String.fromCharCode(65+k)}. ${opt}</div>`;
+      });
+      
+      resHTML += `</div><div style="margin-top:5px; font-size:13px; color:#555; background:#f9f9f9; padding:5px;"><b>Exp:</b> ${exp}</div></div>`;
+  });
+
+  resHTML += `
+  <div style="display:flex; gap:10px; justify-content:center; padding-bottom:30px;">
+    <button class="tool-btn" onclick="downloadPDF()" style="background:var(--primary); color:#fff; border:none; padding:10px 20px;">📥 Download Result</button>
+    <button class="tool-btn" onclick="location.reload()" style="background:var(--success); color:#fff; border:none; padding:10px 20px;">Restart Test</button>
+  </div>`;
+
+  document.getElementById('qpContent').innerHTML = resHTML;
+  document.getElementById('qpModal').style.display = "flex";
+  
+  renderChart(scoreData.c, scoreData.w, scoreData.s);
+  sendResultToTelegram(name, totalScore.toFixed(2), scoreData.c, scoreData.w, scoreData.s, timeStr, accuracy, estRank);
+  loadQuestion(currentIdx);
+}
+
+function renderChart(c, w, s) {
+    const ctx = document.getElementById('resultChart').getContext('2d');
+    const txtColor = isDarkMode ? '#e0e0e0' : '#333';
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: ['Correct', 'Wrong', 'Skipped'], datasets: [{ data: [c, w, s], backgroundColor: ['#2e7d32', '#c62828', '#bdbdbd'], borderWidth: 0 }] },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: txtColor } } } }
+    });
+}
+
+function downloadPDF() {
+    const element = document.getElementById('qpContent');
+    const btns = element.querySelectorAll('button');
+    btns.forEach(b => b.style.display = 'none'); 
+    const opt = {
+        margin: 5, filename: 'Hindi_Section_Result.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save().then(() => {
+        btns.forEach(b => b.style.display = 'inline-block'); 
+    });
+}
+
+function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
+ let msg = `📚 DSSSB Sectional Mock (Hindi)\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n⚠️ Warnings: ${warningCount}`;
+ 
+ if(userReports.length > 0) {
+     msg += `\n\n🚩 Reports:`;
+     userReports.forEach(r => msg += `\nQ${r.q}: ${r.reason}`);
+ }
+ msg += `\n\n🔥 DSSSB Smart Notes`;
+
+ fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+  method:"POST", headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   chat_id:TELEGRAM_CHAT_ID,
+   text: msg
+  })
+ });
+}
+
+function startTimer() {
+  if(timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeElapsed++;
+    const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+    const s = (timeElapsed % 60).toString().padStart(2, '0');
+    document.getElementById('timer').innerText = `${m}:${s}`;
+  }, 1000);
+}
+function togglePalette() { document.getElementById('palettePanel').classList.toggle('show'); document.getElementById('bgOverlay').classList.toggle('show'); }
+function toggleFS() { !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen(); }
+function toggleExp() { const b=document.getElementById('expBox'); b.style.display = b.style.display==="none"?"block":"none"; }
+function openQP() {
+  document.getElementById('modalTitle').innerText = "Full Question Paper";
+  let html = "";
+  QUESTIONS.forEach((q, i) => {
+    const opts = currentLang === "EN" ? q.op_en : (q.op_hi || q.op_en);
+    const txt = currentLang === "EN" ? q.q_en : (q.q_hi || q.q_en);
+    html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+        <b>Q.${i+1}</b><br>${txt}<br>
+        <i style="color:var(--text-muted); font-size:0.9em">Options: ${opts.join(', ')}</i>
+    </div>`;
+  });
+  document.getElementById('qpContent').innerHTML = html;
+  document.getElementById('qpModal').style.display = "flex";
+}
+function closeQP() { document.getElementById('qpModal').style.display = "none"; }
+</script>
+</body>
+</html>
