@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>DSSSB CBT Advanced Exam Portal</title>
+<title>DSSSB CBT Professional Portal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -36,7 +36,6 @@
   --font-base: 16px;
 }
 
-/* Dark Mode Overrides */
 body.dark-mode {
   --primary: #64b5f6;
   --primary-dark: #42a5f5;
@@ -62,12 +61,11 @@ html, body {
   background: var(--bg-body); color: var(--text-main);
   height: 100%;
   transition: background 0.3s, color 0.3s;
-  user-select: none; /* Anti-Copy */
+  user-select: none;
 }
 
 body { display: grid; grid-template-rows: auto auto 1fr auto; height: 100vh; }
 
-/* SCREENS */
 .full-screen-overlay {
   position: fixed; inset: 0; background: var(--bg-body);
   z-index: 2000; display: flex; flex-direction: column;
@@ -79,8 +77,6 @@ body { display: grid; grid-template-rows: auto auto 1fr auto; height: 100vh; }
   border: 1px solid var(--border-color); text-align: center;
 }
 .inst-list { text-align: left; margin: 15px 0; font-size: 14px; line-height: 1.6; color: var(--text-main); }
-.inst-list li { margin-bottom: 8px; }
-
 .start-input {
   width: 90%; padding: 12px; margin: 20px 0;
   border: 2px solid var(--border-color); border-radius: 6px;
@@ -92,12 +88,7 @@ body { display: grid; grid-template-rows: auto auto 1fr auto; height: 100vh; }
   transition: 0.2s; width: 100%; margin-top: 10px;
 }
 .primary-btn:disabled { background: #999; cursor: not-allowed; }
-.secondary-btn {
-    background: transparent; color: var(--text-muted); border: 2px solid var(--border-color);
-    margin-top: 10px; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold;
-}
 
-/* HEADER */
 header {
   background: var(--header-bg); padding: 10px 15px;
   display: flex; justify-content: space-between; align-items: center;
@@ -112,7 +103,6 @@ header {
   font-weight: 600; color: var(--text-main);
 }
 
-/* SECTION BAR - UPDATED FOR LOCKS */
 #sectionBar {
   background: var(--section-bar-bg); display: flex; overflow-x: auto;
   white-space: nowrap; box-shadow: inset 0 -1px 2px rgba(0,0,0,0.1);
@@ -131,7 +121,6 @@ header {
   color: var(--success); border-bottom-color: var(--success); opacity: 0.8;
 }
 
-/* MAIN */
 #mainArea { padding: 10px; overflow-y: auto; position: relative; padding-bottom: 80px; display: none; }
 .card {
   background: var(--bg-card); padding: 16px; border-radius: 8px;
@@ -145,6 +134,7 @@ header {
   color: var(--text-main); max-height: 200px; overflow-y: auto;
   border: 1px solid var(--border-color);
 }
+/* Ensures images fit nicely */
 .q-img { max-width: 100%; height: auto; border: 1px solid var(--border-color); border-radius: 4px; margin: 10px 0; cursor: zoom-in; display: block; }
 
 .opt {
@@ -164,7 +154,6 @@ header {
 }
 .opt.sel .opt-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
 
-/* FOOTER */
 footer {
   background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color);
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
@@ -177,14 +166,12 @@ footer {
 }
 .btn-prev { background: #757575; }
 .btn-next { background: var(--primary); }
-/* Specific submit buttons */
 .btn-submit-sec { background: var(--success); grid-column: span 1; animation: pulse 2s infinite; }
 .btn-submit-test { background: var(--danger); }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
 
 .btn-palette { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; }
 
-/* PALETTE */
 #palettePanel {
   position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px;
   height: 100%; background: var(--palette-bg); z-index: 100;
@@ -208,21 +195,11 @@ footer {
 .qbtn.review-ans::after { content:'✔'; position: absolute; bottom: -2px; right: -2px; font-size: 8px; background: #fff; color:green; border-radius:50%; padding:1px;} 
 .qbtn.current { box-shadow: 0 0 0 2px var(--text-main); transform: scale(1.1); }
 
-/* TIMER - REVERSE */
 #timer { background: var(--bg-card); padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--danger); border: 1px solid var(--danger); }
 #expBox { margin-top: 15px; padding: 15px; background: rgba(46, 125, 50, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 14px; display: none; color: var(--text-main); }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; display: none; }
 .overlay.show { display: block; }
 
-#qpModal { 
-  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
-  background: var(--bg-card); color: var(--text-main);
-  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
-  border: 1px solid var(--border-color);
-}
-.chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px auto; }
-
-/* TELEGRAM POPUP */
 #tgPopup{
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
   background: var(--bg-card); padding:25px; width:85%; max-width:320px;
@@ -232,6 +209,14 @@ footer {
 }
 #tgPopup a{ display:block; background:#0088cc; color:#fff; padding:12px; border-radius:8px; text-decoration:none; margin-top:15px; font-weight:bold; }
 .tg-btn-continue { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: 600; }
+
+#qpModal { 
+  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
+  background: var(--bg-card); color: var(--text-main);
+  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
+  border: 1px solid var(--border-color);
+}
+.chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px auto; }
 
 #zoomModal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -246,6 +231,12 @@ footer {
 .res-opt { padding: 5px; margin: 2px 0; border-radius: 4px; font-size: 14px; }
 .res-opt.c { background: rgba(46, 125, 50, 0.2); border: 1px solid var(--success); }
 .res-opt.w { background: rgba(198, 40, 40, 0.2); border: 1px solid var(--danger); text-decoration: line-through; }
+
+/* Explanation Box Styling */
+#expBox iframe, #expBox video { max-width: 100%; border-radius: 4px; border: 1px solid #ccc; margin-top: 10px; }
+#expBox table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+#expBox th, #expBox td { border: 1px solid var(--border-color); padding: 5px; text-align: left; }
+#expBox th { background: var(--section-bar-bg); }
 
 @media(min-width: 768px) {
   body { grid-template-columns: 1fr 300px; grid-template-rows: auto auto 1fr; }
@@ -287,7 +278,7 @@ footer {
         <h3 style="color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:10px;">Exam Rules (Strict)</h3>
         <div class="inst-list">
             <b>1. Time Limit:</b> <span style="color:var(--danger)">120 Minutes (Reverse Timer)</span><br>
-            <b>2. Sectional Logic (DSSSB):</b> You must <u>Submit the current section</u> to unlock the next. You cannot go back to a previous section once submitted.<br>
+            <b>2. Sectional Logic (DSSSB):</b> You must <u>Submit the current section</u> to unlock the next. You cannot go back.<br>
             <b>3. Anti-Cheating:</b> Do not switch tabs. 3 warnings = Auto Submit.<br>
             <b>Marking:</b> Correct +1, Wrong -0.25
         </div>
@@ -310,7 +301,7 @@ footer {
 <div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
 
 <header>
-  <div class="brand">DSSSB CBT <span style="font-size:0.8em; color:var(--text-muted)">v3.0 Secure</span></div>
+  <div class="brand">DSSSB CBT <span style="font-size:0.8em; color:var(--text-muted)">v3.1 Bilingual</span></div>
   <div style="display:flex; align-items:center; gap:10px;">
     <div id="timer">120:00</div>
     <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
@@ -378,33 +369,95 @@ footer {
 </div>
 
 <script>
-/* ========================
-   CONFIG & DATA 
-   ======================== */
+/* CONFIG */
 const SECTIONS = ["Reasoning", "GK", "Maths", "English", "Hindi"];
 const NEGATIVE_MARK = 0.25;
-const TOTAL_TIME_MINS = 120; // <--- CHANGED TO 120
+const TOTAL_TIME_MINS = 120;
 const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
 const TELEGRAM_CHAT_ID="@dsssbcbtresult";
 
-/* QUESTIONS */
+/* QUESTIONS (Added e_en for Bilingual Explanation + URL Image Example) */
 const QUESTIONS = [
-  { id: 1, section: "Reasoning", q_hi: "नीचे दी गई श्रृंखला में अगला पद क्या होगा? 2, 5, 11, 23, ?", q_en: "What is the next term in the series? 2, 5, 11, 23, ?", o_hi: ["44", "47", "50", "46"], o_en: ["44", "47", "50", "46"], a: 1, e_hi: "तर्क: x2 + 1. (2x2+1=5, 5x2+1=11...). 23x2+1 = 47." },
-  { id: 2, section: "Reasoning", q_hi: "विषम शब्द चुनें:", q_en: "Find the odd word:", o_hi: ["सेब", "गेंद", "कमल", "गुलाब"], o_en: ["Apple", "Ball", "Lotus", "Rose"], a: 1, e_hi: "गेंद एक खेल की वस्तु है, बाकी प्राकृतिक हैं।" },
-  { id: 3, section: "GK", q_hi: "भारत के संविधान में मौलिक कर्तव्य किस देश से लिए गए हैं?", q_en: "Fundamental Duties in Indian Constitution are borrowed from?", o_hi: ["USA", "Russia (USSR)", "Canada", "UK"], o_en: ["USA", "Russia (USSR)", "Canada", "UK"], a: 1, e_hi: "मौलिक कर्तव्य सोवियत संघ (USSR) से लिए गए हैं।" },
-  { id: 4, section: "Maths", q_hi: "यदि क्रय मूल्य ₹800 है और लाभ 25% है, तो विक्रय मूल्य क्या है?", q_en: "If CP is ₹800 and Profit is 25%, find SP.", o_hi: ["₹900", "₹1000", "₹1100", "₹1200"], o_en: ["₹900", "₹1000", "₹1100", "₹1200"], a: 1, e_hi: "$$ SP = 800 \\times \\frac{125}{100} = 800 \\times 1.25 = 1000 $$" },
-  { id: 5, section: "English", q_en: `<div class="passage-box"><b>Passage:</b><br>Pollution is rising. We must plant trees.</div><br>What must we do?`, q_hi: `<div class="passage-box"><b>गद्यांश:</b><br>प्रदूषण बढ़ रहा है। हमें पेड़ लगाने चाहिए।</div><br>हमें क्या करना चाहिए?`, o_en: ["Cut trees", "Plant trees", "Sleep", "Drive cars"], o_hi: ["पेड़ काटें", "पेड़ लगाएँ", "सो जाएं", "गाड़ी चलाएं"], a: 1, e_hi: "Passage clearly states we must plant trees." },
-  { id: 6, section: "Hindi", q_hi: " 'नया नौ दिन पुराना सौ दिन' लोकोक्ति का सही अर्थ है?", q_en: "", o_hi: ["नई चीज अच्छी", "पुरानी चीज विश्वसनीय", "दोनों बेकार", "महंगी चीज"], a: 1, e_hi: "पुरानी चीजें अधिक विश्वसनीय होती हैं।" },
+  { 
+      id: 1, section: "Reasoning", 
+      q_hi: "नीचे दी गई श्रृंखला में अगला पद क्या होगा? 2, 5, 11, 23, ?", 
+      q_en: "What is the next term in the series? 2, 5, 11, 23, ?", 
+      o_hi: ["44", "47", "50", "46"], o_en: ["44", "47", "50", "46"], 
+      a: 1, 
+      e_hi: "<b>तर्क:</b> x2 + 1.<br>2x2+1 = 5<br>5x2+1 = 11<br>11x2+1 = 23<br>23x2+1 = 47.",
+      e_en: "<b>Logic:</b> x2 + 1.<br>2x2+1 = 5<br>5x2+1 = 11<br>11x2+1 = 23<br>23x2+1 = 47."
+  },
+  { 
+      id: 2, section: "Reasoning", 
+      q_hi: "विषम शब्द चुनें:", q_en: "Find the odd word:", 
+      o_hi: ["सेब", "गेंद", "कमल", "गुलाब"], o_en: ["Apple", "Ball", "Lotus", "Rose"], 
+      a: 1, 
+      e_hi: "गेंद एक खेल की वस्तु है, बाकी सभी प्राकृतिक (फूल/फल) हैं।",
+      e_en: "Ball is a sports item, rest all are natural (fruits/flowers)."
+  },
+  { 
+      id: 3, section: "GK", 
+      q_hi: "भारत के संविधान में मौलिक कर्तव्य किस देश से लिए गए हैं?", 
+      q_en: "Fundamental Duties in Indian Constitution are borrowed from?", 
+      o_hi: ["USA", "Russia (USSR)", "Canada", "UK"], o_en: ["USA", "Russia (USSR)", "Canada", "UK"], 
+      a: 1, 
+      e_hi: "मौलिक कर्तव्य (Fundamental Duties) <b>USSR (रूस)</b> से लिए गए हैं। ये भाग 4A में हैं।",
+      e_en: "Fundamental Duties were borrowed from <b>USSR (Russia)</b>. They are in Part 4A."
+  },
+  { 
+      id: 4, section: "Maths", 
+      q_hi: "यदि क्रय मूल्य ₹800 है और लाभ 25% है, तो विक्रय मूल्य क्या है?", 
+      q_en: "If CP is ₹800 and Profit is 25%, find SP.", 
+      o_hi: ["₹900", "₹1000", "₹1100", "₹1200"], o_en: ["₹900", "₹1000", "₹1100", "₹1200"], 
+      a: 1, 
+      e_hi: `
+        सूत्र: $$ SP = CP \\times \\frac{100+P}{100} $$<br>
+        $$ SP = 800 \\times \\frac{125}{100} = 1000 $$<br>
+        <br><b>लाभ-हानि टेबल:</b><br>
+        <table>
+            <tr><th>Term</th><th>Value</th></tr>
+            <tr><td>CP</td><td>800</td></tr>
+            <tr><td>Profit</td><td>25%</td></tr>
+        </table>
+      `,
+      e_en: `
+        Formula: $$ SP = CP \\times \\frac{100+P}{100} $$<br>
+        $$ SP = 800 \\times \\frac{125}{100} = 1000 $$<br>
+        <br><b>Profit-Loss Table:</b><br>
+        <table>
+            <tr><th>Term</th><th>Value</th></tr>
+            <tr><td>CP</td><td>800</td></tr>
+            <tr><td>Profit</td><td>25%</td></tr>
+        </table>
+      `
+  },
+  { 
+      id: 5, section: "English", 
+      q_en: `<div class="passage-box"><b>Passage:</b><br>Pollution is rising. We must plant trees.</div><br>What must we do?`, 
+      q_hi: `<div class="passage-box"><b>गद्यांश:</b><br>प्रदूषण बढ़ रहा है। हमें पेड़ लगाने चाहिए।</div><br>हमें क्या करना चाहिए?`, 
+      o_en: ["Cut trees", "Plant trees", "Sleep", "Drive cars"], o_hi: ["पेड़ काटें", "पेड़ लगाएँ", "सो जाएं", "गाड़ी चलाएं"], 
+      a: 1, 
+      e_hi: "गद्यांश में साफ लिखा है कि हमें पेड़ लगाने चाहिए।",
+      e_en: "Passage clearly states we must plant trees."
+  },
+  { 
+      id: 6, section: "Hindi", 
+      q_hi: " 'नया नौ दिन पुराना सौ दिन' लोकोक्ति का सही अर्थ है?", q_en: "", 
+      o_hi: ["नई चीज अच्छी", "पुरानी चीज विश्वसनीय", "दोनों बेकार", "महंगी चीज"], 
+      a: 1, 
+      e_hi: "<b>अर्थ:</b> पुरानी चीजें अधिक टिकाऊ और विश्वसनीय होती हैं।",
+      e_en: "Old items are more reliable and durable."
+  },
   
-  // Example Image Question
+  // --- URL IMAGE EXAMPLE (HERE) ---
   {
       id: 7, section: "Reasoning",
-      q_hi: "नीचे दी गई आकृति में कितने त्रिभुज हैं?<br><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' alt='Base64 Image' style='border:1px solid #ccc'>",
-      q_en: "How many triangles are in the figure below?<br><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=' alt='Base64 Image' style='border:1px solid #ccc'>",
-      o_hi: ["10", "12", "14", "16"],
-      o_en: ["10", "12", "14", "16"],
-      a: 1,
-      e_hi: "आकृति को गिनने पर 12 त्रिभुज प्राप्त होते हैं।"
+      q_hi: "नीचे दी गई छवि को पहचानें:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/200px-Small_triangle.svg.png' alt='Triangle Image'>",
+      q_en: "Identify the image below:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/200px-Small_triangle.svg.png' alt='Triangle Image'>",
+      o_hi: ["त्रिभुज", "वर्ग", "वृत्त", "आयत"], o_en: ["Triangle", "Square", "Circle", "Rectangle"],
+      a: 0,
+      e_hi: "यह एक त्रिभुज (Triangle) है।",
+      e_en: "This is a Triangle."
   }
 ];
 
@@ -414,7 +467,7 @@ let currentLang = "HI";
 let answers = new Array(QUESTIONS.length).fill(null);
 let reviewStatus = new Array(QUESTIONS.length).fill(false);
 let submitted = false;
-let timeLeft = TOTAL_TIME_MINS * 60; // In Seconds
+let timeLeft = TOTAL_TIME_MINS * 60; 
 let fontSize = 16;
 let isDarkMode = false;
 let timerInterval;
@@ -425,7 +478,7 @@ let activeSectionIndex = 0;
 let sectionStartIndices = [];
 let sectionEndIndices = [];
 
-/* INIT LOGIC */
+/* INIT */
 function initApp() {
     if(localStorage.getItem('dsssb_dark_mode') === 'true') toggleDarkMode();
     calcSectionIndices();
@@ -481,10 +534,8 @@ function renderSectionTabs() {
   SECTIONS.forEach((sec, i) => {
       let cls = "sec-tab";
       let icon = "🔒";
-      
-      if (i === activeSectionIndex) { cls += " active"; icon = "🟢"; } // Current
-      else if (i < activeSectionIndex) { cls += " done"; icon = "✅"; } // Completed
-      
+      if (i === activeSectionIndex) { cls += " active"; icon = "🟢"; } 
+      else if (i < activeSectionIndex) { cls += " done"; icon = "✅"; } 
       html += `<div class="${cls}">${icon} ${sec}</div>`;
   });
   bar.innerHTML = html;
@@ -515,7 +566,7 @@ function loadQuestion(idx) {
   });
   document.getElementById('opts').innerHTML = html;
   
-  // UPDATE NAVIGATION BUTTONS (DSSSB LOGIC)
+  // UPDATE NAVIGATION
   const nextBtn = document.getElementById('nextBtn');
   const isLastInSec = (currentIdx === sectionEndIndices[activeSectionIndex]);
   
@@ -543,42 +594,45 @@ function loadQuestion(idx) {
 
   renderPalette();
   if(window.MathJax) MathJax.typesetPromise();
+  
+  // SHOW EXPLANATION (BILINGUAL)
   if(submitted) {
-    const expText = (currentLang === "HI" && q.e_hi) ? q.e_hi : (q.e_en || q.e_hi);
+    // Select English explanation if Current Lang is EN, else Hindi (default)
+    const expText = (currentLang === "EN" && q.e_en) ? q.e_en : (q.e_hi || q.e_en);
     document.getElementById('expBox').innerHTML = "<b>Explanation:</b><br>" + (expText || "No explanation.");
     document.getElementById('expBtn').style.display = "block";
+    // If user opens solution, auto-show box
+    document.getElementById('expBox').style.display = "block";
   }
 }
 
 /* SECTION HANDLING */
 function submitCurrentSection() {
     if(!confirm(`Submit ${SECTIONS[activeSectionIndex]} Section?\nYou CANNOT go back to this section.`)) return;
-    
-    activeSectionIndex++; // Move to next section
-    currentIdx = sectionStartIndices[activeSectionIndex]; // Jump to first Q of next section
+    activeSectionIndex++; 
+    currentIdx = sectionStartIndices[activeSectionIndex]; 
     renderSectionTabs();
     loadQuestion(currentIdx);
 }
 
 function prev() {
-    // DSSSB Rule: Can go back within section, but NOT to previous section
     const startOfSec = sectionStartIndices[activeSectionIndex];
     if(currentIdx > startOfSec) {
         loadQuestion(currentIdx - 1);
-    } else {
-        // alert("Cannot go to previous section (Locked).");
     }
 }
-function next() {
-    // handled inside loadQuestion but needed for keyboard shortcut
-    const nextBtn = document.getElementById('nextBtn');
-    nextBtn.click();
-}
+function next() { document.getElementById('nextBtn').click(); }
 
 function selectAnswer(i) { if(!submitted) { answers[currentIdx] = i; loadQuestion(currentIdx); } }
 function clearResponse() { if(!submitted) { answers[currentIdx] = null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
 function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
-function toggleLang() { currentLang = currentLang === "HI" ? "EN" : "HI"; document.getElementById('langBtn').innerText = currentLang; loadQuestion(currentIdx); }
+
+function toggleLang() { 
+    currentLang = currentLang === "HI" ? "EN" : "HI"; 
+    document.getElementById('langBtn').innerText = currentLang; 
+    loadQuestion(currentIdx); 
+}
+
 function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
 function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode'); document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙"; localStorage.setItem('dsssb_dark_mode', isDarkMode); }
 
@@ -586,7 +640,7 @@ function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.to
 function openZoom(src) { document.getElementById('zoomImg').src = src; document.getElementById('zoomModal').style.display = 'flex'; }
 function closeZoom() { document.getElementById('zoomModal').style.display = 'none'; }
 
-/* TIMER & ANTI-CHEAT */
+/* TIMER */
 function startTimer() {
   if(timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
@@ -612,18 +666,16 @@ function startAntiCheat() {
             }
         }
     });
-    // Disable Right Click
     document.addEventListener('contextmenu', e => e.preventDefault());
 }
 
-/* ================== SUBMIT & RESULT GENERATION ================== */
+/* SUBMIT */
 function submitTest() {
   const name = document.getElementById('stuName').value;
   if(!submitted && !confirm("Are you sure you want to FINISH the test?")) return;
   
   submitted = true; clearInterval(timerInterval); 
   
-  // Unlock all for review after submit
   const tabs = document.querySelectorAll('.sec-tab');
   tabs.forEach(t => { t.classList.remove('locked'); t.classList.add('active'); t.style.cursor="pointer"; });
   document.getElementById('finalSubmitBtn').style.display="none";
@@ -644,7 +696,7 @@ function submitTest() {
   let estRank = Math.max(1, Math.round(1000 - rankScore));
   let timeStr = document.getElementById('timer').innerText;
 
-  /* --- 1. SCORE CARD HTML --- */
+  /* SCORE HTML */
   document.getElementById('modalTitle').innerText = "Score Card";
   let resHTML = `<br>
   <div style="text-align:center;">
@@ -657,7 +709,7 @@ function submitTest() {
   SECTIONS.forEach(s => { resHTML += `<tr><td>${s}</td><td style="color:var(--success)">${scoreData[s].c}</td><td style="color:var(--danger)">${scoreData[s].w}</td><td>${scoreData[s].s}</td></tr>`; });
   resHTML += `</table>`;
 
-  /* --- 2. FULL PAPER HTML (FOR PDF) --- */
+  /* DETAILED PAPER HTML */
   resHTML += `<h3 style="border-top:1px solid #ccc; padding-top:20px;">Response Sheet</h3>`;
   QUESTIONS.forEach((q, i) => {
       const isCorrect = answers[i] === q.a;
@@ -665,7 +717,8 @@ function submitTest() {
       const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
       const qText = (currentLang === "HI" && q.q_hi) ? q.q_hi : (q.q_en || q.q_hi);
       const opts = (currentLang === "HI" && q.o_hi) ? q.o_hi : (q.o_en || q.o_hi);
-      const exp = (currentLang === "HI" && q.e_hi) ? q.e_hi : (q.e_en || q.e_hi);
+      // Select Explanation based on Current Lang
+      const exp = (currentLang === "EN" && q.e_en) ? q.e_en : (q.e_hi || q.e_en);
 
       resHTML += `<div class="result-q-box">
         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -685,9 +738,7 @@ function submitTest() {
       resHTML += `</div><div style="margin-top:5px; font-size:13px; color:#555; background:#f9f9f9; padding:5px;"><b>Exp:</b> ${exp}</div></div>`;
   });
 
-  /* --- 3. ACTION BUTTONS --- */
-  resHTML += `<br>
-  <div style="display:flex; gap:10px; justify-content:center; padding-bottom:30px;">
+  resHTML += `<br><div style="display:flex; gap:10px; justify-content:center; padding-bottom:30px;">
     <button class="tool-btn" onclick="downloadPDF()" style="background:var(--primary); color:#fff; border:none; padding:10px 20px;">📥 Download Result</button>
     <button class="tool-btn" onclick="location.reload()" style="background:var(--success); color:#fff; border:none; padding:10px 20px;">Restart Test</button>
   </div>`;
@@ -716,7 +767,7 @@ function downloadPDF() {
     const btns = element.querySelectorAll('button');
     btns.forEach(b => b.style.display = 'none'); 
     const opt = {
-        margin: 5, filename: 'DSSSB_Full_Result.pdf',
+        margin: 5, filename: 'DSSSB_Result.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -731,7 +782,7 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
   method:"POST", headers:{"Content-Type":"application/json"},
   body:JSON.stringify({
    chat_id:TELEGRAM_CHAT_ID,
-   text:`📘 DSSSB CBT V3 Result\n\n👤 Name: ${name}\n⏱ Time: ${time}\n✅ Correct: ${c}\n❌ Wrong: ${w}\n➖ Skipped: ${s}\n🎯 Score: ${score}\n📊 Accuracy: ${accuracy.toFixed(2)}%\n🏆 Estimated Rank: ${estRank}\n\n🔥 DSSSB Smart Notes`
+   text:`📘 DSSSB V3 Result\n\n👤 ${name}\n⏱ ${time}\n✅ ${c} ❌ ${w} ➖ ${s}\n🎯 Score: ${score}\n\n🔥 DSSSB Smart Notes`
   })
  });
 }
@@ -739,10 +790,7 @@ function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
 function renderPalette() {
   const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
   QUESTIONS.forEach((q, k) => {
-    // DSSSB: Only show buttons for active or past sections if submitted
     const qSecIdx = SECTIONS.indexOf(q.section);
-    
-    // Future section questions are locked
     if (!submitted && qSecIdx > activeSectionIndex) {
         const btn = document.createElement('button');
         btn.className = "qbtn"; btn.style.background="#eee"; btn.style.color="#ccc"; btn.innerText = "🔒";
@@ -750,20 +798,17 @@ function renderPalette() {
         grid.appendChild(btn);
         return;
     }
-
     let cls = "qbtn"; 
     if(k === currentIdx) cls += " current";
-    
     if(submitted) { if(answers[k] === q.a) cls += " answered"; else if(answers[k] !== null) cls += " wrong"; } 
     else { if(reviewStatus[k] && answers[k] !== null) cls += " review-ans"; else if(reviewStatus[k]) cls += " review"; else if(answers[k] !== null) cls += " answered"; else if(visitedStatus[k]) cls += " visited"; }
     
     const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
     btn.onclick = () => { 
-        // Can only jump if within active section OR if submitted
         if (submitted || qSecIdx === activeSectionIndex) {
             loadQuestion(k); if(window.innerWidth < 768) togglePalette(); 
         } else {
-            alert("Cannot modify previous section in DSSSB Mode.");
+            alert("Cannot modify previous section.");
         }
     };
     grid.appendChild(btn);
@@ -772,14 +817,12 @@ function renderPalette() {
 
 function togglePalette() { document.getElementById('palettePanel').classList.toggle('show'); document.getElementById('bgOverlay').classList.toggle('show'); }
 function toggleFS() { !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen(); }
-function toggleExp() { const b=document.getElementById('expBox'); b.style.display = b.style.display==="none"?"block":"none"; }
 function openQP() {
   document.getElementById('modalTitle').innerText = "Question Paper";
   let html = "";
   QUESTIONS.forEach((q, i) => {
     const qSecIdx = SECTIONS.indexOf(q.section);
-    if(!submitted && qSecIdx > activeSectionIndex) return; // Hide future sections
-
+    if(!submitted && qSecIdx > activeSectionIndex) return; 
     html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
         <b>Q.${i+1} (${q.section})</b><br>${(currentLang==="HI"?q.q_hi:q.q_en) || q.q_hi}<br><br>
         <i style="color:var(--text-muted); font-size:0.9em">Options: ${(currentLang==="HI"?q.o_hi:q.o_en).join(', ')}</i>
