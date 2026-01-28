@@ -163,7 +163,7 @@ footer { background: var(--bg-card); padding: 10px; border-top: 1px solid var(--
         <h2 style="color:var(--primary); margin-top:0;">DSSSB Professional Portal</h2>
         <p style="color:var(--text-muted); margin-bottom:5px;">Enter Details to Login</p>
         <input type="text" id="startNameInput" class="start-input" placeholder="Full Name">
-        <input type="password" id="examPassInput" class="start-input" placeholder="Enter Password (12345)" autocomplete="off">
+        <input type="password" id="examPassInput" class="start-input" placeholder="Enter Password" autocomplete="off">
         <button class="primary-btn" onclick="goToInstructions()">LOGIN</button>
     </div>
 </div>
@@ -250,7 +250,8 @@ footer { background: var(--bg-card); padding: 10px; border-top: 1px solid var(--
 /* =========================================
    1. CONFIGURATION & SECURITY
    ========================================= */
-const PASS_ENCODED = "MTIzNDU=";  // <--- PASSWORD IS "12345" (Encoded Base64 for Security)
+// PASSWORD IS "Dsssb2406" (Encoded in Base64 for Security)
+const PASS_ENCODED = "RHNzc2IyNDA2"; 
 const TOTAL_TIME_MINS = 120;
 const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
 const TELEGRAM_CHAT_ID="@dsssbcbtresult";
