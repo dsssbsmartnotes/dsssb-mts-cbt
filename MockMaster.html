@@ -19,8 +19,6 @@
   --success: #2e7d32;
   --danger: #c62828;
   --warning: #f9a825;
-  --locked: #9e9e9e;
-  
   --bg-body: #f5f7fa;
   --bg-card: #ffffff;
   --text-main: #333333;
@@ -32,7 +30,6 @@
   --opt-sel-bg: #e3f2fd;
   --palette-bg: #ffffff;
   --zoom-bg: rgba(255, 255, 255, 0.95);
-  
   --font-base: 16px;
 }
 
@@ -41,7 +38,6 @@ body.dark-mode {
   --primary-dark: #42a5f5;
   --success: #66bb6a;
   --danger: #ef5350;
-  
   --bg-body: #121212;
   --bg-card: #1e1e1e;
   --text-main: #e0e0e0;
@@ -59,195 +55,96 @@ html, body {
   width: 100%; margin: 0; padding: 0;
   overflow-x: hidden; font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--bg-body); color: var(--text-main);
-  height: 100%;
-  transition: background 0.3s, color 0.3s;
-  user-select: none;
+  height: 100%; user-select: none; /* Anti-Copy */
 }
-
 body { display: grid; grid-template-rows: auto auto 1fr auto; height: 100vh; }
 
-.full-screen-overlay {
-  position: fixed; inset: 0; background: var(--bg-body);
-  z-index: 2000; display: flex; flex-direction: column;
-  justify-content: center; align-items: center; padding: 20px;
-}
-.start-card {
-  background: var(--bg-card); padding: 30px; border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2); width: 100%; max-width: 500px;
-  border: 1px solid var(--border-color); text-align: center;
-}
+/* SCREENS */
+.full-screen-overlay { position: fixed; inset: 0; background: var(--bg-body); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+.start-card { background: var(--bg-card); padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); width: 100%; max-width: 500px; border: 1px solid var(--border-color); text-align: center; }
 .inst-list { text-align: left; margin: 15px 0; font-size: 14px; line-height: 1.6; color: var(--text-main); }
-.start-input {
-  width: 90%; padding: 12px; margin: 20px 0;
-  border: 2px solid var(--border-color); border-radius: 6px;
-  font-size: 16px; background: var(--bg-body); color: var(--text-main);
-}
-.primary-btn {
-  background: var(--primary); color: #fff; border: none; padding: 12px 30px;
-  font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;
-  transition: 0.2s; width: 100%; margin-top: 10px;
-}
+.start-input { width: 90%; padding: 12px; margin: 10px 0; border: 2px solid var(--border-color); border-radius: 6px; font-size: 16px; background: var(--bg-body); color: var(--text-main); }
+.primary-btn { background: var(--primary); color: #fff; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; width: 100%; margin-top: 10px; }
 .primary-btn:disabled { background: #999; cursor: not-allowed; }
 
-header {
-  background: var(--header-bg); padding: 10px 15px;
-  display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 20;
-  border-bottom: 1px solid var(--border-color);
-}
+/* HEADER */
+header { background: var(--header-bg); padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 20; border-bottom: 1px solid var(--border-color); }
 .brand { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
 .tools { display: flex; gap: 8px; }
-.tool-btn {
-  background: var(--bg-body); border: 1px solid var(--border-color); 
-  padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;
-  font-weight: 600; color: var(--text-main);
-}
+.tool-btn { background: var(--bg-body); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 600; color: var(--text-main); }
 
-#sectionBar {
-  background: var(--section-bar-bg); display: flex; overflow-x: auto;
-  white-space: nowrap; box-shadow: inset 0 -1px 2px rgba(0,0,0,0.1);
-  scrollbar-width: none;
-}
-.sec-tab {
-  padding: 12px 16px; font-size: 14px; font-weight: 600;
-  color: var(--text-muted); cursor: not-allowed; opacity: 0.6;
-  border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 5px;
-}
-.sec-tab.active {
-  color: var(--primary); border-bottom-color: var(--primary);
-  background: rgba(33, 150, 243, 0.1); opacity: 1; cursor: default;
-}
-.sec-tab.done {
-  color: var(--success); border-bottom-color: var(--success); opacity: 0.8;
-}
+/* SECTION BAR */
+#sectionBar { background: var(--section-bar-bg); display: flex; overflow-x: auto; white-space: nowrap; box-shadow: inset 0 -1px 2px rgba(0,0,0,0.1); scrollbar-width: none; }
+.sec-tab { padding: 12px 16px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: not-allowed; opacity: 0.6; border-bottom: 3px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
+.sec-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(33, 150, 243, 0.1); opacity: 1; cursor: default; }
+.sec-tab.done { color: var(--success); border-bottom-color: var(--success); opacity: 0.8; }
 
+/* MAIN AREA */
 #mainArea { padding: 10px; overflow-y: auto; position: relative; padding-bottom: 80px; display: none; }
-.card {
-  background: var(--bg-card); padding: 16px; border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px;
-  font-size: var(--font-base); border: 1px solid var(--border-color);
-  color: var(--text-main);
-}
-.passage-box {
-  background: var(--bg-body); border-left: 4px solid var(--primary);
-  padding: 10px; margin-bottom: 15px; font-size: 0.95em;
-  color: var(--text-main); max-height: 200px; overflow-y: auto;
-  border: 1px solid var(--border-color);
-}
-/* Ensures images fit nicely */
-.q-img { max-width: 100%; height: auto; border: 1px solid var(--border-color); border-radius: 4px; margin: 10px 0; cursor: zoom-in; display: block; }
+.card { background: var(--bg-card); padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; font-size: var(--font-base); border: 1px solid var(--border-color); color: var(--text-main); }
+.passage-box { background: var(--bg-body); border-left: 4px solid var(--primary); padding: 10px; margin-bottom: 15px; font-size: 0.95em; color: var(--text-main); max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); }
 
-.opt {
-  border: 1px solid var(--border-color); padding: 12px 15px;
-  margin: 8px 0; border-radius: 6px; cursor: pointer;
-  transition: background 0.15s; display: flex; align-items: center;
-  color: var(--text-main);
-}
+/* IMAGE STYLING */
+img { max-width: 100%; height: auto; border-radius: 4px; }
+.q-img { border: 1px solid var(--border-color); margin: 10px 0; cursor: zoom-in; display: block; }
+.opt img { max-height: 80px; vertical-align: middle; } /* Option Images */
+
+/* OPTIONS */
+.opt { border: 1px solid var(--border-color); padding: 12px 15px; margin: 8px 0; border-radius: 6px; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; color: var(--text-main); }
 .opt:hover { background: var(--opt-hover); border-color: var(--primary); }
 .opt.sel { background: var(--opt-sel-bg); border-color: var(--primary); font-weight: 600; }
 .opt.correct { background: rgba(46, 125, 50, 0.2); border-color: var(--success); }
 .opt.wrong { background: rgba(198, 40, 40, 0.2); border-color: var(--danger); }
-.opt-circle {
-  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--text-muted);
-  margin-right: 12px; display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: var(--text-main);
-}
+.opt-circle { min-width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--text-muted); margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-main); flex-shrink: 0; }
 .opt.sel .opt-circle { border-color: var(--primary); background: var(--primary); color: #fff; }
 
-footer {
-  background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color);
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-  position: fixed; bottom: 0; width: 100%;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: none;
-}
-.nav-btn {
-  padding: 12px; border: none; border-radius: 6px;
-  font-weight: bold; color: #fff; cursor: pointer; font-size: 14px;
-}
+/* FOOTER */
+footer { background: var(--bg-card); padding: 10px; border-top: 1px solid var(--border-color); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; position: fixed; bottom: 0; width: 100%; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: none; }
+.nav-btn { padding: 12px; border: none; border-radius: 6px; font-weight: bold; color: #fff; cursor: pointer; font-size: 14px; }
 .btn-prev { background: #757575; }
 .btn-next { background: var(--primary); }
 .btn-submit-sec { background: var(--success); grid-column: span 1; animation: pulse 2s infinite; }
 .btn-submit-test { background: var(--danger); }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
-
 .btn-palette { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); grid-column: span 3; }
 
-#palettePanel {
-  position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px;
-  height: 100%; background: var(--palette-bg); z-index: 100;
-  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -5px 0 25px rgba(0,0,0,0.2);
-  display: flex; flex-direction: column; color: var(--text-main);
-}
+/* PALETTE */
+#palettePanel { position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px; height: 100%; background: var(--palette-bg); z-index: 100; transition: right 0.3s; box-shadow: -5px 0 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; color: var(--text-main); }
 #palettePanel.show { right: 0; }
 .p-header { padding: 15px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
 .p-grid { padding: 15px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-content: start; }
-.p-footer { padding: 15px; border-top: 1px solid var(--border-color); }
-
-.qbtn {
-  aspect-ratio: 1; border-radius: 50%; border: none; font-weight: bold; font-size: 12px;
-  cursor: pointer; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
-}
+.qbtn { aspect-ratio: 1; border-radius: 50%; font-weight: bold; font-size: 12px; cursor: pointer; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); }
 .qbtn.visited { background: var(--bg-body); border-color: #bbb; } 
 .qbtn.answered { background: var(--success); color: #fff; border: none; }
-.qbtn.review { background: var(--primary-dark); color: #fff; border-radius: 50%; }
-.qbtn.review-ans { background: var(--primary-dark); color: #fff; position: relative; } 
-.qbtn.review-ans::after { content:'✔'; position: absolute; bottom: -2px; right: -2px; font-size: 8px; background: #fff; color:green; border-radius:50%; padding:1px;} 
+.qbtn.review { background: var(--primary-dark); color: #fff; }
 .qbtn.current { box-shadow: 0 0 0 2px var(--text-main); transform: scale(1.1); }
 
+/* EXTRAS */
 #timer { background: var(--bg-card); padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--danger); border: 1px solid var(--danger); }
 #expBox { margin-top: 15px; padding: 15px; background: rgba(46, 125, 50, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 14px; display: none; color: var(--text-main); }
+#expBox iframe, #expBox video { max-width: 100%; border-radius: 4px; border: 1px solid #ccc; margin-top: 10px; }
+#expBox table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+#expBox th, #expBox td { border: 1px solid var(--border-color); padding: 5px; text-align: left; }
+
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; display: none; }
 .overlay.show { display: block; }
-
-#tgPopup{
-  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  background: var(--bg-card); padding:25px; width:85%; max-width:320px;
-  border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  z-index:9999; text-align:center; display:none; color: var(--text-main);
-  border: 1px solid var(--border-color);
-}
+#tgPopup { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background: var(--bg-card); padding:25px; width:85%; max-width:320px; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.4); z-index:9999; text-align:center; display:none; border: 1px solid var(--border-color); color:var(--text-main); }
 #tgPopup a{ display:block; background:#0088cc; color:#fff; padding:12px; border-radius:8px; text-decoration:none; margin-top:15px; font-weight:bold; }
-.tg-btn-continue { background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: 600; }
-
-#qpModal { 
-  position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; 
-  background: var(--bg-card); color: var(--text-main);
-  z-index: 200; border-radius: 8px; display: none; flex-direction: column; 
-  border: 1px solid var(--border-color);
-}
-.chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px auto; }
-
-#zoomModal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--zoom-bg); z-index: 5000;
-    display: none; justify-content: center; align-items: center;
-    flex-direction: column;
-}
+#qpModal { position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; background: var(--bg-card); color: var(--text-main); z-index: 200; border-radius: 8px; display: none; flex-direction: column; border: 1px solid var(--border-color); }
+#zoomModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--zoom-bg); z-index: 5000; display: none; justify-content: center; align-items: center; flex-direction: column; }
 #zoomImg { max-width: 90%; max-height: 85vh; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 1px solid #fff; }
-.close-zoom { position: absolute; top: 20px; right: 20px; font-size: 40px; color: var(--text-main); cursor: pointer; font-weight: bold; }
 
 .result-q-box { margin-bottom: 15px; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); page-break-inside: avoid; }
 .res-opt { padding: 5px; margin: 2px 0; border-radius: 4px; font-size: 14px; }
 .res-opt.c { background: rgba(46, 125, 50, 0.2); border: 1px solid var(--success); }
 .res-opt.w { background: rgba(198, 40, 40, 0.2); border: 1px solid var(--danger); text-decoration: line-through; }
 
-/* Explanation Box Styling */
-#expBox iframe, #expBox video { max-width: 100%; border-radius: 4px; border: 1px solid #ccc; margin-top: 10px; }
-#expBox table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-#expBox th, #expBox td { border: 1px solid var(--border-color); padding: 5px; text-align: left; }
-#expBox th { background: var(--section-bar-bg); }
-
 @media(min-width: 768px) {
   body { grid-template-columns: 1fr 300px; grid-template-rows: auto auto 1fr; }
   header { grid-column: 1 / -1; }
   #sectionBar { grid-column: 1 / 2; }
   #mainArea { grid-column: 1 / 2; grid-row: 3 / 4; padding-bottom: 20px; }
-  #palettePanel {
-    position: static; width: auto; height: auto; right: auto;
-    grid-column: 2 / 3; grid-row: 2 / 4;
-    border-left: 1px solid var(--border-color); box-shadow: none; z-index: 1;
-  }
+  #palettePanel { position: static; width: auto; height: auto; right: auto; grid-column: 2 / 3; grid-row: 2 / 4; border-left: 1px solid var(--border-color); box-shadow: none; z-index: 1; }
   footer { grid-column: 1 / 2; position: static; display: flex; justify-content: space-between; box-shadow: none; border-top: 1px solid var(--border-color); }
   .btn-palette { display: none; } 
   .p-grid { grid-template-columns: repeat(4, 1fr); }
@@ -258,18 +155,16 @@ footer {
 
 <body onload="initApp()">
 
-<div id="zoomModal" onclick="closeZoom()">
-    <span class="close-zoom">&times;</span>
-    <img id="zoomImg" src="">
-    <div style="color:var(--text-main); margin-top:10px;">Click anywhere to close</div>
-</div>
+<div id="zoomModal" onclick="closeZoom()"><span style="position:absolute; top:20px; right:20px; font-size:40px; color:var(--text-main); cursor:pointer;">&times;</span><img id="zoomImg" src=""><div style="color:var(--text-main); margin-top:10px;">Click anywhere to close</div></div>
+<div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
 
 <div id="startScreen" class="full-screen-overlay">
     <div class="start-card">
         <h2 style="color:var(--primary); margin-top:0;">DSSSB Professional Portal</h2>
-        <p style="color:var(--text-muted)">Please enter your name to proceed.</p>
-        <input type="text" id="startNameInput" class="start-input" placeholder="Enter Full Name">
-        <button class="primary-btn" onclick="goToInstructions()">NEXT</button>
+        <p style="color:var(--text-muted); margin-bottom:5px;">Enter Details to Login</p>
+        <input type="text" id="startNameInput" class="start-input" placeholder="Full Name">
+        <input type="password" id="examPassInput" class="start-input" placeholder="Enter Password" autocomplete="off">
+        <button class="primary-btn" onclick="goToInstructions()">LOGIN</button>
     </div>
 </div>
 
@@ -277,10 +172,10 @@ footer {
     <div class="start-card" style="max-width:600px; text-align:left;">
         <h3 style="color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:10px;">Exam Rules (Strict)</h3>
         <div class="inst-list">
-            <b>1. Time Limit:</b> <span style="color:var(--danger)">120 Minutes (Reverse Timer)</span><br>
-            <b>2. Sectional Logic (DSSSB):</b> You must <u>Submit the current section</u> to unlock the next. You cannot go back.<br>
-            <b>3. Anti-Cheating:</b> Do not switch tabs. 3 warnings = Auto Submit.<br>
-            <b>Marking:</b> Correct +1, Wrong -0.25
+            <b>1. Duration:</b> <span style="color:var(--danger)">120 Minutes (Reverse Countdown)</span><br>
+            <b>2. Sectional Logic:</b> Sections are locked. You must <u>Submit the current section</u> to proceed. Going back is disabled.<br>
+            <b>3. Anti-Cheating:</b> Tab switching is prohibited. 3 warnings = Auto Submit.<br>
+            <b>4. Language:</b> Use toggle button for English/Hindi explanations.
         </div>
         <label style="display:flex; align-items:center; cursor:pointer; font-weight:600; font-size:14px; margin-top:20px;">
             <input type="checkbox" id="instCheck" onchange="toggleStartBtn()" style="width:20px; height:20px; margin-right:10px;">
@@ -292,21 +187,17 @@ footer {
 </div>
 
 <div id="tgPopup">
- <b>📢 Join DSSSB Smart Notes</b><br><br>
- Daily CBT Tests • PDFs • Results<br>
+ <b>📢 Join DSSSB Smart Notes</b><br><br>Daily Tests • PDFs • Results<br>
  <a href="https://t.me/DSSSBSmartNotes" target="_blank">Join Telegram</a><br><br>
- <button class="tg-btn-continue" onclick="closeTg()">Continue Test</button>
+ <button style="margin-top:15px; padding:8px 20px; background:var(--bg-body); border:1px solid var(--border-color); border-radius:4px; cursor:pointer;" onclick="closeTg()">Continue Test</button>
 </div>
 
-<div class="overlay" onclick="togglePalette()" id="bgOverlay"></div>
-
 <header>
-  <div class="brand">DSSSB CBT <span style="font-size:0.8em; color:var(--text-muted)">v3.1 Bilingual</span></div>
+  <div class="brand">DSSSB CBT <span style="font-size:0.8em; color:var(--text-muted)">v4.0 Secure</span></div>
   <div style="display:flex; align-items:center; gap:10px;">
     <div id="timer">120:00</div>
     <button class="tool-btn" onclick="toggleDarkMode()" id="themeBtn">🌙</button>
     <button class="tool-btn" onclick="toggleLang()" id="langBtn">EN/HI</button>
-    <button class="tool-btn" onclick="toggleFS()">⛶</button>
     <button class="tool-btn" onclick="openQP()">📄 Paper</button>
   </div>
 </header>
@@ -317,41 +208,30 @@ footer {
   <input type="hidden" id="stuName">
   <div class="card">
     <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--text-muted); font-size:13px;">
-      <span>Question No. <b id="qNumDisp">1</b></span>
-      <span style="display:flex; gap:10px;">
-        <span style="color:var(--success)">+1.00</span>
-        <span style="color:var(--danger)">-0.25</span>
-      </span>
+      <span>Q. <b id="qNumDisp">1</b></span>
+      <span style="display:flex; gap:10px;"><span style="color:var(--success)">+1.0</span><span style="color:var(--danger)">-0.25</span></span>
     </div>
     <div style="font-size:14px; text-align:right; margin-bottom:5px;">
-        <button class="tool-btn" onclick="changeFont(1)">A+</button>
-        <button class="tool-btn" onclick="changeFont(-1)">A-</button>
+        <button class="tool-btn" onclick="changeFont(1)">A+</button> <button class="tool-btn" onclick="changeFont(-1)">A-</button>
     </div>
     <div id="qContent"></div> 
-    <div id="opts"></div>     
+    <div id="opts"></div>      
     <div style="display:flex; gap:10px; margin-top:15px; border-top:1px solid var(--border-color); padding-top:15px;">
-        <button class="tool-btn" style="color:orange; border:1px solid orange; background:var(--bg-card)" onclick="markReview()">⭐ Mark for Review</button>
-        <button class="tool-btn" style="color:var(--text-muted);" onclick="clearResponse()">Borrar (Clear)</button>
+        <button class="tool-btn" style="color:orange; border:1px solid orange; background:var(--bg-card)" onclick="markReview()">⭐ Review</button>
+        <button class="tool-btn" onclick="clearResponse()">Clear</button>
     </div>
     <div id="expBox"></div>
   </div>
 </div>
 
 <div id="palettePanel">
-  <div class="p-header">
-    <b>Question Palette</b>
-    <button onclick="togglePalette()" style="border:none; background:none; font-size:20px; cursor:pointer; color:var(--text-main)" class="close-pal">&times;</button>
-  </div>
-  <div style="padding:10px; background:var(--bg-card); font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn answered" style="width:20px; height:20px;"></div> Answered</div>
-    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn visited" style="width:20px; height:20px;"></div> Not Answered</div>
-    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn review" style="width:20px; height:20px;"></div> Review</div>
-    <div style="display:flex; align-items:center; gap:5px;"><div class="qbtn" style="width:20px; height:20px; background:#eee"></div> Locked</div>
+  <div class="p-header"><b>Palette</b> <button onclick="togglePalette()" class="close-pal" style="border:none;background:none;font-size:20px;">&times;</button></div>
+  <div style="padding:10px; font-size:12px; display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+    <div><span style="color:var(--success)">■</span> Ans</div> <div><span style="color:var(--text-muted)">■</span> Skip</div>
+    <div><span style="color:var(--primary)">■</span> Review</div> <div><span style="color:#999">■</span> Locked</div>
   </div>
   <div class="p-grid" id="paletteGrid"></div>
-  <div class="p-footer">
-    <button id="finalSubmitBtn" onclick="submitTest()" style="width:100%; padding:12px; background:var(--danger); color:#fff; border:none; border-radius:4px; font-weight:bold; font-size:16px; display:none;">FINISH EXAM</button>
-  </div>
+  <div class="p-footer"><button id="mainSubmitBtn" onclick="submitTest()" class="btn-submit-test" style="width:100%; padding:12px; color:#fff; border:none; border-radius:4px; font-weight:bold; display:none;">FINISH EXAM</button></div>
 </div>
 
 <footer>
@@ -361,124 +241,90 @@ footer {
 </footer>
 
 <div id="qpModal">
-    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;">
-        <b id="modalTitle">Full Question Paper</b>
-        <button onclick="closeQP()" style="border:none; background:none; font-size:20px; color:var(--text-main)">&times;</button>
-    </div>
+    <div style="padding:15px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;"><b id="modalTitle">Question Paper</b><button onclick="closeQP()" style="border:none; background:none; font-size:20px;">&times;</button></div>
     <div id="qpContent" style="padding:20px; overflow-y:auto; flex:1;"></div>
 </div>
 
 <script>
-/* CONFIG */
-const SECTIONS = ["Reasoning", "GK", "Maths", "English", "Hindi"];
-const NEGATIVE_MARK = 0.25;
-const TOTAL_TIME_MINS = 120;
+/* =========================================
+   1. CONFIGURATION
+   ========================================= */
+const EXAM_PASSWORD = "12345";  // <--- SET PASSWORD HERE
+const TOTAL_TIME_MINS = 120;    // <--- SET TIME HERE (120 Mins)
 const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
 const TELEGRAM_CHAT_ID="@dsssbcbtresult";
+const SECTIONS = ["Reasoning", "GK", "Maths", "English", "Hindi"];
+const NEGATIVE_MARK = 0.25;
 
-/* QUESTIONS (Added e_en for Bilingual Explanation + URL Image Example) */
+/* =========================================
+   2. QUESTIONS DATA (HTML SUPPORTED)
+   ========================================= */
 const QUESTIONS = [
+  // Question with Image
   { 
-      id: 1, section: "Reasoning", 
-      q_hi: "नीचे दी गई श्रृंखला में अगला पद क्या होगा? 2, 5, 11, 23, ?", 
-      q_en: "What is the next term in the series? 2, 5, 11, 23, ?", 
-      o_hi: ["44", "47", "50", "46"], o_en: ["44", "47", "50", "46"], 
-      a: 1, 
-      e_hi: "<b>तर्क:</b> x2 + 1.<br>2x2+1 = 5<br>5x2+1 = 11<br>11x2+1 = 23<br>23x2+1 = 47.",
-      e_en: "<b>Logic:</b> x2 + 1.<br>2x2+1 = 5<br>5x2+1 = 11<br>11x2+1 = 23<br>23x2+1 = 47."
+    id: 1, section: "Reasoning", 
+    q_hi: "नीचे दी गई आकृति का दर्पण प्रतिबिम्ब चुनें:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='Question Image'>", 
+    q_en: "Choose the mirror image of the figure below:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='Question Image'>", 
+    // OPTIONS WITH IMAGES (HTML SUPPORT)
+    o_hi: [
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png'>", 
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png' style='transform:scaleX(-1)'>", 
+        "C", "D"
+    ], 
+    o_en: [
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png'>", 
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png' style='transform:scaleX(-1)'>", 
+        "C", "D"
+    ], 
+    a: 1, 
+    e_hi: "दर्पण में बायाँ भाग दायाँ हो जाता है।", 
+    e_en: "In mirror, left becomes right."
   },
   { 
-      id: 2, section: "Reasoning", 
-      q_hi: "विषम शब्द चुनें:", q_en: "Find the odd word:", 
-      o_hi: ["सेब", "गेंद", "कमल", "गुलाब"], o_en: ["Apple", "Ball", "Lotus", "Rose"], 
-      a: 1, 
-      e_hi: "गेंद एक खेल की वस्तु है, बाकी सभी प्राकृतिक (फूल/फल) हैं।",
-      e_en: "Ball is a sports item, rest all are natural (fruits/flowers)."
+      id: 2, section: "Reasoning", q_hi: "विषम चुनें:", q_en: "Find odd one:", 
+      o_hi: ["सेब", "गेंद", "कमल", "गुलाब"], o_en: ["Apple", "Ball", "Lotus", "Rose"], a: 1, 
+      e_hi: "गेंद कृत्रिम है।", e_en: "Ball is artificial." 
   },
   { 
-      id: 3, section: "GK", 
-      q_hi: "भारत के संविधान में मौलिक कर्तव्य किस देश से लिए गए हैं?", 
-      q_en: "Fundamental Duties in Indian Constitution are borrowed from?", 
-      o_hi: ["USA", "Russia (USSR)", "Canada", "UK"], o_en: ["USA", "Russia (USSR)", "Canada", "UK"], 
-      a: 1, 
-      e_hi: "मौलिक कर्तव्य (Fundamental Duties) <b>USSR (रूस)</b> से लिए गए हैं। ये भाग 4A में हैं।",
-      e_en: "Fundamental Duties were borrowed from <b>USSR (Russia)</b>. They are in Part 4A."
+      id: 3, section: "GK", q_hi: "मौलिक कर्तव्य कहाँ से लिए गए?", q_en: "Fundamental Duties source?", 
+      o_hi: ["USA", "Russia", "UK", "Canada"], o_en: ["USA", "Russia", "UK", "Canada"], a: 1, 
+      e_hi: "रूस (USSR) से लिए गए। अनुच्छेद 51A.", e_en: "Borrowed from Russia (USSR). Article 51A." 
   },
   { 
-      id: 4, section: "Maths", 
-      q_hi: "यदि क्रय मूल्य ₹800 है और लाभ 25% है, तो विक्रय मूल्य क्या है?", 
-      q_en: "If CP is ₹800 and Profit is 25%, find SP.", 
-      o_hi: ["₹900", "₹1000", "₹1100", "₹1200"], o_en: ["₹900", "₹1000", "₹1100", "₹1200"], 
-      a: 1, 
-      e_hi: `
-        सूत्र: $$ SP = CP \\times \\frac{100+P}{100} $$<br>
-        $$ SP = 800 \\times \\frac{125}{100} = 1000 $$<br>
-        <br><b>लाभ-हानि टेबल:</b><br>
-        <table>
-            <tr><th>Term</th><th>Value</th></tr>
-            <tr><td>CP</td><td>800</td></tr>
-            <tr><td>Profit</td><td>25%</td></tr>
-        </table>
-      `,
-      e_en: `
-        Formula: $$ SP = CP \\times \\frac{100+P}{100} $$<br>
-        $$ SP = 800 \\times \\frac{125}{100} = 1000 $$<br>
-        <br><b>Profit-Loss Table:</b><br>
-        <table>
-            <tr><th>Term</th><th>Value</th></tr>
-            <tr><td>CP</td><td>800</td></tr>
-            <tr><td>Profit</td><td>25%</td></tr>
-        </table>
-      `
+      id: 4, section: "Maths", q_hi: "CP=800, Profit=25%, SP=?", q_en: "CP=800, Profit=25%, SP=?", 
+      o_hi: ["1000", "900", "1100", "1200"], o_en: ["1000", "900", "1100", "1200"], a: 0, 
+      e_hi: "SP = 800 x 125/100 = 1000", e_en: "SP = 800 x 1.25 = 1000" 
   },
   { 
-      id: 5, section: "English", 
-      q_en: `<div class="passage-box"><b>Passage:</b><br>Pollution is rising. We must plant trees.</div><br>What must we do?`, 
-      q_hi: `<div class="passage-box"><b>गद्यांश:</b><br>प्रदूषण बढ़ रहा है। हमें पेड़ लगाने चाहिए।</div><br>हमें क्या करना चाहिए?`, 
-      o_en: ["Cut trees", "Plant trees", "Sleep", "Drive cars"], o_hi: ["पेड़ काटें", "पेड़ लगाएँ", "सो जाएं", "गाड़ी चलाएं"], 
-      a: 1, 
-      e_hi: "गद्यांश में साफ लिखा है कि हमें पेड़ लगाने चाहिए।",
-      e_en: "Passage clearly states we must plant trees."
+      id: 5, section: "English", q_en: "Synonym of Happy?", q_hi: "Happy का पर्यायवाची?", 
+      o_en: ["Sad", "Joyful", "Angry", "Cry"], o_hi: ["Sad", "Joyful", "Angry", "Cry"], a: 1, 
+      e_hi: "Happy = खुश, Joyful = आनंदित", e_en: "Happy means Joyful." 
   },
   { 
-      id: 6, section: "Hindi", 
-      q_hi: " 'नया नौ दिन पुराना सौ दिन' लोकोक्ति का सही अर्थ है?", q_en: "", 
-      o_hi: ["नई चीज अच्छी", "पुरानी चीज विश्वसनीय", "दोनों बेकार", "महंगी चीज"], 
-      a: 1, 
-      e_hi: "<b>अर्थ:</b> पुरानी चीजें अधिक टिकाऊ और विश्वसनीय होती हैं।",
-      e_en: "Old items are more reliable and durable."
-  },
-  
-  // --- URL IMAGE EXAMPLE (HERE) ---
-  {
-      id: 7, section: "Reasoning",
-      q_hi: "नीचे दी गई छवि को पहचानें:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/200px-Small_triangle.svg.png' alt='Triangle Image'>",
-      q_en: "Identify the image below:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/200px-Small_triangle.svg.png' alt='Triangle Image'>",
-      o_hi: ["त्रिभुज", "वर्ग", "वृत्त", "आयत"], o_en: ["Triangle", "Square", "Circle", "Rectangle"],
-      a: 0,
-      e_hi: "यह एक त्रिभुज (Triangle) है।",
-      e_en: "This is a Triangle."
+      id: 6, section: "Hindi", q_hi: "संधि विच्छेद: विद्यालय", q_en: "", 
+      o_hi: ["विद्या + आलय", "विद्य + लय", "विद्या + लय", "इनमें से कोई नहीं"], a: 0, 
+      e_hi: "विद्या + आलय = विद्यालय (दीर्घ संधि)", e_en: "Vidya + Aalay = Vidyalaya" 
   }
 ];
 
 /* STATE */
 let currentIdx = 0;
-let currentLang = "HI";
+let currentLang = "HI"; // Default Language
 let answers = new Array(QUESTIONS.length).fill(null);
 let reviewStatus = new Array(QUESTIONS.length).fill(false);
 let submitted = false;
 let timeLeft = TOTAL_TIME_MINS * 60; 
 let fontSize = 16;
-let isDarkMode = false;
 let timerInterval;
 let warningCount = 0;
+let isDarkMode = false;
 
 // SECTIONAL LOGIC VARS
-let activeSectionIndex = 0; 
+let activeSectionIndex = 0;
 let sectionStartIndices = [];
 let sectionEndIndices = [];
 
-/* INIT */
+/* --- INIT --- */
 function initApp() {
     if(localStorage.getItem('dsssb_dark_mode') === 'true') toggleDarkMode();
     calcSectionIndices();
@@ -500,7 +346,9 @@ function calcSectionIndices() {
 
 function goToInstructions() {
     const name = document.getElementById('startNameInput').value.trim();
-    if(!name) { alert("Enter Name!"); return; }
+    const pass = document.getElementById('examPassInput').value.trim();
+    if(!name) { alert("Enter Name"); return; }
+    if(pass !== EXAM_PASSWORD) { alert("❌ WRONG PASSWORD"); return; }
     document.getElementById('stuName').value = name;
     document.getElementById('startScreen').style.display = 'none';
     document.getElementById('instScreen').style.display = 'flex';
@@ -514,6 +362,7 @@ function startTestFlow() {
     document.querySelector('footer').style.display = 'flex';
     document.getElementById('tgPopup').style.display = "block";
     
+    // Start at first section
     currentIdx = sectionStartIndices[0];
     renderSectionTabs(); 
     loadQuestion(currentIdx); 
@@ -525,90 +374,86 @@ function startTestFlow() {
     });
 }
 
-function closeTg(){ document.getElementById('tgPopup').style.display = "none"; }
-
-/* LOGIC */
+/* --- CORE LOGIC --- */
 function renderSectionTabs() {
-  const bar = document.getElementById('sectionBar');
-  let html = "";
-  SECTIONS.forEach((sec, i) => {
-      let cls = "sec-tab";
-      let icon = "🔒";
-      if (i === activeSectionIndex) { cls += " active"; icon = "🟢"; } 
-      else if (i < activeSectionIndex) { cls += " done"; icon = "✅"; } 
-      html += `<div class="${cls}">${icon} ${sec}</div>`;
-  });
-  bar.innerHTML = html;
+    const bar = document.getElementById('sectionBar');
+    let html = "";
+    SECTIONS.forEach((sec, i) => {
+        let cls = "sec-tab";
+        let icon = "🔒";
+        if (i === activeSectionIndex) { cls += " active"; icon = "🟢"; } // Current
+        else if (i < activeSectionIndex) { cls += " done"; icon = "✅"; } // Completed
+        html += `<div class="${cls}">${icon} ${sec}</div>`;
+    });
+    bar.innerHTML = html;
 }
 
 function loadQuestion(idx) {
-  currentIdx = idx;
-  const q = QUESTIONS[idx];
-  document.getElementById('qNumDisp').innerText = idx + 1;
-  const txt = (currentLang === "HI" && q.q_hi) ? q.q_hi : (q.q_en || q.q_hi);
-  
-  // Render text
-  const contentDiv = document.getElementById('qContent');
-  contentDiv.innerHTML = txt;
-  contentDiv.style.fontSize = fontSize + "px";
-  
-  // AUTO-ENABLE ZOOM
-  const imgs = contentDiv.querySelectorAll('img');
-  imgs.forEach(img => { img.classList.add('q-img'); img.onclick = () => openZoom(img.src); });
-  
-  const optsArr = (currentLang === "HI" && q.o_hi) ? q.o_hi : (q.o_en || q.o_hi);
-  let html = "";
-  optsArr.forEach((opt, i) => {
-    let cls = "opt";
-    if(submitted) { if(i === q.a) cls += " correct"; else if(answers[idx] === i) cls += " wrong"; } 
-    else { if(answers[idx] === i) cls += " sel"; }
-    html += `<div class="${cls}" onclick="selectAnswer(${i})"><div class="opt-circle">${String.fromCharCode(65+i)}</div><div>${opt}</div></div>`;
-  });
-  document.getElementById('opts').innerHTML = html;
-  
-  // UPDATE NAVIGATION
-  const nextBtn = document.getElementById('nextBtn');
-  const isLastInSec = (currentIdx === sectionEndIndices[activeSectionIndex]);
-  
-  if(submitted) {
-      nextBtn.innerText = "Next"; 
-      nextBtn.className = "nav-btn btn-next";
-      nextBtn.onclick = () => { if(currentIdx < QUESTIONS.length-1) loadQuestion(currentIdx+1); };
-  } else {
-      if (isLastInSec) {
-          if (activeSectionIndex < SECTIONS.length - 1) {
-              nextBtn.innerText = `Submit ${SECTIONS[activeSectionIndex]}`;
-              nextBtn.className = "nav-btn btn-submit-sec";
-              nextBtn.onclick = submitCurrentSection;
-          } else {
-              nextBtn.innerText = "FINISH EXAM";
-              nextBtn.className = "nav-btn btn-submit-test";
-              nextBtn.onclick = submitTest;
-          }
-      } else {
-          nextBtn.innerText = "Next";
-          nextBtn.className = "nav-btn btn-next";
-          nextBtn.onclick = () => { loadQuestion(currentIdx + 1); };
-      }
-  }
+    currentIdx = idx;
+    const q = QUESTIONS[idx];
+    document.getElementById('qNumDisp').innerText = idx + 1;
+    
+    // Render Question (HTML Supported)
+    const contentDiv = document.getElementById('qContent');
+    const txt = (currentLang==="HI" && q.q_hi) ? q.q_hi : (q.q_en||q.q_hi);
+    contentDiv.innerHTML = txt;
+    contentDiv.style.fontSize = fontSize + "px";
+    
+    // Auto-Enable Zoom for Images
+    contentDiv.querySelectorAll('img').forEach(img => { img.classList.add('q-img'); img.onclick=()=>openZoom(img.src); });
 
-  renderPalette();
-  if(window.MathJax) MathJax.typesetPromise();
-  
-  // SHOW EXPLANATION (BILINGUAL)
-  if(submitted) {
-    // Select English explanation if Current Lang is EN, else Hindi (default)
-    const expText = (currentLang === "EN" && q.e_en) ? q.e_en : (q.e_hi || q.e_en);
-    document.getElementById('expBox').innerHTML = "<b>Explanation:</b><br>" + (expText || "No explanation.");
-    document.getElementById('expBtn').style.display = "block";
-    // If user opens solution, auto-show box
-    document.getElementById('expBox').style.display = "block";
-  }
+    // Render Options (HTML Supported)
+    const optsArr = (currentLang==="HI" && q.o_hi) ? q.o_hi : (q.o_en||q.o_hi);
+    let html = "";
+    optsArr.forEach((opt, i) => {
+        let cls = "opt";
+        if(submitted) { if(i===q.a) cls+=" correct"; else if(answers[idx]===i) cls+=" wrong"; }
+        else if(answers[idx]===i) cls+=" sel";
+        // Option text/image render
+        html += `<div class="${cls}" onclick="selectAnswer(${i})"><div class="opt-circle">${String.fromCharCode(65+i)}</div><div>${opt}</div></div>`;
+    });
+    document.getElementById('opts').innerHTML = html;
+
+    // Show Explanation if Submitted (BILINGUAL)
+    if(submitted) {
+       // Live Toggle: Check Current Lang
+       const e = (currentLang==="EN" && q.e_en) ? q.e_en : (q.e_hi||q.e_en); 
+       document.getElementById('expBox').innerHTML = "<b>Explanation:</b><br>"+e;
+       document.getElementById('expBox').style.display="block";
+    }
+
+    // BUTTON LOGIC (DSSSB)
+    const nextBtn = document.getElementById('nextBtn');
+    const isLastInSec = (currentIdx === sectionEndIndices[activeSectionIndex]);
+    
+    if(submitted) {
+        nextBtn.innerText = "Next"; 
+        nextBtn.className = "nav-btn btn-next";
+        nextBtn.onclick = () => { if(currentIdx < QUESTIONS.length-1) loadQuestion(currentIdx+1); };
+    } else {
+        if (isLastInSec) {
+            // End of Section -> Submit Section
+            if (activeSectionIndex < SECTIONS.length - 1) {
+                nextBtn.innerText = `Submit ${SECTIONS[activeSectionIndex]}`;
+                nextBtn.className = "nav-btn btn-submit-sec";
+                nextBtn.onclick = submitCurrentSection;
+            } else {
+                nextBtn.innerText = "FINISH EXAM";
+                nextBtn.className = "nav-btn btn-submit-test";
+                nextBtn.onclick = submitTest;
+            }
+        } else {
+            nextBtn.innerText = "Next";
+            nextBtn.className = "nav-btn btn-next";
+            nextBtn.onclick = () => { loadQuestion(currentIdx + 1); };
+        }
+    }
+    renderPalette();
+    if(window.MathJax) MathJax.typesetPromise();
 }
 
-/* SECTION HANDLING */
 function submitCurrentSection() {
-    if(!confirm(`Submit ${SECTIONS[activeSectionIndex]} Section?\nYou CANNOT go back to this section.`)) return;
+    if(!confirm(`Submit ${SECTIONS[activeSectionIndex]} Section?\nYou cannot go back to this section.`)) return;
     activeSectionIndex++; 
     currentIdx = sectionStartIndices[activeSectionIndex]; 
     renderSectionTabs();
@@ -617,41 +462,30 @@ function submitCurrentSection() {
 
 function prev() {
     const startOfSec = sectionStartIndices[activeSectionIndex];
-    if(currentIdx > startOfSec) {
-        loadQuestion(currentIdx - 1);
-    }
+    if(currentIdx > startOfSec) loadQuestion(currentIdx - 1);
 }
 function next() { document.getElementById('nextBtn').click(); }
 
-function selectAnswer(i) { if(!submitted) { answers[currentIdx] = i; loadQuestion(currentIdx); } }
-function clearResponse() { if(!submitted) { answers[currentIdx] = null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
-function markReview() { if(!submitted) { reviewStatus[currentIdx] = !reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
-
+function selectAnswer(i) { if(!submitted) { answers[currentIdx]=i; loadQuestion(currentIdx); } }
+function clearResponse() { if(!submitted) { answers[currentIdx]=null; reviewStatus[currentIdx]=false; loadQuestion(currentIdx); } }
+function markReview() { if(!submitted) { reviewStatus[currentIdx]=!reviewStatus[currentIdx]; loadQuestion(currentIdx); } }
 function toggleLang() { 
-    currentLang = currentLang === "HI" ? "EN" : "HI"; 
+    currentLang = currentLang==="HI"?"EN":"HI"; 
     document.getElementById('langBtn').innerText = currentLang; 
-    loadQuestion(currentIdx); 
+    loadQuestion(currentIdx); // Reload to show new Lang content
 }
 
-function changeFont(d) { fontSize += d; document.getElementById('qContent').style.fontSize = fontSize + "px"; }
-function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode'); document.getElementById('themeBtn').innerText = isDarkMode ? "☀️" : "🌙"; localStorage.setItem('dsssb_dark_mode', isDarkMode); }
-
-/* ZOOM */
-function openZoom(src) { document.getElementById('zoomImg').src = src; document.getElementById('zoomModal').style.display = 'flex'; }
-function closeZoom() { document.getElementById('zoomModal').style.display = 'none'; }
-
-/* TIMER */
+/* --- TIMER & ANTI-CHEAT --- */
 function startTimer() {
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if(timeLeft <= 0) { submitTest(); return; }
-    timeLeft--;
-    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const s = (timeLeft % 60).toString().padStart(2, '0');
-    const tObj = document.getElementById('timer');
-    tObj.innerText = `${m}:${s}`;
-    if(timeLeft < 300) { tObj.style.background="#ffebee"; tObj.style.color="red"; }
-  }, 1000);
+    timerInterval = setInterval(() => {
+        if(timeLeft <= 0) { submitTest(); return; }
+        timeLeft--;
+        const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+        const s = (timeLeft % 60).toString().padStart(2,'0');
+        const tObj = document.getElementById('timer');
+        tObj.innerText = `${m}:${s}`;
+        if(timeLeft < 300) { tObj.style.background="#ffebee"; tObj.style.color="red"; }
+    }, 1000);
 }
 
 function startAntiCheat() {
@@ -662,176 +496,118 @@ function startAntiCheat() {
                 alert("⛔ MAX WARNINGS REACHED!\nSystem is Auto-Submitting your test.");
                 submitTest();
             } else {
-                alert(`⚠️ WARNING ${warningCount}/3\nTab switching is Prohibited!\nNext violation may submit your test.`);
+                alert(`⚠️ WARNING ${warningCount}/3\nTab switching is Prohibited!`);
             }
         }
     });
     document.addEventListener('contextmenu', e => e.preventDefault());
 }
 
-/* SUBMIT */
+/* --- SUBMIT & RESULTS --- */
 function submitTest() {
-  const name = document.getElementById('stuName').value;
-  if(!submitted && !confirm("Are you sure you want to FINISH the test?")) return;
-  
-  submitted = true; clearInterval(timerInterval); 
-  
-  const tabs = document.querySelectorAll('.sec-tab');
-  tabs.forEach(t => { t.classList.remove('locked'); t.classList.add('active'); t.style.cursor="pointer"; });
-  document.getElementById('finalSubmitBtn').style.display="none";
-
-  let scoreData = {}; SECTIONS.forEach(s => scoreData[s] = {c:0, w:0, s:0});
-  let totalScore = 0, totalC = 0, totalW = 0, totalS = 0;
-
-  QUESTIONS.forEach((q, i) => {
-    let s = q.section;
-    if(answers[i] === null) { scoreData[s].s++; totalS++; }
-    else if(answers[i] === q.a) { scoreData[s].c++; totalC++; totalScore++; }
-    else { scoreData[s].w++; totalW++; totalScore -= NEGATIVE_MARK; }
-  });
-
-  let attempted = totalC + totalW;
-  let accuracy = attempted ? ((totalC/attempted)*100) : 0;
-  let rankScore = (totalScore*100) + accuracy;
-  let estRank = Math.max(1, Math.round(1000 - rankScore));
-  let timeStr = document.getElementById('timer').innerText;
-
-  /* SCORE HTML */
-  document.getElementById('modalTitle').innerText = "Score Card";
-  let resHTML = `<br>
-  <div style="text-align:center;">
-    <h3>${name}, Test Submitted!</h3>
-    <div style="font-size:24px; color:var(--primary);">Score: <b>${totalScore.toFixed(2)}</b></div>
-    <div class="chart-container"><canvas id="resultChart"></canvas></div>
-  </div>
-  <table border="1" style="width:100%; border-collapse:collapse; text-align:center; font-size:14px; border-color:var(--border-color); margin-bottom:20px;">
-    <tr style="background:var(--bg-body)"><th>Sec</th><th>✅</th><th>❌</th><th>⚪</th></tr>`;
-  SECTIONS.forEach(s => { resHTML += `<tr><td>${s}</td><td style="color:var(--success)">${scoreData[s].c}</td><td style="color:var(--danger)">${scoreData[s].w}</td><td>${scoreData[s].s}</td></tr>`; });
-  resHTML += `</table>`;
-
-  /* DETAILED PAPER HTML */
-  resHTML += `<h3 style="border-top:1px solid #ccc; padding-top:20px;">Response Sheet</h3>`;
-  QUESTIONS.forEach((q, i) => {
-      const isCorrect = answers[i] === q.a;
-      const statusColor = answers[i] === null ? '#999' : (isCorrect ? 'green' : 'red');
-      const statusText = answers[i] === null ? 'Skipped' : (isCorrect ? 'Correct' : 'Wrong');
-      const qText = (currentLang === "HI" && q.q_hi) ? q.q_hi : (q.q_en || q.q_hi);
-      const opts = (currentLang === "HI" && q.o_hi) ? q.o_hi : (q.o_en || q.o_hi);
-      // Select Explanation based on Current Lang
-      const exp = (currentLang === "EN" && q.e_en) ? q.e_en : (q.e_hi || q.e_en);
-
-      resHTML += `<div class="result-q-box">
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-            <b>Q.${i+1} (${q.section})</b>
-            <b style="color:${statusColor}">${statusText}</b>
-        </div>
-        <div style="margin-bottom:10px;">${qText}</div>
-        <div>`;
-      
-      opts.forEach((opt, k) => {
-          let optClass = "res-opt";
-          if(k === q.a) optClass += " c"; 
-          if(k === answers[i] && k !== q.a) optClass += " w"; 
-          resHTML += `<div class="${optClass}">${String.fromCharCode(65+k)}. ${opt}</div>`;
-      });
-      
-      resHTML += `</div><div style="margin-top:5px; font-size:13px; color:#555; background:#f9f9f9; padding:5px;"><b>Exp:</b> ${exp}</div></div>`;
-  });
-
-  resHTML += `<br><div style="display:flex; gap:10px; justify-content:center; padding-bottom:30px;">
-    <button class="tool-btn" onclick="downloadPDF()" style="background:var(--primary); color:#fff; border:none; padding:10px 20px;">📥 Download Result</button>
-    <button class="tool-btn" onclick="location.reload()" style="background:var(--success); color:#fff; border:none; padding:10px 20px;">Restart Test</button>
-  </div>`;
-
-  document.getElementById('qpContent').innerHTML = resHTML;
-  document.getElementById('qpModal').style.display = "flex";
-  
-  renderChart(totalC, totalW, totalS);
-  if(window.MathJax) MathJax.typesetPromise();
-  sendResultToTelegram(name, totalScore.toFixed(2), totalC, totalW, totalS, timeStr, accuracy, estRank);
-  loadQuestion(currentIdx);
-}
-
-function renderChart(c, w, s) {
-    const ctx = document.getElementById('resultChart').getContext('2d');
-    const txtColor = isDarkMode ? '#e0e0e0' : '#333';
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: { labels: ['Correct', 'Wrong', 'Skipped'], datasets: [{ data: [c, w, s], backgroundColor: ['#2e7d32', '#c62828', '#bdbdbd'], borderWidth: 0 }] },
-        options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: txtColor } } } }
-    });
-}
-
-function downloadPDF() {
-    const element = document.getElementById('qpContent');
-    const btns = element.querySelectorAll('button');
-    btns.forEach(b => b.style.display = 'none'); 
-    const opt = {
-        margin: 5, filename: 'DSSSB_Result.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save().then(() => {
-        btns.forEach(b => b.style.display = 'inline-block'); 
-    });
-}
-
-function sendResultToTelegram(name,score,c,w,s,time,accuracy,estRank){
- fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
-  method:"POST", headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({
-   chat_id:TELEGRAM_CHAT_ID,
-   text:`📘 DSSSB V3 Result\n\n👤 ${name}\n⏱ ${time}\n✅ ${c} ❌ ${w} ➖ ${s}\n🎯 Score: ${score}\n\n🔥 DSSSB Smart Notes`
-  })
- });
-}
-
-function renderPalette() {
-  const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
-  QUESTIONS.forEach((q, k) => {
-    const qSecIdx = SECTIONS.indexOf(q.section);
-    if (!submitted && qSecIdx > activeSectionIndex) {
-        const btn = document.createElement('button');
-        btn.className = "qbtn"; btn.style.background="#eee"; btn.style.color="#ccc"; btn.innerText = "🔒";
-        btn.disabled = true;
-        grid.appendChild(btn);
-        return;
-    }
-    let cls = "qbtn"; 
-    if(k === currentIdx) cls += " current";
-    if(submitted) { if(answers[k] === q.a) cls += " answered"; else if(answers[k] !== null) cls += " wrong"; } 
-    else { if(reviewStatus[k] && answers[k] !== null) cls += " review-ans"; else if(reviewStatus[k]) cls += " review"; else if(answers[k] !== null) cls += " answered"; else if(visitedStatus[k]) cls += " visited"; }
+    if(!submitted && !confirm("Are you sure you want to FINISH the test?")) return;
+    submitted = true; clearInterval(timerInterval);
     
-    const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
-    btn.onclick = () => { 
-        if (submitted || qSecIdx === activeSectionIndex) {
-            loadQuestion(k); if(window.innerWidth < 768) togglePalette(); 
-        } else {
-            alert("Cannot modify previous section.");
+    // Unlock tabs
+    const tabs = document.querySelectorAll('.sec-tab');
+    tabs.forEach(t => { t.classList.remove('locked'); t.classList.add('active'); t.style.cursor="pointer"; });
+    document.getElementById('mainSubmitBtn').style.display="none";
+
+    let totalScore=0, totalC=0, totalW=0, totalS=0;
+    let scoreData = {}; SECTIONS.forEach(s => scoreData[s] = {c:0, w:0, s:0});
+
+    QUESTIONS.forEach((q, i) => {
+        let s = q.section;
+        if(answers[i]===null) { totalS++; scoreData[s].s++; }
+        else if(answers[i]===q.a) { totalC++; totalScore+=1; scoreData[s].c++; }
+        else { totalW++; totalScore-=NEGATIVE_MARK; scoreData[s].w++; }
+    });
+
+    document.getElementById('modalTitle').innerText = "Score Card";
+    let html = `<div style="text-align:center; padding:20px;">
+        <h2>${document.getElementById('stuName').value}</h2>
+        <div style="font-size:30px; font-weight:bold; color:var(--primary)">${totalScore.toFixed(2)} / ${QUESTIONS.length}</div>
+        <p>Correct: <span style="color:green">${totalC}</span> | Wrong: <span style="color:red">${totalW}</span> | Skip: ${totalS}</p>
+        <div class="chart-container"><canvas id="resultChart"></canvas></div>
+    </div>
+    <table border="1" style="width:100%; border-collapse:collapse; text-align:center; margin-bottom:10px;">
+    <tr><th>Sec</th><th>✅</th><th>❌</th><th>⚪</th></tr>`;
+    SECTIONS.forEach(s => { html += `<tr><td>${s}</td><td>${scoreData[s].c}</td><td>${scoreData[s].w}</td><td>${scoreData[s].s}</td></tr>`; });
+    html += `</table>`;
+    
+    html += `<hr><h3>Detailed Solutions</h3>`;
+    QUESTIONS.forEach((q,i) => {
+        let st = answers[i]===null?"Skipped":(answers[i]===q.a?"Correct":"Wrong");
+        let col = answers[i]===null?"gray":(answers[i]===q.a?"green":"red");
+        // Use Bilingual Explanation Logic here too for PDF
+        let exp = (currentLang==="EN" && q.e_en)?q.e_en:(q.e_hi||q.e_en);
+        let qTxt = (currentLang==="EN" && q.q_en)?q.q_en:(q.q_hi);
+        
+        html += `<div class="result-q-box">
+            <div style="display:flex; justify-content:space-between"><b>Q.${i+1}</b> <b style="color:${col}">${st}</b></div>
+            <div>${qTxt}</div>
+            <div style="background:#f0f0f0; padding:5px; margin-top:5px; font-size:13px;">
+             <b>Your:</b> ${answers[i]!==null ? String.fromCharCode(65+answers[i]) : '-'} | 
+             <b>Ans:</b> ${String.fromCharCode(65+q.a)}
+             <br><br><b>Exp:</b> ${exp}
+            </div>
+        </div>`;
+    });
+    
+    html += `<div style="text-align:center; margin-top:20px;">
+    <button onclick="downloadPDF()" class="tool-btn" style="background:var(--primary); color:#fff; padding:10px;">Download PDF</button>
+    </div>`;
+
+    document.getElementById('qpContent').innerHTML = html;
+    document.getElementById('qpModal').style.display = "flex";
+    
+    // Chart
+    const ctx = document.getElementById('resultChart').getContext('2d');
+    new Chart(ctx, { type:'doughnut', data:{labels:['Correct','Wrong','Skip'], datasets:[{data:[totalC,totalW,totalS], backgroundColor:['#2e7d32','#c62828','#bdbdbd']}]} });
+    
+    // Telegram
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,{
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            chat_id:TELEGRAM_CHAT_ID,
+            text:`🔒 *CBT Result*\n👤 ${document.getElementById('stuName').value}\n🎯 Score: ${totalScore}\n✅ ${totalC} ❌ ${totalW}\n⚠️ Warnings: ${warningCount}`
+        })
+    });
+}
+
+/* UTILS */
+function renderPalette() {
+    const grid = document.getElementById('paletteGrid'); grid.innerHTML = "";
+    QUESTIONS.forEach((q, k) => {
+        const qSecIdx = SECTIONS.indexOf(q.section);
+        if(!submitted && qSecIdx > activeSectionIndex) {
+            const btn = document.createElement('button'); btn.className = "qbtn"; btn.innerText = "🔒"; btn.style.background="#eee"; btn.disabled=true; grid.appendChild(btn); return;
         }
-    };
-    grid.appendChild(btn);
-  });
+        let cls = "qbtn";
+        if(k === currentIdx) cls += " current";
+        if(submitted) { if(answers[k]===q.a) cls+=" answered"; else if(answers[k]!==null) cls+=" wrong"; }
+        else { if(reviewStatus[k]) cls += " review"; else if(answers[k]!==null) cls += " answered"; }
+        
+        const btn = document.createElement('button'); btn.className = cls; btn.innerText = k + 1;
+        btn.onclick = () => { if(submitted || qSecIdx === activeSectionIndex) { loadQuestion(k); if(window.innerWidth<768) togglePalette(); } };
+        grid.appendChild(btn);
+    });
 }
 
 function togglePalette() { document.getElementById('palettePanel').classList.toggle('show'); document.getElementById('bgOverlay').classList.toggle('show'); }
-function toggleFS() { !document.fullscreenElement ? document.documentElement.requestFullscreen() : document.exitFullscreen(); }
-function openQP() {
-  document.getElementById('modalTitle').innerText = "Question Paper";
-  let html = "";
-  QUESTIONS.forEach((q, i) => {
-    const qSecIdx = SECTIONS.indexOf(q.section);
-    if(!submitted && qSecIdx > activeSectionIndex) return; 
-    html += `<div style="margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-        <b>Q.${i+1} (${q.section})</b><br>${(currentLang==="HI"?q.q_hi:q.q_en) || q.q_hi}<br><br>
-        <i style="color:var(--text-muted); font-size:0.9em">Options: ${(currentLang==="HI"?q.o_hi:q.o_en).join(', ')}</i>
-    </div>`;
-  });
-  document.getElementById('qpContent').innerHTML = html;
-  document.getElementById('qpModal').style.display = "flex";
+function closeTg(){ document.getElementById('tgPopup').style.display = "none"; }
+function toggleDarkMode() { document.body.classList.toggle('dark-mode'); localStorage.setItem('dsssb_dark_mode', document.body.classList.contains('dark-mode')); }
+function changeFont(d) { fontSize+=d; document.getElementById('qContent').style.fontSize=fontSize+"px"; }
+function openZoom(src) { document.getElementById('zoomImg').src=src; document.getElementById('zoomModal').style.display='flex'; }
+function closeZoom() { document.getElementById('zoomModal').style.display='none'; }
+function openQP() { document.getElementById('qpModal').style.display='flex'; } 
+function closeQP() { document.getElementById('qpModal').style.display='none'; }
+function downloadPDF() {
+    const el = document.getElementById('qpContent');
+    const btns = el.querySelectorAll('button'); btns.forEach(b=>b.style.display='none');
+    const opt = { margin:5, filename:'Result.pdf', image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'} };
+    html2pdf().set(opt).from(el).save().then(()=>{ btns.forEach(b=>b.style.display='inline-block'); });
 }
-function closeQP() { document.getElementById('qpModal').style.display = "none"; }
 </script>
 </body>
 </html>
