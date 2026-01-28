@@ -250,8 +250,8 @@ footer { background: var(--bg-card); padding: 10px; border-top: 1px solid var(--
 /* =========================================
    1. CONFIGURATION & SECURITY
    ========================================= */
-// PASSWORD IS "dsssb2406" (Encoded in Base64 for Security)
-const PASS_ENCODED = "ZHNzc2IyNDA2"; 
+// PASSWORD IS "Dsssb2406" (Encoded in Base64 for Security)
+const PASS_ENCODED = "RHNzc2IyNDA2"; 
 const TOTAL_TIME_MINS = 120;
 const TELEGRAM_BOT_TOKEN="8486464606:AAFT_Bd0P2HYqKNPjCm3s7TGgfM4HWmOYvs";
 const TELEGRAM_CHAT_ID="@dsssbcbtresult";
@@ -261,49 +261,57 @@ const NEGATIVE_MARK = 0.25;
 /* =========================================
    2. QUESTIONS DATA (SUPPORTING IMAGE URLs)
    ========================================= */
-/* CBT WEB FORMAT (VARIANT): Using op_hi and op_en */
 const QUESTIONS = [
   // Question with Image URL (Reasoning)
-  {
-  id: 1, 
-  section: "Reasoning",
-  q_en: "Refer to the given number series and answer the question that follows. Counting to be done from left to right only. All numbers are single-digit numbers.<br><br><b>(Left) 6 2 1 5 7 3 7 5 9 8 5 3 7 4 5 2 4 8 4 3 6 9 4 2 1 5 1 (Right)</b><br><br>How many such odd digits are there, each of which is immediately preceded by an even digit and also immediately followed by an odd digit?",
-  q_hi: "दी गई संख्या श्रृंखला देखें और पूछे गए प्रश्न का उत्तर दें। गणना केवल बाएं से दाएं की जानी है। सभी संख्याएं एकल-अंक (single-digit) हैं।<br><br><b>(बायां) 6 2 1 5 7 3 7 5 9 8 5 3 7 4 5 2 4 8 4 3 6 9 4 2 1 5 1 (दायां)</b><br><br>ऐसे कितने विषम अंक हैं, जिनमें से प्रत्येक के ठीक पहले एक सम अंक है और ठीक बाद में भी एक विषम अंक है?",
-  op_en: ["5", "2", "4", "3"],
-  op_hi: ["5", "2", "4", "3"],
-  a: 3, 
-  e_en: "Pattern Required: <b>Even Number → Odd Number → Odd Number</b><br><br>Checking the series:<br>6 <b>2 1 5</b> 7 3 7 5 9 <b>8 5 3</b> 7 4 5 2 4 8 4 3 6 9 4 <b>2 1 5</b> 1<br><br>Matches found:<br>1. 2-1-5 (1 is odd, preceded by even 2, followed by odd 5)<br>2. 8-5-3 (5 is odd, preceded by even 8, followed by odd 3)<br>3. 2-1-5 (1 is odd, preceded by even 2, followed by odd 5)<br><br>Total count = 3.",
-  e_hi: "आवश्यक पैटर्न: <b>सम संख्या → विषम संख्या → विषम संख्या</b><br><br>श्रृंखला की जाँच:<br>6 <b>2 1 5</b> 7 3 7 5 9 <b>8 5 3</b> 7 4 5 2 4 8 4 3 6 9 4 <b>2 1 5</b> 1<br><br>जोड़े मिले:<br>1. 2-1-5 (1 विषम है, पहले सम 2, बाद में विषम 5)<br>2. 8-5-3 (5 विषम है, पहले सम 8, बाद में विषम 3)<br>3. 2-1-5 (1 विषम है, पहले सम 2, बाद में विषम 5)<br><br>कुल संख्या = 3."
-},
+  { 
+    id: 1, section: "Reasoning", 
+    q_hi: "नीचे दी गई आकृति का दर्पण प्रतिबिम्ब चुनें:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='Question Image'>", 
+    q_en: "Choose the mirror image of the figure below:<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='Question Image'>", 
+    // Options with Image URLs
+    o_hi: [
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png'>", 
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png' style='transform:scaleX(-1)'>", 
+        "C", "D"
+    ], 
+    o_en: [
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png'>", 
+        "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/50px-Small_triangle.svg.png' style='transform:scaleX(-1)'>", 
+        "C", "D"
+    ], 
+    a: 1, 
+    e_hi: "दर्पण में बायाँ भाग दायाँ हो जाता है।", 
+    e_en: "In mirror, left becomes right."
+  },
+  { 
       id: 2, section: "Reasoning", q_hi: "विषम चुनें:", q_en: "Find odd one:", 
-      op_hi: ["सेब", "गेंद", "कमल", "गुलाब"], op_en: ["Apple", "Ball", "Lotus", "Rose"], a: 1, 
+      o_hi: ["सेब", "गेंद", "कमल", "गुलाब"], o_en: ["Apple", "Ball", "Lotus", "Rose"], a: 1, 
       e_hi: "गेंद कृत्रिम है।", e_en: "Ball is artificial." 
   },
   { 
       id: 3, section: "GK", q_hi: "मौलिक कर्तव्य कहाँ से लिए गए?", q_en: "Fundamental Duties source?", 
-      op_hi: ["USA", "Russia", "UK", "Canada"], op_en: ["USA", "Russia", "UK", "Canada"], a: 1, 
+      o_hi: ["USA", "Russia", "UK", "Canada"], o_en: ["USA", "Russia", "UK", "Canada"], a: 1, 
       e_hi: "रूस (USSR) से लिए गए। अनुच्छेद 51A.", e_en: "Borrowed from Russia (USSR). Article 51A." 
   },
   { 
       id: 4, section: "Maths", q_hi: "CP=800, Profit=25%, SP=?", q_en: "CP=800, Profit=25%, SP=?", 
-      op_hi: ["1000", "900", "1100", "1200"], op_en: ["1000", "900", "1100", "1200"], a: 0, 
+      o_hi: ["1000", "900", "1100", "1200"], o_en: ["1000", "900", "1100", "1200"], a: 0, 
       e_hi: "SP = 800 x 125/100 = 1000", e_en: "SP = 800 x 1.25 = 1000" 
   },
   { 
       id: 5, section: "English", q_en: "Synonym of Happy?", q_hi: "Happy का पर्यायवाची?", 
-      op_en: ["Sad", "Joyful", "Angry", "Cry"], op_hi: ["Sad", "Joyful", "Angry", "Cry"], a: 1, 
+      o_en: ["Sad", "Joyful", "Angry", "Cry"], o_hi: ["Sad", "Joyful", "Angry", "Cry"], a: 1, 
       e_hi: "Happy = खुश, Joyful = आनंदित", e_en: "Happy means Joyful." 
   },
   { 
       id: 6, section: "Hindi", q_hi: "संधि विच्छेद: विद्यालय", q_en: "", 
-      op_hi: ["विद्या + आलय", "विद्य + लय", "विद्या + लय", "इनमें से कोई नहीं"], a: 0, 
+      o_hi: ["विद्या + आलय", "विद्य + लय", "विद्या + लय", "इनमें से कोई नहीं"], a: 0, 
       e_hi: "विद्या + आलय = विद्यालय (दीर्घ संधि)", e_en: "Vidya + Aalay = Vidyalaya" 
   },
   {
       id: 7, section: "Reasoning",
       q_hi: "नीचे दी गई आकृति में कितने त्रिभुज हैं?<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='URL Image'>",
       q_en: "How many triangles are in the figure below?<br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Small_triangle.svg/100px-Small_triangle.svg.png' alt='URL Image'>",
-      op_hi: ["10", "12", "14", "16"], op_en: ["10", "12", "14", "16"],
+      o_hi: ["10", "12", "14", "16"], o_en: ["10", "12", "14", "16"],
       a: 1,
       e_hi: "आकृति को गिनने पर 12 त्रिभुज प्राप्त होते हैं।",
       e_en: "Counting the figure yields 12 triangles."
@@ -403,8 +411,8 @@ function loadQuestion(idx) {
     contentDiv.style.fontSize = fontSize + "px";
     contentDiv.querySelectorAll('img').forEach(img => { img.classList.add('q-img'); img.onclick=()=>openZoom(img.src); });
 
-    // Render Options (UPDATED FOR CBT WEB VARIANT: op_hi/op_en)
-    const optsArr = (currentLang==="HI" && q.op_hi) ? q.op_hi : (q.op_en||q.op_hi);
+    // Render Options
+    const optsArr = (currentLang==="HI" && q.o_hi) ? q.o_hi : (q.o_en||q.o_hi);
     let html = "";
     optsArr.forEach((opt, i) => {
         let cls = "opt";
