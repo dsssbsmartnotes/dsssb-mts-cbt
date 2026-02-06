@@ -2,108 +2,229 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>DSSSB Smart Notes – Pro App</title>
+<title>DSSSB Smart Notes – Ultimate V3</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#4361ee">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
 /* ===== VARIABLES & CSS ===== */
 :root {
-  --primary: #4361ee; --primary-dark: #3a0ca3; --success: #10b981;
+  --primary: #4361ee; --primary-dark: #3a0ca3; --success: #10b981; --warning: #f59e0b;
   --bg: #f3f4f6; --card-bg: #ffffff; --text-main: #1f2937; --text-sub: #6b7280;
   --border: #e5e7eb; --header-grad: linear-gradient(135deg, #4361ee, #3a0ca3);
+  --tg-color: #0088cc; --yt-color: #ff0000; --pdf-color: #ff9800;
   --nav-height: 65px;
+  /* New variables for 3D buttons */
+  --btn-shadow: #cbd5e1;
+  --btn-shadow-active: #94a3b8;
 }
 [data-theme="dark"] {
   --primary: #4cc9f0; --primary-dark: #4361ee; --bg: #111827;
   --card-bg: #1f2937; --text-main: #f9fafb; --text-sub: #9ca3af;
   --border: #374151; --header-grad: linear-gradient(135deg, #1e1e2e, #2d2d44);
+  --btn-shadow: #111827; 
+  --btn-shadow-active: #000;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text-main); padding-bottom: calc(var(--nav-height) + 20px); }
+body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text-main); padding-bottom: calc(var(--nav-height) + 20px); transition: background 0.3s, color 0.3s; }
 
 /* HEADER */
-.header { background: var(--header-grad); color: #fff; padding: 25px 20px 35px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-.header h1 { margin: 0; font-size: 22px; font-weight: 700; }
-.header p { margin: 4px 0 0; font-size: 13px; opacity: 0.9; }
-.theme-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
+.header { background: var(--header-grad); color: #fff; padding: 25px 20px 85px; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; position: relative; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+.header h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+.countdown-pill { background: rgba(0,0,0,0.25); font-size: 10px; padding: 3px 10px; border-radius: 12px; margin-left: 5px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px); }
+
+/* STREAK & ACTIONS */
+.streak-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.1); width: fit-content; }
+.header-actions { display: flex; gap: 10px; }
+.icon-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 38px; height: 38px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+.icon-btn:active { transform: scale(0.95); background: rgba(255,255,255,0.3); }
+
+/* SOCIAL GRID */
+.social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0 20px; margin-top: -55px; position: relative; z-index: 20; margin-bottom: 20px; }
+.social-card { background: var(--card-bg); border-radius: 18px; padding: 12px; text-align: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1px solid var(--border); transition: transform 0.2s; text-decoration: none; display: block; position: relative; overflow: hidden; }
+.social-card:active { transform: scale(0.96); }
+.social-icon { font-size: 24px; margin-bottom: 5px; display: block; }
+.social-text { font-size: 11px; font-weight: 600; color: var(--text-main); display: block; }
+.sc-tg .social-icon { color: var(--tg-color); }
+.sc-yt .social-icon { color: var(--yt-color); }
+.sc-pdf .social-icon { color: var(--pdf-color); }
+
+/* PROMO BANNER */
+.promo-banner { background: var(--card-bg); margin: 0 20px 15px; padding: 12px; border-radius: 16px; border: 2px dashed var(--primary); display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; position: relative; }
+.promo-icon-box { background: rgba(67, 97, 238, 0.1); color: var(--primary); width: 35px; height: 35px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.marquee-wrapper { flex: 1; overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+.marquee-content { display: inline-block; padding-left: 100%; animation: scroll 15s linear infinite; font-size: 13px; font-weight: 500; color: var(--text-main); }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
 /* SEARCH */
-.search-container { padding: 0 20px; margin-top: -25px; position: relative; z-index: 20; }
-.search-box { background: var(--card-bg); padding: 8px 15px; border-radius: 16px; display: flex; align-items: center; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1px solid var(--border); }
-.search-box input { width: 100%; padding: 10px 0; border: none; background: transparent; outline: none; font-size: 15px; color: var(--text-main); margin-left: 10px; font-family: inherit; }
+.search-container { padding: 0 20px; }
+.search-box { background: var(--card-bg); padding: 12px 15px; border-radius: 16px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); transition: 0.3s; }
+.search-box:focus-within { border-color: var(--primary); box-shadow: 0 4px 20px rgba(67, 97, 238, 0.2); }
+.search-box input { width: 100%; padding: 0; border: none; background: transparent; outline: none; font-size: 14px; color: var(--text-main); margin-left: 10px; font-family: inherit; }
 
-/* SOCIAL BUTTONS */
-.social-bar { display: flex; gap: 10px; padding: 15px 20px 5px; }
-.social-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px; color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
-.tg-btn { background: linear-gradient(135deg, #229ED9, #0088cc); }
-.yt-btn { background: linear-gradient(135deg, #ff0000, #cc0000); }
-
-/* FILTERS (FOLDERS) */
-.filters-wrapper { padding: 15px 20px 10px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+/* 🔥 NEW 3D FILTERS WRAPPER 🔥 */
+.filters-wrapper { padding: 15px 20px 20px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
 .filters-wrapper::-webkit-scrollbar { display: none; }
-.filter-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-sub); font-weight: 500; font-size: 13px; margin-right: 8px; cursor: pointer; transition: 0.2s; }
-.filter-btn.active { background: var(--text-main); color: #fff; border-color: var(--text-main); }
-/* Specific styling for new folders */
-.filter-btn[data-filter="mts-full"], .filter-btn[data-filter="asst-supt"] {
-    background: #eef2ff; color: var(--primary); border-color: var(--primary); font-weight: 600;
-}
-.filter-btn[data-filter="mts-full"].active, .filter-btn[data-filter="asst-supt"].active {
-    background: var(--primary); color: #fff;
+
+/* 3D BASE BUTTON STYLE */
+.filter-btn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  background: var(--card-bg);
+  color: var(--text-sub);
+  font-weight: 700;
+  font-size: 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  
+  /* 3D Effect Properties */
+  box-shadow: 0 4px 0 var(--btn-shadow); 
+  transform: translateY(0);
+  border: 1px solid var(--border);
+  position: relative;
+  top: 0;
 }
 
-/* CARDS */
-.section { padding: 10px 20px; }
-.card { background: var(--card-bg); border-radius: 18px; padding: 18px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); position: relative; }
-.card.completed { border-left: 5px solid var(--success); opacity: 0.85; }
-.card.completed::after { content: "✔ DONE"; position: absolute; top: 10px; right: 10px; font-size: 9px; background: #d1fae5; color: #065f46; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-.card h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-.meta-info { margin-top: 6px; font-size: 12px; color: var(--text-sub); }
-.start-btn { background: var(--primary); color: #fff; padding: 8px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3); }
-.action-area { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+/* 3D PRESS EFFECT */
+.filter-btn:active, .filter-btn.active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--btn-shadow);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* 🏆 SPECIAL 3D BUTTON: MTS MOCK (RED/PINK THEME) */
+.filter-btn[data-filter="mts-full"] {
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 0 #b91c1c; /* Dark Red Shadow */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.filter-btn[data-filter="mts-full"]:active, 
+.filter-btn[data-filter="mts-full"].active {
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #b91c1c;
+  color: white;
+}
+
+/* 👮 SPECIAL 3D BUTTON: ASST. SUPT (ROYAL/POLICE THEME) */
+.filter-btn[data-filter="asst-supt"] {
+  background: linear-gradient(135deg, #4361ee, #304ffe);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 0 #1e3a8a; /* Dark Blue Shadow */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.filter-btn[data-filter="asst-supt"]:active, 
+.filter-btn[data-filter="asst-supt"].active {
+  background: linear-gradient(135deg, #4361ee, #304ffe);
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #1e3a8a;
+  color: white;
+}
+
+/* CARDS & GENERAL */
+.section { padding: 10px 20px; min-height: 50vh; }
+.card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); position: relative; transition: all 0.2s; }
+.card:active { transform: scale(0.98); }
+.card.completed { border-left: 5px solid var(--success); background: linear-gradient(to right, rgba(16, 185, 129, 0.05), var(--card-bg)); }
+.score-pill { position: absolute; top: 12px; right: 12px; font-size: 10px; background: rgba(16, 185, 129, 0.15); color: #059669; padding: 4px 8px; border-radius: 8px; font-weight: 700; }
+.card h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--text-main); line-height: 1.4; padding-right: 50px; }
+.meta-info { margin-top: 8px; font-size: 12px; color: var(--text-sub); display: flex; align-items: center; gap: 5px; }
+.start-btn { background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 12px; font-size: 13px; font-weight: 600; text-decoration: none; box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3); transition: 0.2s; }
+.start-btn:active { transform: translateY(2px); }
+.action-area { display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
 .icon-actions { display: flex; gap: 15px; }
-.action-icon { font-size: 18px; color: #ccc; cursor: pointer; transition: color 0.2s; }
-.action-icon.saved { color: #ef4444; }
+.action-icon { font-size: 18px; color: #d1d5db; cursor: pointer; transition: all 0.2s; }
+.action-icon.saved { color: #ef4444; animation: heartBeat 0.3s; }
 .action-icon.done-active { color: var(--success); }
-.badge { font-size: 9px; padding: 3px 6px; border-radius: 4px; font-weight: 700; }
-.badge-HOT { background: #fee2e2; color: #b91c1c; } .badge-NEW { background: #dcfce7; color: #15803d; } .badge-MOCK { background: #e0e7ff; color: #4338ca; }
+@keyframes heartBeat { 0% {transform: scale(1);} 50% {transform: scale(1.3);} 100% {transform: scale(1);} }
+
+/* MODALS & UTILS */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 200; display: none; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
+.modal { background: var(--card-bg); width: 100%; max-width: 340px; border-radius: 28px; padding: 25px; text-align: center; animation: slideUp 0.3s; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+@keyframes slideUp { from {transform: translateY(30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
 
 /* BOTTOM NAV */
-.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height); background: var(--card-bg); box-shadow: 0 -5px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 100; border-top: 1px solid var(--border); }
-.nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: var(--text-sub); cursor: pointer; flex: 1; height: 100%; justify-content: center; }
-.nav-item.active { color: var(--primary); font-weight: 600; }
-.nav-item i { font-size: 20px; margin-bottom: 4px; }
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height); background: var(--card-bg); box-shadow: 0 -10px 30px rgba(0,0,0,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 100; border-top: 1px solid var(--border); border-top-left-radius: 25px; border-top-right-radius: 25px; }
+.nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: var(--text-sub); cursor: pointer; flex: 1; height: 100%; justify-content: center; transition: 0.2s; }
+.nav-item.active { color: var(--primary); }
+.nav-item.active i { transform: translateY(-3px); color: var(--primary); }
+.nav-item i { font-size: 20px; margin-bottom: 5px; transition: 0.3s; }
+/* Toast */
+#toast { visibility: hidden; min-width: 200px; background-color: #1f2937; color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px; position: fixed; z-index: 999; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; }
+#toast.show { visibility: visible; opacity: 1; bottom: 95px; }
+.fab-random { position: fixed; bottom: 90px; right: 20px; width: 55px; height: 55px; background: var(--text-main); color: var(--card-bg); border-radius: 50%; box-shadow: 0 8px 25px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 90; cursor: pointer; transition: 0.3s; }
+.fab-random:active { transform: scale(0.9) rotate(90deg); }
 
-/* MODAL */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 200; display: none; justify-content: center; align-items: center; padding: 20px; }
-.modal { background: var(--card-bg); width: 100%; max-width: 320px; border-radius: 20px; padding: 25px; text-align: center; animation: slideUp 0.3s ease; }
-@keyframes slideUp { from {transform: translateY(20px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+/* Other utils */
 .stat-grid { display: flex; gap: 10px; margin: 20px 0; }
-.stat-box { flex: 1; background: var(--bg); padding: 15px; border-radius: 12px; }
+.stat-box { flex: 1; background: var(--bg); padding: 15px; border-radius: 16px; border: 1px solid var(--border); }
 .stat-num { font-size: 24px; font-weight: 700; color: var(--primary); }
+.primary-btn { background: var(--text-main); color: var(--card-bg); border: none; padding: 14px 30px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.settings-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.btn-outline { border: 1px solid var(--text-main); color: var(--text-main); background: transparent; padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+.pie-chart { width: 130px; height: 130px; border-radius: 50%; background: conic-gradient(var(--primary) 0% 0%, var(--bg) 0% 100%); margin: 0 auto 20px; position: relative; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.pie-chart::after { content: attr(data-percent); position: absolute; width: 100px; height: 100px; background: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 24px; color: var(--text-main); box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
 
+<audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+
 <div class="header">
-  <div class="header-text"><h1 id="greeting">Hello Student</h1><p>Keep tracking your progress</p></div>
-  <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+  <div class="top-row">
+      <div class="header-text">
+          <h1 id="greeting">Hello Student</h1>
+          <div class="streak-badge" id="streakDisplay">
+              <i class="fas fa-fire" style="color:#f59e0b"></i> <span id="streakCount">0</span> Streak
+              <span class="countdown-pill" id="examTimer">⏳ Set Date</span>
+          </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="openTools()"><i class="fas fa-rocket"></i></button> 
+        <button class="icon-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        <button class="icon-btn" onclick="openSettings()"><i class="fas fa-cog"></i></button>
+      </div>
+  </div>
+  <div style="font-size:12px; opacity:0.9; font-style:italic;" id="dailyQuote">"Success comes to those who act."</div>
+</div>
+
+<div class="social-grid">
+    <a href="https://t.me/YOUR_TELEGRAM_LINK" target="_blank" class="social-card sc-tg">
+        <i class="fab fa-telegram-plane social-icon"></i>
+        <span class="social-text">Join Telegram</span>
+    </a>
+    <a href="https://youtube.com/YOUR_CHANNEL_LINK" target="_blank" class="social-card sc-yt">
+        <i class="fab fa-youtube social-icon"></i>
+        <span class="social-text">Watch Videos</span>
+    </a>
+    <div onclick="downloadPDF()" class="social-card sc-pdf" style="cursor:pointer">
+        <i class="fas fa-file-pdf social-icon"></i>
+        <span class="social-text">Free PDF</span>
+    </div>
+</div>
+
+<div class="promo-banner">
+    <div class="promo-icon-box"><i class="fas fa-bullhorn"></i></div>
+    <div class="marquee-wrapper">
+        <div class="marquee-content" id="promoText">
+            📢 Welcome to DSSSB Smart Notes! Loading updates...
+        </div>
+    </div>
 </div>
 
 <div class="search-container">
-  <div class="search-box"><i class="fas fa-search" style="color:var(--text-sub)"></i><input type="text" id="searchInput" placeholder="Search tests..."></div>
+  <div class="search-box"><i class="fas fa-search" style="color:var(--text-sub)"></i><input type="text" id="searchInput" placeholder="Search tests, notes..."></div>
 </div>
-
-<div class="social-bar">
-  <a href="https://t.me/DSSSBSmartNotes" target="_blank" class="social-btn tg-btn">
-    <i class="fab fa-telegram-plane"></i> Telegram
-  </a>
-  <a href="https://youtube.com/@rankshotofficial?si=xHUs3TVITagePD7T" target="_blank" class="social-btn yt-btn">
-    <i class="fab fa-youtube"></i> YouTube
-  </a>
-</div>
-
 <div class="filters-wrapper">
   <button class="filter-btn active" data-filter="all">All</button>
   <button class="filter-btn" data-filter="mts-full">🎯 MTS Mock</button>
@@ -115,80 +236,255 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); col
   <button class="filter-btn" data-filter="hindi">Hindi</button>
 </div>
 
-<div class="section" id="mainContainer">
-  </div>
+<div class="section" id="mainContainer"></div>
+<div class="fab-random" onclick="pickRandomTest()"><i class="fas fa-dice"></i></div>
 
-<div class="modal-overlay" id="profileModal">
+<div class="modal-overlay" id="toolsModal">
   <div class="modal">
-    <div style="font-size:40px; margin-bottom:10px;">🎓</div>
-    <h2 style="margin:0;">My Progress</h2>
-    <div class="stat-grid">
-      <div class="stat-box"><div class="stat-num" id="statCompleted">0</div><div style="font-size:12px">Completed</div></div>
-      <div class="stat-box"><div class="stat-num" id="statSaved">0</div><div style="font-size:12px">Saved</div></div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0;">🚀 Study Tools</h3>
+        <i class="fas fa-times" onclick="document.getElementById('toolsModal').style.display='none'" style="cursor:pointer; opacity:0.6;"></i>
     </div>
-    <button onclick="document.getElementById('profileModal').style.display='none'" style="background:var(--text-main); color:#fff; border:none; padding:10px 25px; border-radius:20px;">Close</button>
+    <div class="tools-tabs" style="display:flex; background:var(--bg); border-radius:12px; padding:5px; margin-bottom:20px;">
+        <div class="t-tab active" id="tabTimer" onclick="switchTool('timer')" style="flex:1; padding:8px; text-align:center; font-size:13px; font-weight:600; cursor:pointer; border-radius:8px;">⏳ Timer</div>
+        <div class="t-tab" id="tabTodo" onclick="switchTool('todo')" style="flex:1; padding:8px; text-align:center; font-size:13px; font-weight:600; cursor:pointer; border-radius:8px; color:var(--text-sub);">📝 To-Do</div>
+    </div>
+    
+    <div id="toolTimerSection">
+        <div class="timer-circle" style="width:140px; height:140px; margin:0 auto; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; background:conic-gradient(var(--primary) 0%, var(--bg) 0%); position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+            <div style="width:110px; height:110px; background:var(--card-bg); border-radius:50%; display:flex; align-items:center; justify-content:center; position:absolute;">
+                <span id="timerDisplay">25:00</span>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:25px;">
+            <button class="primary-btn" onclick="startTimer()" id="btnTimerStart">Start Focus</button>
+            <button class="btn-outline" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
+    <div id="toolTodoSection" style="display:none; text-align:left;">
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="text" id="todoInput" placeholder="Add task..." style="flex:1; padding:12px; border-radius:12px; border:1px solid var(--border); background:var(--bg); color:var(--text-main); font-family:inherit; outline:none;">
+            <button onclick="addTodo()" style="background:var(--primary); color:#fff; border:none; width:45px; border-radius:12px; cursor:pointer; font-size:16px;"><i class="fas fa-plus"></i></button>
+        </div>
+        <div id="todoList" style="max-height:220px; overflow-y:auto; padding-right:5px;"></div>
+    </div>
   </div>
 </div>
 
+<div class="modal-overlay" id="profileModal">
+  <div class="modal">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h2 style="margin:0; font-size:20px;">Your Progress</h2>
+        <span id="userLevelBadge" style="font-size:10px; background:#3b82f6; color:#fff; padding:4px 10px; border-radius:20px; font-weight:700;">BEGINNER</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-num" id="statCompleted">0</div><div style="font-size:11px; color:var(--text-sub)">Completed</div></div>
+      <div class="stat-box"><div class="stat-num" id="statSaved">0</div><div style="font-size:11px; color:var(--text-sub)">Saved Tests</div></div>
+    </div>
+    
+    <div style="display:flex; border-bottom:1px solid var(--border); margin-bottom:15px;">
+        <div style="flex:1; padding:10px; border-bottom:2px solid var(--primary); font-size:13px; font-weight:600; cursor:pointer;" id="tabAnalysis" onclick="switchProfileView('analysis')">Analysis</div>
+        <div style="flex:1; padding:10px; color:var(--text-sub); font-size:13px; cursor:pointer;" id="tabHistory" onclick="switchProfileView('timeline')">History</div>
+    </div>
+
+    <div id="analysisView">
+        <div id="visualChartContainer" style="text-align:center; margin-bottom:20px;"></div>
+        <div id="subjectProgressList" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+    </div>
+    
+    <div class="timeline" id="historyTimeline" style="display:none; text-align:left; max-height:280px; overflow-y:auto;">
+        </div>
+    
+    <button class="primary-btn" onclick="document.getElementById('profileModal').style.display='none'" style="margin-top:15px; background:var(--bg); color:var(--text-main); border:1px solid var(--border);">Close</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3 style="margin-top:0;">⚙️ Settings</h3>
+    <div class="settings-row">
+        <span>Backup Data</span>
+        <button class="btn-outline" onclick="exportData()"><i class="fas fa-download"></i> Save</button>
+    </div>
+    <div class="settings-row">
+        <span>Restore Data</span>
+        <label class="btn-outline" style="cursor:pointer; display:inline-block;"><i class="fas fa-upload"></i> Upload <input type="file" id="importFile" onchange="importData(this)" style="display:none;"></label>
+    </div>
+    <div class="settings-row">
+        <span>Exam Date</span>
+        <input type="date" id="examDateInput" onchange="setExamDate(this.value)" style="border:1px solid var(--border); padding:8px; border-radius:8px; background:var(--bg); color:var(--text-main); outline:none;">
+    </div>
+    <div class="settings-row" style="border-top: 1px solid var(--border); margin-top:15px; padding-top:15px;">
+        <span style="color:#ef4444; font-weight:600;">Danger Zone</span>
+        <button onclick="resetApp()" style="background:#fee2e2; color:#b91c1c; border:none; padding:8px 15px; border-radius:8px; font-size:12px; cursor:pointer;">Reset App</button>
+    </div>
+    <button class="primary-btn" onclick="document.getElementById('settingsModal').style.display='none'" style="margin-top:20px;">Done</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="noteModal">
+  <div class="modal">
+    <h3 style="margin:0; font-size:16px;">📝 Study Note</h3>
+    <textarea id="noteInput" style="width:100%; height:120px; border:1px solid var(--border); background:var(--bg); border-radius:12px; padding:15px; font-family:inherit; font-size:14px; color:var(--text-main); margin:15px 0; resize:none; outline:none;" placeholder="Write your doubts..."></textarea>
+    <button class="primary-btn" onclick="saveNote()">Save Note</button>
+    <button onclick="document.getElementById('noteModal').style.display='none'" style="background:transparent; border:none; color:var(--text-sub); margin-top:10px; cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"><i class="fas fa-check-circle"></i> <span>Action Completed</span></div>
+
 <div class="bottom-nav">
   <div class="nav-item active" onclick="switchTab('home', this)"><i class="fas fa-home"></i><span>Home</span></div>
-  <div class="nav-item" onclick="switchTab('saved', this)"><i class="fas fa-heart"></i><span>Saved</span></div>
+  <div class="nav-item" onclick="switchTab('saved', this)"><i class="fas fa-bookmark"></i><span>Saved</span></div>
   <div class="nav-item" onclick="openProfile()"><i class="fas fa-user-circle"></i><span>Profile</span></div>
 </div>
 
 <script src="data.js"></script> 
 <script>
+// --- STATE MANAGEMENT ---
 let savedTests = JSON.parse(localStorage.getItem("savedTests")) || [];
 let doneTests = JSON.parse(localStorage.getItem("doneTests")) || [];
-let currentTab = 'home';
-let currentCategory = 'all';
+let testNotes = JSON.parse(localStorage.getItem("testNotes")) || {};
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+let examDate = localStorage.getItem("examDate") || "";
 
+// Fix legacy data if any
+if(doneTests.length > 0 && !doneTests[0].date){
+    doneTests = doneTests.map(d => ({ ...d, date: new Date().toISOString() }));
+    localStorage.setItem("doneTests", JSON.stringify(doneTests));
+}
+
+let currentTab = 'home';
+let currentNoteId = null;
+let timerInterval;
+let timeLeft = 25 * 60;
+let isRunning = false;
+
+// --- INITIALIZATION ---
 function init(){
   const h = new Date().getHours();
   document.getElementById("greeting").innerText = h<12?"Good Morning ☀️":h<18?"Good Afternoon 🌤️":"Good Evening 🌙";
-  if(localStorage.getItem("theme")==="dark") document.body.setAttribute("data-theme","dark");
+  
+  if(typeof appConfig !== 'undefined'){
+      if(appConfig.announcement) {
+          document.getElementById("promoText").innerText = appConfig.announcement;
+      }
+  }
+  
+  if(localStorage.getItem("theme")==="dark"){
+      document.body.setAttribute("data-theme","dark");
+      const moonBtn = document.querySelector(".header-actions .fa-moon");
+      if(moonBtn) moonBtn.classList.replace("fa-moon", "fa-sun");
+  }
+  
+  if(examDate) {
+      document.getElementById("examDateInput").value = examDate;
+      updateCountdown();
+  }
+  
+  checkStreak();
   renderTests();
   updateStats();
 }
 
+function downloadPDF() {
+    if(typeof appConfig !== 'undefined' && appConfig.pdfLink){
+        showToast("⬇️ Opening PDF...");
+        confetti({ particleCount: 150, spread: 60, origin: { y: 0.6 } });
+        setTimeout(() => {
+            window.open(appConfig.pdfLink, '_blank');
+        }, 800);
+    } else {
+        alert("PDF Link not configured! Use Admin Panel to set PDF Link.");
+    }
+}
+
+// --- AUDIO & UI UTILS ---
+function playSound(){
+    const audio = document.getElementById("successSound");
+    audio.currentTime = 0; 
+    audio.play().catch(e => console.log("Audio permission needed"));
+}
+
+function showToast(m){ 
+    const t = document.getElementById("toast"); 
+    t.querySelector("span").innerText = m; 
+    t.className = "show"; 
+    setTimeout(() => t.className = "", 2500); 
+}
+
+function updateCountdown(){
+    const diff = Math.ceil((new Date(examDate) - new Date()) / (1000 * 60 * 60 * 24));
+    const pill = document.getElementById("examTimer");
+    if(diff > 0) {
+        pill.innerText = `⏳ ${diff} Days Left`;
+        pill.style.background = "rgba(16, 185, 129, 0.2)";
+        pill.style.color = "#fff";
+    } else {
+        pill.innerText = `⚠️ Exam Day!`;
+        pill.style.background = "rgba(239, 68, 68, 0.3)";
+    }
+}
+function setExamDate(d){ localStorage.setItem("examDate", d); examDate = d; updateCountdown(); }
+
+function checkStreak() {
+    const today = new Date().toDateString();
+    let lastVisit = localStorage.getItem("lastVisit");
+    let streak = parseInt(localStorage.getItem("streakCount") || "0");
+    
+    if (lastVisit !== today) {
+        const yest = new Date(); yest.setDate(yest.getDate() - 1);
+        if (lastVisit === yest.toDateString()) streak++;
+        else if (lastVisit !== today) streak = 1;
+        if(!lastVisit) streak = 1;
+        
+        localStorage.setItem("lastVisit", today);
+        localStorage.setItem("streakCount", streak);
+    }
+    document.getElementById("streakCount").innerText = streak;
+}
+
+// --- RENDER LOGIC ---
 function renderTests() {
   const container = document.getElementById("mainContainer");
   const searchVal = document.getElementById("searchInput").value.toLowerCase();
-  
-  // Show active folder name
-  let folderName = 'Available Tests';
-  if(currentCategory === 'mts-full') folderName = '🎯 MTS Full Mock Tests';
-  if(currentCategory === 'asst-supt') folderName = '👮 Asst. Supt. Tests';
-  if(currentTab === 'saved') folderName = '❤️ Saved Tests';
-
-  container.innerHTML = `<div style="margin-bottom:15px; font-size:14px; font-weight:600; color:var(--text-sub)"><i class="fas fa-layer-group"></i> ${folderName}</div>`;
-  
+  let category = document.querySelector(".filter-btn.active").getAttribute("data-filter");
   let visibleCount = 0;
+  container.innerHTML = '';
 
   if(typeof testDatabase !== 'undefined') {
     testDatabase.forEach(test => {
       let show = true;
       if(currentTab === 'saved' && !savedTests.includes(test.id)) show = false;
-      if(currentCategory !== 'all' && test.category !== currentCategory) show = false;
+      if(category !== 'all' && test.category !== category) show = false;
       if(!test.title.toLowerCase().includes(searchVal)) show = false;
 
       if(show){
         visibleCount++;
         const isSaved = savedTests.includes(test.id);
-        const isDone = doneTests.includes(test.id);
-        const badgeHTML = test.badge ? `<span class="badge badge-${test.badge}">${test.badge}</span>` : '';
-        
+        const doneObj = doneTests.find(t => t.id === test.id);
+        const isDone = !!doneObj;
+        const hasNote = !!testNotes[test.id];
+
         const html = `
-        <div class="card ${isDone?'completed':''}" data-id="${test.id}">
+        <div class="card ${isDone?'completed':''}">
+          ${isDone ? `<div class="score-pill">Score: ${doneObj.score}</div>` : ''}
           <div class="card-left">
-            <h3>${test.title} ${badgeHTML}</h3>
-            <div class="meta-info">🔥 ${test.attempts} Attempts</div>
+            <h3>${test.title} ${hasNote ? '<span style="color:#f59e0b; font-size:12px;"><i class="fas fa-sticky-note"></i></span>' : ''}</h3>
+            <div class="meta-info">
+                <span><i class="fas fa-fire-alt"></i> ${test.attempts || 'Hot'}</span>
+                <span>•</span>
+                <span>${isDone ? 'Completed' : 'Pending'}</span>
+            </div>
           </div>
           <div class="action-area">
-            <a href="${test.url}" class="start-btn">Start</a>
+            <a href="${test.url}" class="start-btn" target="_blank">${isDone ? 'Retake' : 'Start Now'}</a>
             <div class="icon-actions">
-              <i class="fas fa-check-circle action-icon btn-done ${isDone?'done-active':''}" onclick="toggleDone('${test.id}')"></i>
-              <i class="fas fa-heart action-icon btn-save ${isSaved?'saved':''}" onclick="toggleSave('${test.id}')"></i>
+              ${isDone ? `<i class="fab fa-whatsapp action-icon" onclick="share('${test.title}','${doneObj.score}')" style="color:#25D366"></i>` : ''}
+              <i class="fas fa-pen action-icon ${hasNote?'has-note':''}" onclick="openNote('${test.id}')"></i>
+              <i class="fas fa-check-circle action-icon ${isDone?'done-active':''}" onclick="toggleDone('${test.id}')"></i>
+              <i class="fas fa-heart action-icon ${isSaved?'saved':''}" onclick="toggleSave('${test.id}')"></i>
             </div>
           </div>
         </div>`;
@@ -196,43 +492,217 @@ function renderTests() {
       }
     });
   }
-  if(visibleCount === 0) container.innerHTML += `<p style="text-align:center; color:var(--text-sub); margin-top:30px;">No tests found in this folder.</p>`;
+  if(visibleCount === 0) {
+      container.innerHTML = `
+      <div style="text-align:center; padding:50px 20px; color:var(--text-sub);">
+          <i class="fas fa-box-open" style="font-size:40px; opacity:0.3; margin-bottom:10px;"></i>
+          <p>No tests found.</p>
+      </div>`;
+  }
 }
 
+// --- USER ACTIONS ---
 function toggleSave(id){
-  if(savedTests.includes(id)) savedTests = savedTests.filter(i => i !== id);
-  else savedTests.push(id);
-  localStorage.setItem("savedTests", JSON.stringify(savedTests));
+  if(savedTests.includes(id)) {
+      savedTests = savedTests.filter(i=>i!==id);
+      showToast("Removed from Saved");
+  } else { 
+      savedTests.push(id); 
+      showToast("❤️ Saved to Favorites"); 
+  }
+  localStorage.setItem("savedTests", JSON.stringify(savedTests)); 
   renderTests(); updateStats();
 }
+
 function toggleDone(id){
-  if(doneTests.includes(id)) doneTests = doneTests.filter(i => i !== id);
-  else doneTests.push(id);
-  localStorage.setItem("doneTests", JSON.stringify(doneTests));
+  const idx = doneTests.findIndex(t => t.id === id);
+  if(idx > -1) { 
+      if(confirm("Mark as incomplete?")) {
+          doneTests.splice(idx, 1); 
+          showToast("Progress Reset");
+      }
+  } else {
+    let score = prompt("Enter your score (e.g. 18/20):");
+    if(score) {
+        doneTests.push({ id: id, score: score, date: new Date().toISOString() });
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        playSound(); 
+        showToast("🎉 Great Job! Completed.");
+    }
+  }
+  localStorage.setItem("doneTests", JSON.stringify(doneTests)); 
   renderTests(); updateStats();
 }
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentCategory = btn.getAttribute("data-filter");
+
+function openNote(id){ currentNoteId=id; document.getElementById("noteInput").value=testNotes[id]||""; document.getElementById("noteModal").style.display="flex"; }
+function saveNote(){
+    const val = document.getElementById("noteInput").value;
+    if(val.trim()==="") delete testNotes[currentNoteId]; else testNotes[currentNoteId]=val;
+    localStorage.setItem("testNotes", JSON.stringify(testNotes)); document.getElementById("noteModal").style.display="none"; renderTests(); showToast("Note Saved");
+}
+
+// --- TOOLS: TIMER & TODOS ---
+function openTools() { document.getElementById("toolsModal").style.display='flex'; renderTodos(); }
+function switchTool(tool) {
+    document.querySelectorAll(".t-tab").forEach(t=> { t.classList.remove("active"); t.style.background="transparent"; t.style.color="var(--text-sub)"; });
+    const active = document.getElementById(tool==='timer'?'tabTimer':'tabTodo');
+    active.classList.add("active"); active.style.background="var(--card-bg)"; active.style.color="var(--primary)"; active.style.boxShadow="0 2px 5px rgba(0,0,0,0.05)";
+    
+    document.getElementById("toolTimerSection").style.display=tool==='timer'?'block':'none';
+    document.getElementById("toolTodoSection").style.display=tool==='todo'?'block':'none';
+}
+function startTimer() {
+    if (isRunning) return; isRunning = true;
+    document.getElementById("btnTimerStart").innerText = "Focusing...";
+    timerInterval = setInterval(() => {
+        if (timeLeft > 0) { timeLeft--; updateTimerDisplay(); } 
+        else { clearInterval(timerInterval); isRunning=false; playSound(); showToast("⏰ Time's up!"); resetTimer(); }
+    }, 1000);
+}
+function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const s = (timeLeft % 60).toString().padStart(2, '0');
+    document.getElementById("timerDisplay").innerText = `${m}:${s}`;
+    const p = ((25*60 - timeLeft) / (25*60)) * 100;
+    document.querySelector(".timer-circle").style.background = `conic-gradient(var(--primary) ${p}%, var(--bg) 0%)`;
+}
+function resetTimer() { clearInterval(timerInterval); timeLeft=25*60; isRunning=false; document.getElementById("btnTimerStart").innerText="Start Focus"; updateTimerDisplay(); }
+
+function renderTodos() {
+    const list = document.getElementById("todoList"); list.innerHTML = "";
+    if(todos.length===0) list.innerHTML = "<div style='text-align:center; color:var(--text-sub); font-size:12px; margin-top:20px;'>No tasks yet.</div>";
+    todos.forEach((t, i) => {
+        list.innerHTML += `
+        <div style="display:flex; align-items:center; padding:10px; background:var(--bg); margin-bottom:8px; border-radius:10px; font-size:13px;">
+            <i class="far ${t.done?'fa-check-square':'fa-square'}" onclick="toggleTodo(${i})" style="color:var(--primary); cursor:pointer; font-size:16px; margin-right:10px;"></i>
+            <span style="flex:1; text-decoration:${t.done?'line-through':''}; opacity:${t.done?'0.6':'1'};">${t.text}</span>
+            <i class="fas fa-trash" onclick="deleteTodo(${i})" style="color:#ef4444; padding:5px; cursor:pointer;"></i>
+        </div>`;
+    });
+}
+function addTodo() { const i=document.getElementById("todoInput"); if(i.value.trim()==="")return; todos.push({text:i.value, done:false}); localStorage.setItem("todos", JSON.stringify(todos)); i.value=""; renderTodos(); }
+function toggleTodo(i) { todos[i].done=!todos[i].done; localStorage.setItem("todos", JSON.stringify(todos)); renderTodos(); }
+function deleteTodo(i) { todos.splice(i, 1); localStorage.setItem("todos", JSON.stringify(todos)); renderTodos(); }
+
+// --- SETTINGS & PROFILE ---
+function openSettings(){ document.getElementById("settingsModal").style.display='flex'; }
+function resetApp(){ if(confirm("⚠️ Reset App?\nThis deletes all progress permanently!")){ localStorage.clear(); location.reload(); } }
+function exportData(){
+    const data = { saved: savedTests, done: doneTests, notes: testNotes, streak: localStorage.getItem("streakCount") };
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], {type: "application/json"})); a.download = "dsssb_backup.json"; a.click();
+}
+function importData(input){
+    const file = input.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        try { const d = JSON.parse(e.target.result);
+            if(d.saved) localStorage.setItem("savedTests", JSON.stringify(d.saved));
+            if(d.done) localStorage.setItem("doneTests", JSON.stringify(d.done));
+            if(d.notes) localStorage.setItem("testNotes", JSON.stringify(d.notes));
+            alert("Data Restored Successfully!"); location.reload();
+        } catch(err) { alert("Invalid backup file!"); }
+    }; reader.readAsText(file);
+}
+
+function updateStats(){
+    document.getElementById("statCompleted").innerText = doneTests.length;
+    document.getElementById("statSaved").innerText = savedTests.length;
+    
+    const cnt = doneTests.length; const b = document.getElementById("userLevelBadge");
+    if(cnt<5){ b.innerText="BEGINNER"; b.style.background="#9ca3af"; }
+    else if(cnt<15){ b.innerText="SCHOLAR"; b.style.background="#3b82f6"; }
+    else { b.innerText="MASTER"; b.style.background="#f59e0b"; }
+
+    const total = typeof testDatabase!=='undefined' ? Math.max(testDatabase.length, 1) : 100;
+    const pct = Math.round((cnt / total) * 100) || 0;
+    const visual = document.getElementById("visualChartContainer");
+    visual.innerHTML = `<div class="pie-chart" style="background: conic-gradient(var(--primary) ${pct}%, var(--border) 0%)" data-percent="${pct}%"></div><div style="font-size:12px; color:var(--text-sub);">Overall Completion</div>`;
+
+    const sub = {};
+    doneTests.forEach(d => { const t = typeof testDatabase!=='undefined' ? testDatabase.find(x=>x.id===d.id) : null; if(t) sub[t.category] = (sub[t.category]||0)+1; });
+    const list = document.getElementById("subjectProgressList"); list.innerHTML = '';
+    
+    if(Object.keys(sub).length === 0) list.innerHTML = "<div style='text-align:center;font-size:11px;color:var(--text-sub)'>No subjects studied yet.</div>";
+
+    Object.keys(sub).forEach(k => {
+        let n=k.toUpperCase(); if(k==='mts-full')n='MTS MOCK'; if(k==='asst-supt')n='ASST. SUPT';
+        const w = Math.min(sub[k]*10, 100);
+        list.innerHTML += `
+        <div style="margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px; color:var(--text-sub);"><span>${n}</span><span>${sub[k]} Tests</span></div>
+            <div style="height:6px; background:var(--bg); border-radius:10px; border:1px solid var(--border); overflow:hidden;">
+                <div style="height:100%; background:var(--primary); border-radius:10px; width:${w}%"></div>
+            </div>
+        </div>`;
+    });
+
+    const tl = document.getElementById("historyTimeline"); tl.innerHTML = '';
+    [...doneTests].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,15).forEach(d=>{
+        const t = typeof testDatabase!=='undefined' ? testDatabase.find(x=>x.id===d.id) : null;
+        tl.innerHTML += `
+        <div style="padding:10px; border-bottom:1px solid var(--border);">
+            <div style="font-size:10px; color:var(--text-sub);">${new Date(d.date).toLocaleDateString()}</div>
+            <div style="font-weight:600; font-size:13px; color:var(--text-main);">${t?t.title:'Unknown Test'}</div>
+            <div style="font-size:11px; color:var(--success);">Score: ${d.score}</div>
+        </div>`;
+    });
+}
+
+function switchProfileView(v){
+    document.getElementById("analysisView").style.display = v==='analysis'?'block':'none';
+    document.getElementById("historyTimeline").style.display = v==='timeline'?'block':'none';
+    
+    document.getElementById("tabAnalysis").style.borderBottom = v==='analysis'?'2px solid var(--primary)':'none';
+    document.getElementById("tabAnalysis").style.color = v==='analysis'?'var(--text-main)':'var(--text-sub)';
+    
+    document.getElementById("tabHistory").style.borderBottom = v==='timeline'?'2px solid var(--primary)':'none';
+    document.getElementById("tabHistory").style.color = v==='timeline'?'var(--text-main)':'var(--text-sub)';
+}
+
+function share(t, s){ window.open(`https://wa.me/?text=${encodeURIComponent(`🔥 I just scored ${s} in ${t}! Study with DSSSB Smart Notes!`)}`, '_blank'); }
+
+function toggleTheme(){
+    const i = document.querySelector(".header-actions .fa-moon, .header-actions .fa-sun");
+    if(document.body.getAttribute("data-theme")==="dark"){ 
+        document.body.removeAttribute("data-theme"); 
+        localStorage.setItem("theme","light"); 
+        if(i)i.classList.replace("fa-sun","fa-moon"); 
+    } else { 
+        document.body.setAttribute("data-theme","dark"); 
+        localStorage.setItem("theme","dark"); 
+        if(i)i.classList.replace("fa-moon","fa-sun"); 
+    }
+}
+
+function openProfile(){ updateStats(); document.getElementById("profileModal").style.display='flex'; }
+function switchTab(t,e){ 
+    currentTab=t; 
+    document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active")); 
+    e.classList.add("active"); 
+    renderTests(); 
+}
+
+function pickRandomTest() {
+    if(typeof testDatabase !== 'undefined' && testDatabase.length > 0){
+        const pool = testDatabase.filter(t => !doneTests.find(d => d.id === t.id));
+        const finalPool = pool.length > 0 ? pool : testDatabase;
+        const r = finalPool[Math.floor(Math.random() * finalPool.length)];
+        if(confirm(`🎲 Lucky Draw!\nTest: "${r.title}"\n\nStart now?`)) window.open(r.url, '_blank');
+    } else {
+        showToast("No tests available in data.js");
+    }
+}
+
+document.querySelectorAll(".filter-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    if(currentTab === 'saved') { switchTab('home', document.querySelector(".nav-item:first-child")); }
     renderTests();
   });
 });
+
 document.getElementById("searchInput").addEventListener("input", renderTests);
-function switchTab(tab, el){
-  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-  el.classList.add("active"); currentTab = tab; renderTests();
-}
-function updateStats(){
-  document.getElementById("statCompleted").innerText = doneTests.length;
-  document.getElementById("statSaved").innerText = savedTests.length;
-}
-function toggleTheme(){
-  if(document.body.getAttribute("data-theme")==="dark"){
-    document.body.removeAttribute("data-theme"); localStorage.setItem("theme","light");
-  } else { document.body.setAttribute("data-theme","dark"); localStorage.setItem("theme","dark"); }
-}
 init();
 </script>
 </body>
