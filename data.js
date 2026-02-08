@@ -1,15 +1,21 @@
-
 // ==========================================
 // 🚀 DSSSB SMART NOTES - DATA FILE
-// Updated: 06/02/2026, 22:00:37
+// Updated: 08/02/2026, 17:18:16
 // ==========================================
 
 const appConfig = {
-    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥 MTS Admit Card Out | 📝 Download Free PDF Notes Now!",
+    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥 Hinid sectional mock uploaded  | 📝 Download Free PDF Notes Now!",
     "pdfLink": "https://t.me/Dsssbsmartnotes/25"
 };
 
 const testDatabase = [
+    {
+        "id": "t_1770551267343",
+        "category": "hindi",
+        "title": "Hindi ASO_PYQ_(20_08_2025)",
+        "url": "https://dsssbsmartnotes.github.io/Dsssb-Tests/haso.html",
+        "attempts": "0"
+    },
     {
         "id": "t_1770395368997",
         "category": "hindi",
