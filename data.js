@@ -1,14 +1,21 @@
 // ==========================================
 // 🚀 DSSSB SMART NOTES - DATA FILE
-// Updated: 08/02/2026, 17:18:16
+// Updated: 10/02/2026, 19:46:02
 // ==========================================
 
 const appConfig = {
-    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥 Hinid sectional mock uploaded  | 📝 Download Free PDF Notes Now!",
+    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥 English sectional mock uploaded  | 📝 Download Free PDF Notes Now!",
     "pdfLink": "https://t.me/Dsssbsmartnotes/25"
 };
 
 const testDatabase = [
+    {
+        "id": "t_1770732673158",
+        "category": "english",
+        "title": "Eng_Warder_PYQ_02",
+        "url": "https://dsssbsmartnotes.github.io/DSSSB-Eng-PYQ-Nov-25/Wardereng.html",
+        "attempts": "0"
+    },
     {
         "id": "t_1770551267343",
         "category": "hindi",
