@@ -1,14 +1,21 @@
 // ==========================================
 // 🚀 DSSSB SMART NOTES - DATA FILE
-// Updated: 10/02/2026, 19:46:02
+// Updated: 2/11/2026, 4:45:24 PM
 // ==========================================
 
 const appConfig = {
-    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥 English sectional mock uploaded  | 📝 Download Free PDF Notes Now!",
+    "announcement": "📢 Welcome to DSSSB SMART NOTES! | 🔥New  Maths sectional mock uploaded  | 📝 Download Free PDF Notes Now!",
     "pdfLink": "https://t.me/Dsssbsmartnotes/25"
 };
 
 const testDatabase = [
+    {
+        "id": "t_1770808439897",
+        "category": "maths",
+        "title": "Maths_Aso_PYQ_20_08_2025",
+        "url": "https://dsssbsmartnotes.github.io/Dsssb-Tests/asomath1.html",
+        "attempts": "0"
+    },
     {
         "id": "t_1770732673158",
         "category": "english",
