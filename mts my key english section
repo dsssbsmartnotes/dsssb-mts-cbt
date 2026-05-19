@@ -1,0 +1,422 @@
+[
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Vocabulary",
+        "difficulty": "Easy",
+        "q_en": "He felt ________ after working all day without a break.",
+        "q_hi": "He felt ________ after working all day without a break.",
+        "op_en": [
+            "excited",
+            "energized",
+            "happy",
+            "tired"
+        ],
+        "op_hi": [
+            "excited",
+            "energized",
+            "happy",
+            "tired"
+        ],
+        "ans": 4,
+        "solution": "<b>Solution (EN):</b> The context of 'working all day without a break' naturally leads to a state of fatigue. Therefore, 'tired' is the correct word to complete the sentence. <br> <b>Solution (HI):</b> 'working all day without a break' का संदर्भ स्वाभाविक रूप से थकान की स्थिति की ओर ले जाता है। इसलिए, वाक्य को पूरा करने के लिए 'tired' सही शब्द है। <br> <b>Short Trick:</b> Identify the cause-and-effect relationship: long duration of work without rest = fatigue (tired)."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Prepositions",
+        "difficulty": "Medium",
+        "q_en": "She was deeply engrossed on her book and didn't notice the time.",
+        "q_hi": "She was deeply engrossed on her book and didn't notice the time.",
+        "op_en": [
+            "in",
+            "at",
+            "about",
+            "with"
+        ],
+        "op_hi": [
+            "in",
+            "at",
+            "about",
+            "with"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> The fixed preposition used with 'engrossed' is 'in'. The phrase 'engrossed in' means to be completely absorbed or occupied by something. <br> <b>Solution (HI):</b> 'engrossed' के साथ उपयोग किया जाने वाला निश्चित प्रीपोजिशन 'in' है। 'engrossed in' वाक्यांश का अर्थ है किसी चीज़ में पूरी तरह से तल्लीन होना। <br> <b>Short Trick:</b> Remember the phrasal combination: 'engrossed in' something."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Articles",
+        "difficulty": "Easy",
+        "q_en": "They are____ best players on the team.",
+        "q_hi": "They are____ best players on the team.",
+        "op_en": [
+            "an",
+            "the",
+            "None of the given options",
+            "a"
+        ],
+        "op_hi": [
+            "an",
+            "the",
+            "None of the given options",
+            "a"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> 'Best' is the superlative form of the adjective 'good'. The definite article 'the' is always used before superlative degrees. <br> <b>Solution (HI):</b> 'Best', 'good' विशेषण का सुपरलेटिव रूप है। सुपरलेटिव डिग्री से पहले हमेशा निश्चित आर्टिकल 'the' का उपयोग किया जाता है। <br> <b>Short Trick:</b> Rule: Superlative degree (best, tallest, smartest) always takes 'the' before it."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Determiners",
+        "difficulty": "Medium",
+        "q_en": "She does not have some money to buy a new dress for this party.",
+        "q_hi": "She does not have some money to buy a new dress for this party.",
+        "op_en": [
+            "She does not have any money to buy a new dress for this party.",
+            "She does not have many money to buy a new dress for this party.",
+            "She does not have lesser money to buy a new dress for this party.",
+            "She does not have little money to buy a new dress for this party."
+        ],
+        "op_hi": [
+            "She does not have any money to buy a new dress for this party.",
+            "She does not have many money to buy a new dress for this party.",
+            "She does not have lesser money to buy a new dress for this party.",
+            "She does not have little money to buy a new dress for this party."
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> In negative sentences and questions, 'any' is used instead of 'some' to indicate an indefinite amount. Thus, 'any' is correct here. <br> <b>Solution (HI):</b> नकारात्मक वाक्यों और प्रश्नों में, अनिश्चित मात्रा को इंगित करने के लिए 'some' के स्थान पर 'any' का उपयोग किया जाता है। इसलिए, यहाँ 'any' सही है। <br> <b>Short Trick:</b> Positive sentence = use 'some'; Negative/Interrogative sentence = use 'any'."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Prepositions",
+        "difficulty": "Easy",
+        "q_en": "I will meet you ____ the station ____ 3 PM.",
+        "q_hi": "I will meet you ____ the station ____ 3 PM.",
+        "op_en": [
+            "at, at",
+            "in, on",
+            "on, at",
+            "at, in"
+        ],
+        "op_hi": [
+            "at, at",
+            "in, on",
+            "on, at",
+            "at, in"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> Use 'at' for specific locations (the station) and 'at' for specific points in time (3 PM). Therefore, 'at, at' is the correct pair. <br> <b>Solution (HI):</b> विशिष्ट स्थानों (the station) के लिए 'at' का उपयोग करें और समय के विशिष्ट बिंदुओं (3 PM) के लिए भी 'at' का उपयोग करें। इसलिए, 'at, at' सही जोड़ा है। <br> <b>Short Trick:</b> Point of place = 'at', Point of time = 'at'."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Articles",
+        "difficulty": "Medium",
+        "q_en": "If we look at the given graph, we can see ____ steep rise in the prices of ____ commodities.",
+        "q_hi": "If we look at the given graph, we can see ____ steep rise in the prices of ____ commodities.",
+        "op_en": [
+            "no article needed, a",
+            "the, a",
+            "a, no article needed",
+            "an, a"
+        ],
+        "op_hi": [
+            "no article needed, a",
+            "the, a",
+            "a, no article needed",
+            "an, a"
+        ],
+        "ans": 3,
+        "solution": "<b>Solution (EN):</b> 'A' is used before 'steep rise' because it is a singular countable noun. No article is required before 'commodities' as it refers to commodities in general. <br> <b>Solution (HI):</b> 'A' का प्रयोग 'steep rise' से पहले किया जाता है क्योंकि यह एक एकवचन गणनीय संज्ञा है। 'commodities' से पहले किसी आर्टिकल की आवश्यकता नहीं है क्योंकि यह सामान्य रूप से वस्तुओं को संदर्भित करता है। <br> <b>Short Trick:</b> Countable singular noun gets 'a/an', general plural noun usually takes no article."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Tenses",
+        "difficulty": "Easy",
+        "q_en": "She ____ to the market every morning.",
+        "q_hi": "She ____ to the market every morning.",
+        "op_en": [
+            "go",
+            "has gone",
+            "goes",
+            "was going"
+        ],
+        "op_hi": [
+            "go",
+            "has gone",
+            "goes",
+            "was going"
+        ],
+        "ans": 3,
+        "solution": "<b>Solution (EN):</b> The phrase 'every morning' indicates a habitual action, which requires the Present Simple tense. Since the subject is 'She' (third-person singular), we use 'goes'. <br> <b>Solution (HI):</b> 'every morning' वाक्यांश एक आदतन क्रिया (habitual action) को दर्शाता है, जिसके लिए प्रेजेंट सिंपल टेंस की आवश्यकता होती है। चूँकि कर्ता 'She' (तीसरा व्यक्ति एकवचन) है, इसलिए हम 'goes' का उपयोग करते हैं। <br> <b>Short Trick:</b> Look for habitual frequency adverbs (every day/morning/etc.) -> Use Present Simple verb form."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Articles",
+        "difficulty": "Medium",
+        "q_en": "__ relentless pursuit of knowledge led __ scientist to make groundbreaking discoveries.",
+        "q_hi": "__ relentless pursuit of knowledge led __ scientist to make groundbreaking discoveries.",
+        "op_en": [
+            "The, the",
+            "A, a",
+            "No article required, an",
+            "An, the"
+        ],
+        "op_hi": [
+            "The, the",
+            "A, a",
+            "No article required, an",
+            "An, the"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> 'The' is used before 'relentless pursuit' as it is a specific pursuit mentioned. 'The' is also used before 'scientist' because it specifies a particular scientist. <br> <b>Solution (HI):</b> 'The' का प्रयोग 'relentless pursuit' से पहले किया जाता है क्योंकि यह एक विशिष्ट खोज है। 'The' का प्रयोग 'scientist' से पहले भी किया जाता है क्योंकि यह एक विशेष वैज्ञानिक को निर्दिष्ट करता है। <br> <b>Short Trick:</b> Use 'the' when referring to specific nouns or unique concepts."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Sentence Rearrangement",
+        "difficulty": "Medium",
+        "q_en": "The following sentence has been divided into different segments. Rearrange all the segments to form a coherent sentence. A. as the sun set / B. of orange, pink, and purple / C. the sky turned shades / D. stunning everyone",
+        "q_hi": "The following sentence has been divided into different segments. Rearrange all the segments to form a coherent sentence. A. as the sun set / B. of orange, pink, and purple / C. the sky turned shades / D. stunning everyone",
+        "op_en": [
+            "BCAD",
+            "ABCD",
+            "ACBD",
+            "CBDA"
+        ],
+        "op_hi": [
+            "BCAD",
+            "ABCD",
+            "ACBD",
+            "CBDA"
+        ],
+        "ans": 3,
+        "solution": "<b>Solution (EN):</b> The logical sequence is 'As the sun set (A), the sky turned shades (C) of orange, pink, and purple (B), stunning everyone (D).' However, based on the provided options in the image, ACBD is marked as the correct answer. <br> <b>Solution (HI):</b> तार्किक अनुक्रम 'As the sun set (A), the sky turned shades (C) of orange, pink, and purple (B), stunning everyone (D)' है। हालाँकि, छवि में दिए गए विकल्पों के आधार पर, ACBD को सही उत्तर के रूप में चिह्नित किया गया है। <br> <b>Short Trick:</b> Identify the subject (the sky) and the verb (turned) first, then connect the descriptive phrases logically."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Articles",
+        "difficulty": "Easy",
+        "q_en": "Shashi is going to borrow some books from ____ central library.",
+        "q_hi": "Shashi is going to borrow some books from ____ central library.",
+        "op_en": [
+            "an",
+            "a",
+            "No article required",
+            "the"
+        ],
+        "op_hi": [
+            "an",
+            "a",
+            "No article required",
+            "the"
+        ],
+        "ans": 4,
+        "solution": "<b>Solution (EN):</b> The definite article 'the' is used before names of specific institutions or buildings like 'central library'. <br> <b>Solution (HI):</b> निश्चित आर्टिकल 'the' का प्रयोग 'central library' जैसी विशिष्ट संस्थाओं या इमारतों के नाम से पहले किया जाता है। <br> <b>Short Trick:</b> Specific places and institutions generally take 'the' before them."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Determiners",
+        "difficulty": "Easy",
+        "q_en": "Choose the word that best completes the sentence. There is a ________ milk left in the fridge.",
+        "q_hi": "Choose the word that best completes the sentence. There is a ________ milk left in the fridge.",
+        "op_en": [
+            "little",
+            "littleness",
+            "least",
+            "less"
+        ],
+        "op_hi": [
+            "little",
+            "littleness",
+            "least",
+            "less"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> 'Little' is used with uncountable nouns (like milk) to mean a small amount. 'Less' is a comparative. 'Least' is a superlative. 'Littleness' is an abstract noun. <br> <b>Solution (HI):</b> 'Little' का उपयोग अनकाउंटेबल संज्ञाओं (जैसे दूध) के साथ थोड़ी मात्रा बताने के लिए किया जाता है। 'Less' तुलनात्मक है। 'Least' सुपरलेटिव है। 'Littleness' एक भाववाचक संज्ञा है। <br> <b>Short Trick:</b> 'Little' denotes a small positive amount of an uncountable noun."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Sentence Rearrangement",
+        "difficulty": "Hard",
+        "q_en": "In the given question, a statement divided into different segments is given. Rearrange all the segments to form a coherent statement. A. at 9 a.m. and all attendees / B. are expected to arrive on time / C. other planned activities / D. the meeting will start promptly / E. the schedule and affect / F. as any delay could disrupt",
+        "q_hi": "In the given question, a statement divided into different segments is given. Rearrange all the segments to form a coherent statement. A. at 9 a.m. and all attendees / B. are expected to arrive on time / C. other planned activities / D. the meeting will start promptly / E. the schedule and affect / F. as any delay could disrupt",
+        "op_en": [
+            "BFDECA",
+            "EBFACD",
+            "CBAEDF",
+            "DABFEC"
+        ],
+        "op_hi": [
+            "BFDECA",
+            "EBFACD",
+            "CBAEDF",
+            "DABFEC"
+        ],
+        "ans": 4,
+        "solution": "<b>Solution (EN):</b> The logical order is: 'The meeting will start promptly (D) at 9 a.m. and all attendees (A) are expected to arrive on time (B) as any delay could disrupt (F) the schedule and affect (E) other planned activities (C).' <br> <b>Solution (HI):</b> तार्किक क्रम है: 'The meeting will start promptly (D) at 9 a.m. and all attendees (A) are expected to arrive on time (B) as any delay could disrupt (F) the schedule and affect (E) other planned activities (C).' <br> <b>Short Trick:</b> Identify the main subject/verb (The meeting will start) and look for connecting conjunctions like 'as' or 'and' to chain the clauses."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Vocabulary",
+        "difficulty": "Medium",
+        "q_en": "Choose the most appropriate option to complete the following sentence. Despite being fully aware of the consequences, Aniket ________ violated the confidentiality agreement.",
+        "q_hi": "Choose the most appropriate option to complete the following sentence. Despite being fully aware of the consequences, Aniket ________ violated the confidentiality agreement.",
+        "op_en": [
+            "inadvertently",
+            "deliberately",
+            "hesitantly",
+            "occasionally"
+        ],
+        "op_hi": [
+            "inadvertently",
+            "deliberately",
+            "hesitantly",
+            "occasionally"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> 'Despite being fully aware of the consequences' implies an intentional action. Therefore, 'deliberately' (intentionally) is the correct fit. <br> <b>Solution (HI):</b> 'Despite being fully aware of the consequences' एक जानबूझकर की गई कार्रवाई का संकेत देता है। इसलिए, 'deliberately' (जानबूझकर) यहाँ सही शब्द है। <br> <b>Short Trick:</b> Look for clue phrases like 'fully aware' -> suggests intent."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Tenses",
+        "difficulty": "Hard",
+        "q_en": "Fill in the blank with the correct option. By the time she ________ her assignment, the deadline ________.",
+        "q_hi": "Fill in the blank with the correct option. By the time she ________ her assignment, the deadline ________.",
+        "op_en": [
+            "will finish / had passed",
+            "finished / will have passed",
+            "will have finished / will pass",
+            "will have finished / will have passed"
+        ],
+        "op_hi": [
+            "will finish / had passed",
+            "finished / will have passed",
+            "will have finished / will pass",
+            "will have finished / will have passed"
+        ],
+        "ans": 4,
+        "solution": "<b>Solution (EN):</b> In sentences starting with 'By the time', if the main action is in the future, we use Future Perfect ('will have finished') and Future Perfect for the other event ('will have passed') to show completion before a specific time. <br> <b>Solution (HI):</b> 'By the time' से शुरू होने वाले वाक्यों में, यदि मुख्य क्रिया भविष्य में है, तो हम फ्यूचर परफेक्ट ('will have finished') और दूसरी घटना के लिए भी फ्यूचर परफेक्ट ('will have passed') का उपयोग करते हैं। <br> <b>Short Trick:</b> 'By the time' + present/future context often pairs with future perfect tenses."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Vocabulary",
+        "difficulty": "Easy",
+        "q_en": "Complete the following sentence by using the correct option. Amit handled the customer complaints ________, ensuring satisfaction for all clients.",
+        "q_hi": "Complete the following sentence by using the correct option. Amit handled the customer complaints ________, ensuring satisfaction for all clients.",
+        "op_en": [
+            "lazily",
+            "efficiently",
+            "reluctantly",
+            "carelessly"
+        ],
+        "op_hi": [
+            "lazily",
+            "efficiently",
+            "reluctantly",
+            "carelessly"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> 'Ensuring satisfaction' indicates a positive outcome. Only 'efficiently' describes a positive way of handling complaints. <br> <b>Solution (HI):</b> 'Ensuring satisfaction' एक सकारात्मक परिणाम का संकेत देता है। केवल 'efficiently' ही शिकायतों को संभालने के सकारात्मक तरीके का वर्णन करता है। <br> <b>Short Trick:</b> Context clues: 'ensuring satisfaction' -> positive adverb required."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Reading Comprehension",
+        "difficulty": "Easy",
+        "q_en": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What challenge did Aslam's business face?",
+        "q_hi": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What challenge did Aslam's business face?",
+        "op_en": [
+            "Shortage of spices",
+            "Competition from malls",
+            "Heavy taxation",
+            "Fire damage"
+        ],
+        "op_hi": [
+            "Shortage of spices",
+            "Competition from malls",
+            "Heavy taxation",
+            "Fire damage"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> The passage explicitly mentions, \"Malls had emerged, and old stalls began vanishing.\" This indicates that the emergence of malls created a competitive environment for traditional stalls. <br> <b>Solution (HI):</b> गद्यांश स्पष्ट रूप से उल्लेख करता है, \"Malls had emerged, and old stalls began vanishing.\" यह इंगित करता है कि मॉल के उद्भव ने पारंपरिक स्टालों के लिए एक प्रतिस्पर्धी वातावरण तैयार किया। <br> <b>Short Trick:</b> Direct retrieval: Look for keywords like 'malls' and 'vanishing' in the text."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Reading Comprehension",
+        "difficulty": "Easy",
+        "q_en": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> How did Aslam respond to change?",
+        "q_hi": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> How did Aslam respond to change?",
+        "op_en": [
+            "He sold to a company.",
+            "He closed his shop.",
+            "He shifted to a mall.",
+            "He preserved tradition and expanded."
+        ],
+        "op_hi": [
+            "He sold to a company.",
+            "He closed his shop.",
+            "He shifted to a mall.",
+            "He preserved tradition and expanded."
+        ],
+        "ans": 4,
+        "solution": "<b>Solution (EN):</b> Aslam maintained his traditional methods (\"arranging jars with the same care\") while expanding his reach to \"kitchens far away,\" thereby evolving without losing his heritage. <br> <b>Solution (HI):</b> असलम ने अपनी पारंपरिक विधियों (\"arranging jars with the same care\") को बनाए रखा और साथ ही \"kitchens far away\" तक अपनी पहुँच का विस्तार किया, जिससे वह अपनी विरासत को खोए बिना आगे बढ़ा। <br> <b>Short Trick:</b> Inferential reasoning: He adapted by scaling (expanding) while staying true to his roots (preserving tradition)."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Reading Comprehension",
+        "difficulty": "Medium",
+        "q_en": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What is the central theme of the passage?",
+        "q_hi": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What is the central theme of the passage?",
+        "op_en": [
+            "Loss of small businesses",
+            "Decline of spice trade",
+            "Tradition adapting to modern opportunities",
+            "Resistance to modernity"
+        ],
+        "op_hi": [
+            "Loss of small businesses",
+            "Decline of spice trade",
+            "Tradition adapting to modern opportunities",
+            "Resistance to modernity"
+        ],
+        "ans": 3,
+        "solution": "<b>Solution (EN):</b> The passage highlights how Aslam successfully integrates his traditional business methods with the modern demands of high-end restaurants, demonstrating that tradition can survive and even thrive by adapting to new opportunities. <br> <b>Solution (HI):</b> गद्यांश इस बात पर प्रकाश डालता है कि कैसे असलम ने अपने पारंपरिक व्यावसायिक तरीकों को उच्च-स्तरीय रेस्तरां की आधुनिक मांगों के साथ सफलतापूर्वक एकीकृत किया, यह दर्शाता है कि परंपरा नए अवसरों के अनुकूल होकर जीवित रह सकती है और यहां तक कि फल-फूल सकती है। <br> <b>Short Trick:</b> Look for the progression in the story: Traditional setup -> Threat of modernity -> Adaptation -> Success."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Reading Comprehension",
+        "difficulty": "Easy",
+        "q_en": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What is the tone of the passage?",
+        "q_hi": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What is the tone of the passage?",
+        "op_en": [
+            "Aggressive",
+            "Sentimental",
+            "Indifferent",
+            "Ironic"
+        ],
+        "op_hi": [
+            "Aggressive",
+            "Sentimental",
+            "Indifferent",
+            "Ironic"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> The author uses emotive language like 'relic from another era', 'quietly, humbly', and 'scent of heritage', which conveys a sense of nostalgia, admiration, and warmth, characterizing a sentimental tone. <br> <b>Solution (HI):</b> लेखक 'relic from another era', 'quietly, humbly', और 'scent of heritage' जैसी भावनात्मक भाषा का उपयोग करता है, जो पुरानी यादों, प्रशंसा और गर्मजोशी की भावना व्यक्त करता है, जो एक भावुक (sentimental) स्वर को दर्शाता है। <br> <b>Short Trick:</b> Identify emotive adjectives and phrases that evoke feelings rather than presenting cold, objective facts."
+    },
+    {
+        "section": "Test of English Language and Comprehension",
+        "topic": "Reading Comprehension",
+        "difficulty": "Medium",
+        "q_en": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What real-world lesson can be drawn from the passage?",
+        "q_hi": "In a narrow by-lane of the old city, Aslam's spice stall stood like a relic from another era. His family had sold spices there for nearly a century, passing down trade secrets and stories. The aromas of cardamom, cinnamon, and saffron drifted into the street, drawing regulars and curious tourists alike. But times were changing. Malls had emerged, and old stalls began vanishing. Yet Aslam opened his stall each morning, arranging jars with the same care his grandfather once did. One rainy evening, a young chef from a five-star hotel stopped by. Fascinated, he offered to source authentic spices directly from Aslam for his restaurant chain. Orders began pouring in, and soon, Aslam was shipping his family's blends across the country. He didn't leave the lane; he simply extended it to kitchens far away. The last stall didn't close. It evolved — quietly, humbly — without banners or boards, just the scent of heritage that never faded, whispering through every spice.<br><br><b>Question:</b> What real-world lesson can be drawn from the passage?",
+        "op_en": [
+            "Modern exposure can uplift tradition",
+            "Rely on tourists",
+            "Avoid old business models",
+            "Heritage sells in disguise"
+        ],
+        "op_hi": [
+            "Modern exposure can uplift tradition",
+            "Rely on tourists",
+            "Avoid old business models",
+            "Heritage sells in disguise"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> The passage demonstrates that Aslam's traditional spice stall, which was threatened by modern competitors (malls), survived and grew because he embraced a new opportunity (the chef from a modern five-star hotel). This shows that modern exposure can actually revitalize and uplift traditional practices. <br> <b>Solution (HI):</b> गद्यांश यह दर्शाता है कि असलम का पारंपरिक मसाला स्टाल, जिसे आधुनिक प्रतिस्पर्धियों (मॉल) से खतरा था, जीवित रहा और बढ़ा क्योंकि उसने एक नए अवसर (एक आधुनिक पांच सितारा होटल के शेफ) को अपनाया। यह दिखाता है कि आधुनिक एक्सपोज़र वास्तव में पारंपरिक प्रथाओं को पुनर्जीवित और उन्नत कर सकता है। <br> <b>Short Trick:</b> Focus on the core outcome: The business (tradition) succeeded through collaboration with the modern world (the chef)."
+    }
+]
