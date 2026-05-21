@@ -1,0 +1,527 @@
+[
+    {
+        "ans": 1,
+        "difficulty": "Medium",
+        "op_en": [
+            "8% increase",
+            "8% decrease",
+            "10% increase",
+            "12% increase"
+        ],
+        "op_hi": [
+            "8% वृद्धि",
+            "8% कमी",
+            "10% वृद्धि",
+            "12% वृद्धि"
+        ],
+        "q_en": "The length of a rectangle is increased by 20% and its breadth is decreased by 10%. What is the percentage change in its area?",
+        "q_hi": "एक आयत की लंबाई में 20% की वृद्धि की जाती है और उसकी चौड़ाई में 10% की कमी की जाती है। उसके क्षेत्रफल में प्रतिशत परिवर्तन क्या है?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Net % change = x + y + (xy/100) = 20 - 10 - (200/100) = 10 - 2 = +8%. Positive sign means increase.<br><b>Solution (HI):</b> कुल % परिवर्तन = x + y + (xy/100) = 20 - 10 - (200/100) = +8%. धनात्मक चिह्न का अर्थ वृद्धि है।<br><b>Short Trick:</b> Assume area 100. New area = 100 &times; 1.20 &times; 0.90 = 108. So, 8% increase.",
+        "topic": "Mensuration"
+    },
+    {
+        "ans": 1,
+        "difficulty": "High",
+        "op_en": [
+            "2/21",
+            "1/7",
+            "5/21",
+            "4/21"
+        ],
+        "op_hi": [
+            "2/21",
+            "1/7",
+            "5/21",
+            "4/21"
+        ],
+        "q_en": "A bag contains 4 red, 5 green and 6 blue balls. If two balls are drawn at random, what is the probability that both are green?",
+        "q_hi": "एक थैले में 4 लाल, 5 हरी और 6 नीली गेंदें हैं। यदि दो गेंदें यादृच्छिक रूप से निकाली जाती हैं, तो दोनों के हरी होने की क्या प्रायिकता है?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Total balls = 4 + 5 + 6 = 15. Probability of drawing 2 green balls = <sup>5</sup>C<sub>2</sub> / <sup>15</sup>C<sub>2</sub>. <sup>5</sup>C<sub>2</sub> = 10, <sup>15</sup>C<sub>2</sub> = 105. P = 10 / 105 = 2/21.<br><b>Solution (HI):</b> कुल गेंदें = 15. 2 हरी गेंदें निकालने की प्रायिकता = <sup>5</sup>C<sub>2</sub> / <sup>15</sup>C<sub>2</sub> = 10 / 105 = 2/21.<br><b>Short Trick:</b> P = (5/15) &times; (4/14) = (1/3) &times; (2/7) = 2/21.",
+        "topic": "Probability"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Medium",
+        "op_en": [
+            "Rs. 480",
+            "Rs. 500",
+            "Rs. 520",
+            "Rs. 550"
+        ],
+        "op_hi": [
+            "480 रुपये",
+            "500 रुपये",
+            "520 रुपये",
+            "550 रुपये"
+        ],
+        "q_en": "A man sold an article for Rs. 450 after allowing a discount of 10% on the marked price. What is the marked price of the article?",
+        "q_hi": "एक आदमी ने अंकित मूल्य पर 10% की छूट देने के बाद एक वस्तु को 450 रुपये में बेचा। वस्तु का अंकित मूल्य क्या है?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Selling Price (SP) = 450. Discount = 10%. Marked Price (MP) = (100 / (100 - Discount%)) &times; SP = (100 / 90) &times; 450 = 500.<br><b>Solution (HI):</b> विक्रय मूल्य (SP) = 450. छूट = 10%. अंकित मूल्य (MP) = (100 / 90) &times; 450 = 500 रुपये।<br><b>Short Trick:</b> 90% of MP = 450 => 10% = 50 => 100% = 500.",
+        "topic": "Profit and Loss"
+    },
+    {
+        "ans": 3,
+        "difficulty": "Medium",
+        "op_en": [
+            "15 days",
+            "18 days",
+            "20 days",
+            "24 days"
+        ],
+        "op_hi": [
+            "15 दिन",
+            "18 दिन",
+            "20 दिन",
+            "24 दिन"
+        ],
+        "q_en": "A and B together can do a piece of work in 12 days. A alone can do it in 30 days. In how many days can B alone complete the work?",
+        "q_hi": "A और B मिलकर एक कार्य को 12 दिनों में कर सकते हैं। A अकेला इसे 30 दिनों में कर सकता है। B अकेला उस कार्य को कितने दिनों में पूरा कर सकता है?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> (A+B)'s 1 day work = 1/12. A's 1 day work = 1/30. B's 1 day work = 1/12 - 1/30 = (5-2)/60 = 3/60 = 1/20. So, B alone can do it in 20 days.<br><b>Solution (HI):</b> (A+B) का 1 दिन का कार्य = 1/12. A का 1 दिन का कार्य = 1/30. B का कार्य = 1/12 - 1/30 = 3/60 = 1/20. अतः B अकेला 20 दिन लेगा।<br><b>Short Trick:</b> Formula: (xy) / (x - y) = (30 &times; 12) / (30 - 12) = 360 / 18 = 20 days.",
+        "topic": "Time and Work"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Medium",
+        "op_en": [
+            "45",
+            "51",
+            "53",
+            "55"
+        ],
+        "op_hi": [
+            "45",
+            "51",
+            "53",
+            "55"
+        ],
+        "q_en": "What is the least number which when divided by 8, 12, and 16 leaves a remainder of 3 in each case?",
+        "q_hi": "वह छोटी से छोटी संख्या क्या है जिसे 8, 12 और 16 से विभाजित करने पर प्रत्येक स्थिति में 3 शेष बचे?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Required number = LCM of (8, 12, 16) + 3. LCM of 8, 12, 16 is 48. Number = 48 + 3 = 51.<br><b>Solution (HI):</b> अभीष्ट संख्या = (8, 12, 16) का लघुत्तम समापवर्त्य (LCM) + 3. LCM = 48. संख्या = 48 + 3 = 51.<br><b>Short Trick:</b> Check options by dividing by 16. Only 51 leaves remainder 3.",
+        "topic": "Number System"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Low",
+        "op_en": [
+            "28",
+            "30",
+            "32",
+            "34"
+        ],
+        "op_hi": [
+            "28",
+            "30",
+            "32",
+            "34"
+        ],
+        "q_en": "The average of 5 consecutive even numbers is 26. Find the largest of these numbers.",
+        "q_hi": "5 लगातार सम संख्याओं का औसत 26 है। इनमें से सबसे बड़ी संख्या ज्ञात कीजिए।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> For consecutive numbers, average is the middle number. So middle number is 26. The 5 numbers are 22, 24, 26, 28, 30. Largest is 30.<br><b>Solution (HI):</b> लगातार संख्याओं के लिए, औसत हमेशा मध्य संख्या होती है। अतः मध्य संख्या 26 है। संख्याएँ 22, 24, 26, 28, 30 हैं। सबसे बड़ी संख्या 30 है।<br><b>Short Trick:</b> Largest number = Average + (n-1) = 26 + (5-1) = 26 + 4 = 30.",
+        "topic": "Average"
+    },
+    {
+        "ans": 3,
+        "difficulty": "Medium",
+        "op_en": [
+            "10%",
+            "12%",
+            "12.5%",
+            "15%"
+        ],
+        "op_hi": [
+            "10%",
+            "12%",
+            "12.5%",
+            "15%"
+        ],
+        "q_en": "At what rate percent per annum simple interest will a sum of money double itself in 8 years?",
+        "q_hi": "साधारण ब्याज की किस वार्षिक दर पर कोई धनराशि 8 वर्षों में स्वयं की दुगनी हो जाएगी?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Let principal be P. Amount = 2P. Simple Interest = 2P - P = P. Rate = (SI &times; 100) / (P &times; T) = (P &times; 100) / (P &times; 8) = 100 / 8 = 12.5%.<br><b>Solution (HI):</b> माना मूलधन P है। मिश्रधन = 2P. साधारण ब्याज = P. दर (R) = (SI &times; 100) / (P &times; T) = 100 / 8 = 12.5%.<br><b>Short Trick:</b> Rate = (N - 1) &times; 100 / Time = (2 - 1) &times; 100 / 8 = 100 / 8 = 12.5%.",
+        "topic": "Simple Interest"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Medium",
+        "op_en": [
+            "10 days",
+            "12 days",
+            "14 days",
+            "15 days"
+        ],
+        "op_hi": [
+            "10 दिन",
+            "12 दिन",
+            "14 दिन",
+            "15 दिन"
+        ],
+        "q_en": "A can do a piece of work in 10 days and B can do it in 15 days. If they work on alternate days, starting with A, in how many days will the work be completed?",
+        "q_hi": "A एक कार्य को 10 दिनों में और B उसी कार्य को 15 दिनों में कर सकता है। यदि वे एकांतर (alternate) दिनों में कार्य करते हैं, और A कार्य शुरू करता है, तो कार्य कितने दिनों में पूरा होगा?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Let total work = LCM of 10 and 15 = 30 units. A's efficiency = 3 units/day. B's efficiency = 2 units/day. In 2 days (A then B), work done = 3 + 2 = 5 units. Number of such 2-day pairs to complete 30 units = 30 / 5 = 6. Total days = 6 &times; 2 = 12 days.<br><b>Solution (HI):</b> माना कुल कार्य = 10 और 15 का LCM = 30 यूनिट। A की क्षमता = 3 यूनिट/दिन। B की क्षमता = 2 यूनिट/दिन। 2 दिनों में (A फिर B) किया गया कार्य = 3 + 2 = 5 यूनिट। 30 यूनिट पूरा करने के लिए 2-दिन के जोड़े = 30 / 5 = 6. कुल दिन = 6 &times; 2 = 12 दिन।<br><b>Short Trick:</b> 2 days = 5 units work. 30 units work will take (30/5) &times; 2 = 12 days.",
+        "topic": "Time and Work"
+    },
+    {
+        "ans": 3,
+        "difficulty": "High",
+        "op_en": [
+            "15 minutes",
+            "16 minutes",
+            "18 minutes",
+            "20 minutes"
+        ],
+        "op_hi": [
+            "15 मिनट",
+            "16 मिनट",
+            "18 मिनट",
+            "20 मिनट"
+        ],
+        "q_en": "Pipe A and Pipe B can fill a tank in 20 minutes and 30 minutes respectively. Both pipes are opened together, but after 8 minutes, Pipe A is turned off. What is the total time taken to fill the tank?",
+        "q_hi": "पाइप A और पाइप B एक टंकी को क्रमशः 20 मिनट और 30 मिनट में भर सकते हैं। दोनों पाइप एक साथ खोले जाते हैं, लेकिन 8 मिनट बाद पाइप A को बंद कर दिया जाता है। टंकी को भरने में कुल कितना समय लगेगा?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Total capacity = LCM(20, 30) = 60 units. Efficiency of A = 3, B = 2. In 8 minutes, both fill = (3 + 2) &times; 8 = 40 units. Remaining = 60 - 40 = 20 units. Pipe B alone fills 20 units in 20 / 2 = 10 minutes. Total time = 8 + 10 = 18 minutes.<br><b>Solution (HI):</b> कुल क्षमता = LCM(20, 30) = 60 यूनिट। A की क्षमता = 3, B की क्षमता = 2. 8 मिनट में दोनों भरेंगे = 5 &times; 8 = 40 यूनिट। शेष = 60 - 40 = 20 यूनिट। B अकेला इसे भरेगा = 20 / 2 = 10 मिनट। कुल समय = 8 + 10 = 18 मिनट।<br><b>Short Trick:</b> Pipe B worked for the entire time (let's say T mins). Work of A + Work of B = 1. (8/20) + (T/30) = 1 => T/30 = 1 - 2/5 = 3/5 => T = 18 mins.",
+        "topic": "Pipes and Cisterns"
+    },
+    {
+        "ans": 3,
+        "difficulty": "Medium",
+        "op_en": [
+            "68 kg",
+            "70 kg",
+            "73 kg",
+            "75 kg"
+        ],
+        "op_hi": [
+            "68 किलोग्राम",
+            "70 किलोग्राम",
+            "73 किलोग्राम",
+            "75 किलोग्राम"
+        ],
+        "q_en": "The average weight of 10 men in a boat is increased by 1.5 kg when one of the men, who weighs 58 kg, is replaced by a new man. Find the weight of the new man.",
+        "q_hi": "एक नाव में बैठे 10 आदमियों का औसत वजन 1.5 किलोग्राम बढ़ जाता है जब उनमें से 58 किलोग्राम वजन वाले एक व्यक्ति के स्थान पर एक नया आदमी आ जाता है। नए आदमी का वजन ज्ञात कीजिए।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Total increase in weight = Number of men &times; Increase in average = 10 &times; 1.5 = 15 kg. Weight of the new man = Weight of the replaced man + Total increase = 58 + 15 = 73 kg.<br><b>Solution (HI):</b> वजन में कुल वृद्धि = आदमियों की संख्या &times; औसत में वृद्धि = 10 &times; 1.5 = 15 किलोग्राम। नए आदमी का वजन = बदले गए आदमी का वजन + कुल वृद्धि = 58 + 15 = 73 किलोग्राम।<br><b>Short Trick:</b> New Weight = Replaced Weight + (Total members &times; Increase) = 58 + (10 &times; 1.5) = 73 kg.",
+        "topic": "Average"
+    },
+    {
+        "ans": 2,
+        "difficulty": "High",
+        "op_en": [
+            "150",
+            "200",
+            "250",
+            "300"
+        ],
+        "op_hi": [
+            "150",
+            "200",
+            "250",
+            "300"
+        ],
+        "q_en": "A bag contains 50p, 25p and 10p coins in the ratio 5:9:4, amounting to Rs. 206. Find the number of 50p coins.",
+        "q_hi": "एक थैले में 50 पैसे, 25 पैसे और 10 पैसे के सिक्के 5:9:4 के अनुपात में हैं, जिनकी कुल राशि 206 रुपये है। 50 पैसे के सिक्कों की संख्या ज्ञात कीजिए।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Let the number of coins be 5x, 9x, and 4x. Total value in rupees = (5x &times; 0.50) + (9x &times; 0.25) + (4x &times; 0.10) = 2.5x + 2.25x + 0.4x = 5.15x. Given, 5.15x = 206 => x = 206 / 5.15 = 40. Number of 50p coins = 5x = 5 &times; 40 = 200.<br><b>Solution (HI):</b> माना सिक्कों की संख्या 5x, 9x और 4x है। रुपयों में कुल मूल्य = (5x &times; 0.50) + (9x &times; 0.25) + (4x &times; 0.10) = 5.15x. 5.15x = 206 => x = 40. 50 पैसे के सिक्के = 5x = 5 &times; 40 = 200.<br><b>Short Trick:</b> Ratio of values = 5/2 : 9/4 : 4/10 = 2.5 : 2.25 : 0.4. Sum = 5.15 units. 5.15 units = 206 Rs -> 1 unit = 40. 50p coins = 5 &times; 40 = 200.",
+        "topic": "Ratio and Proportion"
+    },
+    {
+        "ans": 2,
+        "difficulty": "High",
+        "op_en": [
+            "1:3",
+            "3:2",
+            "3:4",
+            "2:3"
+        ],
+        "op_hi": [
+            "1:3",
+            "3:2",
+            "3:4",
+            "2:3"
+        ],
+        "q_en": "Two trains running in opposite directions cross a man standing on the platform in 27 seconds and 17 seconds respectively. If they cross each other in 23 seconds, find the ratio of their speeds.",
+        "q_hi": "विपरीत दिशाओं में चल रही दो रेलगाड़ियाँ प्लेटफॉर्म पर खड़े एक व्यक्ति को क्रमशः 27 सेकंड और 17 सेकंड में पार करती हैं। यदि वे एक-दूसरे को 23 सेकंड में पार करती हैं, तो उनकी चालों का अनुपात ज्ञात कीजिए।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Let speeds be x and y. Length of train 1 = 27x, Length of train 2 = 17y. Time taken to cross each other = (27x + 17y) / (x + y) = 23. 27x + 17y = 23x + 23y => 4x = 6y => x/y = 6/4 = 3/2.<br><b>Solution (HI):</b> माना चालें x और y हैं। रेलगाड़ी 1 की लंबाई = 27x, रेलगाड़ी 2 की लंबाई = 17y. एक-दूसरे को पार करने का समय = (27x + 17y) / (x + y) = 23. 27x + 17y = 23x + 23y => 4x = 6y => x/y = 3/2.<br><b>Short Trick:</b> Use Alligation on time: T1 = 27, T2 = 17, Mean = 23. Ratio of speeds = (23 - 17) : (27 - 23) = 6 : 4 = 3 : 2.",
+        "topic": "Trains"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Medium",
+        "op_en": [
+            "2:3:4",
+            "1:1:1",
+            "1:2:3",
+            "3:2:1"
+        ],
+        "op_hi": [
+            "2:3:4",
+            "1:1:1",
+            "1:2:3",
+            "3:2:1"
+        ],
+        "q_en": "A begins a business with Rs. 4000. After 4 months, B joins him with Rs. 6000. After another 2 months, C joins them with Rs. 8000. At the end of the year, what is the ratio of their profits?",
+        "q_hi": "A 4000 रुपये के साथ एक व्यवसाय शुरू करता है। 4 महीने बाद, B 6000 रुपये के साथ उससे जुड़ता है। उसके अगले 2 महीने बाद, C 8000 रुपये के साथ उनसे जुड़ता है। वर्ष के अंत में, उनके लाभ का अनुपात क्या होगा?",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> A invested for 12 months, B for (12-4) = 8 months, C for (12-6) = 6 months. Ratio of profit = (4000 &times; 12) : (6000 &times; 8) : (8000 &times; 6) = 48000 : 48000 : 48000 = 1:1:1.<br><b>Solution (HI):</b> A ने 12 महीने के लिए निवेश किया, B ने (12-4) = 8 महीने के लिए, C ने (12-6) = 6 महीने के लिए। लाभ का अनुपात = (4000 &times; 12) : (6000 &times; 8) : (8000 &times; 6) = 48000 : 48000 : 48000 = 1:1:1.<br><b>Short Trick:</b> Cancel out thousands: A=4&times;12, B=6&times;8, C=8&times;6 -> 48:48:48 = 1:1:1.",
+        "topic": "Partnership"
+    },
+    {
+        "ans": 2,
+        "difficulty": "Medium",
+        "op_en": [
+            "4%",
+            "4.16%",
+            "5%",
+            "6.25%"
+        ],
+        "op_hi": [
+            "4%",
+            "4.16%",
+            "5%",
+            "6.25%"
+        ],
+        "q_en": "A dishonest dealer promises to sell his goods at cost price, but uses a false weight of 960 grams instead of 1 kg. Find his gain percentage.",
+        "q_hi": "एक बेईमान व्यापारी अपनी वस्तुओं को क्रय मूल्य पर बेचने का दावा करता है, लेकिन 1 किलो की जगह 960 ग्राम के झूठे वजन का उपयोग करता है। उसका लाभ प्रतिशत ज्ञात कीजिए।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> True weight = 1000 gm, False weight = 960 gm. Gain % = [(Error) / (True Value - Error)] &times; 100 = (40 / 960) &times; 100 = (1 / 24) &times; 100 = 4.16% (or 4 1/6 %).<br><b>Solution (HI):</b> वास्तविक वजन = 1000 ग्राम, गलत वजन = 960 ग्राम। लाभ % = [(त्रुटि) / (गलत वजन)] &times; 100 = (40 / 960) &times; 100 = 100 / 24 = 4.16%.<br><b>Short Trick:</b> Gain % = (Difference / False Weight) &times; 100 = (40 / 960) &times; 100 = 1/24 &times; 100 = 4.16%.",
+        "topic": "Profit and Loss"
+    },
+    {
+        "ans": 2,
+        "difficulty": "High",
+        "op_en": [
+            "Rs. 3000",
+            "Rs. 3310",
+            "Rs. 3600",
+            "Rs. 3300"
+        ],
+        "op_hi": [
+            "3000 रुपये",
+            "3310 रुपये",
+            "3600 रुपये",
+            "3300 रुपये"
+        ],
+        "q_en": "Find the compound interest on Rs. 10000 at 20% per annum for 1.5 years, if the interest is compounded half-yearly.",
+        "q_hi": "10000 रुपये पर 20% प्रति वर्ष की दर से 1.5 वर्ष का चक्रवृद्धि ब्याज ज्ञात कीजिए, यदि ब्याज अर्ध-वार्षिक रूप से संयोजित होता है।",
+        "section": "Arithmetic",
+        "solution": "<b>Solution (EN):</b> Principal (P) = 10000. Rate (R) is half-yearly = 20% / 2 = 10%. Time (T) = 1.5 years = 3 half-years. Amount (A) = P(1 + R/100)<sup>T</sup> = 10000 &times; (11/10)<sup>3</sup> = 10000 &times; 1.331 = 13310. CI = 13310 - 10000 = Rs. 3310.<br><b>Solution (HI):</b> मूलधन (P) = 10000. दर (R) छमाही = 20% / 2 = 10%. समय (T) = 1.5 वर्ष = 3 छमाही। मिश्रधन (A) = 10000 &times; (1.1)<sup>3</sup> = 13310. चक्रवृद्धि ब्याज = 13310 - 10000 = 3310 रुपये।<br><b>Short Trick:</b> Effective rate for 10% for 3 cycles = 33.1%. CI = 33.1% of 10000 = 3310.",
+        "topic": "Compound Interest"
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Partnership",
+        "difficulty": "High",
+        "q_en": "A and B start a business with investments of Rs 10000 and Rs 20000 respectively. After 6 months, A invests Rs 5000 more and B withdraws Rs 5000. If the total profit at the end of the year is Rs 24000, find the share of A.",
+        "q_hi": "A और B क्रमशः 10000 रुपये और 20000 रुपये के निवेश के साथ एक व्यवसाय शुरू करते हैं। 6 महीने बाद, A 5000 रुपये और लगाता है तथा B 5000 रुपये निकाल लेता है। यदि वर्ष के अंत में कुल लाभ 24000 रुपये है, तो A का हिस्सा ज्ञात कीजिए।",
+        "op_en": [
+            "Rs 8000",
+            "Rs 10000",
+            "Rs 12000",
+            "Rs 14000"
+        ],
+        "op_hi": [
+            "8000 रुपये",
+            "10000 रुपये",
+            "12000 रुपये",
+            "14000 रुपये"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> A's investment = (10000 &times; 6) + (15000 &times; 6) = 150000. B's investment = (20000 &times; 6) + (15000 &times; 6) = 210000. Ratio of profits = 150000 : 210000 = 15 : 21 = 5 : 7. Total parts = 12. A's share = (5 / 12) &times; 24000 = Rs 10000.<br><b>Solution (HI):</b> A का निवेश = (10000 &times; 6) + (15000 &times; 6) = 150000. B का निवेश = (20000 &times; 6) + (15000 &times; 6) = 210000. लाभ का अनुपात = 150000 : 210000 = 5 : 7. कुल भाग = 12. A का हिस्सा = (5 / 12) &times; 24000 = 10000 रुपये।<br><b>Short Trick:</b> Cancel common zeros. A = (10&times;6) + (15&times;6) = 150. B = (20&times;6) + (15&times;6) = 210. Ratio = 5:7. A's profit = 5/12 &times; 24000 = 10000."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Boat and Stream",
+        "difficulty": "Medium",
+        "q_en": "A man can row at 15 km/h in still water. If the speed of the current is 3 km/h, it takes him 5 hours to row to a place and come back. How far is the place?",
+        "q_hi": "एक आदमी शांत जल में 15 किमी/घंटा की चाल से नाव चला सकता है। यदि धारा की चाल 3 किमी/घंटा है, तो उसे एक स्थान तक जाने और वापस आने में 5 घंटे लगते हैं। वह स्थान कितनी दूर है?",
+        "op_en": [
+            "30 km",
+            "36 km",
+            "42 km",
+            "45 km"
+        ],
+        "op_hi": [
+            "30 किमी",
+            "36 किमी",
+            "42 किमी",
+            "45 किमी"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> Speed downstream = 15 + 3 = 18 km/h. Speed upstream = 15 - 3 = 12 km/h. Let distance be D. Total time = D/18 + D/12 = 5. LCM(18, 12) = 36. So, (2D + 3D)/36 = 5 => 5D = 180 => D = 36 km.<br><b>Solution (HI):</b> अनुकूल चाल = 15 + 3 = 18 किमी/घंटा। प्रतिकूल चाल = 15 - 3 = 12 किमी/घंटा। माना दूरी D है। कुल समय = D/18 + D/12 = 5. LCM = 36. अतः, (2D + 3D)/36 = 5 => 5D = 180 => D = 36 किमी।<br><b>Short Trick:</b> Distance = Total Time &times; (U &times; D) / (U + D) = 5 &times; (18 &times; 12) / (18 + 12) = 5 &times; (216) / 30 = 36 km."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Time, Speed and Distance",
+        "difficulty": "Low",
+        "q_en": "A person covers a certain distance at 60 km/h and returns at 40 km/h. What is his average speed for the whole journey?",
+        "q_hi": "एक व्यक्ति एक निश्चित दूरी 60 किमी/घंटा की चाल से तय करता है और 40 किमी/घंटा की चाल से वापस आता है। पूरी यात्रा के लिए उसकी औसत चाल क्या है?",
+        "op_en": [
+            "50 km/h",
+            "48 km/h",
+            "52 km/h",
+            "45 km/h"
+        ],
+        "op_hi": [
+            "50 किमी/घंटा",
+            "48 किमी/घंटा",
+            "52 किमी/घंटा",
+            "45 किमी/घंटा"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> When distances are equal, Average Speed = (2xy) / (x + y). Here x = 60, y = 40. Average Speed = (2 &times; 60 &times; 40) / (60 + 40) = 4800 / 100 = 48 km/h.<br><b>Solution (HI):</b> जब दूरियाँ समान हों, तो औसत चाल = (2xy) / (x + y). यहाँ x = 60, y = 40. औसत चाल = (2 &times; 60 &times; 40) / (60 + 40) = 4800 / 100 = 48 किमी/घंटा।<br><b>Short Trick:</b> Apply direct formula 2xy/(x+y) => 2 &times; 60 &times; 40 / 100 = 48."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Profit and Loss",
+        "difficulty": "Medium",
+        "q_en": "If the cost price of 15 articles is equal to the selling price of 12 articles, find the profit percentage.",
+        "q_hi": "यदि 15 वस्तुओं का क्रय मूल्य 12 वस्तुओं के विक्रय मूल्य के बराबर है, तो लाभ प्रतिशत ज्ञात कीजिए।",
+        "op_en": [
+            "20%",
+            "25%",
+            "30%",
+            "33.33%"
+        ],
+        "op_hi": [
+            "20%",
+            "25%",
+            "30%",
+            "33.33%"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> Given: 15 &times; CP = 12 &times; SP. So, SP/CP = 15/12 = 5/4. Profit = SP - CP = 5 - 4 = 1. Profit % = (Profit / CP) &times; 100 = (1/4) &times; 100 = 25%.<br><b>Solution (HI):</b> दिया गया है: 15 &times; CP = 12 &times; SP. अतः, SP/CP = 15/12 = 5/4. लाभ = 5 - 4 = 1. लाभ % = (लाभ / CP) &times; 100 = (1/4) &times; 100 = 25%.<br><b>Short Trick:</b> % Profit = [(Items bought - Items sold) / Items sold] &times; 100 = [(15 - 12)/12] &times; 100 = 3/12 &times; 100 = 25%."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Compound Interest",
+        "difficulty": "Medium",
+        "q_en": "What will be the difference between the simple interest and compound interest on Rs 8000 for 2 years at 5% per annum?",
+        "q_hi": "8000 रुपये पर 5% प्रति वर्ष की दर से 2 वर्ष के साधारण ब्याज और चक्रवृद्धि ब्याज में क्या अंतर होगा?",
+        "op_en": [
+            "Rs 15",
+            "Rs 20",
+            "Rs 25",
+            "Rs 30"
+        ],
+        "op_hi": [
+            "15 रुपये",
+            "20 रुपये",
+            "25 रुपये",
+            "30 रुपये"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> The difference between CI and SI for 2 years is given by D = P(R/100)<sup>2</sup>. Here P = 8000, R = 5. D = 8000 &times; (5/100)<sup>2</sup> = 8000 &times; (25/10000) = 8000 &times; 1/400 = 20. So, difference is Rs 20.<br><b>Solution (HI):</b> 2 वर्षों के लिए CI और SI के बीच का अंतर D = P(R/100)<sup>2</sup> द्वारा दिया जाता है। P = 8000, R = 5. D = 8000 &times; (25/10000) = 20 रुपये।<br><b>Short Trick:</b> Difference = P &times; (R%)<sup>2</sup> = 8000 &times; (5%)<sup>2</sup> = 8000 &times; 0.0025 = 20."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Time and Work",
+        "difficulty": "Medium",
+        "q_en": "A is twice as good a workman as B and together they finish a piece of work in 14 days. In how many days will A alone finish the work?",
+        "q_hi": "A, B की तुलना में दोगुना कुशल कामगार है और वे मिलकर एक काम को 14 दिनों में पूरा करते हैं। A अकेला उस काम को कितने दिनों में पूरा करेगा?",
+        "op_en": [
+            "21 days",
+            "28 days",
+            "42 days",
+            "14 days"
+        ],
+        "op_hi": [
+            "21 दिन",
+            "28 दिन",
+            "42 दिन",
+            "14 दिन"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> Ratio of efficiency of A and B = 2:1. Total efficiency of A + B = 2 + 1 = 3 units/day. Total work = Efficiency &times; Time = 3 &times; 14 = 42 units. Time taken by A alone = Total Work / A's efficiency = 42 / 2 = 21 days.<br><b>Solution (HI):</b> A और B की कार्यक्षमता का अनुपात = 2:1. (A + B) की कुल कार्यक्षमता = 2 + 1 = 3 इकाई/दिन। कुल कार्य = क्षमता &times; समय = 3 &times; 14 = 42 इकाई। A को अकेले लगने वाला समय = कुल कार्य / A की क्षमता = 42 / 2 = 21 दिन।<br><b>Short Trick:</b> Time by A = [ (Eff_A + Eff_B) / Eff_A ] &times; Total Days = [ (2+1) / 2 ] &times; 14 = 3/2 &times; 14 = 21 days."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Mixture and Alligation",
+        "difficulty": "Low",
+        "q_en": "In what ratio must water be mixed with milk costing Rs 30 per litre to obtain a mixture worth Rs 20 per litre?",
+        "q_hi": "30 रुपये प्रति लीटर वाले दूध में पानी को किस अनुपात में मिलाया जाना चाहिए ताकि मिश्रण का मूल्य 20 रुपये प्रति लीटर हो जाए?",
+        "op_en": [
+            "1:2",
+            "2:1",
+            "1:3",
+            "3:1"
+        ],
+        "op_hi": [
+            "1:2",
+            "2:1",
+            "1:3",
+            "3:1"
+        ],
+        "ans": 1,
+        "solution": "<b>Solution (EN):</b> Cost of water = Rs 0 per litre. Cost of pure milk = Rs 30 per litre. Mean price = Rs 20. By Alligation rule: Ratio of Water to Milk = (30 - 20) : (20 - 0) = 10 : 20 = 1:2.<br><b>Solution (HI):</b> पानी का मूल्य = 0 रुपये प्रति लीटर। शुद्ध दूध का मूल्य = 30 रुपये। मिश्रण का मूल्य = 20 रुपये। एलीगेशन नियम के अनुसार: पानी और दूध का अनुपात = (30 - 20) : (20 - 0) = 10 : 20 = 1:2.<br><b>Short Trick:</b> W : M = (Cost of Milk - Mean) : (Mean - Cost of Water) = (30 - 20) : (20 - 0) = 10 : 20 = 1:2."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Age Problems",
+        "difficulty": "Medium",
+        "q_en": "The present age of a father is 3 years more than three times the age of his son. 3 years hence, the father's age will be 10 years more than twice the age of the son. Find the present age of the father.",
+        "q_hi": "एक पिता की वर्तमान आयु उसके पुत्र की आयु के तीन गुने से 3 वर्ष अधिक है। 3 वर्ष बाद, पिता की आयु पुत्र की आयु के दोगुने से 10 वर्ष अधिक होगी। पिता की वर्तमान आयु ज्ञात कीजिए।",
+        "op_en": [
+            "30 years",
+            "33 years",
+            "36 years",
+            "40 years"
+        ],
+        "op_hi": [
+            "30 वर्ष",
+            "33 वर्ष",
+            "36 वर्ष",
+            "40 वर्ष"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> Let son's present age = x. Father's present age = 3x + 3. After 3 years, son = x + 3, father = 3x + 6. According to the question, (3x + 6) = 2(x + 3) + 10. 3x + 6 = 2x + 6 + 10 => 3x - 2x = 16 - 6 => x = 10. Father's present age = 3(10) + 3 = 33 years.<br><b>Solution (HI):</b> माना पुत्र की वर्तमान आयु = x. पिता की वर्तमान आयु = 3x + 3. 3 वर्ष बाद: पुत्र = x + 3, पिता = 3x + 6. प्रश्नानुसार: (3x + 6) = 2(x + 3) + 10. 3x + 6 = 2x + 16 => x = 10. पिता की वर्तमान आयु = 3(10) + 3 = 33 वर्ष।<br><b>Short Trick:</b> Test the options. If Father = 33, Son = (33-3)/3 = 10. After 3 yrs: Father = 36, Son = 13. Twice of son + 10 = (13&times;2)+10 = 36. Matches perfectly."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Pipes and Cisterns",
+        "difficulty": "Medium",
+        "q_en": "Two pipes A and B can fill a tank in 10 hours and 12 hours respectively. A third pipe C can empty the full tank in 20 hours. If all three pipes are opened together, in how much time will the empty tank be filled?",
+        "q_hi": "दो पाइप A और B एक टंकी को क्रमशः 10 घंटे और 12 घंटे में भर सकते हैं। एक तीसरा पाइप C भरी हुई टंकी को 20 घंटे में खाली कर सकता है। यदि तीनों पाइप एक साथ खोल दिए जाएं, तो खाली टंकी कितने समय में भर जाएगी?",
+        "op_en": [
+            "6 hours",
+            "7.5 hours",
+            "8 hours",
+            "9 hours"
+        ],
+        "op_hi": [
+            "6 घंटे",
+            "7.5 घंटे",
+            "8 घंटे",
+            "9 घंटे"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> Let total capacity = LCM(10, 12, 20) = 60 units. Efficiency of A = +6, B = +5, C = -3. Net efficiency = 6 + 5 - 3 = 8 units/hr. Time taken = 60 / 8 = 7.5 hours.<br><b>Solution (HI):</b> माना कुल क्षमता = LCM(10, 12, 20) = 60 यूनिट। A की क्षमता = +6, B = +5, C = -3. कुल क्षमता = 6 + 5 - 3 = 8 यूनिट/घंटा। लगा समय = 60 / 8 = 7.5 घंटे।<br><b>Short Trick:</b> Net rate = 1/10 + 1/12 - 1/20 = (6 + 5 - 3) / 60 = 8/60. Time = 60/8 = 7.5 hours."
+    },
+    {
+        "section": "Arithmetic1",
+        "topic": "Percentage",
+        "difficulty": "Medium",
+        "q_en": "A student has to secure minimum passing marks to pass an examination. If he gets 20% marks, he fails by 30 marks. If he gets 32% marks, he gets 42 marks more than the minimum passing marks. Find the maximum marks of the examination.",
+        "q_hi": "एक छात्र को परीक्षा उत्तीर्ण करने के लिए न्यूनतम उत्तीर्णांक प्राप्त करने होते हैं। यदि उसे 20% अंक मिलते हैं, तो वह 30 अंकों से अनुत्तीर्ण हो जाता है। यदि उसे 32% अंक मिलते हैं, तो उसे न्यूनतम उत्तीर्णांक से 42 अंक अधिक मिलते हैं। परीक्षा के अधिकतम अंक ज्ञात कीजिए।",
+        "op_en": [
+            "500",
+            "600",
+            "750",
+            "800"
+        ],
+        "op_hi": [
+            "500",
+            "600",
+            "750",
+            "800"
+        ],
+        "ans": 2,
+        "solution": "<b>Solution (EN):</b> Let maximum marks be x. Passing marks = 20% of x + 30. Also, passing marks = 32% of x - 42. So, 32% of x - 20% of x = 30 + 42. 12% of x = 72. x = (72 / 12) &times; 100 = 600.<br><b>Solution (HI):</b> माना अधिकतम अंक x हैं। उत्तीर्णांक = x का 20% + 30. साथ ही, उत्तीर्णांक = x का 32% - 42. अतः 32% - 20% = 30 + 42. x का 12% = 72. x = (72 / 12) &times; 100 = 600.<br><b>Short Trick:</b> Difference in percentage = Sum of failed and extra marks. 12% = 72 marks. 1% = 6 marks. Total marks (100%) = 600."
+    }
+]
